@@ -9,7 +9,7 @@ Cada decisión dice quién la tomó, con qué evidencia y qué la haría cambiar
 
 | ID | Fecha | Decisión | Por qué | Quién | Estado | Se revisa si… |
 |---|---|---|---|---|---|---|
-| D-01 | 07/11/2026 | Una sola fuente de verdad: bóveda de Obsidian que también es repositorio Git privado en GitHub | No perder contexto ni repetir investigaciones; historial de cambios | Alberto | Tomada | El equipo prefiere otra herramienta compartida |
+| D-01 | 07/11/2026 | Una sola fuente de verdad: bóveda de Obsidian que también es repositorio Git privado en GitHub (`alberperezgon-boop/viajes-jovenes`) | No perder contexto ni repetir investigaciones; historial de cambios | Alberto | Tomada | El equipo prefiere otra herramienta compartida |
 | D-02 | 07/11/2026 | Toda afirmación lleva etiqueta de fiabilidad (`VERIFICADO`, `OFICIAL-INDIRECTO`, `SECUNDARIA`, `CONOCIMIENTO PREVIO`, `INFERENCIA`, `HIPÓTESIS`) | Separar hechos de suposiciones | Alberto | Tomada | — |
 | D-03 | 07/11/2026 | No se programa la aplicación hasta terminar la fase 2 (validación) | Indicación del propio planteamiento del proyecto | Alberto | Tomada | — |
 | D-04 | 07/11/2026 | Las encuestas se titulan «Encuesta sobre viajes de jóvenes» y no mencionan ninguna app hasta el final | Evitar que respondan solo los entusiastas y sesgar las respuestas | — | **Propuesta** | El equipo lo rechaza con un motivo mejor |
