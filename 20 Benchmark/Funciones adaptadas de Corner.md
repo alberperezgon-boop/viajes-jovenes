@@ -33,6 +33,14 @@ Publicada en https://claude.ai/artifact/EdSSd8jeVzEPRUkui2Q42A (D-10).
 - **Familias:** separa lo que firman ellos de las condiciones que cumple el grupo.
 - Estética de señalética de aeropuerto: panel de salidas, tarjeta de embarque y sellos.
 
+## Demo v2 (07/11/2026): la edad, primer filtro
+
+- Selector de edad (15 · 16 · 17 · 18) y de compañía (solo, amigos de tu edad, con alguien de 18), repetido en Destino y Vuelos.
+- Al cambiarlo se recalculan con animación las aerolíneas, los alojamientos y los destinos posibles; lo oculto se puede ver con su motivo.
+- «Con 16 años en Berlín…»: lo que dice la ley de cada país sobre ocio, alcohol, museos y transporte (datos del equipo).
+- Ofertas de vuelo y alojamiento **de ejemplo** filtradas por edad, incluida la regla de Vueling de no hacer escalas de 12 a 15 años.
+- Ilustraciones animadas propias de cada ciudad (tranvía de Lisboa, Sena, Coliseo, torre de Berlín, autobús de Londres).
+
 ## Lo que no se adapta
 
 Registro con teléfono, importar contactos, agente de chat con IA y red social de seguidores (ver `corner-funciones.csv`).
