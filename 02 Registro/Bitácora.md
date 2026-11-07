@@ -24,3 +24,8 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 - **Hecho:** la demo pasa a tener la edad como filtro principal (D-11). Con 16 años y amigos de la misma edad: 9 aerolíneas, 3 alojamientos y 3 de 5 destinos; con 15: 7, 1 y 1 de 5; con alguien de 18 en el grupo: 5 de 5. Fichas «Con 16 años en Berlín» (cerveza y vino legales desde 16, fiestas hasta las 24:00, clubes nocturnos no…). Ilustraciones animadas de las 5 ciudades, con botón para pausarlas. Revisada con las skills de interfaz (frontend-ui-engineering, web-design-guidelines) y probada con REA.
 - **Aprendido:** **el cuello de botella es el alojamiento**: con 16 y sin un mayor de edad, Roma y Berlín se quedan sin opción verificada (H-03). Es un argumento fuerte para la encuesta y para el producto.
 - **Pendiente:** ¿fotos reales con licencia libre en vez de ilustraciones? Probar el bloque de alcohol con padres.
+
+## 2026-11-07. Demo v3: GoLiveIt con fotos reales
+
+- **Hecho:** nombre GoLiveIt y paleta cobalto + mandarina (D-12). Cinco fotos de Wikimedia Commons con licencia libre y crédito (ver [[Fuentes]]), con zoom lento y las animaciones propias encima como pegatinas. `60 Demo/build.mjs` incrusta las fotos y genera `GoLiveIt.html` (artefacto) y `GoLiveIt-para-compartir.html` (archivo que funciona solo, ~1,1 MB). Probado con REA en móvil (claro) y escritorio (oscuro).
+- **Pendiente:** comprobar la marca y el dominio de GoLiveIt (Q-21).

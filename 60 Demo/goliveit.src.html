@@ -1,28 +1,28 @@
 <meta charset="utf-8">
-<title>Ruta16 Explora</title>
+<title>GoLiveIt</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700;800&display=swap">
 <style>
-/* Concepto: señalética de aeropuerto + carteles de viaje. Panel de salidas oscuro con amarillo de señal, ilustraciones de destino animadas, sellos de verificación. App móvil + notas para el equipo al lado en escritorio. */
+/* GoLiveIt. Concepto: cobalto + mandarina, energía de primer viaje. Cabecera tipo panel de salidas en cobalto, acentos mandarina, fotos reales con animaciones encima, sellos de verificación. App móvil + notas para el equipo al lado en escritorio. */
 :root {
-  --bg: #F3F4F6; --surface: #FFFFFF; --surface-2: #EBEDF1; --ink: #11141B; --muted: #596070; --line: #D8DCE3;
-  --sign: #FFC72C; --sign-ink: #11141B; --board: #14171E; --board-2: #1E222B; --board-fg: #FFC72C; --board-dim: #9AA1AE;
-  --link: #1C4FD6; --water: #C9DDF2; --land: #F7F8FA; --park: #D6EAD2; --street: #E1E4EA;
+  --bg: #F4F5FB; --surface: #FFFFFF; --surface-2: #ECEEF8; --ink: #0E1330; --muted: #555C7B; --line: #D9DDEE;
+  --sign: #FF7A2F; --sign-ink: #1E0B00; --board: #1730D6; --board-2: #3049E4; --board-fg: #FFFFFF; --board-dim: #C9D0FF;
+  --link: #1730D6; --water: #CFE0F7; --land: #F8F9FD; --park: #D7ECD8; --street: #E3E6F2;
   --ok: #17784A; --ok-soft: #DDF2E5; --req: #8C5200; --req-soft: #FDEBC8; --no: #B3261E; --no-soft: #FBE0DC; --unk: #5B6272; --unk-soft: #E6E8EE;
   --f-display: "Archivo", "Arial Narrow", system-ui, sans-serif;
   --f-body: "Figtree", "Segoe UI", system-ui, sans-serif;
   --f-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --bg: #0C0E13; --surface: #161920; --surface-2: #1F232C; --ink: #EEF0F4; --muted: #A1A8B5; --line: #2B303B;
-  --board: #07080B; --board-2: #14171E; --link: #8EB0FF; --water: #18283D; --land: #1A1E26; --park: #17271D; --street: #262B35;
+  --bg: #0A0C1C; --surface: #13162B; --surface-2: #1C2040; --ink: #EEF0FB; --muted: #A3A9C6; --line: #2A2F52;
+  --board: #1626B8; --board-2: #2B3CD0; --link: #A2B3FF; --water: #182746; --land: #161A33; --park: #16301F; --street: #252A4A;
   --ok: #5ACB8E; --ok-soft: #14301F; --req: #F3B54E; --req-soft: #36280D; --no: #FF8B80; --no-soft: #3A1614; --unk: #A6AEBE; --unk-soft: #262A35;
   color-scheme: dark; } }
 :root[data-theme="dark"] {
-  --bg: #0C0E13; --surface: #161920; --surface-2: #1F232C; --ink: #EEF0F4; --muted: #A1A8B5; --line: #2B303B;
-  --board: #07080B; --board-2: #14171E; --link: #8EB0FF; --water: #18283D; --land: #1A1E26; --park: #17271D; --street: #262B35;
+  --bg: #0A0C1C; --surface: #13162B; --surface-2: #1C2040; --ink: #EEF0FB; --muted: #A3A9C6; --line: #2A2F52;
+  --board: #1626B8; --board-2: #2B3CD0; --link: #A2B3FF; --water: #182746; --land: #161A33; --park: #16301F; --street: #252A4A;
   --ok: #5ACB8E; --ok-soft: #14301F; --req: #F3B54E; --req-soft: #36280D; --no: #FF8B80; --no-soft: #3A1614; --unk: #A6AEBE; --unk-soft: #262A35;
   color-scheme: dark; }
 
@@ -45,9 +45,10 @@ button, input, select, textarea { font: inherit; color: inherit; }
 
 .banner { max-width: 940px; margin: 0 auto 14px; display: flex; gap: 10px; align-items: flex-start; background: var(--sign); color: var(--sign-ink); border-radius: 12px; padding: 9px 14px; font-size: 0.84rem; }
 .banner b { font-weight: 800; }
-.banner p { flex: 1; min-width: 0; }
+.banner { flex-wrap: wrap; }
+.banner p { flex: 1 1 240px; min-width: 0; }
 .pause { flex: none; border: 1.5px solid var(--sign-ink); background: transparent; color: var(--sign-ink); border-radius: 999px; padding: 4px 10px; font-weight: 800; font-size: 0.76rem; cursor: pointer; }
-.paused .poster *, .paused .fly, .paused .cloud, .paused .drive { animation-play-state: paused !important; }
+.paused .photo img, .paused .overlay * { animation-play-state: paused !important; }
 button, a { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 @media (hover: hover) {
   .btn:hover { filter: brightness(1.1); }
@@ -61,17 +62,19 @@ button, a { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 /* Panel de salidas */
 .board { background: var(--board); color: var(--board-fg); padding: 16px 18px 14px; display: grid; gap: 12px; }
 .board-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-family: var(--f-mono); font-size: 0.72rem; letter-spacing: 0.12em; font-weight: 700; }
+.board-top .wm { font-family: var(--f-display); font-stretch: 125%; font-weight: 900; font-size: 1.15rem; letter-spacing: -0.01em; }
+.board-top .wm span { color: var(--sign); }
 .board-top .dim { color: var(--board-dim); letter-spacing: 0.04em; font-weight: 500; }
 .route { display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; gap: 6px; }
 .code { font-family: var(--f-mono); font-weight: 800; font-size: 2.6rem; line-height: 1; letter-spacing: 0.04em; }
 .code.to { text-align: right; }
-.plane { color: var(--board-dim); padding-bottom: 6px; }
+.plane { color: var(--sign); padding-bottom: 6px; }
 .cities { display: flex; justify-content: space-between; color: var(--board-dim); font-size: 0.8rem; margin-top: -6px; }
 .board-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--board-2); border-radius: 10px; overflow: hidden; }
 .board-meta div { background: var(--board); padding: 7px 9px; display: grid; gap: 1px; min-width: 0; }
 .board-meta span { font-family: var(--f-mono); font-size: 0.62rem; letter-spacing: 0.12em; color: var(--board-dim); }
 .board-meta b { font-family: var(--f-mono); font-size: 0.82rem; color: var(--board-fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.board-btn { justify-self: start; background: var(--board-2); color: var(--board-fg); border: 1px solid #343944; border-radius: 999px; padding: 6px 12px; font-weight: 700; font-size: 0.8rem; cursor: pointer; }
+.board-btn { justify-self: start; background: var(--board-2); color: var(--board-fg); border: 1px solid rgb(255 255 255 / 0.35); border-radius: 999px; padding: 6px 12px; font-weight: 700; font-size: 0.8rem; cursor: pointer; }
 
 .view { padding: 18px; display: grid; gap: 18px; align-content: start; min-height: 420px; }
 .section { display: grid; gap: 10px; }
@@ -135,21 +138,25 @@ button, a { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .stamp.big { font-size: 0.74rem; transform: rotate(-2.5deg); }
 
 /* Carteles de destino */
-.poster { display: block; width: 100%; height: auto; }
-.poster .cloud { animation: drift 40s linear infinite; }
-.poster .cloud.c2 { animation-duration: 56s; animation-delay: -24s; }
-.poster .drive { animation: drive 14s linear infinite; }
-.poster .drive.slow { animation-duration: 22s; }
-.poster .fly { animation: fly 10s ease-in-out infinite; }
-.poster .spin { transform-origin: 62px 92px; animation: spin 40s linear infinite; }
-.poster .twinkle { animation: twinkle 3s ease-in-out infinite; }
+.photo { position: relative; display: block; overflow: hidden; background: linear-gradient(135deg, var(--board), var(--sign)); }
+.photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; animation: kb 28s ease-in-out infinite alternate; }
+.photo::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 55%; background: linear-gradient(to bottom, transparent, rgb(6 9 30 / 0.55)); pointer-events: none; }
+.photo .overlay { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
+.photo .credit { position: absolute; top: 8px; right: 8px; z-index: 2; font-size: 0.66rem; font-weight: 600; background: rgb(0 0 0 / 0.5); color: #fff; padding: 2px 7px; border-radius: 6px; text-decoration: none; }
+.overlay .sticker { filter: drop-shadow(0 0 1px #fff) drop-shadow(0 0 1px #fff) drop-shadow(0 2px 3px rgb(0 0 0 / 0.45)); }
+.overlay .cloud { animation: drift 40s linear infinite; }
+.overlay .cloud.c2 { animation-duration: 56s; animation-delay: -24s; }
+.overlay .drive { animation: drive 14s linear infinite; }
+.overlay .drive.slow { animation-duration: 22s; }
+.overlay .fly { animation: fly 10s ease-in-out infinite; }
+@keyframes kb { from { transform: scale(1.03); } to { transform: scale(1.14) translate(-2%, -1.5%); } }
 @keyframes drift { from { transform: translateX(-90px); } to { transform: translateX(360px); } }
 @keyframes drive { from { transform: translateX(-70px); } to { transform: translateX(380px); } }
 @keyframes fly { 0% { transform: translate(-50px, 120px) rotate(-14deg); opacity: 0; } 8% { opacity: 1; } 55% { transform: translate(340px, 6px) rotate(-14deg); opacity: 1; } 56%, 100% { transform: translate(340px, 6px) rotate(-14deg); opacity: 0; } }
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes twinkle { 50% { opacity: 0.55; } }
 .hero { position: relative; border-radius: 20px; overflow: hidden; }
-.hero-cap { position: absolute; left: 12px; bottom: 12px; right: 12px; display: flex; justify-content: space-between; align-items: end; gap: 8px; }
+.hero-cap { z-index: 2; position: absolute; left: 12px; bottom: 12px; right: 12px; display: flex; justify-content: space-between; align-items: end; gap: 8px; }
 .hero-cap h1 { background: var(--board); color: var(--board-fg); padding: 6px 12px 7px; border-radius: 12px; font-size: 1.45rem; }
 .hero-cap .agepill { background: var(--sign); color: var(--sign-ink); font-family: var(--f-mono); font-weight: 800; font-size: 0.8rem; border-radius: 999px; padding: 5px 10px; white-space: nowrap; }
 
@@ -250,7 +257,7 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
 
 <div class="banner" role="note">
   <span aria-hidden="true">✈</span>
-  <p><b>Demo de investigación · propuesta de Alberto para Ruta16.</b> Las normas por edad son reales y llevan su fuente («Equipo» = web Ruta16 de un compañero). <b>Precios, horarios, listas, experiencias y enlaces detectados son de ejemplo.</b> Ruta16 no vende ni reserva.</p>
+  <p><b>GoLiveIt · demo de Alberto.</b> Normas por edad reales y con fuente («Equipo» = web Ruta16 de un compañero). Precios, listas y experiencias, de ejemplo. No vende ni reserva.</p>
   <button type="button" class="pause" id="pause" aria-pressed="false">Pausar animaciones</button>
 </div>
 
@@ -287,6 +294,7 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
           <p class="small muted">Como en Corner, las hace alguien que ha estado; aquí además ves si cada sitio vale para tu edad. <b>Listas inventadas.</b></p>
           <div class="lists" id="lists"></div>
         </div>
+        <div class="section"><h2>Fotos</h2><p class="small muted" id="credits"></p></div>
       </div>
 
       <div class="view" id="v-destino" hidden>
@@ -331,7 +339,7 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
           <label class="row small"><input type="checkbox" id="fl-direct"> Solo vuelos directos</label>
           <span class="label">Abrir la búsqueda en (se abre fuera)</span>
           <div class="ext" id="fl-ext"></div>
-          <p class="small muted">Ruta16 no vende vuelos: aquí ves qué aerolíneas aceptan tu edad y fuera comparas precios.</p>
+          <p class="small muted">GoLiveIt no vende vuelos: aquí ves qué aerolíneas aceptan tu edad y fuera comparas precios.</p>
         </form>
       </div>
 
@@ -603,46 +611,31 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
   const RANK = { ok: 0, req: 1, unk: 2, no: 3 };
   const COMPANY = [["solo", "Solo"], ["amigos", "Amigos de mi edad"], ["mayor", "Con alguien de 18"]];
 
-  /* ===================== CARTELES ANIMADOS ===================== */
-  let uid = 0;
-  function poster(k, h) {
-    const u = "p" + (++uid);
-    const cloud = (x, y, cls) => `<g class="cloud ${cls}"><ellipse cx="${x}" cy="${y}" rx="22" ry="8" fill="#fff" opacity=".85"/><ellipse cx="${x + 14}" cy="${y - 5}" rx="13" ry="9" fill="#fff" opacity=".85"/></g>`;
-    const plane = `<g class="fly"><path d="M0 4 L18 2 L24 -4 L27 -4 L25 2 L32 1 L34 -2 L36 -2 L35 3 L36 8 L34 8 L32 5 L25 4 L27 10 L24 10 L18 6 Z" fill="#fff"/></g>`;
-    const sky = (a, b) => `<defs><linearGradient id="${u}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs><rect width="320" height="180" fill="url(#${u})"/>`;
-    const scenes = {
-      lisboa: () => sky("#FFD7A3", "#FF9B6A") + `<circle cx="250" cy="62" r="26" fill="#FFF1C9"/>` + cloud(60, 40, "c1") + cloud(180, 28, "c2") + plane
-        + `<path d="M0 118 C40 94 80 100 120 110 C160 120 200 92 250 100 C280 106 300 112 320 108 L320 180 L0 180Z" fill="#E4785A"/>`
-        + [[18, 108, "#F7D08A"], [34, 102, "#8FC1E3"], [52, 100, "#FFFFFF"], [70, 103, "#F28C8C"], [200, 98, "#8FC1E3"], [218, 97, "#F7D08A"], [236, 99, "#FFFFFF"], [282, 106, "#F28C8C"]].map(([x, y, c]) => `<rect x="${x}" y="${y}" width="14" height="14" fill="${c}"/><path d="M${x - 1} ${y} L${x + 7} ${y - 6} L${x + 15} ${y}Z" fill="#B5503A"/>`).join("")
-        + `<rect y="142" width="320" height="38" fill="#2F6F9F"/><path d="M0 132 H320" stroke="#A9533A" stroke-width="3"/>`
-        + `<rect x="92" y="98" width="6" height="52" fill="#C8402F"/><rect x="214" y="98" width="6" height="52" fill="#C8402F"/><path d="M10 150 H310" stroke="#C8402F" stroke-width="4"/><path d="M10 150 Q 54 140 95 100 Q 156 150 217 100 Q 262 140 310 150" stroke="#C8402F" stroke-width="2" fill="none"/>`
-        + `<g class="drive"><rect x="0" y="114" width="40" height="17" rx="3" fill="#F4C21B"/><rect x="4" y="117" width="7" height="6" fill="#FFF6D5"/><rect x="14" y="117" width="7" height="6" fill="#FFF6D5"/><rect x="24" y="117" width="7" height="6" fill="#FFF6D5"/><path d="M20 114 L20 106" stroke="#333" stroke-width="1.5"/><circle cx="9" cy="131" r="2.5" fill="#333"/><circle cx="31" cy="131" r="2.5" fill="#333"/></g>`,
-      paris: () => sky("#CFE6FF", "#FFE0E6") + `<circle cx="70" cy="56" r="20" fill="#FFF7DD"/>` + cloud(40, 34, "c1") + cloud(210, 46, "c2") + plane
-        + `<path d="M0 150 L18 138 L36 150 L52 134 L74 150 L96 140 L118 150 L240 150 L258 136 L278 150 L300 140 L320 150 L320 180 L0 180Z" fill="#7C88AA"/>`
-        + `<g fill="#2D3150"><path d="M163 22 L166 22 L168 60 L176 100 L196 150 L184 150 L172 118 L157 118 L145 150 L133 150 L153 100 L161 60Z"/><rect x="150" y="98" width="29" height="5"/><rect x="156" y="58" width="17" height="4"/><path d="M164 8 L165 8 L165.5 22 L163.5 22Z"/></g>`
-        + `<rect y="162" width="320" height="18" fill="#6FA8DC"/>`
-        + `<g class="drive slow"><path d="M0 160 L46 160 L42 167 L4 167Z" fill="#FFFFFF"/><rect x="10" y="154" width="26" height="6" rx="2" fill="#FFFFFF"/><rect x="13" y="156" width="20" height="2" fill="#6FA8DC"/></g>`,
-      roma: () => sky("#FFE2B0", "#F4A462") + `<circle cx="160" cy="72" r="44" fill="#FFEFC8" opacity=".9"/>` + cloud(30, 30, "c1") + cloud(230, 36, "c2") + plane
-        + `<rect y="148" width="320" height="32" fill="#D9A066"/>`
-        + `<path d="M62 150 L62 104 Q160 78 258 104 L258 150Z" fill="#C98B5E"/><path d="M62 104 Q160 78 258 104" stroke="#A86E45" stroke-width="3" fill="none"/>`
-        + Array.from({ length: 13 }, (_, i) => 70 + i * 14.5).map(x => `<rect x="${x}" y="112" width="8" height="12" rx="4" fill="#8E5634"/><rect x="${x}" y="130" width="8" height="14" rx="4" fill="#8E5634"/>`).join("")
-        + `<rect x="26" y="120" width="4" height="30" fill="#5B3A29"/><ellipse cx="28" cy="118" rx="26" ry="9" fill="#2F5D50"/><rect x="290" y="114" width="4" height="36" fill="#5B3A29"/><ellipse cx="292" cy="112" rx="24" ry="8" fill="#2F5D50"/>`
-        + `<g class="drive"><path d="M6 160 Q14 148 26 152 L34 152 L36 160Z" fill="#E63946"/><circle cx="10" cy="162" r="4" fill="#222"/><circle cx="32" cy="162" r="4" fill="#222"/><path d="M30 152 L28 144" stroke="#222" stroke-width="2"/></g>`,
-      berlin: () => sky("#BCD6F2", "#EAF4FF") + cloud(50, 34, "c1") + cloud(200, 24, "c2") + plane
-        + `<rect y="150" width="320" height="30" fill="#9FB7A6"/><rect y="164" width="320" height="16" fill="#6C9BC4"/>`
-        + `<g fill="#3D4459"><rect x="226" y="40" width="7" height="112"/><path d="M220 152 L229 120 L238 152Z"/><circle cx="229.5" cy="74" r="12" fill="#6E7894"/><rect x="228.5" y="12" width="2" height="30"/><rect x="223" y="86" width="13" height="4"/></g>`
-        + `<circle class="twinkle" cx="229.5" cy="12" r="2.4" fill="#FF5A5A"/>`
-        + `<g fill="#CDB38A"><rect x="40" y="96" width="110" height="12"/><rect x="40" y="144" width="110" height="6"/>${[44, 62, 80, 98, 116, 134].map(x => `<rect x="${x}" y="108" width="7" height="36"/>`).join("")}<path d="M86 96 L95 84 L104 96Z"/></g>`
-        + `<path d="M0 142 H320" stroke="#7D8B99" stroke-width="2"/>`
-        + `<g class="drive"><rect x="0" y="126" width="54" height="15" rx="3" fill="#F2C230"/>${[4, 16, 28, 40].map(x => `<rect x="${x}" y="129" width="8" height="5" fill="#2E3440"/>`).join("")}</g>`,
-      londres: () => sky("#C6D3E6", "#F2F5FA") + cloud(150, 30, "c1") + cloud(250, 44, "c2") + plane
-        + `<g class="spin" stroke="#FFFFFF" stroke-width="1.6" fill="none"><circle cx="62" cy="92" r="34"/>${Array.from({ length: 8 }, (_, i) => { const a = i * Math.PI / 4; return `<path d="M62 92 L${(62 + 34 * Math.cos(a)).toFixed(1)} ${(92 + 34 * Math.sin(a)).toFixed(1)}"/>`; }).join("")}</g><path d="M62 92 L50 150 M62 92 L74 150" stroke="#E6EBF2" stroke-width="2"/>`
-        + `<rect x="120" y="112" width="104" height="40" fill="#B08D63"/>${[124, 150, 176, 202].map(x => `<rect x="${x}" y="104" width="6" height="10" fill="#B08D63"/>`).join("")}`
-        + `<rect x="232" y="52" width="22" height="100" fill="#9C7A52"/><path d="M230 52 L256 52 L243 22Z" fill="#8A6A45"/><circle cx="243" cy="70" r="7" fill="#F5E6C8" stroke="#5B4630"/><path d="M243 70 L243 65 M243 70 L246 70" stroke="#5B4630"/>`
-        + `<rect y="152" width="320" height="10" fill="#8C96A3"/><rect y="162" width="320" height="18" fill="#557A95"/>`
-        + `<g class="drive"><rect x="0" y="128" width="42" height="24" rx="3" fill="#D7263D"/>${[3, 13, 23, 33].map(x => `<rect x="${x}" y="131" width="7" height="6" fill="#FDECEC"/><rect x="${x}" y="141" width="7" height="6" fill="#FDECEC"/>`).join("")}<circle cx="9" cy="152" r="3" fill="#222"/><circle cx="33" cy="152" r="3" fill="#222"/></g>`
-    };
-    return `<svg class="poster" viewBox="0 0 320 180" ${h ? `style="height:${h}px;width:100%" preserveAspectRatio="xMidYMid slice"` : ""} role="img" aria-label="Ilustración de ${esc(DEST[k].city)}: ${esc(DEST[k].alt)}">${scenes[k]()}</svg>`;
+  /* ===================== FOTOS REALES + ANIMACIONES ===================== */
+  /* Las fotos se incrustan al construir (build.mjs). Licencias libres de Wikimedia Commons. */
+  const PHOTOS = /*__PHOTOS__*/{};
+  const PHOTO = {
+    lisboa: { pos: "62% 40%", alt: "Tranvía 28 amarillo subiendo por una calle de Alfama, en Lisboa", by: "Paul Arps", lic: "CC BY 2.0", page: "https://commons.wikimedia.org/wiki/File:Tram_28_in_Alfama_(Lissabon_2016)_(26029557541).jpg", clouds: true },
+    paris: { pos: "33% 36%", alt: "Torre Eiffel iluminada de noche desde los jardines del Trocadero", by: "Adriano Aurelio Araujo", lic: "CC BY 2.0", page: "https://commons.wikimedia.org/wiki/File:Brilho_Eiffell-_Eiffel_shine_-_Flickr_-_Adriano_Aurelio_Araujo.jpg", clouds: false },
+    roma: { pos: "45% 35%", alt: "El Coliseo y las columnas del Foro Romano entre cipreses", by: "Wilfredor", lic: "CC0", page: "https://commons.wikimedia.org/wiki/File:Colosseum_of_Rome_and_Roman_forum.jpg", clouds: true },
+    berlin: { pos: "30% 35%", alt: "Torre de televisión de Berlín y la catedral junto al río Spree", by: "Klaus Bärwinkel", lic: "CC BY-SA 4.0", page: "https://commons.wikimedia.org/wiki/File:2019_Berlin_Fernsehturm_Spree_Dom.jpg", clouds: true },
+    londres: { pos: "74% 50%", alt: "Palacio de Westminster y el Big Ben al anochecer sobre el Támesis", by: "Diliff", lic: "CC BY-SA 2.5", page: "https://commons.wikimedia.org/wiki/File:Palace_of_Westminster,_London_-_Feb_2007.jpg", clouds: false }
+  };
+  const VEHICLE = {
+    lisboa: `<g class="drive"><rect x="0" y="146" width="40" height="17" rx="3" fill="#F4C21B"/><rect x="4" y="149" width="7" height="6" fill="#FFF6D5"/><rect x="14" y="149" width="7" height="6" fill="#FFF6D5"/><rect x="24" y="149" width="7" height="6" fill="#FFF6D5"/><path d="M20 146 L20 138" stroke="#333" stroke-width="1.5"/><circle cx="9" cy="163" r="2.5" fill="#333"/><circle cx="31" cy="163" r="2.5" fill="#333"/></g>`,
+    paris: `<g class="drive slow"><path d="M0 160 L46 160 L42 167 L4 167Z" fill="#FFFFFF"/><rect x="10" y="154" width="26" height="6" rx="2" fill="#FFFFFF"/><rect x="13" y="156" width="20" height="2" fill="#1730D6"/></g>`,
+    roma: `<g class="drive"><path d="M6 160 Q14 148 26 152 L34 152 L36 160Z" fill="#E63946"/><circle cx="10" cy="162" r="4" fill="#222"/><circle cx="32" cy="162" r="4" fill="#222"/><path d="M30 152 L28 144" stroke="#222" stroke-width="2"/></g>`,
+    berlin: `<g class="drive"><rect x="0" y="148" width="54" height="15" rx="3" fill="#F2C230"/>${[4, 16, 28, 40].map(x => `<rect x="${x}" y="151" width="8" height="5" fill="#2E3440"/>`).join("")}</g>`,
+    londres: `<g class="drive"><rect x="0" y="140" width="42" height="24" rx="3" fill="#D7263D"/>${[3, 13, 23, 33].map(x => `<rect x="${x}" y="143" width="7" height="6" fill="#FDECEC"/><rect x="${x}" y="153" width="7" height="6" fill="#FDECEC"/>`).join("")}<circle cx="9" cy="164" r="3" fill="#222"/><circle cx="33" cy="164" r="3" fill="#222"/></g>`
+  };
+  function poster(k, h, decorative) {
+    const p = PHOTO[k];
+    const cloud = (x, y, cls) => `<g class="cloud ${cls}"><ellipse cx="${x}" cy="${y}" rx="22" ry="8" fill="#fff" opacity=".6"/><ellipse cx="${x + 14}" cy="${y - 5}" rx="13" ry="9" fill="#fff" opacity=".6"/></g>`;
+    const plane = `<g class="fly"><path d="M-70 6 H-4" stroke="#fff" stroke-width="1.4" stroke-dasharray="4 4" opacity=".85"/><path d="M0 4 L18 2 L24 -4 L27 -4 L25 2 L32 1 L34 -2 L36 -2 L35 3 L36 8 L34 8 L32 5 L25 4 L27 10 L24 10 L18 6 Z" fill="#fff"/></g>`;
+    const overlay = `<svg class="overlay" viewBox="0 0 320 180" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${p.clouds ? cloud(40, 30, "c1") + cloud(200, 22, "c2") : ""}${plane}<g class="sticker">${VEHICLE[k]}</g></svg>`;
+    const img = PHOTOS[k] ? `<img src="${PHOTOS[k]}" alt="${decorative ? "" : esc(p.alt)}" width="960" height="540" decoding="async" style="object-position:${p.pos}">` : "";
+    const credit = decorative ? "" : `<a class="credit" href="${p.page}" target="_blank" rel="noopener">Foto: ${esc(p.by)} · ${esc(p.lic)}</a>`;
+    return `<span class="photo" style="height:${h}px">${img}${overlay}${credit}</span>`;
   }
 
   /* ===================== ESTADO ===================== */
@@ -720,7 +713,7 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
     const d = D(); const from = ORIGINS.find(o => o[0] === state.from);
     const pending = tasks().reduce((n, w) => n + w.items.filter(i => i.s !== "ok" && !state.done.has(i.key)).length, 0);
     $("#board").innerHTML = `
-      <div class="board-top"><span>RUTA16 · EXPLORA</span><span class="dim">propuesta de Alberto</span></div>
+      <div class="board-top"><span class="wm">Go<span>Live</span>It</span><span class="dim">propuesta de Alberto</span></div>
       <div class="route"><span class="code">${state.from}</span><svg class="plane" width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span class="code to${flip && !reduced() ? " flip" : ""}">${d.iata}</span></div>
       <div class="cities"><span>${esc(from[1])}</span><span>${esc(d.city)} · ${esc(d.cname)}</span></div>
       <div class="board-meta">
@@ -746,6 +739,7 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
       <button type="button" class="btn sign" data-open-dest="${k}">Ver ${esc(d.city)}</button></div>`;
   }
   function renderExplore(animate) {
+    $("#credits").innerHTML = Object.entries(PHOTO).map(([k, p]) => `${esc(DEST[k].city)}: <a href="${p.page}" target="_blank" rel="noopener">${esc(p.by)}</a> (${esc(p.lic)})`).join(" · ") + ". Fuente: Wikimedia Commons. Las animaciones son propias.";
     $("#ages").innerHTML = [15, 16, 17, 18].map(a => `<button type="button" class="age" data-age="${a}" aria-pressed="${state.age === a}"><b>${a}</b><span>${a === 18 ? "comparar" : "años"}</span></button>`).join("");
     $("#company").innerHTML = COMPANY.map(([k, l]) => `<button type="button" data-company="${k}" aria-pressed="${state.company === k}">${l}</button>`).join("");
     const stats = Object.keys(DEST).map(k => ({ k, ...destStats(k), overlap: DEST[k].tags.filter(t => state.likes.has(t)) }));
@@ -761,7 +755,7 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
     $("#dests").innerHTML = stats.map((s, i) => {
       const d = DEST[s.k]; const top = s.facts.slice().sort((a, b) => ({ si: 0, lim: 1, no: 2 }[a.r.v] - { si: 0, lim: 1, no: 2 }[b.r.v])).slice(0, 3);
       return `<button type="button" class="dest${animate ? " rise" : ""}" style="--i:${i}" data-open-dest="${s.k}" aria-pressed="${state.dest === s.k}">
-        ${poster(s.k, 120)}
+        ${poster(s.k, 150, true)}
         <span class="dest-body">
           <span class="dest-title"><strong>${esc(d.city)}</strong><span class="iata">${d.iata}</span></span>
           <span class="facts-mini">${top.map(f => `<span class="fm ${VERDICT[f.r.v][0]}"><span aria-hidden="true">${VERDICT[f.r.v][1]}</span>${esc(f.t)}</span>`).join("")}</span>
@@ -780,7 +774,7 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
   /* ===================== DESTINO ===================== */
   function renderDest(animate) {
     const d = D(); const st = destStats(state.dest); const a = minAge();
-    $("#hero").innerHTML = poster(state.dest, 210) + `<div class="hero-cap"><h1>${esc(d.city)}</h1><span class="agepill">con ${ageLabel()}</span></div>`;
+    $("#hero").innerHTML = poster(state.dest, 220) + `<div class="hero-cap"><h1>${esc(d.city)}</h1><span class="agepill">con ${ageLabel()}</span></div>`;
     ageBar("#agebar-d"); if (animate) scan($("#facts"));
     $("#facts-title").textContent = `Con ${a} años en ${d.city}`;
     const prev = state.lastFacts[state.dest] || {}; const now = {};
@@ -883,7 +877,7 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
   function renderPlan() {
     const d = D();
     $("#plan-title").textContent = `${state.from} → ${d.iata} · ${d.city}`;
-    $("#share-link").textContent = `ruta16.app/p/${d.iata}-8F3K`;
+    $("#share-link").textContent = `goliveit.app/p/${d.iata}-8F3K`;
     const groups = { listo: [], unk: [], no: [] };
     [...state.saved].forEach(k => { const s = evalItem(k).s; (visible(s) ? groups.listo : s === "unk" ? groups.unk : groups.no).push(k); });
     const block = (title, keys, note) => keys.length ? `<div class="section"><h3>${title}</h3>${note ? `<p class="small muted">${note}</p>` : ""}<div class="items">${keys.map(itemCard).join("")}</div></div>` : "";

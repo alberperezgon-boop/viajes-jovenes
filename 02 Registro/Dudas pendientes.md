@@ -16,6 +16,7 @@ Prioridad: **A** = bloquea algo de esta semana · **B** = necesario para la prop
 | Q-03 | Canales de difusión. Si se pasa en un instituto, ¿qué permiso pide el centro para encuestar a menores? | A | Equipo | abierta |
 | Q-04 | Herramienta de encuestas: Google Forms o Tally (ambas permiten secciones condicionales y orden aleatorio) | A | Equipo | abierta |
 | Q-11 | Demos de los dos compañeros: recibida la web Ruta16 (07/11, analizada en [[Demo Ruta16 (web del compañero)]]); falta la segunda | B | Compañeros | en curso |
+| Q-21 | ¿Está libre **GoLiveIt** como marca (OEPM, EUIPO) y como dominio y redes sociales? | B | Buscadores de la OEPM y la EUIPO; registradores de dominios | abierta |
 | Q-20 | **Portugal:** ¿exige autorización escrita de los padres para que un menor **de la UE** entre sin ellos? La guía de gov.pt dice que sí; la Ley 23/2007 (art. 4) excluye a los ciudadanos de la UE | A | Leer gov.pt y la Ley 37/2006 portuguesa; preguntar al consulado | abierta |
 | Q-12 | ¿El repositorio de GitHub sigue privado? ¿Se invita a los compañeros? | B | Alberto | abierta |
 

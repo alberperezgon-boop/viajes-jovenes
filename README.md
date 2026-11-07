@@ -43,7 +43,7 @@ El detalle y los criterios para pasar de fase están en [Plan por fases](<01 Pla
   - [Guion de entrevistas](<30 Validación/Guion de entrevistas.md>)
   - [Plan de análisis](<30 Validación/Plan de análisis.md>)
 - **Demos del equipo**: [Plantilla de análisis](<40 Demos del equipo/Plantilla análisis de demo.md>) · [Web Ruta16 del compañero](<40 Demos del equipo/Demo Ruta16 (web del compañero).md>)
-- **Demo propia (v1)**: [abrir la demo](https://claude.ai/artifact/EdSSd8jeVzEPRUkui2Q42A) (privada; compartir desde el menú de la página) · [código](<60 Demo/ruta16-demo.html>)
+- **Demo propia: GoLiveIt**: [abrir la demo](https://claude.ai/artifact/EdSSd8jeVzEPRUkui2Q42A) (privada; se comparte desde el menú de la página) · [archivo para compartir](<60 Demo/GoLiveIt-para-compartir.html>) · [código fuente](<60 Demo/goliveit.src.html>) (se construye con `node "60 Demo/build.mjs"`)
 - **Propuesta individual**: [Borrador v0](<50 Propuesta individual/Propuesta individual v0.md>)
 - [Fuentes](<90 Fuentes/Fuentes.md>)
 

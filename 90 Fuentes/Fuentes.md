@@ -46,6 +46,18 @@ Todas consultadas el 07/11/2026 salvo que se indique otra fecha. La etiqueta ind
 | [B17 News (resumen de Business Insider) sobre Corner](https://b17news.com/these-founders-built-a-map-app-for-gen-z-to-discover-new-places-like-restaurants-and-shops-theyve-raised-3-8-million/) | E-18b |
 | [Dealroom: ronda de Corner](https://app.dealroom.co/news/feed/social-mapping-startup-corner-raises-7-5m-to-help-gen-z-find-restaurants-and-meet-up-irl) | E-18b |
 
+## Fotos de la demo (Wikimedia Commons)
+
+| Ciudad | Autor | Licencia | Página |
+|---|---|---|---|
+| Lisboa | Paul Arps | CC BY 2.0 | [Tram 28 in Alfama](https://commons.wikimedia.org/wiki/File:Tram_28_in_Alfama_(Lissabon_2016)_(26029557541).jpg) |
+| París | Adriano Aurelio Araujo | CC BY 2.0 | [Brilho Eiffel](https://commons.wikimedia.org/wiki/File:Brilho_Eiffell-_Eiffel_shine_-_Flickr_-_Adriano_Aurelio_Araujo.jpg) |
+| Roma | Wilfredor | CC0 | [Colosseum of Rome and Roman forum](https://commons.wikimedia.org/wiki/File:Colosseum_of_Rome_and_Roman_forum.jpg) |
+| Berlín | Klaus Bärwinkel | CC BY-SA 4.0 | [2019 Berlin Fernsehturm Spree Dom](https://commons.wikimedia.org/wiki/File:2019_Berlin_Fernsehturm_Spree_Dom.jpg) |
+| Londres | Diliff | CC BY-SA 2.5 | [Palace of Westminster, Feb 2007](https://commons.wikimedia.org/wiki/File:Palace_of_Westminster,_London_-_Feb_2007.jpg) |
+
+Descargadas el 07/11/2026 a 960 px de ancho. Las licencias CC BY y CC BY-SA exigen citar al autor y la licencia: la demo lo hace en cada foto grande y en la sección «Fotos».
+
 ## Pendientes de leer en el BOE
 
 Código Civil art. 1263 · LOPDGDD art. 7 · TRLGDCU Libro IV · RD 933/2021 · Decreto andaluz 301/2002 consolidado.
