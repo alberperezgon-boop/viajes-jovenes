@@ -34,13 +34,16 @@ El detalle y los criterios para pasar de fase están en [Plan por fases](<01 Pla
   - [Marco legal del negocio](<10 Problema/Marco legal del negocio.md>)
 - **Benchmark**
   - [Corner](<20 Benchmark/Corner.md>)
+  - [Corner: análisis funcional](<20 Benchmark/Corner - análisis funcional.md>) y [matriz de funciones](<20 Benchmark/corner-funciones.csv>)
+  - [Funciones adaptadas de Corner](<20 Benchmark/Funciones adaptadas de Corner.md>)
   - [Alternativas actuales y competidores](<20 Benchmark/Alternativas actuales y competidores.md>)
 - **Validación**
   - [Encuesta a jóvenes de 16 a 19 años](<30 Validación/Encuesta jóvenes 16-19.md>)
   - [Encuesta a padres y tutores](<30 Validación/Encuesta padres y tutores.md>)
   - [Guion de entrevistas](<30 Validación/Guion de entrevistas.md>)
   - [Plan de análisis](<30 Validación/Plan de análisis.md>)
-- **Demos del equipo**: [Plantilla de análisis](<40 Demos del equipo/Plantilla análisis de demo.md>)
+- **Demos del equipo**: [Plantilla de análisis](<40 Demos del equipo/Plantilla análisis de demo.md>) · [Web Ruta16 del compañero](<40 Demos del equipo/Demo Ruta16 (web del compañero).md>)
+- **Demo propia (v1)**: [abrir la demo](https://claude.ai/artifact/EdSSd8jeVzEPRUkui2Q42A) (privada; compartir desde el menú de la página) · [código](<60 Demo/ruta16-demo.html>)
 - **Propuesta individual**: [Borrador v0](<50 Propuesta individual/Propuesta individual v0.md>)
 - [Fuentes](<90 Fuentes/Fuentes.md>)
 

@@ -1,0 +1,16 @@
+funcion,area,prioridad_para_nosotros,en_corner,decision,en_demo,notas
+Guardar desde enlace de TikTok o Instagram,captura,must,si (S05),adaptar,si,Pegar el enlace de un destino y comprobar si el grupo puede ir; en la demo la detección es simulada
+Mapa con pines,descubrimiento,must,si (S03),adaptar,si,Pines por estado de verificación para la edad del grupo (verde/ámbar/rojo/gris)
+Ficha de lugar con resumen IA,descubrimiento,must,si (S04),adaptar,si,Ficha de requisitos para menores con fuente y fecha en vez de resumen de ambiente
+Mundo cerrado (solo sitios guardados por usuarios),confianza,must,si (F06),adaptar,si,Solo proveedores con política verificada; lo no verificado sale en gris y no se recomienda
+Listas compartibles por enlace web,crecimiento,must,si (F04),adaptar,si,Plan del viaje compartible con los padres sin que necesiten cuenta
+Filtros por categoría y etiquetas,descubrimiento,should,si (S10),adaptar,si,Filtros alojamiento/transporte/actividad
+Recomendación por gustos,personalización,should,si (privacidad),adaptar,si,Gustos y presupuesto ordenan los destinos; explicación visible de por qué se recomienda
+Actividad y círculo social,social,could,si (S08),adaptar,si,Experiencias de otros jóvenes de 16-17; en la demo son ejemplos ficticios
+Guías por ciudad para buscadores,crecimiento,should,si (W02),adaptar más adelante,no,Guías «viajar con 16-17 a X»; estrategia de contenidos posterior
+Registro con teléfono obligatorio,cuenta,skip,si (S01),no adaptar,no,Rechazo en reseñas; para menores pedir los mínimos datos
+Importar contactos,social,skip,si (S02),no adaptar,no,Privacidad de menores; difícil de justificar ante los padres
+Agente de chat con IA,búsqueda,skip,si (S09),no adaptar por ahora,no,Riesgo de que la IA afirme como legal algo no verificado
+Búsqueda semántica con IA,búsqueda,could,si (S09),adaptar más adelante,no,Solo sobre datos verificados; la IA interpreta la pregunta y las reglas deciden
+Vista de padres y aprobación,padres,must,no,nuevo,si,Diferencial propio (H-12); no existe en Corner
+Lista de documentos por viajero,legal,must,no,nuevo,si,Según edad nacionalidad residencia y destino (E-01)
