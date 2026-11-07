@@ -1,0 +1,15 @@
+# Estado local de Obsidian (cambia en cada sesión)
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache
+.trash/
+
+# Datos personales: las respuestas en bruto con contactos NUNCA se suben
+30 Validación/Resultados/**/*contactos*
+30 Validación/Resultados/**/*.csv
+30 Validación/Resultados/**/*.xlsx
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
