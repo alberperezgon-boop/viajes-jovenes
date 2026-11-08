@@ -146,6 +146,12 @@ input[type="range"] { width: 100%; accent-color: var(--pop); }
 .etable { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
 .etable th, .etable td { text-align: left; padding: 6px 4px; border-bottom: 1px solid var(--line); vertical-align: top; }
 .etable th { font-weight: 700; color: var(--muted); font-size: 0.7rem; }
+.offer { border: 1.5px solid var(--line); border-radius: 12px; padding: 10px; display: grid; gap: 5px; }
+.offer.dim { opacity: 0.72; border-style: dashed; }
+.price { font-family: var(--f-mono); font-weight: 800; color: var(--ink); white-space: nowrap; }
+details.hid { border: 1.5px dashed var(--line); border-radius: 12px; padding: 8px 10px; }
+details.hid > summary { cursor: pointer; font-weight: 700; font-size: 0.82rem; color: var(--muted); }
+.counts { font-weight: 700; }
 .legal-item { border: 1.5px solid var(--line); border-radius: 12px; padding: 10px; display: grid; gap: 4px; }
 .legal-item .row { gap: 5px; }
 .pill { font-size: 0.66rem; font-weight: 800; border-radius: 999px; padding: 1px 7px; text-transform: uppercase; letter-spacing: 0.04em; }
@@ -296,6 +302,11 @@ dialog.sheet::backdrop { background: rgb(8 10 20 / 0.55); }
     tfl: EQ("TfL: 16+ Zip Oyster", "https://tfl.gov.uk/fares/free-and-discounted-travel/16-plus-zip-oyster-photocard"),
     bm: EQ("British Museum", "https://www.britishmuseum.org/visit/family-visits"),
     uk_lic: EQ("Licensing Act 2003, s. 145", "https://www.legislation.gov.uk/ukpga/2003/17/section/145"),
+    alc_pt: EQ("Decreto-Ley 106/2015 (Portugal)", "https://diariodarepublica.pt/dr/detalhe/decreto-lei/106-2015-67498687"),
+    alc_fr: EQ("Légifrance: artículo L3342-1", "https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000031927682"),
+    prefettura: EQ("Prefettura: vademécum de espectáculos (PDF)", "https://prefettura.interno.gov.it/sites/default/files/70/2023-10/vademecum_commissione_provinciale_di_vigilanza.pdf"),
+    alc_it: EQ("Ley 125/2001 (Italia), PDF", "https://antidroga.interno.gov.it/wp-content/uploads/2019/05/L.-30-marzo-2001-n.-125-.pdf"),
+    alc_uk: EQ("GOV.UK: alcohol y menores", "https://www.gov.uk/alcohol-young-people-law"),
     none: S("Sin fuente verificada", null, "SIN VERIFICAR", MIA)
   };
 
@@ -343,6 +354,15 @@ dialog.sheet::backdrop { background: rgb(8 10 20 / 0.55); }
     smb: { name: "Isla de los Museos", cat: "hacer", tipo: "acceso", src: "smb", rule: () => R("ok", "Gratis hasta los 18 con documento.") },
     fiestas_ber: { name: "Fiesta en Kreuzberg", cat: "hacer", tipo: "acceso", src: "juschg", rule: (m, g) => m.age >= 18 ? R("ok", OK18) : m.age >= 16 ? R("req", "Con 16 o 17, sin adulto hasta las 24:00.", [G("Salir antes de las 24:00")]) : adultOf(g, m) ? R("req", "Menores de 16, con un adulto responsable.", [G("Ir " + con(adultOf(g, m)))]) : R("no", "Menores de 16, no sin un adulto.") },
     bm: { name: "British Museum", cat: "hacer", tipo: "acceso", src: "bm", rule: () => R("ok", "Colección permanente gratis.") },
+    alc_pt: { name: "Alcohol", cat: "hacer", tipo: "legal", src: "alc_pt", rule: m => m.age >= 18 ? R("ok", "Mayor de edad.") : R("no", "Nada de alcohol hasta los 18, tampoco cerveza.") },
+    bares_fr: { name: "Bares sin un adulto", cat: "hacer", tipo: "legal", src: "legi", rule: (m, g) => m.age >= 16 ? R("ok", "Desde 16 puedes entrar sin un adulto (sin alcohol si eres menor).") : adultOf(g, m) ? R("req", "Menores de 16, con un adulto responsable.", [G("Ir " + con(adultOf(g, m)))]) : R("no", "Menores de 16, solo con padres o un adulto responsable.") },
+    discos_par: { name: "Discotecas", cat: "hacer", tipo: "acceso", src: "legi", rule: m => m.age >= 18 ? R("ok", OK18) : R("unk", "La ley no fija edad: decide cada local.") },
+    alc_fr: { name: "Alcohol", cat: "hacer", tipo: "legal", src: "alc_fr", rule: m => m.age >= 18 ? R("ok", "Mayor de edad.") : R("no", "No te lo pueden vender; te pueden pedir el DNI.") },
+    discos_rom: { name: "Discotecas", cat: "hacer", tipo: "acceso", src: "prefettura", rule: m => m.age >= 18 ? R("ok", OK18) : R("unk", "Cada local o evento fija su edad mínima.") },
+    alc_it: { name: "Alcohol", cat: "hacer", tipo: "legal", src: "alc_it", rule: m => m.age >= 18 ? R("ok", "Mayor de edad.") : R("no", "No te lo pueden vender ni servir.") },
+    cerveza_de: { name: "Cerveza y vino", cat: "hacer", tipo: "legal", src: "juschg", rule: m => m.age >= 16 ? R("ok", "Legales desde los 16; destilados, no hasta los 18.") : R("no", "Con menos de 16, solo con tus padres.") },
+    clubes_de: { name: "Clubes nocturnos (Nachtbars)", cat: "hacer", tipo: "legal", src: "juschg", rule: m => m.age >= 18 ? R("ok", OK18) : R("no", "Prohibidos para menores de 18.") },
+    alc_uk: { name: "Alcohol", cat: "hacer", tipo: "legal", src: "alc_uk", rule: (m, g) => m.age >= 18 ? R("ok", "Puedes comprarlo.") : m.age >= 16 && adultOf(g, m) ? R("req", "No puedes comprarlo; con 16 o 17, cerveza, vino o sidra en una comida si te acompaña un adulto.", [G("Solo en una comida con " + quien(adultOf(g, m)))]) : R("no", "Con menos de 18 no puedes comprarlo.") },
     discos_lon: { name: "Camden de noche", cat: "hacer", tipo: "acceso", src: "uk_lic", rule: m => m.age >= 18 ? R("ok", OK18) : m.age >= 16 ? R("unk", "Con 16 o 17 decide cada local.") : R("no", "Menores de 16, no sin un adulto.") }
   };
 
@@ -375,20 +395,31 @@ dialog.sheet::backdrop { background: rgb(8 10 20 / 0.55); }
       stops: [["Llegada en metro desde el aeropuerto", "metro_lis", [-9.129, 38.774]], ["Pousada de Juventude (zona aproximada)", "pousadas", [-9.146, 38.732]], ["Jerónimos y Belém", "museus_pt", [-9.207, 38.698]], ["Alfama y miradores", null, [-9.134, 38.714]], ["Playa de Carcavelos", null, [-9.336, 38.679]], ["Bairro Alto de noche", "discos_lis", [-9.145, 38.713]]] },
     paris: { city: "París", country: "FR", cname: "Francia", iata: "PAR", c: [2.352, 48.857], verified: true, tags: ["museos", "historia", "comida", "compras"], daily: 42,
       flights: [["ryanair", 45, true], ["vueling", 69, true], ["easyjet", 79, false], ["iberia", 128, false], ["airfrance", 139, false]], stays: [["hifrance", 34], ["airbnb", 58], ["accor", 89]],
-      stops: [["RER B desde el aeropuerto", "rer", [2.37, 48.95]], ["Albergue HI (zona aproximada)", "hifrance", [2.37, 48.877]], ["Museo del Louvre", "louvre", [2.338, 48.861]], ["Montmartre", null, [2.343, 48.887]], ["Le Marais", null, [2.362, 48.859]], ["Torre Eiffel", null, [2.295, 48.858]]] },
+      stops: [["RER B desde el aeropuerto", "rer", [2.37, 48.95]], ["Albergue HI (zona aproximada)", "hifrance", [2.37, 48.877]], ["Museo del Louvre", "louvre", [2.338, 48.861]], ["Montmartre", null, [2.343, 48.887]], ["Le Marais", null, [2.362, 48.859]], ["Torre Eiffel por fuera (Campo de Marte)", null, [2.295, 48.858]]] },
     roma: { city: "Roma", country: "IT", cname: "Italia", iata: "ROM", c: [12.496, 41.903], verified: true, tags: ["historia", "museos", "comida"], daily: 34,
       flights: [["ryanair", 49, true], ["wizz", 58, true], ["vueling", 79, false], ["ita", 119, true], ["iberia", 150, false]], stays: [["aig", 27], ["airbnb", 49], ["accor", 85]],
-      stops: [["Leonardo Express a Termini", "leonardo", [12.501, 41.901]], ["Albergue (zona aproximada)", "aig", [12.5, 41.9]], ["Coliseo y Foro", "colosseo", [12.492, 41.89]], ["Fontana di Trevi", null, [12.483, 41.901]], ["Trastevere", null, [12.47, 41.89]], ["Panteón", null, [12.477, 41.899]]] },
+      stops: [["Leonardo Express a Termini", "leonardo", [12.501, 41.901]], ["Albergue (zona aproximada)", "aig", [12.5, 41.9]], ["Coliseo y Foro", "colosseo", [12.492, 41.89]], ["Fontana di Trevi", null, [12.483, 41.901]], ["Trastevere", null, [12.47, 41.89]], ["Plaza de la Rotonda (Panteón por fuera)", null, [12.477, 41.899]]] },
     berlin: { city: "Berlín", country: "DE", cname: "Alemania", iata: "BER", c: [13.405, 52.52], verified: true, tags: ["joven", "noche", "museos", "historia"], daily: 32,
       flights: [["ryanair", 65, true], ["easyjet", 72, false], ["vueling", 85, false], ["lufthansa", 159, false]], stays: [["djh", 31], ["airbnb", 44], ["accor", 69]],
       stops: [["Billete ABC desde el BER", "vbb", [13.5, 52.366]], ["Albergue (zona aproximada)", "djh", [13.39, 52.51]], ["Isla de los Museos", "smb", [13.402, 52.517]], ["Puerta de Brandeburgo", null, [13.378, 52.516]], ["East Side Gallery", null, [13.44, 52.505]], ["Fiesta en Kreuzberg", "fiestas_ber", [13.438, 52.497]]] },
     londres: { city: "Londres", country: "UK", cname: "Reino Unido", iata: "LON", c: [-0.128, 51.507], verified: true, tags: ["joven", "museos", "noche", "compras"], daily: 48,
       flights: [["ryanair", 55, true], ["easyjet", 69, true], ["vueling", 75, false], ["ba", 138, true], ["iberia", 145, false]], stays: [["yha", 39], ["airbnb", 62], ["accor", 95]],
-      stops: [["Metro desde el aeropuerto", "tfl", [-0.177, 51.517]], ["Albergue YHA (zona aproximada)", "yha", [-0.123, 51.53]], ["British Museum", "bm", [-0.127, 51.519]], ["Westminster", null, [-0.125, 51.5]], ["Tate Modern", null, [-0.099, 51.508]], ["Camden de noche", "discos_lon", [-0.146, 51.541]]] },
+      stops: [["Metro desde el aeropuerto", "tfl", [-0.177, 51.517]], ["Albergue YHA (zona aproximada)", "yha", [-0.123, 51.53]], ["British Museum", "bm", [-0.127, 51.519]], ["Westminster", null, [-0.125, 51.5]], ["Paseo por South Bank", null, [-0.099, 51.508]], ["Camden de noche", "discos_lon", [-0.146, 51.541]]] },
     amsterdam: { city: "Ámsterdam", country: "NL", cname: "Países Bajos", iata: "AMS", c: [4.904, 52.368], verified: false, tags: ["joven", "noche", "museos"] },
     praga: { city: "Praga", country: "CZ", cname: "Chequia", iata: "PRG", c: [14.438, 50.076], verified: false, tags: ["historia", "noche", "joven"] },
     dublin: { city: "Dublín", country: "IE", cname: "Irlanda", iata: "DUB", c: [-6.26, 53.35], verified: false, tags: ["noche", "historia"] }
   };
+  /* OCIO por destino: [regla, o null si es espacio público sin requisito de edad; nombre; momento] */
+  const OCIO = {
+    lisboa: [["museus_pt", "Jerónimos y museos", "dia"], [null, "Playa de Carcavelos", "dia"], [null, "Alfama y miradores", "dia"], ["discos_lis", "Discotecas del Bairro Alto", "noche"], ["alc_pt", "Alcohol", "noche"]],
+    paris: [["louvre", "Museo del Louvre", "dia"], [null, "Montmartre", "dia"], [null, "Le Marais", "dia"], ["bares_fr", "Bares sin un adulto", "noche"], ["discos_par", "Discotecas", "noche"], ["alc_fr", "Alcohol", "noche"]],
+    roma: [["colosseo", "Coliseo y Foro", "dia"], [null, "Trastevere", "dia"], [null, "Fontana di Trevi", "dia"], ["discos_rom", "Discotecas", "noche"], ["alc_it", "Alcohol", "noche"]],
+    berlin: [["smb", "Isla de los Museos", "dia"], [null, "East Side Gallery", "dia"], [null, "Puerta de Brandeburgo", "dia"], ["fiestas_ber", "Fiestas en Kreuzberg", "noche"], ["cerveza_de", "Cerveza y vino", "noche"], ["clubes_de", "Clubes nocturnos (Nachtbars)", "noche"]],
+    londres: [["bm", "British Museum", "dia"], [null, "Westminster", "dia"], [null, "Paseo por South Bank", "dia"], ["discos_lon", "Discotecas de Camden", "noche"], ["alc_uk", "Alcohol", "noche"]]
+  };
+  const SKY = { lisboa: "lis", paris: "pari", roma: "rome", berlin: "ber", londres: "lond" };
+  const PUBLIC = () => ({ s: "ok", per: state.group.map(m => ({ m, r: R("ok", "Espacio público: sin requisito de edad.") })), it: null });
+  function ocioEval(k) { return (OCIO[k] || []).map(([key, name, when]) => ({ key, name, when, e: key ? evalItem(key) : PUBLIC() })).sort((x, y) => RANK[x.e.s] - RANK[y.e.s]); }
   const PHOTO = {
     lisboa: { pos: "62% 40%", by: "Paul Arps", lic: "CC BY 2.0", page: "https://commons.wikimedia.org/wiki/File:Tram_28_in_Alfama_(Lissabon_2016)_(26029557541).jpg" },
     paris: { pos: "33% 36%", by: "Adriano Aurelio Araujo", lic: "CC BY 2.0", page: "https://commons.wikimedia.org/wiki/File:Brilho_Eiffell-_Eiffel_shine_-_Flickr_-_Adriano_Aurelio_Araujo.jpg" },
@@ -440,7 +471,10 @@ dialog.sheet::backdrop { background: rgb(8 10 20 / 0.55); }
      ========================================================= */
   function analyse(k, group = state.group) {
     const d = DEST[k]; const n = group.length; const nights = Math.max(1, state.days - 1);
-    const sat = group.map(m => ({ m, v: m.likes.size ? [...m.likes].filter(t => d.tags.includes(t)).length / m.likes.size : 0.5, hits: [...m.likes].filter(t => d.tags.includes(t)) }));
+    // «Noche» solo cuenta si la edad de esa persona le permite algún plan nocturno del destino
+    const nightOk = m => !OCIO[k] || OCIO[k].some(([key, , when]) => when === "noche" && key && visible(ITEMS[key].rule(m, group).s));
+    const tagsFor = m => d.tags.filter(t => t !== "noche" || nightOk(m));
+    const sat = group.map(m => ({ m, v: m.likes.size ? [...m.likes].filter(t => tagsFor(m).includes(t)).length / m.likes.size : 0.5, hits: [...m.likes].filter(t => tagsFor(m).includes(t)), lostNight: m.likes.has("noche") && d.tags.includes("noche") && !nightOk(m) }));
     const avg = sat.reduce((a, x) => a + x.v, 0) / n; const min = Math.min(...sat.map(x => x.v));
     const pref = 0.6 * avg + 0.4 * min;
     if (!d.verified) return { k, d, status: "unk", score: null, sat, pref, reason: "No tenemos verificadas las normas de entrada, alojamientos ni actividades para menores. Pendiente, no permitido." };
@@ -462,6 +496,8 @@ dialog.sheet::backdrop { background: rgb(8 10 20 / 0.55); }
     const why = [];
     const liked = [...new Set(sat.flatMap(x => x.hits))].map(t => LIKES.find(l => l[0] === t)[1].toLowerCase());
     if (liked.length) why.push(`Encaja con ${liked.join(", ")}; satisfacción media ${Math.round(avg * 100)} % y la persona menos contenta ${Math.round(min * 100)} %.`);
+    const lost = sat.filter(x => x.lostNight).map(x => x.m.name);
+    if (lost.length) why.push(`La noche no cuenta para ${lost.join(", ")}: con su edad no hay planes nocturnos permitidos aquí.`);
     why.push(total <= state.budget ? `Cabe en el presupuesto: unos ${eur(total)} de ${eur(state.budget)} por persona (estimación).` : `Se pasa unos ${eur(total - state.budget)} del presupuesto (estimación).`);
     why.push(`Dormir: ${ITEMS[st.s].name} (${STATUS[st.e.s][2].toLowerCase()}). Volar: ${ITEMS[fl.a].name}${fl.dir ? " directo" : " con escala"}.`);
     const warn = [];
@@ -677,6 +713,7 @@ dialog.sheet::backdrop { background: rgb(8 10 20 / 0.55); }
         <div class="card-body">
           <div class="card-title"><strong>${esc(a.d.city)}</strong>${pill(a.status)}</div>
           <div class="row" style="gap:4px">${memberChips(a)}</div>
+          <p class="small counts">✈ ${counts(a.flights).vis} vuelos · 🛏 ${counts(a.stays).vis} alojamientos · 🎟 ${counts(ocioEval(a.k)).vis} planes de ocio <span class="muted">para vuestra edad</span></p>
           ${budgetBar(a)}
           <ul class="why">${a.why.map(w => `<li>${esc(w)}</li>`).join("")}</ul>
           ${a.warn.map(w => `<p class="warn">${esc(w)}</p>`).join("")}
@@ -686,7 +723,7 @@ dialog.sheet::backdrop { background: rgb(8 10 20 / 0.55); }
     </div>`;
   }
   function renderDetail() {
-    const a = analyse(state.sel); const k = state.sel; const tabs = [["itinerario", "Itinerario"], ["elegibilidad", "Elegibilidad"], ["papeles", "Papeles"], ["presupuesto", "Presupuesto"]];
+    const a = analyse(state.sel); const k = state.sel; const tabs = [["itinerario", "Plan"], ["vuelos", "Vuelos"], ["dormir", "Dormir"], ["ocio", "Ocio"], ["papeles", "Papeles"], ["presupuesto", "Coste"]];
     const head = `<div class="detail-head${PHOTOS[k] ? " ph-" + k : ""}" style="${PHOTOS[k] ? `background-position:${PHOTO[k].pos}` : ""}">${PHOTO[k] ? `<a class="credit" href="${PHOTO[k].page}" target="_blank" rel="noopener">Foto: ${esc(PHOTO[k].by)} · ${esc(PHOTO[k].lic)}</a>` : ""}<div class="cap"><h2>${esc(a.d.city)}</h2>${a.score != null ? `<span class="status s-ok" style="background:var(--surface);color:var(--ink)">Encaje ${a.score}/100</span>` : pill(a.status)}</div></div>`;
     let body = "";
     if (a.score == null) {
@@ -697,10 +734,59 @@ dialog.sheet::backdrop { background: rgb(8 10 20 / 0.55); }
       body = `<p class="small muted">Itinerario ilustrativo. Las paradas que no permite vuestra edad se omiten y se explica el motivo. ${state.mapMode === "mapbox" && getToken() ? "Ruta a pie calculada con Mapbox Directions." : "En el mapa, líneas rectas entre paradas (con token de Mapbox: ruta a pie real)."}</p>`
         + it.days.map(d => `<div class="day"><h3>${esc(d.title)}</h3>${d.stops.length ? d.stops.map(s => `<div class="stop${s.skip ? " skip" : ""}"><span class="n">${s.i + 1}</span><span><strong>${esc(s.name)}</strong>${s.e ? `<br><span class="small muted">${esc(s.e.per.find(x => x.r.s === s.e.s).r.why)}</span>` : `<br><span class="small muted">Espacio público: sin requisito de edad.</span>`}${s.skip ? `<br><span class="small bad">Omitido para vuestro grupo.</span>` : ""}</span>${s.e ? pill(s.e.s) : ""}</div>`).join("") : `<p class="small muted">Vuelta a ${esc(ORIGINS[state.origin].name)}.</p>`}</div>`).join("");
     } else if (state.tab === "elegibilidad") body = eligTable(a);
+    else if (state.tab === "vuelos") body = flightsTab(a);
+    else if (state.tab === "dormir") body = staysTab(a);
+    else if (state.tab === "ocio") body = ocioTab(a);
     else if (state.tab === "papeles") body = docsBlock(a) + legalList(a.d.country);
     else body = budgetBar(a) + `<table class="rt"><tr><th>Partida</th><th>Cálculo</th><th>Por persona</th></tr><tr><td>Vuelo</td><td>${esc(ITEMS[a.fl.a].name)}, ida y vuelta</td><td>${eur(a.cost.vuelo)}</td></tr><tr><td>Dormir</td><td>${esc(ITEMS[a.st.s].name)} × ${Math.max(1, state.days - 1)} noches</td><td>${eur(a.cost.aloj)}</td></tr><tr><td>Día a día</td><td>${eur(a.d.daily)} × ${state.days} días</td><td>${eur(a.cost.dia)}</td></tr></table><p class="small muted">Estimaciones ilustrativas para la demo: no son precios actuales. En producción saldrían de APIs de proveedores o de enlaces de afiliación.</p>`;
     $("#results").innerHTML = `<div style="display:grid;gap:12px"><button type="button" class="btn ghost sm" data-back style="justify-self:start">← Todos los viajes</button>${head}
       ${a.score != null ? `<div class="tabs" role="tablist">${tabs.map(([t, l]) => `<button type="button" role="tab" data-tab="${t}" aria-selected="${state.tab === t}">${l}</button>`).join("")}</div>` : ""}<div style="display:grid;gap:12px">${body}</div></div>`;
+  }
+  /* ---------- Vuelos, Dormir y Ocio: todo según la edad de cada persona ---------- */
+  function personChips(e) { return `<div class="row" style="gap:4px">${e.per.map(x => `<span class="mchip ${STATUS[x.r.s][0]}" title="${esc(x.r.why)}">${esc(x.m.name)} ${x.m.age} ${STATUS[x.r.s][1]}</span>`).join("")}</div>`; }
+  function groupWhy(e) { const per = e.per.filter(x => x.r.s === e.s); return [...new Set(per.map(x => x.r.why))].map(esc).join(" "); }
+  function reqList(e) { const seen = new Map(); e.per.forEach(x => x.r.reqs.forEach(q => seen.set(q.t, q.who))); return seen.size ? `<ul class="why">${[...seen].map(([t, who]) => `<li>${esc(t)} <span class="pill who">${who}</span></li>`).join("")}</ul>` : ""; }
+  function srcLine(key) { const x = SRC[key]; return `<p class="small">${x.url ? `<a href="${x.url}" target="_blank" rel="noopener">${esc(x.label)}</a>` : esc(x.label)} <span class="tipo">${esc(x.tag)} · ${esc(x.date)}</span></p>`; }
+  function offer({ title, sub, price, e }) {
+    return `<div class="offer${visible(e.s) ? "" : " dim"}"><div class="row between"><strong>${title}</strong>${e.it ? pill(e.s) : pill("ok", "Libre")}</div>
+      ${sub || price ? `<div class="row between small"><span class="muted">${sub || ""}</span>${price ? `<span class="price">${price}</span>` : ""}</div>` : ""}
+      <p class="small">${groupWhy(e)}</p>${personChips(e)}${reqList(e)}${e.it ? `<span class="tipo">${TIPOS[e.it.tipo]}</span>${srcLine(e.it.src)}` : ""}</div>`;
+  }
+  function splitList(list, render, hiddenLabel) {
+    const ok = list.filter(x => visible(x.e.s)), hid = list.filter(x => !visible(x.e.s));
+    return (ok.length ? ok.map(render).join("") : `<div class="box"><p class="bad">Nada de esta lista acepta a vuestro grupo.</p><p class="small muted">Prueba a añadir a alguien de 18 o a cambiar de destino.</p></div>`)
+      + (hid.length ? `<details class="hid"><summary>${hid.length} ${hiddenLabel}</summary><div style="display:grid;gap:8px;margin-top:8px">${hid.map(render).join("")}</div></details>` : "");
+  }
+  function legalTips(ids, country) {
+    const its = (LEGAL.items || []).filter(i => ids.includes(i.id) && (i.paises.includes("TODOS") || i.paises.includes(country)));
+    return its.length ? `<div class="box"><h3>Dificultades que os pueden surgir</h3>${its.map(i => `<div><strong>${esc(i.titulo)}</strong><p class="small">${esc(i.texto)}</p><p class="small"><a href="${esc(i.url)}" target="_blank" rel="noopener">${esc(i.fuente)}</a> <span class="tipo">${esc(i.etiqueta)}</span></p></div>`).join("")}</div>` : "";
+  }
+  function counts(list) { const ok = list.filter(x => x.e.s === "ok").length, req = list.filter(x => x.e.s === "req").length; return { ok, req, vis: ok + req, no: list.length - ok - req }; }
+  function flightsTab(a) {
+    const n = state.group.length, o = state.origin, k = a.k;
+    const list = a.flights.map(f => ({ e: f.e, title: esc(ITEMS[f.a].name), sub: (f.dir ? "Directo" : "Con escala") + " · " + o + " → " + a.d.iata, price: eur(f.p) + " i/v (estimación)" }));
+    const c = counts(list);
+    const links = [["Google Flights", `https://www.google.com/travel/flights?hl=es&q=${encodeURIComponent(`Vuelos de ${o} a ${a.d.iata}`)}`], ["Skyscanner", `https://www.skyscanner.es/transporte/vuelos/${o.toLowerCase()}/${SKY[k]}/?adultsv2=${n}&rtn=1`]];
+    return `<p class="small"><strong>${c.vis} de ${list.length}</strong> aerolíneas aceptan a vuestro grupo (${c.req} con condiciones). Los precios son <strong>estimaciones ilustrativas</strong>; los reales, en el buscador.</p>
+      <div class="row">${links.map(([l, u]) => `<a class="btn ghost sm" href="${u}" target="_blank" rel="noopener">${l} ↗</a>`).join("")}</div>
+      <p class="small muted">Las aerolíneas no venden billetes a menores: reserva y paga una persona adulta (madre o padre). En el mostrador os pueden pedir el permiso de viaje.</p>
+      ${splitList(list, offer, "aerolíneas ocultas por edad o sin verificar")}${legalTips(["dif-aerolinea-mostrador", "eme-rechazo-embarque"], a.d.country)}`;
+  }
+  function staysTab(a) {
+    const nights = Math.max(1, state.days - 1);
+    const list = a.stays.map(x => ({ e: x.e, title: esc(ITEMS[x.s].name), sub: `${nights} noches en ${esc(a.d.city)}`, price: eur(x.p) + "/noche (estimación)" }));
+    const c = counts(list);
+    return `<p class="small"><strong>${c.vis} de ${list.length}</strong> tipos de alojamiento aceptan a vuestro grupo.${c.vis === 0 ? " Es el cuello de botella habitual (H-03)." : ""}</p>
+      <p class="small muted">Aunque un albergue admita a menores, la reserva suele exigir 18 años: que reserve un adulto, y pedid por escrito que confirmen que aceptan a menores sin adultos.</p>
+      ${splitList(list, offer, "alojamientos ocultos por edad o sin verificar")}${legalTips(["dif-checkin-alojamiento", "dif-pago-tarjeta"], a.d.country)}`;
+  }
+  function ocioTab(a) {
+    const list = ocioEval(a.k).map(x => ({ e: x.e, title: esc(x.name), sub: x.when === "noche" ? "🌙 De noche" : "☀ De día", night: x.when === "noche", price: "" }));
+    const c = counts(list);
+    const nightOk = list.some(x => x.night && visible(x.e.s));
+    return `<p class="small"><strong>${c.ok}</strong> planes que podéis hacer sin más, <strong>${c.req}</strong> con condiciones y <strong>${c.no}</strong> que no son para vuestra edad o dependen del local.</p>
+      ${nightOk ? `<div class="box"><span class="tipo">Consejo GoLiveIt · no es una norma</span><p class="small">De noche, id y volved en grupo, con el móvil cargado y la ubicación compartida con vuestras familias. Llevad el DNI: os lo pueden pedir.</p></div>` : ""}
+      ${splitList(list, offer, "planes que no son para vuestra edad o sin verificar")}${legalTips(["dif-alcohol-ocio", "dif-de-horarios-juschg", "dif-fr-toques-queda", "dif-patinetes-alquiler"], a.d.country)}`;
   }
   function eligTable(a) {
     const rows = [...(a.flights || []).map(f => ({ name: ITEMS[f.a].name + (f.dir ? " · directo" : " · con escala"), e: f.e })), ...(a.stays || []).map(s => ({ name: ITEMS[s.s].name, e: s.e }))];

@@ -25,6 +25,9 @@ El archivo para compartir pesa ~1,1 MB (lleva las cinco fotos dentro) y necesita
 | Pieza | Estado | Comprobado |
 |---|---|---|
 | Reglas de edad de 10 aerolíneas, 7 tipos de alojamiento, transporte y actividades | **Real**, con fuente y fecha (las mismas que la demo GoLiveIt) | Sí, en Chrome con REA |
+| Pestañas Vuelos, Dormir y Ocio de cada destino | **Real**: cada oferta y plan se evalúa persona a persona, con motivo, condiciones y fuente; lo que no vale se oculta en «ocultos por edad» | Sí, con 15 y 17 años |
+| Ocio en espacios públicos (playas, barrios, miradores) | Marcado «Libre»: sin requisito de edad, no es una regla con fuente | Sí |
+| Consejos de seguridad de noche | **Consejo GoLiveIt**, no es una norma | — |
 | Documentos por país (DNI, pasaporte, ETA, permiso de viaje) | **Real**, con fuente. Portugal sigue en duda (Q-20) | Sí |
 | Guía «Papeles y dificultades» | **Real**, sale de `60 Demo/data/legal.json` con fuente por punto | Ver la bitácora |
 | Mapa sin conexión | **Real**: MapLibre GL JS 4.7.1 + fronteras Natural Earth (vía Datamaps) | Sí |
@@ -40,7 +43,7 @@ El archivo para compartir pesa ~1,1 MB (lleva las cinco fotos dentro) y necesita
 ## Recorrido para enseñarlo (3 minutos)
 
 1. Pulsa **Entender y buscar** con el texto de ejemplo (4 amigos de 17, Sevilla, 250 €, 4 días, playa y ambiente joven). Salen 3 viables y 5 pendientes: Roma y Berlín no tienen alojamiento verificado para 17 años sin un adulto.
-2. **Ver viaje** en Lisboa: el mapa vuela a la ciudad y dibuja las paradas. Mira la pestaña **Elegibilidad** (una fila por servicio, una columna por persona) y **Papeles**.
+2. **Ver viaje** en Lisboa: el mapa vuela a la ciudad y dibuja las paradas. Mira **Vuelos**, **Dormir** y **Ocio** (cada oferta con el estado de cada persona) y **Papeles**.
 3. Cambia a **Calles (OSM)** si lo abres desde el archivo.
 4. Escribe «Somos tres amigas de 15 años, salimos de Madrid con 400 euros, 5 días, museos e historia». Queda 1 viable y 2 no permitidos.
 5. Pon a una de ellas **18 años**: pasan a 5 viables. Es el argumento de H-03 (el alojamiento es el cuello de botella).
