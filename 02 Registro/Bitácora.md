@@ -78,3 +78,7 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 ## 2026-11-08. Planner: portada
 
 - **Hecho:** portada antes de la bienvenida, para que la demo no empiece de golpe: titular «Tu primer viaje con amigos, sin líos», mosaico con las cinco fotos de los destinos (movimiento lento, que se para con «menos movimiento»), pegatina «Hecho para 16 y 17 años» y botones «Empezar» y «Ver un ejemplo». Aviso de que es una demo. HTML para compartir: `70 Prototipo/GoLiveIt-Planner-para-compartir.html`.
+
+## 2026-11-08. Planner: calles por defecto, presupuesto claro y vocabulario
+
+- **Hecho:** el mapa abre con calles (OpenFreeMap) en español y sin nombres de ciudad que se pisen con los nuestros. Si no se pueden cargar (en el visor de Claude), cambia solo al mapa simple con un aviso. **Presupuesto orientativo por persona** en «Todo» y en «Presupuesto»: total, si entra o cuánto os pasáis, y desglose de vuelo, noches y gastos al día, con «Cambiar». Usa lo elegido o, si no, lo más barato que os deja la edad. Total del grupo aparte. La cesta y la reserva separan «por persona» y «los N». Vocabulario: tipos de norma en lenguaje claro («Norma de la aerolínea o empresa», «Lo dice la ley») y fuentes con nombre legible («Fuente oficial», «Revisado por el equipo»).
