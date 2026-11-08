@@ -74,3 +74,7 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 
 - **Hecho:** en Vuelos, el bloque «Qué aerolínea os deja volar con vuestra edad» pone en una escala de 10 a 19 años desde qué edad vuela solo cada aerolínea (verde), con condiciones (ámbar) o no sin un adulto (rojo), con las edades del grupo encima, su norma y su fuente. Cada aerolínea que os deja volar tiene «Vuelos reales ↗», que abre Kayak filtrado por esa aerolínea, ruta, fechas y viajeros. Comprobado el 08/11/2026. Cabecera con la foto del destino y un avión que cruza el arco (se para con «Pausar animaciones» o si el sistema pide menos movimiento).
 - **Aprendido:** en la búsqueda real de SVQ → LIS con Vueling (25-28/03/2027) solo salieron vuelos con escala en Barcelona y algunos con «transbordo por cuenta propia». Para menores de 12 a 15 Vueling no permite escalas, así que los datos de ejemplo del prototipo (Vueling directo) no se pueden dar por buenos. Se añade un aviso sobre los transbordos por cuenta propia.
+
+## 2026-11-08. Planner: portada
+
+- **Hecho:** portada antes de la bienvenida, para que la demo no empiece de golpe: titular «Tu primer viaje con amigos, sin líos», mosaico con las cinco fotos de los destinos (movimiento lento, que se para con «menos movimiento»), pegatina «Hecho para 16 y 17 años» y botones «Empezar» y «Ver un ejemplo». Aviso de que es una demo. HTML para compartir: `70 Prototipo/GoLiveIt-Planner-para-compartir.html`.
