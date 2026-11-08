@@ -51,3 +51,7 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 
 - **Hecho:** al entrar, el Planner pide primero **cuántos sois, la edad de cada uno y qué buscáis** (gustos, salida, días y presupuesto), con la opción de contarlo en texto libre. Intérprete con **IA (Claude)** en el enlace publicado, con validador; las reglas de edad siguen decidiendo. Banco de 12 frases: las reglas aciertan 62 de 84 datos (74 %) y fallan en personas (3/12) y edades (3/12). Ver [[Motor de IA personalizado]].
 - **Pendiente:** ejecutar el banco con la IA en el enlace y anotar el resultado; probarlo con frases reales de la encuesta.
+
+## 2026-11-08. Planner: tono joven y oferta completa por edad
+
+- **Hecho:** textos reescritos para jóvenes de 16-17 («¿Quiénes os vais y qué os mola?», «Sí podéis / Sí, pero ojo / No con vuestra edad», «Papeleo y posibles líos»), sin cambiar reglas ni fuentes. Fuera el itinerario: cada destino abre en **Todo**, con la oferta recomendada para la edad del grupo (vuelos, sitios para dormir y planes), y el mapa marca los sitios sin rutas.

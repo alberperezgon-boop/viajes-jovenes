@@ -146,6 +146,10 @@ input[type="range"] { width: 100%; accent-color: var(--pop); }
 .etable { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
 .etable th, .etable td { text-align: left; padding: 6px 4px; border-bottom: 1px solid var(--line); vertical-align: top; }
 .etable th { font-weight: 700; color: var(--muted); font-size: 0.7rem; }
+.mini { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: 8px; align-items: start; border-top: 1px solid var(--line); padding-top: 8px; font-size: 0.86rem; }
+.mini-ic { font-size: 1rem; line-height: 1.3; }
+.mini-r { display: grid; justify-items: end; gap: 3px; }
+.mk.stopmk .lbl { font-size: 0.64rem; }
 .offer { border: 1.5px solid var(--line); border-radius: 12px; padding: 10px; display: grid; gap: 5px; }
 .offer.dim { opacity: 0.72; border-style: dashed; }
 .price { font-family: var(--f-mono); font-weight: 800; color: var(--ink); white-space: nowrap; }
@@ -202,35 +206,35 @@ dialog.sheet::backdrop { background: rgb(8 10 20 / 0.55); }
 <div class="app">
   <header class="top">
     <span class="wm">Go<span>Live</span>It</span>
-    <span class="tag">Planner · prototipo de investigación</span>
+    <span class="tag">Planea el viaje con tu grupo · prototipo</span>
     <span class="spacer"></span>
     <span class="seg" role="group" aria-label="Tipo de mapa" id="mapmode"></span>
     <button type="button" class="tbtn" id="pause" aria-pressed="false">Pausar animaciones</button>
-    <button type="button" class="tbtn" data-open="how">Cómo funciona</button>
-    <button type="button" class="tbtn solid" data-open="papeles">Papeles y dificultades</button>
+    <button type="button" class="tbtn" data-open="how">¿Cómo va esto?</button>
+    <button type="button" class="tbtn solid" data-open="papeles">Papeleo y posibles líos</button>
   </header>
 
   <aside class="panel left" aria-label="Tu viaje">
-    <button type="button" class="btn sm block" id="wz-open">Cambiar quiénes vais y qué buscáis</button>
+    <button type="button" class="btn sm block" id="wz-open">Cambiar quién va y qué buscáis</button>
     <div class="field">
-      <label for="nl">Cuéntanos el viaje</label>
+      <label for="nl">Cuéntanos vuestro plan</label>
       <textarea class="input" id="nl" spellcheck="false">Somos cuatro amigos de 17 años, salimos de Sevilla, tenemos 250 € por persona y queremos pasar cuatro días en una ciudad europea con ambiente joven, playa y actividades.</textarea>
-      <div class="row"><button type="button" class="btn pop sm" id="parse">Entender con reglas</button><button type="button" class="btn sm" id="parse-ai" hidden>Entender con IA (Claude)</button><button type="button" class="btn ghost sm" id="ai-stop" hidden>Parar</button></div>
-      <p class="small muted" id="ai-note">Intérprete de reglas (sin IA). La IA solo se activa en el enlace publicado de Claude.</p>
+      <div class="row"><button type="button" class="btn pop sm" id="parse">Buscar</button><button type="button" class="btn sm" id="parse-ai" hidden>Buscar con IA ✨</button><button type="button" class="btn ghost sm" id="ai-stop" hidden>Parar</button></div>
+      <p class="small muted" id="ai-note">Ahora mismo leo tu mensaje sin IA. La IA solo funciona en el enlace de Claude.</p>
       <p class="small" id="ai-status" aria-live="polite"></p>
       <div class="row" id="slots" aria-live="polite"></div>
     </div>
     <div class="grid2">
-      <div class="field"><label for="origin">Salida</label><select class="input" id="origin"></select></div>
+      <div class="field"><label for="origin">Salís de</label><select class="input" id="origin"></select></div>
       <div class="field"><label for="days">Días</label><input class="input" id="days" type="number" min="2" max="7" value="4"></div>
     </div>
     <div class="field">
-      <label for="budget">Presupuesto por persona: <span id="budget-v"></span></label>
+      <label for="budget">Pasta por persona: <span id="budget-v"></span></label>
       <input id="budget" type="range" min="100" max="700" step="10" value="250">
     </div>
     <div class="box">
-      <div class="row between"><h3>Grupo</h3><button type="button" class="btn ghost sm" id="add-member">Añadir</button></div>
-      <p class="small muted">Cada persona marca sus gustos: así se ven los conflictos y cómo se resuelven.</p>
+      <div class="row between"><h3>Quién se apunta</h3><button type="button" class="btn ghost sm" id="add-member">+ Añadir</button></div>
+      <p class="small muted">Cada uno marca lo que le mola: así se ve dónde chocáis y cómo lo cuadramos.</p>
       <div id="members"></div>
     </div>
   </aside>
@@ -396,7 +400,7 @@ dialog.sheet::backdrop { background: rgb(8 10 20 / 0.55); }
      ========================================================= */
   const ORIGINS = { SVQ: { name: "Sevilla", c: [-5.984, 37.389], k: 1 }, MAD: { name: "Madrid", c: [-3.704, 40.417], k: 0.9 }, AGP: { name: "Málaga", c: [-4.421, 36.721], k: 1 }, BCN: { name: "Barcelona", c: [2.169, 41.387], k: 0.88 }, VLC: { name: "Valencia", c: [-0.376, 39.47], k: 1 } };
   const NATIONAL_AIR = { PT: "tap", FR: "airfrance", IT: "ita", DE: "lufthansa", UK: "ba" };
-  const LIKES = [["playa", "Playa"], ["joven", "Ambiente joven"], ["noche", "Noche"], ["museos", "Museos"], ["historia", "Historia"], ["comida", "Comida"], ["compras", "Compras"]];
+  const LIKES = [["playa", "Playa"], ["joven", "Ambiente joven"], ["noche", "Fiesta y noche"], ["museos", "Museos y arte"], ["historia", "Historia"], ["comida", "Comer bien"], ["compras", "Compras"]];
   const DEST = {
     lisboa: { city: "Lisboa", country: "PT", cname: "Portugal", iata: "LIS", c: [-9.139, 38.722], verified: true, tags: ["playa", "joven", "noche", "comida", "historia"], daily: 28,
       flights: [["ryanair", 39, true], ["vueling", 59, true], ["easyjet", 64, false], ["tap", 89, true], ["iberia", 118, false]], stays: [["pousadas", 24], ["airbnb", 45], ["accor", 72]],
@@ -419,15 +423,15 @@ dialog.sheet::backdrop { background: rgb(8 10 20 / 0.55); }
   };
   /* OCIO por destino: [regla, o null si es espacio público sin requisito de edad; nombre; momento] */
   const OCIO = {
-    lisboa: [["museus_pt", "Jerónimos y museos", "dia"], [null, "Playa de Carcavelos", "dia"], [null, "Alfama y miradores", "dia"], ["discos_lis", "Discotecas del Bairro Alto", "noche"], ["alc_pt", "Alcohol", "noche"]],
-    paris: [["louvre", "Museo del Louvre", "dia"], [null, "Montmartre", "dia"], [null, "Le Marais", "dia"], ["bares_fr", "Bares sin un adulto", "noche"], ["discos_par", "Discotecas", "noche"], ["alc_fr", "Alcohol", "noche"]],
-    roma: [["colosseo", "Coliseo y Foro", "dia"], [null, "Trastevere", "dia"], [null, "Fontana di Trevi", "dia"], ["discos_rom", "Discotecas", "noche"], ["alc_it", "Alcohol", "noche"]],
-    berlin: [["smb", "Isla de los Museos", "dia"], [null, "East Side Gallery", "dia"], [null, "Puerta de Brandeburgo", "dia"], ["fiestas_ber", "Fiestas en Kreuzberg", "noche"], ["cerveza_de", "Cerveza y vino", "noche"], ["clubes_de", "Clubes nocturnos (Nachtbars)", "noche"]],
-    londres: [["bm", "British Museum", "dia"], [null, "Westminster", "dia"], [null, "Paseo por South Bank", "dia"], ["discos_lon", "Discotecas de Camden", "noche"], ["alc_uk", "Alcohol", "noche"]]
+    lisboa: [["museus_pt", "Jerónimos y museos", "dia", [-9.207, 38.698]], [null, "Playa de Carcavelos", "dia", [-9.336, 38.679]], [null, "Alfama y miradores", "dia", [-9.134, 38.714]], ["discos_lis", "Discotecas del Bairro Alto", "noche", [-9.145, 38.713]], ["alc_pt", "Alcohol", "noche"]],
+    paris: [["louvre", "Museo del Louvre", "dia", [2.338, 48.861]], [null, "Montmartre", "dia", [2.343, 48.887]], [null, "Le Marais", "dia", [2.362, 48.859]], [null, "Torre Eiffel por fuera (Campo de Marte)", "dia", [2.295, 48.858]], ["bares_fr", "Bares sin un adulto", "noche"], ["discos_par", "Discotecas", "noche"], ["alc_fr", "Alcohol", "noche"]],
+    roma: [["colosseo", "Coliseo y Foro", "dia", [12.492, 41.89]], [null, "Trastevere", "dia", [12.47, 41.89]], [null, "Fontana di Trevi", "dia", [12.483, 41.901]], [null, "Plaza de la Rotonda (Panteón por fuera)", "dia", [12.477, 41.899]], ["discos_rom", "Discotecas", "noche"], ["alc_it", "Alcohol", "noche"]],
+    berlin: [["smb", "Isla de los Museos", "dia", [13.402, 52.517]], [null, "East Side Gallery", "dia", [13.44, 52.505]], [null, "Puerta de Brandeburgo", "dia", [13.378, 52.516]], ["fiestas_ber", "Fiestas en Kreuzberg", "noche", [13.438, 52.497]], ["cerveza_de", "Cerveza y vino", "noche"], ["clubes_de", "Clubes nocturnos (Nachtbars)", "noche"]],
+    londres: [["bm", "British Museum", "dia", [-0.127, 51.519]], [null, "Westminster", "dia", [-0.125, 51.5]], [null, "Paseo por South Bank", "dia", [-0.099, 51.508]], ["discos_lon", "Discotecas de Camden", "noche", [-0.146, 51.541]], ["alc_uk", "Alcohol", "noche"]]
   };
   const SKY = { lisboa: "lis", paris: "pari", roma: "rome", berlin: "ber", londres: "lond" };
-  const PUBLIC = () => ({ s: "ok", per: state.group.map(m => ({ m, r: R("ok", "Espacio público: sin requisito de edad.") })), it: null });
-  function ocioEval(k) { return (OCIO[k] || []).map(([key, name, when]) => ({ key, name, when, e: key ? evalItem(key) : PUBLIC() })).sort((x, y) => RANK[x.e.s] - RANK[y.e.s]); }
+  const PUBLIC = () => ({ s: "ok", per: state.group.map(m => ({ m, r: R("ok", "Sitio público: sin límite de edad.") })), it: null });
+  function ocioEval(k) { return (OCIO[k] || []).map(([key, name, when, c]) => ({ key, name, when, c, e: key ? evalItem(key) : PUBLIC() })).sort((x, y) => RANK[x.e.s] - RANK[y.e.s]); }
   const PHOTO = {
     lisboa: { pos: "62% 40%", by: "Paul Arps", lic: "CC BY 2.0", page: "https://commons.wikimedia.org/wiki/File:Tram_28_in_Alfama_(Lissabon_2016)_(26029557541).jpg" },
     paris: { pos: "33% 36%", by: "Adriano Aurelio Araujo", lic: "CC BY 2.0", page: "https://commons.wikimedia.org/wiki/File:Brilho_Eiffell-_Eiffel_shine_-_Flickr_-_Adriano_Aurelio_Araujo.jpg" },
@@ -442,7 +446,7 @@ dialog.sheet::backdrop { background: rgb(8 10 20 / 0.55); }
   const me = { id: 1, name: "Tú", age: 17, nat: "ES", likes: new Set(["playa", "joven"]), me: true };
   const state = {
     group: [me, { id: 2, name: "Lucía", age: 17, nat: "ES", likes: new Set(["playa", "joven"]) }, { id: 3, name: "Hugo", age: 17, nat: "ES", likes: new Set(["noche", "joven"]) }, { id: 4, name: "Sara", age: 17, nat: "ES", likes: new Set(["museos", "playa"]) }],
-    origin: "SVQ", days: 4, budget: 250, sel: null, tab: "itinerario", compare: new Set(), mapMode: "offline", nextId: 5, parsed: null, legalFilter: { quien: "todos", cuando: "todos", dest: "auto" }
+    origin: "SVQ", days: 4, budget: 250, sel: null, tab: "todo", compare: new Set(), mapMode: "offline", nextId: 5, parsed: null, legalFilter: { quien: "todos", cuando: "todos", dest: "auto" }
   };
 
   /* =========================================================
@@ -452,10 +456,10 @@ dialog.sheet::backdrop { background: rgb(8 10 20 / 0.55); }
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const EUR = new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
   const eur = n => EUR.format(Math.round(n));
-  const STATUS = { ok: ["s-ok", "✓", "Verificado"], req: ["s-req", "!", "Con requisitos"], no: ["s-no", "×", "No permitido"], unk: ["s-unk", "?", "Pendiente de verificar"] };
+  const STATUS = { ok: ["s-ok", "✓", "Verificado", "Sí podéis"], req: ["s-req", "!", "Con requisitos", "Sí, pero ojo"], no: ["s-no", "×", "No permitido", "No con vuestra edad"], unk: ["s-unk", "?", "Pendiente de verificar", "Sin confirmar"] };
   const RANK = { ok: 0, req: 1, unk: 2, no: 3 };
   const COLOR = s => getComputedStyle(document.documentElement).getPropertyValue({ ok: "--ok", req: "--req", no: "--no", unk: "--unk" }[s]).trim();
-  const pill = (s, label) => `<span class="status ${STATUS[s][0]}"><span class="g" aria-hidden="true">${STATUS[s][1]}</span>${label || STATUS[s][2]}</span>`;
+  const pill = (s, label) => `<span class="status ${STATUS[s][0]}"><span class="g" aria-hidden="true">${STATUS[s][1]}</span>${label || STATUS[s][3]}</span>`;
   const worst = list => list.reduce((a, x) => RANK[x] > RANK[a] ? x : a, "ok");
   const stamp = src => `<span class="stamp t-${src.tag.replace(/ /g, "-")}">${esc(src.tag)} · ${esc(src.date.replace(/\//g, "·"))}</span>`;
   const reduced = () => window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -503,13 +507,13 @@ dialog.sheet::backdrop { background: rgb(8 10 20 / 0.55); }
     const reqs = fl.e.s === "req" || st.e.s === "req" || docs.some(x => x.docs.some(y => y.s === "req"));
     const why = [];
     const liked = [...new Set(sat.flatMap(x => x.hits))].map(t => LIKES.find(l => l[0] === t)[1].toLowerCase());
-    if (liked.length) why.push(`Encaja con ${liked.join(", ")}; satisfacción media ${Math.round(avg * 100)} % y la persona menos contenta ${Math.round(min * 100)} %.`);
+    if (liked.length) why.push(`Os pega por: ${liked.join(", ")}. El grupo está contento al ${Math.round(avg * 100)} % y quien menos, al ${Math.round(min * 100)} %.`);
     const lost = sat.filter(x => x.lostNight).map(x => x.m.name);
-    if (lost.length) why.push(`La noche no cuenta para ${lost.join(", ")}: con su edad no hay planes nocturnos permitidos aquí.`);
-    why.push(total <= state.budget ? `Cabe en el presupuesto: unos ${eur(total)} de ${eur(state.budget)} por persona (estimación).` : `Se pasa unos ${eur(total - state.budget)} del presupuesto (estimación).`);
+    if (lost.length) why.push(`La fiesta no cuenta para ${lost.join(", ")}: con su edad aquí no hay planes de noche permitidos.`);
+    why.push(total <= state.budget ? `Entra en vuestra pasta: unos ${eur(total)} de ${eur(state.budget)} por cabeza (orientativo).` : `Os pasáis unos ${eur(total - state.budget)} de lo que tenéis (orientativo).`);
     why.push(`Dormir: ${ITEMS[st.s].name} (${STATUS[st.e.s][2].toLowerCase()}). Volar: ${ITEMS[fl.a].name}${fl.dir ? " directo" : " con escala"}.`);
     const warn = [];
-    if (d.country === "PT") warn.push("Portugal: llevad una carta de los padres; gov.pt la pide aunque la ley no (Q-20).");
+    if (d.country === "PT") warn.push("Portugal: llevad una carta de vuestros padres; la web oficial la pide aunque la ley no (Q-20).");
     if (d.country === "UK") warn.push("Reino Unido: pasaporte y ETA para todos.");
     if (docUnk) warn.push("Hay documentos sin verificar para alguna nacionalidad.");
     return { k, d, status: reqs ? "req" : "ok", score, sat, pref, avg, min, fit, cost, total, fl, st, flights, stays, docs, why, warn };
@@ -524,18 +528,7 @@ dialog.sheet::backdrop { background: rgb(8 10 20 / 0.55); }
   /* =========================================================
      ITINERARIO (ilustrativo): reparte las paradas y filtra por edad
      ========================================================= */
-  function itinerary(a) {
-    const stops = a.d.stops.map(([name, item, c], i) => {
-      const e = item ? evalItem(item) : null;
-      return { i, name, item, c, e, skip: e && !visible(e.s) };
-    });
-    const days = []; const per = Math.max(1, Math.ceil((stops.length - 2) / Math.max(1, state.days - 1)));
-    days.push({ title: "Día 1 · Llegada", stops: stops.slice(0, 2) });
-    let rest = stops.slice(2), d = 2;
-    while (rest.length && d <= state.days) { days.push({ title: `Día ${d}`, stops: rest.slice(0, per) }); rest = rest.slice(per); d++; }
-    if (d <= state.days) days.push({ title: `Día ${state.days} · Vuelta`, stops: [] });
-    return { days, stops };
-  }
+
 
   /* =========================================================
      INTÉRPRETE DE LA CONSULTA (demostración con reglas; en producción: LLM + validador)
@@ -655,18 +648,18 @@ Reglas de extracción:
   const wz = { n: 4, ages: [17, 17, 17, 17], origin: "SVQ", days: 4, budget: 250, likes: new Set(["playa", "joven"]), msg: "" };
   function renderWelcome() {
     const ageSel = i => `<div class="field"><label for="wz-age-${i}">${i === 0 ? "Tú" : "Persona " + (i + 1)}</label><select class="input" id="wz-age-${i}" data-wzage="${i}">${[15, 16, 17, 18, 19].map(a => `<option value="${a}"${a === wz.ages[i] ? " selected" : ""}>${a} años</option>`).join("")}</select></div>`;
-    $("#wz").innerHTML = `<div class="sheet-head"><div><p class="eyebrow">Antes de empezar</p><h2 id="wz-title">¿Quiénes viajáis y qué buscáis?</h2><p class="small muted">La edad de cada persona decide qué vuelos, alojamientos y planes de ocio os salen. No pedimos nombres.</p></div></div>
-      <div class="wz-step"><span class="label"><span class="wz-num">1</span>¿Cuántos sois y qué edad tenéis?</span>
+    $("#wz").innerHTML = `<div class="sheet-head"><div><p class="eyebrow">Lo primero</p><h2 id="wz-title">¿Quiénes os vais y qué os mola?</h2><p class="small muted">Vuestra edad decide qué vuelos, sitios para dormir y planes os salen. No te pedimos nombres.</p></div></div>
+      <div class="wz-step"><span class="label"><span class="wz-num">1</span>¿Cuántos sois y cuántos años tenéis?</span>
         <div class="row"><label class="small" for="wz-n">Personas</label><select class="input" id="wz-n" style="width:auto">${[1, 2, 3, 4, 5, 6].map(n => `<option value="${n}"${n === wz.n ? " selected" : ""}>${n}</option>`).join("")}</select></div>
         <div class="wz-ages">${Array.from({ length: wz.n }, (_, i) => ageSel(i)).join("")}</div></div>
-      <div class="wz-step"><span class="label"><span class="wz-num">2</span>¿Qué tenéis pensado buscar?</span>
+      <div class="wz-step"><span class="label"><span class="wz-num">2</span>¿Qué buscáis en el viaje?</span>
         <div class="row" role="group" aria-label="Qué buscáis">${LIKES.map(([k, l]) => `<button type="button" class="chip" data-wzlike="${k}" aria-pressed="${wz.likes.has(k)}">${l}</button>`).join("")}</div>
         <div class="grid2"><div class="field"><label for="wz-origin">Salís de</label><select class="input" id="wz-origin">${Object.entries(ORIGINS).map(([k, o]) => `<option value="${k}"${k === wz.origin ? " selected" : ""}>${o.name}</option>`).join("")}</select></div>
           <div class="field"><label for="wz-days">Días</label><input class="input" id="wz-days" type="number" min="2" max="7" value="${wz.days}"></div></div>
-        <div class="field"><label for="wz-budget">Presupuesto por persona: <span id="wz-budget-v">${eur(wz.budget)}</span></label><input id="wz-budget" type="range" min="100" max="700" step="10" value="${wz.budget}"></div></div>
-      <details class="hid"${wz.msg ? " open" : ""}><summary>O cuéntalo con tus palabras y lo rellenamos</summary><div class="field" style="margin-top:8px"><textarea class="input" id="wz-msg" placeholder="Ej.: somos tres, dos de 17 y uno de 18, desde Madrid, 400 € y 5 días, fiesta y museos">${esc(wz.msg)}</textarea>
-        <div class="row"><button type="button" class="btn ghost sm" id="wz-rules">Rellenar con reglas</button>${sampleFn ? '<button type="button" class="btn sm" id="wz-ai">Rellenar con IA (Claude)</button>' : ""}<span class="small" id="wz-status" aria-live="polite"></span></div></div></details>
-      <div class="row between"><button type="button" class="btn ghost" id="wz-example">Ver el ejemplo</button><button type="button" class="btn pop" id="wz-go">Ver viajes para nosotros</button></div>`;
+        <div class="field"><label for="wz-budget">Pasta por persona: <span id="wz-budget-v">${eur(wz.budget)}</span></label><input id="wz-budget" type="range" min="100" max="700" step="10" value="${wz.budget}"></div></div>
+      <details class="hid"${wz.msg ? " open" : ""}><summary>¿Te es más fácil escribirlo? Cuéntanoslo y lo rellenamos</summary><div class="field" style="margin-top:8px"><textarea class="input" id="wz-msg" placeholder="Ej.: somos tres, dos de 17 y uno de 18, desde Madrid, 400 € y 5 días, fiesta y museos">${esc(wz.msg)}</textarea>
+        <div class="row"><button type="button" class="btn ghost sm" id="wz-rules">Rellenar</button>${sampleFn ? '<button type="button" class="btn sm" id="wz-ai">Rellenar con IA ✨</button>' : ""}<span class="small" id="wz-status" aria-live="polite"></span></div></div></details>
+      <div class="row between"><button type="button" class="btn ghost" id="wz-example">Ver un ejemplo</button><button type="button" class="btn pop" id="wz-go">¡Vamos! Ver qué nos sale</button></div>`;
   }
   function openWelcome() { renderWelcome(); const d = $("#welcome"); if (!d.open) d.showModal(); }
   function wzFrom(p) { // rellena el formulario con lo que entendió el intérprete (sin aplicarlo aún)
@@ -749,7 +742,7 @@ Reglas de extracción:
     const res = rankAll(); const o = ORIGINS[state.origin].c;
     const arcs = res.viable.map(a => ({ type: "Feature", properties: { k: a.k, sel: state.sel === a.k ? 1 : 0 }, geometry: { type: "LineString", coordinates: gc(o, a.d.c) } }));
     let route = [];
-    if (state.sel && DEST[state.sel].verified) { const a = analyse(state.sel); if (a.score != null) route = itinerary(a).stops.filter(s => !s.skip).map(s => s.c); }
+    /* sin rutas: solo se marcan los sitios */
     return { res, arcs: { type: "FeatureCollection", features: arcs }, route: { type: "FeatureCollection", features: route.length > 1 ? [{ type: "Feature", properties: {}, geometry: { type: "LineString", coordinates: route } }] : [] } };
   }
   function addOverlays() {
@@ -779,9 +772,8 @@ Reglas de extracción:
     stopMarkers.forEach(m => m.remove()); stopMarkers = [];
     if (state.sel && DEST[state.sel].verified) {
       const a = analyse(state.sel);
-      if (a.score != null) itinerary(a).stops.forEach((s, i) => { const el = document.createElement("div"); el.className = "mk stopmk" + (s.skip ? " skip" : ""); el.innerHTML = `<span class="dot" title="${esc(s.name)}">${i + 1}</span>`; stopMarkers.push(new maplibregl.Marker({ element: el }).setLngLat(s.c).addTo(map)); });
+      if (a.score != null) places(a).forEach(p => { const el = document.createElement("div"); el.className = "mk stopmk" + (p.ok ? "" : " skip"); el.innerHTML = `<span class="dot" title="${esc(p.name)}: ${p.why}">${p.ok ? p.icon : "×"}</span><span class="lbl">${esc(p.name)}</span>`; stopMarkers.push(new maplibregl.Marker({ element: el }).setLngLat(p.c).addTo(map)); });
     }
-    if (state.mapMode === "mapbox" && state.sel) mapboxWalk();
   }
   function mkEl(label, cls, inner, size, st, k) {
     const b = document.createElement(k ? "button" : "div"); if (k) { b.type = "button"; b.dataset.dest = k; b.setAttribute("aria-label", `${label}: ${st ? STATUS[st][2] : ""}`); }
@@ -797,17 +789,11 @@ Reglas de extracción:
   }
   function flyTo(k) { if (!map) return; const d = DEST[k];
     if (state.mapMode === "offline" && d.verified && !flyTo.hinted) { flyTo.hinted = true; toast("El mapa sin conexión solo tiene fronteras. Para ver calles, pulsa «Calles (OSM)» arriba (funciona al abrir el HTML en tu navegador)."); } const a = d.verified ? analyse(k) : null;
-    if (a && a.score != null) { const pts = itinerary(a).stops.map(s => s.c); const b = pts.reduce((bb, p) => [[Math.min(bb[0][0], p[0]), Math.min(bb[0][1], p[1])], [Math.max(bb[1][0], p[0]), Math.max(bb[1][1], p[1])]], [pts[0], pts[0]]); map.fitBounds(b, { padding: { top: 70, bottom: 150, left: 60, right: 70 }, maxZoom: 13.5, speed: reduced() ? 4 : 1.1 }); }
+    if (a && a.score != null) { const pts = places(a).map(p => p.c); const b = pts.reduce((bb, p) => [[Math.min(bb[0][0], p[0]), Math.min(bb[0][1], p[1])], [Math.max(bb[1][0], p[0]), Math.max(bb[1][1], p[1])]], [pts[0], pts[0]]); map.fitBounds(b, { padding: { top: 70, bottom: 150, left: 60, right: 70 }, maxZoom: 13.5, speed: reduced() ? 4 : 1.1 }); }
     else map.flyTo({ center: d.c, zoom: d.verified ? 11 : 6, speed: reduced() ? 4 : 1.1, essential: true }); }
   const EU_BOUNDS = [[-10.5, 35.5], [15.5, 54.5]];
   function flyEurope() { if (map) map.fitBounds(EU_BOUNDS, { padding: { top: 50, bottom: 90, left: 40, right: 60 }, speed: reduced() ? 4 : 1.2 }); }
-  async function mapboxWalk() { // Solo con token de Mapbox: ruta a pie real entre paradas (no probado sin token)
-    const t = getToken(); if (!t || !state.sel) return; const a = analyse(state.sel); if (a.score == null) return;
-    const pts = itinerary(a).stops.filter(s => !s.skip).slice(1).map(s => s.c.join(",")).join(";");
-    try { const r = await fetch(`https://api.mapbox.com/directions/v5/mapbox/walking/${pts}?geometries=geojson&overview=full&access_token=${encodeURIComponent(t)}`); const j = await r.json();
-      if (j.routes && j.routes[0] && map.getSource("route")) { map.getSource("route").setData({ type: "FeatureCollection", features: [{ type: "Feature", properties: {}, geometry: j.routes[0].geometry }] }); toast(`Ruta a pie con Mapbox: ${(j.routes[0].distance / 1000).toFixed(1)} km.`); } }
-    catch (e) { toast("No se pudo calcular la ruta a pie con Mapbox."); }
-  }
+
 
   /* =========================================================
      RENDER: panel izquierdo
@@ -821,7 +807,7 @@ Reglas de extracción:
         ${m.me ? "<span></span>" : `<button type="button" class="icon-btn" data-remove="${m.id}" aria-label="Quitar a ${esc(m.name)}">×</button>`}</div>
       <div class="likes" role="group" aria-label="Gustos de ${esc(m.name)}">${LIKES.map(([k, l]) => `<button type="button" class="chip" data-like="${m.id}:${k}" aria-pressed="${m.likes.has(k)}">${l}</button>`).join("")}</div></div>`).join("");
     const p = state.parsed;
-    $("#slots").innerHTML = p ? [p.via === "ia" ? "Entendido por la IA" : "Entendido por reglas", p.people && `${p.people} personas`, p.ages && p.ages.length ? `${[...new Set(p.ages)].join(", ")} años` : p.age && `${p.age} años`, p.origin && ORIGINS[p.origin].name, p.budget && `${eur(p.budget)}/persona`, p.days && `${p.days} días`, p.likes.length && p.likes.map(l => LIKES.find(x => x[0] === l)[1].toLowerCase()).join(", "), p.dest && `destino: ${DEST[p.dest].city}`].filter(Boolean).map(t => `<span class="slot">${esc(t)}</span>`).join("") + p.miss.map(t => `<span class="slot miss">sin entender: ${esc(t)}</span>`).join("") + (p.dudas || []).map(t => `<span class="slot miss">duda: ${esc(t)}</span>`).join("") + (p.diff ? `<span class="slot">las reglas habrían entendido: ${esc(p.diff)}</span>` : "") : "";
+    $("#slots").innerHTML = p ? [p.via === "ia" ? "Entendido por la IA" : p.via === "formulario" ? "Datos de la bienvenida" : "Entendido sin IA", p.people && `${p.people} personas`, p.ages && p.ages.length ? `${[...new Set(p.ages)].join(", ")} años` : p.age && `${p.age} años`, p.origin && ORIGINS[p.origin].name, p.budget && `${eur(p.budget)}/persona`, p.days && `${p.days} días`, p.likes.length && p.likes.map(l => LIKES.find(x => x[0] === l)[1].toLowerCase()).join(", "), p.dest && `destino: ${DEST[p.dest].city}`].filter(Boolean).map(t => `<span class="slot">${esc(t)}</span>`).join("") + p.miss.map(t => `<span class="slot miss">sin entender: ${esc(t)}</span>`).join("") + (p.dudas || []).map(t => `<span class="slot miss">duda: ${esc(t)}</span>`).join("") + (p.diff ? `<span class="slot">las reglas habrían entendido: ${esc(p.diff)}</span>` : "") : "";
   }
 
   /* =========================================================
@@ -842,12 +828,12 @@ Reglas de extracción:
     const { viable, rest } = rankAll();
     const unk = rest.filter(r => r.status === "unk").length, no = rest.filter(r => r.status === "no").length;
     $("#results").innerHTML = `<div class="section" style="display:grid;gap:12px">
-      <div><p class="eyebrow">Viajes posibles</p><h2>Para ${pl(state.group.length, "persona", "personas")} de ${[...new Set(state.group.map(m => m.age))].join(" y ")} años desde ${ORIGINS[state.origin].name}</h2></div>
-      <div class="summary"><div><b>${viable.length}</b><span>viables</span></div><div><b>${no}</b><span>no permitidos</span></div><div><b>${unk}</b><span>pendientes</span></div></div>
+      <div><p class="eyebrow">Vuestros viajes</p><h2>Para ${pl(state.group.length, "persona", "personas")} de ${[...new Set(state.group.map(m => m.age))].join(" y ")} años desde ${ORIGINS[state.origin].name}</h2></div>
+      <div class="summary"><div><b>${viable.length}</b><span>os salen</span></div><div><b>${no}</b><span>no os dejan</span></div><div><b>${unk}</b><span>sin confirmar</span></div></div>
       <p class="sr" role="status">${viable.length} destinos viables, ${no} no permitidos y ${unk} pendientes de verificar.</p>
-      ${state.compare.size >= 2 ? `<button type="button" class="btn pop block" data-open="compare">Comparar ${state.compare.size} destinos</button>` : `<p class="small muted">Marca «Comparar» en dos o tres destinos para verlos lado a lado.</p>`}
+      ${state.compare.size >= 2 ? `<button type="button" class="btn pop block" data-open="compare">Comparar ${state.compare.size} destinos</button>` : `<p class="small muted">Marca «Comparar» en 2 o 3 destinos y los ves cara a cara.</p>`}
       <div class="cards">${viable.map((a, i) => `<article class="card${animate ? " rise" : ""}" style="--i:${i}">
-        <div ${phStyle(a.k)}><span class="mono">${a.d.iata}</span><span class="score" title="Encaje de 0 a 100">${a.score}</span></div>
+        <div ${phStyle(a.k)}><span class="mono">${a.d.iata}</span><span class="score" title="Cuánto os pega, de 0 a 100">${a.score}</span></div>
         <div class="card-body">
           <div class="card-title"><strong>${esc(a.d.city)}</strong>${pill(a.status)}</div>
           <div class="row" style="gap:4px">${memberChips(a)}</div>
@@ -855,30 +841,48 @@ Reglas de extracción:
           ${budgetBar(a)}
           <ul class="why">${a.why.map(w => `<li>${esc(w)}</li>`).join("")}</ul>
           ${a.warn.map(w => `<p class="warn">${esc(w)}</p>`).join("")}
-          <div class="row"><button type="button" class="btn sm" data-dest="${a.k}">Ver viaje</button><label class="small row" style="gap:4px"><input type="checkbox" data-cmp="${a.k}"${state.compare.has(a.k) ? " checked" : ""}> Comparar</label></div>
-        </div></article>`).join("") || `<div class="box"><p class="bad">Con vuestra edad y presupuesto no hay ningún viaje viable verificado.</p><p class="small muted">Prueba a añadir a alguien de 18 o a cambiar de salida.</p></div>`}</div>
-      ${rest.length ? `<h3>Descartados o pendientes</h3><div class="cards">${rest.map(a => `<article class="card"><div class="card-body"><div class="card-title"><strong>${esc(a.d.city)}</strong>${pill(a.status)}</div><p class="small">${esc(a.reason)}</p><div class="row"><button type="button" class="btn ghost sm" data-dest="${a.k}">Por qué</button></div></div></article>`).join("")}</div>` : ""}
+          <div class="row"><button type="button" class="btn sm" data-dest="${a.k}">Ver lo que os sale</button><label class="small row" style="gap:4px"><input type="checkbox" data-cmp="${a.k}"${state.compare.has(a.k) ? " checked" : ""}> Comparar</label></div>
+        </div></article>`).join("") || `<div class="box"><p class="bad">Con vuestra edad y vuestra pasta no sale ningún viaje confirmado.</p><p class="small muted">Probad a meter a alguien de 18 o a cambiar de salida.</p></div>`}</div>
+      ${rest.length ? `<h3>Fuera de juego (por ahora)</h3><div class="cards">${rest.map(a => `<article class="card"><div class="card-body"><div class="card-title"><strong>${esc(a.d.city)}</strong>${pill(a.status)}</div><p class="small">${esc(a.reason)}</p><div class="row"><button type="button" class="btn ghost sm" data-dest="${a.k}">¿Por qué no?</button></div></div></article>`).join("")}</div>` : ""}
     </div>`;
   }
   function renderDetail() {
-    const a = analyse(state.sel); const k = state.sel; const tabs = [["itinerario", "Plan"], ["vuelos", "Vuelos"], ["dormir", "Dormir"], ["ocio", "Ocio"], ["papeles", "Papeles"], ["presupuesto", "Coste"]];
-    const head = `<div class="detail-head${PHOTOS[k] ? " ph-" + k : ""}" style="${PHOTOS[k] ? `background-position:${PHOTO[k].pos}` : ""}">${PHOTO[k] ? `<a class="credit" href="${PHOTO[k].page}" target="_blank" rel="noopener">Foto: ${esc(PHOTO[k].by)} · ${esc(PHOTO[k].lic)}</a>` : ""}<div class="cap"><h2>${esc(a.d.city)}</h2>${a.score != null ? `<span class="status s-ok" style="background:var(--surface);color:var(--ink)">Encaje ${a.score}/100</span>` : pill(a.status)}</div></div>`;
+    const a = analyse(state.sel); const k = state.sel; const tabs = [["todo", "Todo"], ["vuelos", "Vuelos"], ["dormir", "Dormir"], ["ocio", "Planes"], ["papeles", "Papeleo"], ["presupuesto", "Pasta"]];
+    const head = `<div class="detail-head${PHOTOS[k] ? " ph-" + k : ""}" style="${PHOTOS[k] ? `background-position:${PHOTO[k].pos}` : ""}">${PHOTO[k] ? `<a class="credit" href="${PHOTO[k].page}" target="_blank" rel="noopener">Foto: ${esc(PHOTO[k].by)} · ${esc(PHOTO[k].lic)}</a>` : ""}<div class="cap"><h2>${esc(a.d.city)}</h2>${a.score != null ? `<span class="status s-ok" style="background:var(--surface);color:var(--ink)">Os pega ${a.score}/100</span>` : pill(a.status)}</div></div>`;
     let body = "";
     if (a.score == null) {
       body = `<div class="box"><p class="${a.status === "no" ? "bad" : "warn"}">${esc(a.reason)}</p>${a.d.verified ? "" : `<p class="small muted">Regla del motor: lo que no está verificado queda como «pendiente», nunca como «permitido». Para activarlo hay que verificar normas de entrada de ${esc(a.d.cname)}, alojamientos y actividades.</p>`}</div>`
         + (a.stays ? eligTable(a) : "") + legalList(a.d.country);
-    } else if (state.tab === "itinerario") {
-      const it = itinerary(a);
-      body = `<p class="small muted">Itinerario ilustrativo. Las paradas que no permite vuestra edad se omiten y se explica el motivo. ${state.mapMode === "mapbox" && getToken() ? "Ruta a pie calculada con Mapbox Directions." : "En el mapa, líneas rectas entre paradas (con token de Mapbox: ruta a pie real)."}</p>`
-        + it.days.map(d => `<div class="day"><h3>${esc(d.title)}</h3>${d.stops.length ? d.stops.map(s => `<div class="stop${s.skip ? " skip" : ""}"><span class="n">${s.i + 1}</span><span><strong>${esc(s.name)}</strong>${s.e ? `<br><span class="small muted">${esc(s.e.per.find(x => x.r.s === s.e.s).r.why)}</span>` : `<br><span class="small muted">Espacio público: sin requisito de edad.</span>`}${s.skip ? `<br><span class="small bad">Omitido para vuestro grupo.</span>` : ""}</span>${s.e ? pill(s.e.s) : ""}</div>`).join("") : `<p class="small muted">Vuelta a ${esc(ORIGINS[state.origin].name)}.</p>`}</div>`).join("");
+    } else if (state.tab === "todo") {
+      body = allTab(a);
     } else if (state.tab === "elegibilidad") body = eligTable(a);
     else if (state.tab === "vuelos") body = flightsTab(a);
     else if (state.tab === "dormir") body = staysTab(a);
     else if (state.tab === "ocio") body = ocioTab(a);
     else if (state.tab === "papeles") body = docsBlock(a) + legalList(a.d.country);
     else body = budgetBar(a) + `<table class="rt"><tr><th>Partida</th><th>Cálculo</th><th>Por persona</th></tr><tr><td>Vuelo</td><td>${esc(ITEMS[a.fl.a].name)}, ida y vuelta</td><td>${eur(a.cost.vuelo)}</td></tr><tr><td>Dormir</td><td>${esc(ITEMS[a.st.s].name)} × ${Math.max(1, state.days - 1)} noches</td><td>${eur(a.cost.aloj)}</td></tr><tr><td>Día a día</td><td>${eur(a.d.daily)} × ${state.days} días</td><td>${eur(a.cost.dia)}</td></tr></table><p class="small muted">Estimaciones ilustrativas para la demo: no son precios actuales. En producción saldrían de APIs de proveedores o de enlaces de afiliación.</p>`;
-    $("#results").innerHTML = `<div style="display:grid;gap:12px"><button type="button" class="btn ghost sm" data-back style="justify-self:start">← Todos los viajes</button>${head}
+    $("#results").innerHTML = `<div style="display:grid;gap:12px"><button type="button" class="btn ghost sm" data-back style="justify-self:start">← Volver a los destinos</button>${head}
       ${a.score != null ? `<div class="tabs" role="tablist">${tabs.map(([t, l]) => `<button type="button" role="tab" data-tab="${t}" aria-selected="${state.tab === t}">${l}</button>`).join("")}</div>` : ""}<div style="display:grid;gap:12px">${body}</div></div>`;
+  }
+  /* ---------- Sitios en el mapa y pestaña «Todo»: la oferta recomendada para vuestra edad ---------- */
+  function places(a) {
+    const out = [];
+    const stayStop = a.d.stops.find(x => x[1] && ITEMS[x[1]] && ITEMS[x[1]].cat === "dormir");
+    if (stayStop && a.st && a.st.s === stayStop[1]) out.push({ name: stayStop[0], c: stayStop[2], icon: "🛏", ok: true, why: esc(ITEMS[a.st.s].name) });
+    ocioEval(a.k).forEach(x => { if (x.c) out.push({ name: x.name, c: x.c, icon: x.when === "noche" ? "☾" : "☀", ok: visible(x.e.s), why: groupWhy(x.e) }); });
+    return out;
+  }
+  function allTab(a) {
+    const oc = ocioEval(a.k);
+    const fl = a.flights.filter(x => visible(x.e.s)), st = a.stays.filter(x => visible(x.e.s)), ok = oc.filter(x => visible(x.e.s));
+    const hidden = (a.flights.length - fl.length) + (a.stays.length - st.length) + (oc.length - ok.length);
+    const row = (icon, title, sub, badge, price) => `<div class="mini"><span class="mini-ic" aria-hidden="true">${icon}</span><span><strong>${title}</strong><br><span class="small muted">${sub}</span></span><span class="mini-r">${price ? `<span class="price">${price}</span>` : ""}${badge}</span></div>`;
+    const block = (title, tab, rows) => `<div class="box"><div class="row between"><h3>${title}</h3><button type="button" class="btn ghost sm" data-tab="${tab}">Ver detalle</button></div>${rows || '<p class="small bad">Con vuestra edad aquí no sale nada.</p>'}</div>`;
+    return `<p class="small">Todo lo que <strong>os sale con vuestra edad</strong> en ${esc(a.d.city)}. Los precios son orientativos; lo que no os dejan hacer no aparece aquí.</p>
+      ${block("✈ Vuelos que podéis coger", "vuelos", fl.map(x => row("✈", esc(ITEMS[x.a].name), (x.dir ? "Directo" : "Con escala") + " · " + state.origin + " → " + a.d.iata, pill(x.e.s), eur(x.p))).join(""))}
+      ${block("🛏 Dónde podéis dormir", "dormir", st.map(x => row("🛏", esc(ITEMS[x.s].name), groupWhy(x.e), pill(x.e.s), eur(x.p) + "/noche")).join(""))}
+      ${block("🎟 Planes para vuestra edad", "ocio", ok.map(x => row(x.when === "noche" ? "☾" : "☀", esc(x.name), groupWhy(x.e), x.key ? pill(x.e.s) : pill("ok", "Libre"))).join(""))}
+      ${hidden ? `<p class="small muted">${hidden} cosas no os salen por la edad o están sin confirmar: las tienes en cada pestaña, con el motivo.</p>` : ""}`;
   }
   /* ---------- Vuelos, Dormir y Ocio: todo según la edad de cada persona ---------- */
   function personChips(e) { return `<div class="row" style="gap:4px">${e.per.map(x => `<span class="mchip ${STATUS[x.r.s][0]}" title="${esc(x.r.why)}">${esc(x.m.name)} ${x.m.age} ${STATUS[x.r.s][1]}</span>`).join("")}</div>`; }
@@ -892,12 +896,12 @@ Reglas de extracción:
   }
   function splitList(list, render, hiddenLabel) {
     const ok = list.filter(x => visible(x.e.s)), hid = list.filter(x => !visible(x.e.s));
-    return (ok.length ? ok.map(render).join("") : `<div class="box"><p class="bad">Nada de esta lista acepta a vuestro grupo.</p><p class="small muted">Prueba a añadir a alguien de 18 o a cambiar de destino.</p></div>`)
+    return (ok.length ? ok.map(render).join("") : `<div class="box"><p class="bad">Aquí no os sale nada con vuestra edad.</p><p class="small muted">Probad a meter a alguien de 18 o a cambiar de destino.</p></div>`)
       + (hid.length ? `<details class="hid"><summary>${hid.length} ${hiddenLabel}</summary><div style="display:grid;gap:8px;margin-top:8px">${hid.map(render).join("")}</div></details>` : "");
   }
   function legalTips(ids, country) {
     const its = (LEGAL.items || []).filter(i => ids.includes(i.id) && (i.paises.includes("TODOS") || i.paises.includes(country)));
-    return its.length ? `<div class="box"><h3>Dificultades que os pueden surgir</h3>${its.map(i => `<div><strong>${esc(i.titulo)}</strong><p class="small">${esc(i.texto)}</p><p class="small"><a href="${esc(i.url)}" target="_blank" rel="noopener">${esc(i.fuente)}</a> <span class="tipo">${esc(i.etiqueta)}</span></p></div>`).join("")}</div>` : "";
+    return its.length ? `<div class="box"><h3>Posibles líos y cómo evitarlos</h3>${its.map(i => `<div><strong>${esc(i.titulo)}</strong><p class="small">${esc(i.texto)}</p><p class="small"><a href="${esc(i.url)}" target="_blank" rel="noopener">${esc(i.fuente)}</a> <span class="tipo">${esc(i.etiqueta)}</span></p></div>`).join("")}</div>` : "";
   }
   function counts(list) { const ok = list.filter(x => x.e.s === "ok").length, req = list.filter(x => x.e.s === "req").length; return { ok, req, vis: ok + req, no: list.length - ok - req }; }
   function flightsTab(a) {
@@ -905,26 +909,26 @@ Reglas de extracción:
     const list = a.flights.map(f => ({ e: f.e, title: esc(ITEMS[f.a].name), sub: (f.dir ? "Directo" : "Con escala") + " · " + o + " → " + a.d.iata, price: eur(f.p) + " i/v (estimación)" }));
     const c = counts(list);
     const links = [["Google Flights", `https://www.google.com/travel/flights?hl=es&q=${encodeURIComponent(`Vuelos de ${o} a ${a.d.iata}`)}`], ["Skyscanner", `https://www.skyscanner.es/transporte/vuelos/${o.toLowerCase()}/${SKY[k]}/?adultsv2=${n}&rtn=1`]];
-    return `<p class="small"><strong>${c.vis} de ${list.length}</strong> aerolíneas aceptan a vuestro grupo (${c.req} con condiciones). Los precios son <strong>estimaciones ilustrativas</strong>; los reales, en el buscador.</p>
+    return `<p class="small"><strong>${c.vis} de ${list.length}</strong> aerolíneas os dejan volar (${c.req} con condiciones). Los precios son <strong>orientativos</strong>; los reales, en el buscador.</p>
       <div class="row">${links.map(([l, u]) => `<a class="btn ghost sm" href="${u}" target="_blank" rel="noopener">${l} ↗</a>`).join("")}</div>
-      <p class="small muted">Las aerolíneas no venden billetes a menores: reserva y paga una persona adulta (madre o padre). En el mostrador os pueden pedir el permiso de viaje.</p>
-      ${splitList(list, offer, "aerolíneas ocultas por edad o sin verificar")}${legalTips(["dif-aerolinea-mostrador", "eme-rechazo-embarque"], a.d.country)}`;
+      <p class="small muted">Ojo: las aerolíneas no venden billetes a menores, así que reserva y paga tu madre o tu padre. En el mostrador os pueden pedir el permiso de viaje.</p>
+      ${splitList(list, offer, "aerolíneas que no os dejan o sin confirmar")}${legalTips(["dif-aerolinea-mostrador", "eme-rechazo-embarque"], a.d.country)}`;
   }
   function staysTab(a) {
     const nights = Math.max(1, state.days - 1);
     const list = a.stays.map(x => ({ e: x.e, title: esc(ITEMS[x.s].name), sub: `${nights} noches en ${esc(a.d.city)}`, price: eur(x.p) + "/noche (estimación)" }));
     const c = counts(list);
-    return `<p class="small"><strong>${c.vis} de ${list.length}</strong> tipos de alojamiento aceptan a vuestro grupo.${c.vis === 0 ? " Es el cuello de botella habitual (H-03)." : ""}</p>
-      <p class="small muted">Aunque un albergue admita a menores, la reserva suele exigir 18 años: que reserve un adulto, y pedid por escrito que confirmen que aceptan a menores sin adultos.</p>
-      ${splitList(list, offer, "alojamientos ocultos por edad o sin verificar")}${legalTips(["dif-checkin-alojamiento", "dif-pago-tarjeta"], a.d.country)}`;
+    return `<p class="small"><strong>${c.vis} de ${list.length}</strong> sitios para dormir os aceptan.${c.vis === 0 ? " Dormir es lo más difícil con vuestra edad." : ""}</p>
+      <p class="small muted">Aunque un albergue acepte menores, para reservar suelen pedir 18: que reserve un adulto, y pedid por escrito que os confirmen que aceptan menores sin adultos.</p>
+      ${splitList(list, offer, "sitios que no os aceptan o sin confirmar")}${legalTips(["dif-checkin-alojamiento", "dif-pago-tarjeta"], a.d.country)}`;
   }
   function ocioTab(a) {
     const list = ocioEval(a.k).map(x => ({ e: x.e, title: esc(x.name), sub: x.when === "noche" ? "🌙 De noche" : "☀ De día", night: x.when === "noche", price: "" }));
     const c = counts(list);
     const nightOk = list.some(x => x.night && visible(x.e.s));
-    return `<p class="small"><strong>${c.ok}</strong> planes que podéis hacer sin más, <strong>${c.req}</strong> con condiciones y <strong>${c.no}</strong> que no son para vuestra edad o dependen del local.</p>
-      ${nightOk ? `<div class="box"><span class="tipo">Consejo GoLiveIt · no es una norma</span><p class="small">De noche, id y volved en grupo, con el móvil cargado y la ubicación compartida con vuestras familias. Llevad el DNI: os lo pueden pedir.</p></div>` : ""}
-      ${splitList(list, offer, "planes que no son para vuestra edad o sin verificar")}${legalTips(["dif-alcohol-ocio", "dif-de-horarios-juschg", "dif-fr-toques-queda", "dif-patinetes-alquiler"], a.d.country)}`;
+    return `<p class="small"><strong>${c.ok}</strong> planes que podéis hacer sin problema, <strong>${c.req}</strong> con condiciones y <strong>${c.no}</strong> que no son para vuestra edad o dependen del sitio.</p>
+      ${nightOk ? `<div class="box"><span class="tipo">Consejo GoLiveIt · no es una norma</span><p class="small">De noche: id y volved juntos, con el móvil cargado y la ubicación compartida con casa. Llevad el DNI, que os lo pueden pedir.</p></div>` : ""}
+      ${splitList(list, offer, "planes que no son para vuestra edad o sin confirmar")}${legalTips(["dif-alcohol-ocio", "dif-de-horarios-juschg", "dif-fr-toques-queda", "dif-patinetes-alquiler"], a.d.country)}`;
   }
   function eligTable(a) {
     const rows = [...(a.flights || []).map(f => ({ name: ITEMS[f.a].name + (f.dir ? " · directo" : " · con escala"), e: f.e })), ...(a.stays || []).map(s => ({ name: ITEMS[s.s].name, e: s.e }))];
@@ -942,7 +946,7 @@ Reglas de extracción:
   /* =========================================================
      PAPELES Y DIFICULTADES (guía legal)
      ========================================================= */
-  const CUANDO = { antes: "Antes de salir", viaje: "Durante el viaje", incidencia: "Si algo sale mal" };
+  const CUANDO = { antes: "Antes de iros", viaje: "Durante el viaje", incidencia: "Si algo se tuerce" };
   const ESTADO = { obligatorio: "Obligatorio", recomendado: "Recomendado", segun_caso: "Según el caso", pendiente: "Pendiente" };
   function legalItems(country, f = state.legalFilter) {
     const ages = state.group.map(m => m.age);
@@ -959,17 +963,17 @@ Reglas de extracción:
     const f = state.legalFilter; const country = f.dest === "auto" ? (state.sel ? DEST[state.sel].country : null) : (f.dest === "todos" ? null : f.dest);
     const countries = [["auto", "Destino elegido"], ["todos", "Todos"], ["PT", "Portugal"], ["FR", "Francia"], ["IT", "Italia"], ["DE", "Alemania"], ["UK", "Reino Unido"]];
     const items = legalItems(country);
-    $("#sheet-in").innerHTML = `<div class="sheet-head"><div><p class="eyebrow">Viajar con 16 o 17 años sin adultos</p><h2 id="sheet-title">Papeles y dificultades</h2><p class="small muted">Información con fuente, no asesoramiento jurídico. Guía actualizada: ${esc(LEGAL.actualizado || "pendiente")}.</p></div><button type="button" class="icon-btn" data-close aria-label="Cerrar">×</button></div>
+    $("#sheet-in").innerHTML = `<div class="sheet-head"><div><p class="eyebrow">Viajar con 16 o 17 años sin adultos</p><h2 id="sheet-title">Papeleo y posibles líos</h2><p class="small muted">Todo con su fuente oficial. No es asesoría legal. Actualizado: ${esc(LEGAL.actualizado || "pendiente")}.</p></div><button type="button" class="icon-btn" data-close aria-label="Cerrar">×</button></div>
       <div class="grid2"><div class="field"><label for="lf-dest">País</label><select class="input" id="lf-dest">${countries.map(([v, l]) => `<option value="${v}"${f.dest === v ? " selected" : ""}>${l}</option>`).join("")}</select></div>
       <div class="field"><label for="lf-quien">Quién</label><select class="input" id="lf-quien">${[["todos", "Todos"], ["joven", "El joven"], ["familia", "La familia"]].map(([v, l]) => `<option value="${v}"${f.quien === v ? " selected" : ""}>${l}</option>`).join("")}</select></div></div>
       <div class="row">${[["todos", "Todo"], ...Object.entries(CUANDO)].map(([v, l]) => `<button type="button" class="chip" data-lcuando="${v}" aria-pressed="${f.cuando === v}">${l}</button>`).join("")}<span class="small muted">${items.length} puntos para las edades de vuestro grupo</span></div>
-      <div class="row"><button type="button" class="btn pop sm" id="copy-check">Copiar como lista</button><span class="small muted" id="copy-msg" aria-live="polite"></span></div>
+      <div class="row"><button type="button" class="btn pop sm" id="copy-check">Copiar la lista para casa</button><span class="small muted" id="copy-msg" aria-live="polite"></span></div>
       <div style="display:grid;gap:12px">${legalList(country)}</div>`;
     const dlg = $("#sheet"); if (!dlg.open) dlg.showModal();
   }
   function openHow() {
     const tk = getToken();
-    $("#sheet-in").innerHTML = `<div class="sheet-head"><div><p class="eyebrow">Arquitectura de la demo</p><h2 id="sheet-title">Cómo funciona</h2></div><button type="button" class="icon-btn" data-close aria-label="Cerrar">×</button></div>
+    $("#sheet-in").innerHTML = `<div class="sheet-head"><div><p class="eyebrow">Arquitectura de la demo</p><h2 id="sheet-title">¿Cómo va esto?</h2></div><button type="button" class="icon-btn" data-close aria-label="Cerrar">×</button></div>
       <div class="pipeline"><div><b>1 Consulta</b>Texto libre o formulario</div><div><b>2 Intérprete</b>Reglas o IA (Claude) que solo extrae datos, con validador</div><div class="hard"><b>3 Filtro duro</b>Reglas de edad con fuente; lo desconocido queda pendiente</div><div><b>4 Candidatos</b>Destino × vuelo × alojamiento</div><div><b>5 Puntuación</b>Gustos 62 % + presupuesto 38 % (pasarse penaliza el triple)</div><div><b>6 Grupo</b>60 % media + 40 % la persona menos contenta</div><div><b>7 Explicación</b>Por qué sí, por qué no y qué falta</div></div>
       <table class="rt"><tr><th>Qué</th><th>Estado en esta demo</th></tr>
         <tr><td>Reglas de edad de aerolíneas, alojamientos y actividades</td><td>Reales, con fuente y fecha (mías y de la web Ruta16 del equipo)</td></tr>
@@ -979,7 +983,7 @@ Reglas de extracción:
         <tr><td>Ámsterdam, Praga y Dublín</td><td>Sin verificar: aparecen como pendientes, nunca como permitidos</td></tr>
         <tr><td>Mapa sin conexión</td><td>Real: MapLibre + fronteras de Natural Earth, funciona en cualquier sitio</td></tr>
         <tr><td>Mapa con calles</td><td>Real: OpenFreeMap, sin clave; necesita abrir el HTML en el navegador</td></tr>
-        <tr><td>Mapbox (teselas y ruta a pie)</td><td>Implementado; necesita tu token público. Sin token no se ha podido probar</td></tr>
+        <tr><td>Mapbox (teselas)</td><td>Implementado; necesita tu token público. Sin token no se ha podido probar</td></tr>
         <tr><td>Reservas</td><td>No hay reservas ni pagos</td></tr></table>
       <div class="box"><h3>Banco de pruebas: IA frente a reglas</h3><p class="small">12 frases como las que escribiría un grupo, con la respuesta correcta escrita a mano. Se comparan 7 datos por frase: personas, edades, salida, presupuesto, días, gustos y destino.</p>
         <div class="row">${sampleFn ? '<button type="button" class="btn sm" id="bench-run">Probar las 12 frases con la IA</button>' : '<span class="small muted">La IA solo se puede probar en el enlace publicado de Claude.</span>'}<span class="small muted" id="bench-status" aria-live="polite"></span></div>
@@ -1000,7 +1004,7 @@ Reglas de extracción:
   function renderModes() {
     $("#mapmode").innerHTML = MODES.map(([k, l]) => `<button type="button" data-mode="${k}" aria-pressed="${state.mapMode === k}">${l}</button>`).join("");
     $("#attrib").innerHTML = ATTRIB[state.mapMode];
-    $("#maplegend").innerHTML = `<strong class="small">Destinos para vuestro grupo</strong><div class="row" style="gap:4px">${pill("ok", "Viable")}${pill("req", "Con requisitos")}${pill("no", "No permitido")}${pill("unk", "Pendiente")}</div><span class="small muted">El número es el encaje (0-100). Líneas: vuelos posibles desde ${esc(ORIGINS[state.origin].name)}.</span>`;
+    $("#maplegend").innerHTML = `<strong class="small">Qué os sale</strong><div class="row" style="gap:4px">${pill("ok", "Os sale")}${pill("req", "Sí, pero ojo")}${pill("no", "No os dejan")}${pill("unk", "Sin confirmar")}</div><span class="small muted">El número es cuánto os pega (0-100). Líneas: vuelos posibles desde ${esc(ORIGINS[state.origin].name)}.</span>`;
   }
 
   /* =========================================================
@@ -1033,7 +1037,7 @@ Reglas de extracción:
       parseWithAI(wz.msg).then(wzFrom).catch(e => { const st = $("#wz-status"); if (st) st.textContent = aiFail(e); }).finally(() => { const b = $("#wz-ai"); if (b) b.disabled = false; });
     }
     else if (t.id === "bench-run") runBench();
-    else if (d.dest) { state.sel = d.dest; state.tab = "itinerario"; update(true); flyTo(d.dest); }
+    else if (d.dest) { state.sel = d.dest; state.tab = "todo"; update(true); flyTo(d.dest); }
     else if (d.back !== undefined) { state.sel = null; update(true); flyEurope(); }
     else if (d.tab) { state.tab = d.tab; renderResults(); }
     else if (d.like) { const [id, k] = d.like.split(":"); const m = state.group.find(x => String(x.id) === id); if (m) { m.likes.has(k) ? m.likes.delete(k) : m.likes.add(k); update(); } }
@@ -1080,7 +1084,7 @@ Reglas de extracción:
   (async () => {
     try { sampleFn = window.claude && typeof window.claude.use === "function" ? await window.claude.use("sample") : null; } catch (e) { sampleFn = null; }
     if (sampleFn && $("#welcome").open && !$("#wz-ai")) { wz.msg = ($("#wz-msg") || {}).value || wz.msg; renderWelcome(); }
-    if (sampleFn) { $("#parse-ai").hidden = false; $("#ai-note").textContent = "Con IA: la primera vez Claude te pedirá permiso y usa tu propia cuenta. La IA solo extrae datos; las normas de edad las deciden las reglas."; }
+    if (sampleFn) { $("#parse-ai").hidden = false; $("#ai-note").textContent = "Con IA: la primera vez Claude te pide permiso y tira de tu cuenta. La IA solo entiende lo que escribes; lo que podéis hacer con vuestra edad lo deciden las normas oficiales."; }
   })();
   state.parsed = parseQuery($("#nl").value); state.parsed.via = "reglas";
   initMap();
