@@ -301,6 +301,31 @@ body { background: radial-gradient(900px 500px at 100% -10%, color-mix(in srgb, 
 .ticket > div { display: grid; gap: 2px; }
 .ticket.stay { border-color: var(--pop); }
 .ticket-stamp { font-family: var(--f-mono); font-size: 0.66rem; font-weight: 800; letter-spacing: 0.08em; color: var(--no); border: 2px solid var(--no); border-radius: 6px; padding: 3px 6px; transform: rotate(-6deg); white-space: nowrap; }
+.fhero { position: relative; height: 178px; border-radius: 20px; overflow: hidden; background: linear-gradient(120deg, var(--brand), var(--pop)); background-size: cover; color: #fff; }
+.fhero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgb(10 16 60 / 0.55), rgb(10 16 60 / 0.75)); }
+.fhero-arc { position: absolute; left: 0; right: 0; top: 10px; width: 100%; height: 95px; z-index: 1; }
+.arc-dash { animation: dash 2.4s linear infinite; }
+@keyframes dash { to { stroke-dashoffset: -22; } }
+.paused .arc-dash { animation: none; }
+.fhero-codes { position: absolute; z-index: 1; left: 14px; right: 14px; top: 84px; display: flex; justify-content: space-between; font-family: var(--f-mono); font-size: 1.15rem; }
+.fhero-cap { position: absolute; z-index: 1; left: 14px; right: 14px; bottom: 10px; font-size: 0.78rem; font-weight: 700; color: rgb(255 255 255 / 0.92); }
+.acomp { gap: 12px; }
+.alegend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.72rem; color: var(--muted); align-items: center; }
+.alegend span { display: inline-flex; align-items: center; gap: 5px; }
+.alegend .sg { position: static; display: inline-block; width: 16px; height: 8px; border-radius: 4px; }
+.arow { display: grid; gap: 6px; border-top: 1px solid var(--line); padding-top: 10px; }
+.arow-h { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 8px; align-items: center; }
+.ascale { display: grid; gap: 2px; padding: 8px 0 2px; }
+.ascale-bar { position: relative; height: 10px; border-radius: 6px; background: var(--surface-2); }
+.sg { position: absolute; top: 0; bottom: 0; transform-origin: left; animation: grow 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.sg.ok { background: var(--ok); } .sg.req { background: var(--req); } .sg.no { background: var(--no); opacity: 0.55; } .sg.unk { background: repeating-linear-gradient(45deg, var(--unk-soft) 0 6px, var(--surface-2) 6px 12px); }
+.ascale-bar .sg:first-child { border-radius: 6px 0 0 6px; } .ascale-bar .sg.ok { border-radius: 0 6px 6px 0; }
+@keyframes grow { from { transform: scaleX(0); } to { transform: none; } }
+.adot { position: absolute; top: 50%; transform: translate(-50%, -50%); min-width: 24px; height: 24px; padding: 0 4px; border-radius: 12px; display: grid; place-items: center; background: var(--ink); color: var(--surface); border: 2px solid var(--surface); font-family: var(--f-mono); font-size: 0.66rem; font-weight: 800; box-shadow: 0 3px 8px rgb(0 0 0 / 0.25); z-index: 1; }
+.adot.sm { position: static; transform: none; min-width: 20px; height: 18px; font-size: 0.6rem; }
+.ascale-ticks { position: relative; height: 14px; font-size: 0.62rem; color: var(--muted); font-family: var(--f-mono); }
+.ascale-ticks span { position: absolute; transform: translateX(-50%); }
+.cta-bk.sm { padding: 6px 10px; font-size: 0.76rem; }
 #wz-go { font-size: 1rem; padding: 12px 18px; box-shadow: 0 10px 22px -10px var(--pop); }
 </style>
 
@@ -1050,10 +1075,66 @@ Reglas de extracción:
     const st = same && state.cart.st ? a.stays.find(x => x.s === state.cart.st && visible(x.e.s)) : null;
     return { fl, st };
   }
-  function flightCard(a, x) {
+  /* Normativa por aerolínea, en forma de escala de edades (fuente: la de cada regla de ITEMS) */
+  const AIR_POLICY = {
+    vueling: { solo: 16, cond: 12, condTxt: "De 12 a 15: solo vuelos directos y reservando en su web", under: "Menos de 12: con alguien de 16 o más" },
+    ryanair: { solo: 16, under: "Menos de 16: en la misma reserva que un adulto" },
+    easyjet: { solo: 16, under: "Menos de 16: con un acompañante de 16 o más" },
+    wizz: { solo: 14, under: "Menos de 14: con alguien de 16 o más" },
+    iberia: { solo: 12, under: "De 5 a 11: acompañamiento obligatorio", note: "De 12 a 17, acompañamiento opcional" },
+    tap: { solo: 12, note: "De 12 a 17, servicio de acompañamiento opcional" },
+    airfrance: { solo: null, note: "Sin confirmar desde qué edad se vuela solo" },
+    ita: { solo: 15, note: "De 15 a 17 vuelas solo" },
+    lufthansa: { solo: 12, note: "De 12 a 17, acompañamiento opcional" },
+    ba: { solo: 16, cond: 14, condTxt: "Con 14 o 15: formulario de los padres", under: "Menos de 14: no vuelan sin acompañamiento" }
+  };
+  const SCALE = [10, 19]; // edades que se dibujan
+  const pct = age => ((Math.min(SCALE[1], Math.max(SCALE[0], age)) - SCALE[0]) / (SCALE[1] - SCALE[0]) * 100).toFixed(1) + "%";
+  function kayakUrl(a, air) {
+    const n = state.group.length, back = addDays(state.date, Math.max(1, state.days - 1));
+    return `https://www.kayak.es/flights/${state.origin}-${a.d.iata}/${state.date}/${back}${n > 1 ? "/" + n + "adults" : ""}?fs=airlines=${AIR_CODE[air]}&sort=price_a`;
+  }
+  function ageScale(air) {
+    const p = AIR_POLICY[air] || {}; const ages = {}; state.group.forEach(m => { ages[m.age] = (ages[m.age] || 0) + 1; });
+    const seg = p.solo == null ? `<i class="sg unk" style="left:0;width:100%"></i>`
+      : `<i class="sg no" style="left:0;width:${pct(p.cond || p.solo)}"></i>${p.cond ? `<i class="sg req" style="left:${pct(p.cond)};width:calc(${pct(p.solo)} - ${pct(p.cond)})"></i>` : ""}<i class="sg ok" style="left:${pct(p.solo)};width:calc(100% - ${pct(p.solo)})"></i>`;
+    return `<div class="ascale" role="img" aria-label="${p.solo == null ? "Edad mínima sin confirmar" : "Vuela solo desde los " + p.solo + " años"}"><div class="ascale-bar">${seg}${Object.entries(ages).map(([age, c]) => `<span class="adot" style="left:${pct(+age)}" title="${c} de ${age} años">${age}</span>`).join("")}</div>
+      <div class="ascale-ticks"><span style="left:${pct(12)}">12</span><span style="left:${pct(14)}">14</span><span style="left:${pct(16)}">16</span><span style="left:${pct(18)}">18</span></div></div>`;
+  }
+  function airlineCompare(a) {
+    const seen = new Set(), rows = [];
+    a.flights.forEach(x => { if (seen.has(x.a)) return; seen.add(x.a); rows.push(evalItem(x.a)); });
+    rows.sort((x, y) => RANK[x.s] - RANK[y.s] || ((AIR_POLICY[x.key] || {}).solo ?? 99) - ((AIR_POLICY[y.key] || {}).solo ?? 99));
+    return `<div class="box acomp"><div class="row between"><h3>Qué aerolínea os deja volar con vuestra edad</h3><span class="small muted">Normativa de cada una</span></div>
+      <div class="alegend"><span><i class="sg ok"></i>Vuelas solo</span><span><i class="sg req"></i>Con condiciones</span><span><i class="sg no"></i>No sin un adulto</span><span><b class="adot sm">17</b>Vuestras edades</span></div>
+      ${rows.map((e, i) => { const p = AIR_POLICY[e.key] || {}; const ok = visible(e.s); return `<div class="arow rise" style="--i:${i}">
+        <div class="arow-h"><span class="f-logo" aria-hidden="true">${AIR_CODE[e.key]}</span><strong>${esc(e.it.name)}</strong>${pill(e.s)}</div>
+        ${ageScale(e.key)}
+        <p class="small">${[p.solo != null ? "Solo desde los " + p.solo + " años." : "", p.condTxt, p.under, p.note].filter(Boolean).map(esc).join(" · ")}</p>
+        <div class="row between"><span class="small">${SRC[e.it.src].url ? `<a href="${SRC[e.it.src].url}" target="_blank" rel="noopener">Normas de ${esc(e.it.name)}</a>` : ""} <span class="tipo">${esc(SRC[e.it.src].tag)} · ${esc(SRC[e.it.src].date)}</span></span>${ok ? `<a class="cta-bk sm" href="${kayakUrl(a, e.key)}" target="_blank" rel="noopener">Vuelos reales ↗</a>` : ""}</div></div>`; }).join("")}</div>`;
+  }
+  function realFlightsBox(a) {
+    const airs = [...new Set(a.flights.filter(x => visible(x.e.s)).map(x => x.a))];
+    if (!airs.length) return "";
+    return `<div class="bk-box"><div class="bk-head"><span class="bk-badge">Vuelos reales</span><strong>Buscar en Kayak, solo aerolíneas que os dejan</strong></div>
+      <p class="small">${state.origin} → ${a.d.iata} · ${dmy(state.date)} – ${dmy(addDays(state.date, Math.max(1, state.days - 1)))} · ${pl(state.group.length, "viajero", "viajeros")} · de más barato a más caro</p>
+      <div class="bk-links">${airs.map(k => `<a class="cta-bk" href="${kayakUrl(a, k)}" target="_blank" rel="noopener">${AIR_CODE[k]} · ${esc(ITEMS[k].name)} ↗</a>`).join("")}</div>
+      <p class="small muted">El buscador cuenta a todos como adultos; al reservar, poned las edades reales. Mirad si el vuelo es directo: con escala, algunas aerolíneas ponen condiciones a menores. <strong>Consejo GoLiveIt:</strong> evitad los «transbordos por cuenta propia» (billetes separados): si perdéis la conexión, nadie os recoloca.</p></div>`;
+  }
+  function flightHero(a) {
+    const anim = !reduced() && !document.documentElement.classList.contains("paused");
+    const back = addDays(state.date, Math.max(1, state.days - 1));
+    return `<div class="fhero${PHOTOS[a.k] ? " ph-" + a.k : ""}" style="${PHOTOS[a.k] ? "background-position:" + PHOTO[a.k].pos : ""}">
+      <svg viewBox="0 0 320 90" class="fhero-arc" aria-hidden="true"><path id="arc-${a.k}" d="M30,72 Q160,-6 290,72" fill="none" stroke="rgb(255 255 255 / 0.85)" stroke-width="2" stroke-dasharray="5 6" class="arc-dash"/>
+        <circle cx="30" cy="72" r="5" fill="#fff"/><circle cx="290" cy="72" r="5" fill="var(--pop)"/>
+        <g><text font-size="16" text-anchor="middle" dominant-baseline="central" fill="#fff">✈</text>${anim ? `<animateMotion dur="6s" repeatCount="indefinite" rotate="auto" keyPoints="0;1" keyTimes="0;1" calcMode="spline" keySplines="0.45 0 0.55 1"><mpath href="#arc-${a.k}"/></animateMotion>` : `<animateMotion dur="0.01s" fill="freeze" keyPoints="0.55;0.55" keyTimes="0;1" rotate="auto"><mpath href="#arc-${a.k}"/></animateMotion>`}</g></svg>
+      <div class="fhero-codes"><b>${state.origin}</b><b>${a.d.iata}</b></div>
+      <div class="fhero-cap">${esc(ORIGINS[state.origin].name)} → ${esc(a.d.city)} · ${dmy(state.date)} – ${dmy(back)} · ${pl(state.group.length, "viajero", "viajeros")} de ${[...new Set(state.group.map(m => m.age))].join(" y ")} años</div></div>`;
+  }
+  function flightCard(a, x, i = 0) {
     const sc = schedule(a, x), n = state.group.length, chosen = cartSel(a).fl === x, ok = visible(x.e.s);
     const leg = (from, to, t) => `<div class="f-row"><div class="leg"><b>${hm(t)}</b><span>${from}</span></div><div class="line"><span>${durTxt(sc.dur)}</span><i></i><span class="${x.dir ? "dir" : "esc"}">${x.dir ? "Directo" : "1 escala"}</span></div><div class="leg r"><b>${hm(plus(t, sc.dur))}</b><span>${to}</span></div></div>`;
-    return `<article class="fcard${ok ? "" : " dim"}${chosen ? " chosen" : ""}">
+    return `<article class="fcard rise${ok ? "" : " dim"}${chosen ? " chosen" : ""}" style="--i:${i}">
       <div class="f-air"><span class="f-logo" aria-hidden="true">${AIR_CODE[x.a] || "✈"}</span><strong>${esc(ITEMS[x.a].name)}</strong></div>
       <div class="f-legs">${leg(state.origin, a.d.iata, sc.out)}${leg(a.d.iata, state.origin, sc.back)}</div>
       <div class="f-price"><span class="price big">${eur(x.p)}</span><span class="small muted">por persona, ida y vuelta</span><span class="small">${eur(x.p * n)} los ${n}</span>
@@ -1069,13 +1150,15 @@ Reglas de extracción:
     const cheap = ok.slice().sort(by.precio)[0], fast = ok.slice().sort(by.rapido)[0];
     const ages = [...new Set(state.group.map(m => m.age))].join(" y ");
     const tab = (k, l, v) => `<button type="button" class="sorttab" data-flsort="${k}" aria-pressed="${state.flSort === k}"><span>${l}</span><b>${v || "—"}</b></button>`;
-    return `<div class="searchbar"><b>${o} → ${a.d.iata}</b><span>${dmy(state.date)} – ${dmy(back)}</span><span>${pl(n, "viajero", "viajeros")} de ${ages} años</span></div>
+    return `${flightHero(a)}${airlineCompare(a)}
+      <h3 style="margin-top:4px">Vuelos de ejemplo para reservar (simulado)</h3>
       <div class="sorttabs">${tab("precio", "Más barato", cheap && eur(cheap.p))}${tab("rapido", "Más rápido", fast && durTxt(schedule(a, fast).dur))}</div>
       <label class="small row" style="gap:6px"><input type="checkbox" id="fl-direct"${state.flDirect ? " checked" : ""}> Solo vuelos directos</label>
       <p class="small"><strong>${ok.length} de ${list.length}</strong> aerolíneas os dejan volar con vuestra edad. <span class="muted">Horarios y precios de ejemplo; la reserva es simulada.</span></p>
-      ${ok.length ? ok.map(x => flightCard(a, x)).join("") : `<div class="box"><p class="bad">Ninguna aerolínea de la lista os deja volar así.</p><p class="small muted">Quitad «Solo directos» o probad a meter a alguien de 18.</p></div>`}
+      ${ok.length ? ok.map((x, i) => flightCard(a, x, i)).join("") : `<div class="box"><p class="bad">Ninguna aerolínea de la lista os deja volar así.</p><p class="small muted">Quitad «Solo directos» o probad a meter a alguien de 18.</p></div>`}
       ${hid.length ? `<details class="hid"><summary>${hid.length} aerolíneas que no os dejan o sin confirmar</summary><div style="display:grid;gap:8px;margin-top:8px">${hid.map(x => flightCard(a, x)).join("")}</div></details>` : ""}
-      <p class="small muted">¿Precios de verdad? <a href="https://www.google.com/travel/flights?hl=es&q=${encodeURIComponent(`Vuelos de ${o} a ${a.d.iata}`)}" target="_blank" rel="noopener">Google Flights ↗</a> · <a href="https://www.skyscanner.es/transporte/vuelos/${o.toLowerCase()}/${SKY[a.k]}/?adultsv2=${n}&rtn=1" target="_blank" rel="noopener">Skyscanner ↗</a></p>
+      ${realFlightsBox(a)}
+      <p class="small muted">También: <a href="https://www.google.com/travel/flights?hl=es&q=${encodeURIComponent(`Vuelos de ${o} a ${a.d.iata}`)}" target="_blank" rel="noopener">Google Flights ↗</a> · <a href="https://www.skyscanner.es/transporte/vuelos/${o.toLowerCase()}/${SKY[a.k]}/?adultsv2=${n}&rtn=1" target="_blank" rel="noopener">Skyscanner ↗</a></p>
       ${legalTips(["dif-aerolinea-mostrador", "eme-rechazo-embarque"], a.d.country)}`;
   }
   function staysTab(a) {

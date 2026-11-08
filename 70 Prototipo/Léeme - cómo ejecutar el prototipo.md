@@ -38,6 +38,8 @@ El archivo para compartir pesa ~1,1 MB (lleva las cinco fotos dentro) y necesita
 | Precios, gasto diario y noches | **Estimación ilustrativa**. No son precios actuales | — |
 | Ubicación de albergues | **Aproximada** («zona aproximada») | — |
 | Ámsterdam, Praga, Dublín | **Sin verificar**: salen como «pendiente», nunca como viables | Sí |
+| Enlaces a Kayak por aerolínea | **Real**: abre Kayak con ruta, fechas, número de viajeros, la aerolínea filtrada y orden por precio. Solo para aerolíneas que dejan volar a vuestra edad | Sí, el 08/11/2026 (SVQ → LIS, Vueling: solo salieron vuelos con escala y algunos con transbordo por cuenta propia) |
+| Comparador de normativa por aerolínea | **Real**: escala de edades de cada aerolínea (desde qué edad se vuela solo y con qué condiciones), con las edades del grupo encima y la fuente | Sí |
 | Enlaces a Booking.com (albergues, apartamentos, hoteles) | **Real**: abre la búsqueda de Booking con destino, fechas, número de personas, tipo de alojamiento y orden por precio. Solo sale el tipo que acepta vuestra edad según nuestras reglas. Las ofertas no se copian a la página (no hay API abierta ni se permite el scraping) | Sí, el 08/11/2026 (filtros 203 = albergues, 201 = apartamentos, 204 = hoteles) |
 | Reservas | **Simuladas**: comparador de vuelos (horarios de ejemplo, orden por precio o duración, solo directos), elegir alojamiento, cesta, revisión de condiciones por edad y envío a la familia para que apruebe y pague. No se reserva ni se cobra nada y no se piden datos de pago ni de documentos | Sí, recorrido completo en Chrome |
 

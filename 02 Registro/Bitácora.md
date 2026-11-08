@@ -69,3 +69,8 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 ## 2026-11-08. Planner: reserva simulada (D-13)
 
 - **Hecho:** la pestaña Vuelos es un comparador: ida y vuelta con horarios de ejemplo, duración, directo o con escala, precio por persona y total, orden por más barato o más rápido y filtro de solo directos. Dormir permite «Elegir este». La cesta suma el total y lleva a la reserva simulada: resumen tipo tarjeta de embarque, condiciones por edad que hay que confirmar (permiso de viaje, carta de Portugal…), «¿Quién paga?» y envío a la familia. Después se simula la aprobación y salen las tarjetas de embarque y el bono marcados «NO VÁLIDO PARA VIAJAR». Recorrido completo probado en Chrome.
+
+## 2026-11-08. Planner: normativa de cada aerolínea y vuelos reales
+
+- **Hecho:** en Vuelos, el bloque «Qué aerolínea os deja volar con vuestra edad» pone en una escala de 10 a 19 años desde qué edad vuela solo cada aerolínea (verde), con condiciones (ámbar) o no sin un adulto (rojo), con las edades del grupo encima, su norma y su fuente. Cada aerolínea que os deja volar tiene «Vuelos reales ↗», que abre Kayak filtrado por esa aerolínea, ruta, fechas y viajeros. Comprobado el 08/11/2026. Cabecera con la foto del destino y un avión que cruza el arco (se para con «Pausar animaciones» o si el sistema pide menos movimiento).
+- **Aprendido:** en la búsqueda real de SVQ → LIS con Vueling (25-28/03/2027) solo salieron vuelos con escala en Barcelona y algunos con «transbordo por cuenta propia». Para menores de 12 a 15 Vueling no permite escalas, así que los datos de ejemplo del prototipo (Vueling directo) no se pueden dar por buenos. Se añade un aviso sobre los transbordos por cuenta propia.
