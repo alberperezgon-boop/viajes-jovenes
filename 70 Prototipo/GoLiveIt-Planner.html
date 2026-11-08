@@ -184,6 +184,10 @@ dialog.sheet { border: 0; padding: 0; width: min(760px, calc(100% - 32px)); max-
 dialog.sheet::backdrop { background: rgb(8 10 20 / 0.55); }
 .sheet-in { padding: 20px; display: grid; gap: 14px; }
 .sheet-head { display: flex; justify-content: space-between; gap: 10px; align-items: start; }
+.wz-ages { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.wz-step { display: grid; gap: 8px; }
+.wz-step > .label { font-size: 0.95rem; }
+.wz-num { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--brand); color: #fff; font-family: var(--f-mono); font-size: 0.72rem; font-weight: 800; margin-right: 6px; }
 .pipeline { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
 .pipeline div { background: var(--surface-2); border-radius: 12px; padding: 8px; font-size: 0.74rem; display: grid; gap: 3px; align-content: start; }
 .pipeline div b { font-size: 0.78rem; }
@@ -207,10 +211,13 @@ dialog.sheet::backdrop { background: rgb(8 10 20 / 0.55); }
   </header>
 
   <aside class="panel left" aria-label="Tu viaje">
+    <button type="button" class="btn sm block" id="wz-open">Cambiar quiénes vais y qué buscáis</button>
     <div class="field">
       <label for="nl">Cuéntanos el viaje</label>
       <textarea class="input" id="nl" spellcheck="false">Somos cuatro amigos de 17 años, salimos de Sevilla, tenemos 250 € por persona y queremos pasar cuatro días en una ciudad europea con ambiente joven, playa y actividades.</textarea>
-      <div class="row"><button type="button" class="btn pop sm" id="parse">Entender y buscar</button><span class="small muted">Intérprete de demostración: reglas, no IA.</span></div>
+      <div class="row"><button type="button" class="btn pop sm" id="parse">Entender con reglas</button><button type="button" class="btn sm" id="parse-ai" hidden>Entender con IA (Claude)</button><button type="button" class="btn ghost sm" id="ai-stop" hidden>Parar</button></div>
+      <p class="small muted" id="ai-note">Intérprete de reglas (sin IA). La IA solo se activa en el enlace publicado de Claude.</p>
+      <p class="small" id="ai-status" aria-live="polite"></p>
       <div class="row" id="slots" aria-live="polite"></div>
     </div>
     <div class="grid2">
@@ -242,6 +249,7 @@ dialog.sheet::backdrop { background: rgb(8 10 20 / 0.55); }
 </div>
 
 <dialog class="sheet" id="sheet" aria-labelledby="sheet-title"><div class="sheet-in" id="sheet-in"></div></dialog>
+<dialog class="sheet" id="welcome" aria-labelledby="wz-title"><form class="sheet-in" id="wz" method="dialog"></form></dialog>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
@@ -549,14 +557,144 @@ dialog.sheet::backdrop { background: rgb(8 10 20 / 0.55); }
     if (dest) out.dest = dest[0];
     return out;
   }
+  /* ---------- Intérprete con IA (Claude, capacidad «sample» del artefacto) ----------
+     La IA SOLO extrae datos a un formato cerrado. Un validador limpia la respuesta.
+     Lo que se puede hacer con cada edad lo siguen decidiendo las reglas con fuente. */
+  let sampleFn = null, aiCtl = null;
+  const LIKE_KEYS = LIKES.map(l => l[0]);
+  const AI_SCHEMA = `{"people": entero de 1 a 6 o null, "ages": array con una edad por persona (incluida quien escribe) o null si no se dice, "origin": uno de ${JSON.stringify(Object.keys(ORIGINS))} o null, "budget": euros por persona (entero) o null, "days": número de días o null, "likes": subconjunto de ${JSON.stringify(LIKE_KEYS)}, "dest": uno de ${JSON.stringify(Object.keys(DEST))} o null, "dudas": array de frases cortas en español sobre lo que no queda claro}`;
+  const AI_RULES = `Eres un extractor de datos para un planificador de viajes de jóvenes. NO des consejos, NO digas qué está permitido por edad y NO inventes datos: si algo no se dice, pon null.
+Reglas de extracción:
+- people cuenta a quien escribe. «Mi prima y yo» = 2. «Dos amigos y yo» = 3. «Somos 4» = 4.
+- ages: si se da una sola edad para todo el grupo, repítela para cada persona. Si cada uno tiene una edad distinta, pon cada una.
+- days: «X noches» = X+1 días; «una semana» = 7; «un finde» = 2; «un finde largo» = 3. Si no se dice, null.
+- likes: playa = playa, mar o costa; joven = ambiente joven o universitario; noche = fiesta, salir de noche o discotecas; museos = museos, arte o cultura; historia = historia o monumentos; comida = comer bien o gastronomía; compras = tiendas o compras.
+- origin: Sevilla = SVQ, Madrid = MAD, Málaga = AGP, Barcelona = BCN, Valencia = VLC. Otra ciudad: null y añádelo a dudas.
+- dest: solo si se nombra una de esas ciudades; si no, null.`;
+  const int = (v, lo, hi) => { const n = Math.round(Number(v)); return Number.isFinite(n) && n >= lo && n <= hi ? n : null; };
+  function validateAI(raw) { // nunca se fía de la IA: tipos, rangos y listas cerradas
+    const r = raw && typeof raw === "object" && !Array.isArray(raw) ? raw : {};
+    const out = { slots: [], miss: [], dudas: [], via: "ia" };
+    let ages = Array.isArray(r.ages) ? r.ages.map(a => int(a, 12, 25)).filter(a => a != null) : [];
+    let people = int(r.people, 1, 6) || (ages.length ? Math.min(6, ages.length) : null);
+    if (people && ages.length === 1 && people > 1) ages = Array(people).fill(ages[0]);
+    if (people && ages.length > people) ages = ages.slice(0, people);
+    if (people) out.people = people; else out.miss.push("cuántos sois");
+    if (ages.length) { out.ages = ages; out.age = ages[0]; if (people && ages.length < people) out.dudas.push("No queda clara la edad de todas las personas."); } else out.miss.push("edad");
+    if (r.origin && ORIGINS[r.origin]) out.origin = r.origin; else out.miss.push("salida");
+    const b = int(r.budget, 1, 100000); if (b != null) { out.budget = Math.max(100, Math.min(700, b)); if (b !== out.budget) out.dudas.push(`Presupuesto ajustado al rango de la demo (${eur(out.budget)}).`); } else out.miss.push("presupuesto");
+    const d = int(r.days, 1, 60); if (d != null) { out.days = Math.max(2, Math.min(7, d)); if (d !== out.days) out.dudas.push(`Días ajustados al rango de la demo (${out.days}).`); } else out.miss.push("días");
+    out.likes = Array.isArray(r.likes) ? [...new Set(r.likes.map(String).filter(x => LIKE_KEYS.includes(x)))] : [];
+    if (r.dest && DEST[r.dest]) out.dest = r.dest;
+    if (Array.isArray(r.dudas)) out.dudas.push(...r.dudas.map(x => String(x).slice(0, 140)).slice(0, 3));
+    return out;
+  }
+  const AI_ERR = { rate_limited: "Demasiadas consultas o límite de uso alcanzado. Prueba más tarde.", session_expired: "Vuelve a iniciar sesión en Claude.", refused: "Claude no ha querido procesar este texto. Cámbialo.", invalid_json: "La respuesta no tenía el formato esperado. Prueba otra vez.", empty_completion: "Claude no ha devuelto nada. Simplifica el texto.", upstream_error: "Fallo de conexión. Prueba otra vez." };
+  const hideAI = () => { sampleFn = null; $("#parse-ai").hidden = true; $("#ai-stop").hidden = true; $("#ai-note").textContent = "Sin permiso para usar Claude en esta página: se usa el intérprete de reglas."; };
+  function aiFail(e) {
+    if (e && e.code === "cancelled") return "Consulta parada.";
+    if (e && ["not_granted", "sampling_disabled", "not_declared", "capability_disabled", "capability_removed"].includes(e.code)) { hideAI(); return "La IA no está disponible para ti en esta página."; }
+    return AI_ERR[e && e.code] || AI_ERR.upstream_error;
+  }
+  async function parseWithAI(text) {
+    aiCtl = new AbortController();
+    const raw = await sampleFn.json(`${AI_RULES}\n\nDevuelve SOLO un objeto JSON con esta forma:\n${AI_SCHEMA}\n\nMensaje del usuario:\n"""${text.slice(0, 1500)}"""`, { modelTier: "quick", signal: aiCtl.signal });
+    return validateAI(raw);
+  }
+  function rulesAsAI(p) { return { ...p, ages: p.age ? Array(p.people || 1).fill(p.age) : null, via: "reglas" }; }
+
+  /* Banco de pruebas: 12 frases con la respuesta correcta escrita a mano */
+  const BENCH = [
+    ["Somos cuatro amigos de 17 años, salimos de Sevilla, tenemos 250 € por persona y queremos pasar cuatro días en una ciudad europea con ambiente joven, playa y actividades.", { people: 4, ages: [17, 17, 17, 17], origin: "SVQ", budget: 250, days: 4, likes: ["playa", "joven"], dest: null }],
+    ["Vamos mi prima y yo, las dos con 16, desde Málaga a Lisboa un finde largo, unos 300 pavos cada una", { people: 2, ages: [16, 16], origin: "AGP", budget: 300, days: 3, likes: [], dest: "lisboa" }],
+    ["Tres colegas: dos tenemos 17 y uno 18. Desde Madrid, 5 días, presupuesto 400 euros por cabeza. Queremos fiesta y museos.", { people: 3, ages: [17, 17, 18], origin: "MAD", budget: 400, days: 5, likes: ["noche", "museos"], dest: null }],
+    ["Me quiero ir sola a Berlín con 17 años una semana, tengo 500€, me flipa el arte y la historia", { people: 1, ages: [17], origin: null, budget: 500, days: 7, likes: ["museos", "historia"], dest: "berlin" }],
+    ["Cinco amigas de 16 desde Barcelona, 200 euros, tres noches, playa y compras", { people: 5, ages: [16, 16, 16, 16, 16], origin: "BCN", budget: 200, days: 4, likes: ["playa", "compras"], dest: null }],
+    ["Somos 4, todos de diecisiete, saliendo de Valencia, queremos comer bien y ver monumentos, 350€ y 4 días", { people: 4, ages: [17, 17, 17, 17], origin: "VLC", budget: 350, days: 4, likes: ["comida", "historia"], dest: null }],
+    ["Yo tengo 16 y mi hermano 19, vamos desde Sevilla a Londres, 600 euros cada uno, 5 días, museos", { people: 2, ages: [16, 19], origin: "SVQ", budget: 600, days: 5, likes: ["museos"], dest: "londres" }],
+    ["Grupo de seis de 17 años, Madrid, bajo presupuesto (150 €), 3 días, ambiente universitario y salir de noche", { people: 6, ages: [17, 17, 17, 17, 17, 17], origin: "MAD", budget: 150, days: 3, likes: ["joven", "noche"], dest: null }],
+    ["Dos amigos y yo, 15 años, desde Málaga, 4 días en Roma, 400€", { people: 3, ages: [15, 15, 15], origin: "AGP", budget: 400, days: 4, likes: [], dest: "roma" }],
+    ["Queremos ir a París los 4 en Semana Santa, tenemos 17, desde Barcelona, unos 450 euros, cultura y gastronomía", { people: 4, ages: [17, 17, 17, 17], origin: "BCN", budget: 450, days: null, likes: ["museos", "comida"], dest: "paris" }],
+    ["Viaje de fin de curso: 4 chicos de 18 desde Valencia, 5 días, playa y fiesta, máximo 300 €", { people: 4, ages: [18, 18, 18, 18], origin: "VLC", budget: 300, days: 5, likes: ["playa", "noche"], dest: null }],
+    ["Mi novia y yo tenemos 17, queremos algo tranquilo con historia, salimos de Sevilla, 3 días, 280 euros", { people: 2, ages: [17, 17], origin: "SVQ", budget: 280, days: 3, likes: ["historia"], dest: null }]
+  ];
+  const FIELDS = [["people", "Personas"], ["ages", "Edades"], ["origin", "Salida"], ["budget", "Presupuesto"], ["days", "Días"], ["likes", "Gustos"], ["dest", "Destino"]];
+  function fieldOk(key, got, exp) {
+    const g = got[key] ?? null;
+    if (key === "ages") return JSON.stringify((g || []).slice().sort()) === JSON.stringify((exp.ages || []).slice().sort());
+    if (key === "likes") return JSON.stringify((g || []).slice().sort()) === JSON.stringify(exp.likes.slice().sort());
+    return g === exp[key];
+  }
+  function benchScore(results) { return BENCH.map(([, exp], i) => FIELDS.map(([k]) => results[i] ? fieldOk(k, results[i], exp) : false)); }
+  let benchAI = null;
+  function benchTable() {
+    const rules = BENCH.map(([t]) => rulesAsAI(parseQuery(t)));
+    const sr = benchScore(rules), sa = benchAI ? benchScore(benchAI) : null;
+    const tot = sc => sc.flat().filter(Boolean).length, all = BENCH.length * FIELDS.length;
+    const perField = sc => FIELDS.map((_, j) => sc.filter(row => row[j]).length);
+    const pr = perField(sr), pa = sa && perField(sa);
+    const cell = (ok) => ok ? '<span class="mchip s-ok">✓</span>' : '<span class="mchip s-no">×</span>';
+    return `<p class="small"><strong>Reglas: ${tot(sr)} de ${all}</strong> datos bien extraídos (${Math.round(tot(sr) / all * 100)} %).${sa ? ` <strong>IA: ${tot(sa)} de ${all}</strong> (${Math.round(tot(sa) / all * 100)} %).` : " La IA aún no se ha probado en esta vista."}</p>
+      <div style="overflow-x:auto"><table class="rt"><tr><th>Dato</th><th>Reglas</th><th>IA</th></tr>${FIELDS.map(([, l], j) => `<tr><td>${l}</td><td>${pr[j]}/${BENCH.length}</td><td>${pa ? pa[j] + "/" + BENCH.length : "—"}</td></tr>`).join("")}</table></div>
+      <details class="hid"><summary>Ver las 12 frases</summary><table class="rt"><tr><th>Frase</th><th>Reglas</th><th>IA</th></tr>${BENCH.map(([t], i) => `<tr><td class="small">${esc(t)}</td><td>${sr[i].filter(Boolean).length}/7 ${sr[i].map(cell).join("")}</td><td>${sa ? sa[i].filter(Boolean).length + "/7 " + sa[i].map(cell).join("") : "—"}</td></tr>`).join("")}</table></details>`;
+  }
+  async function runBench() {
+    const out = $("#bench-out"), st = $("#bench-status"); if (!sampleFn) return;
+    $("#bench-run").disabled = true; st.textContent = "Preguntando a Claude por las 12 frases (una sola consulta)…";
+    try {
+      aiCtl = new AbortController();
+      const list = BENCH.map(([t], i) => `${i + 1}. """${t}"""`).join("\n");
+      const raw = await sampleFn.json(`${AI_RULES}\n\nVas a recibir ${BENCH.length} mensajes numerados. Devuelve SOLO un array JSON con ${BENCH.length} objetos, uno por mensaje y en el mismo orden, cada uno con esta forma:\n${AI_SCHEMA}\n\nMensajes:\n${list}`, { modelTier: "quick", signal: aiCtl.signal });
+      if (!Array.isArray(raw) || raw.length !== BENCH.length) throw { code: "invalid_json" };
+      benchAI = raw.map(validateAI); st.textContent = "Hecho. Resultados de esta prueba (no se guardan).";
+    } catch (e) { st.textContent = aiFail(e); }
+    finally { const b = $("#bench-run"); if (b) b.disabled = false; if (out) out.innerHTML = benchTable(); }
+  }
+
+  /* ---------- Pantalla de entrada: primero edades y qué buscáis ---------- */
+  const wz = { n: 4, ages: [17, 17, 17, 17], origin: "SVQ", days: 4, budget: 250, likes: new Set(["playa", "joven"]), msg: "" };
+  function renderWelcome() {
+    const ageSel = i => `<div class="field"><label for="wz-age-${i}">${i === 0 ? "Tú" : "Persona " + (i + 1)}</label><select class="input" id="wz-age-${i}" data-wzage="${i}">${[15, 16, 17, 18, 19].map(a => `<option value="${a}"${a === wz.ages[i] ? " selected" : ""}>${a} años</option>`).join("")}</select></div>`;
+    $("#wz").innerHTML = `<div class="sheet-head"><div><p class="eyebrow">Antes de empezar</p><h2 id="wz-title">¿Quiénes viajáis y qué buscáis?</h2><p class="small muted">La edad de cada persona decide qué vuelos, alojamientos y planes de ocio os salen. No pedimos nombres.</p></div></div>
+      <div class="wz-step"><span class="label"><span class="wz-num">1</span>¿Cuántos sois y qué edad tenéis?</span>
+        <div class="row"><label class="small" for="wz-n">Personas</label><select class="input" id="wz-n" style="width:auto">${[1, 2, 3, 4, 5, 6].map(n => `<option value="${n}"${n === wz.n ? " selected" : ""}>${n}</option>`).join("")}</select></div>
+        <div class="wz-ages">${Array.from({ length: wz.n }, (_, i) => ageSel(i)).join("")}</div></div>
+      <div class="wz-step"><span class="label"><span class="wz-num">2</span>¿Qué tenéis pensado buscar?</span>
+        <div class="row" role="group" aria-label="Qué buscáis">${LIKES.map(([k, l]) => `<button type="button" class="chip" data-wzlike="${k}" aria-pressed="${wz.likes.has(k)}">${l}</button>`).join("")}</div>
+        <div class="grid2"><div class="field"><label for="wz-origin">Salís de</label><select class="input" id="wz-origin">${Object.entries(ORIGINS).map(([k, o]) => `<option value="${k}"${k === wz.origin ? " selected" : ""}>${o.name}</option>`).join("")}</select></div>
+          <div class="field"><label for="wz-days">Días</label><input class="input" id="wz-days" type="number" min="2" max="7" value="${wz.days}"></div></div>
+        <div class="field"><label for="wz-budget">Presupuesto por persona: <span id="wz-budget-v">${eur(wz.budget)}</span></label><input id="wz-budget" type="range" min="100" max="700" step="10" value="${wz.budget}"></div></div>
+      <details class="hid"${wz.msg ? " open" : ""}><summary>O cuéntalo con tus palabras y lo rellenamos</summary><div class="field" style="margin-top:8px"><textarea class="input" id="wz-msg" placeholder="Ej.: somos tres, dos de 17 y uno de 18, desde Madrid, 400 € y 5 días, fiesta y museos">${esc(wz.msg)}</textarea>
+        <div class="row"><button type="button" class="btn ghost sm" id="wz-rules">Rellenar con reglas</button>${sampleFn ? '<button type="button" class="btn sm" id="wz-ai">Rellenar con IA (Claude)</button>' : ""}<span class="small" id="wz-status" aria-live="polite"></span></div></div></details>
+      <div class="row between"><button type="button" class="btn ghost" id="wz-example">Ver el ejemplo</button><button type="button" class="btn pop" id="wz-go">Ver viajes para nosotros</button></div>`;
+  }
+  function openWelcome() { renderWelcome(); const d = $("#welcome"); if (!d.open) d.showModal(); }
+  function wzFrom(p) { // rellena el formulario con lo que entendió el intérprete (sin aplicarlo aún)
+    if (p.people) wz.n = p.people;
+    const ages = p.ages && p.ages.length ? p.ages : p.age ? [p.age] : null;
+    if (ages) wz.ages = Array.from({ length: wz.n }, (_, i) => Math.max(15, Math.min(19, ages[i] ?? ages[ages.length - 1])));
+    else wz.ages = Array.from({ length: wz.n }, (_, i) => wz.ages[i] ?? 17);
+    if (p.origin) wz.origin = p.origin; if (p.days) wz.days = p.days; if (p.budget) wz.budget = p.budget;
+    if (p.likes && p.likes.length) wz.likes = new Set(p.likes);
+    renderWelcome();
+    const missing = [...(p.miss || []), ...(p.dudas || [])];
+    $("#wz-status").textContent = (p.via === "ia" ? "Rellenado por la IA. " : "Rellenado por reglas. ") + (missing.length ? "Revisa: " + missing.join("; ") + "." : "Revísalo y pulsa «Ver viajes».");
+  }
+  function wzApply() {
+    const p = { people: wz.n, ages: wz.ages.slice(0, wz.n), age: wz.ages[0], origin: wz.origin, days: wz.days, budget: wz.budget, likes: [...wz.likes], miss: [], via: "formulario" };
+    $("#nl").value = `Somos ${wz.n === 1 ? "uno" : wz.n}, de ${[...new Set(p.ages)].join(" y ")} años, salimos de ${ORIGINS[wz.origin].name}, ${wz.budget} € por persona y ${wz.days} días. Buscamos: ${p.likes.map(l => LIKES.find(x => x[0] === l)[1].toLowerCase()).join(", ") || "de todo"}.`;
+    applyParsed(p); $("#welcome").close(); update(true); flyEurope();
+  }
+
   function applyParsed(p) {
     if (p.origin) state.origin = p.origin;
     if (p.budget) state.budget = p.budget;
     if (p.days) state.days = p.days;
     const age = p.age || me.age; const n = p.people || state.group.length; const likes = p.likes.length ? p.likes : ["joven"];
     const names = ["Lucía", "Hugo", "Sara", "Leo", "Inés"];
-    me.age = age; me.likes = new Set(likes);
-    state.group = [me, ...Array.from({ length: n - 1 }, (_, i) => ({ id: i + 2, name: names[i], age, nat: "ES", likes: new Set(likes) }))];
+    const ageOf = i => (p.ages && p.ages[i] != null ? Math.max(15, Math.min(19, p.ages[i])) : Math.max(15, Math.min(19, age)));
+    me.age = ageOf(0); me.likes = new Set(likes);
+    state.group = [me, ...Array.from({ length: n - 1 }, (_, i) => ({ id: i + 2, name: names[i], age: ageOf(i + 1), nat: "ES", likes: new Set(likes) }))];
     state.nextId = n + 1; state.parsed = p;
     if (p.dest) state.sel = p.dest; else state.sel = null;
   }
@@ -683,7 +821,7 @@ dialog.sheet::backdrop { background: rgb(8 10 20 / 0.55); }
         ${m.me ? "<span></span>" : `<button type="button" class="icon-btn" data-remove="${m.id}" aria-label="Quitar a ${esc(m.name)}">×</button>`}</div>
       <div class="likes" role="group" aria-label="Gustos de ${esc(m.name)}">${LIKES.map(([k, l]) => `<button type="button" class="chip" data-like="${m.id}:${k}" aria-pressed="${m.likes.has(k)}">${l}</button>`).join("")}</div></div>`).join("");
     const p = state.parsed;
-    $("#slots").innerHTML = p ? [p.people && `${p.people} personas`, p.age && `${p.age} años`, p.origin && ORIGINS[p.origin].name, p.budget && `${eur(p.budget)}/persona`, p.days && `${p.days} días`, p.likes.length && p.likes.map(l => LIKES.find(x => x[0] === l)[1].toLowerCase()).join(", "), p.dest && `destino: ${DEST[p.dest].city}`].filter(Boolean).map(t => `<span class="slot">${esc(t)}</span>`).join("") + p.miss.map(t => `<span class="slot miss">sin entender: ${esc(t)}</span>`).join("") : "";
+    $("#slots").innerHTML = p ? [p.via === "ia" ? "Entendido por la IA" : "Entendido por reglas", p.people && `${p.people} personas`, p.ages && p.ages.length ? `${[...new Set(p.ages)].join(", ")} años` : p.age && `${p.age} años`, p.origin && ORIGINS[p.origin].name, p.budget && `${eur(p.budget)}/persona`, p.days && `${p.days} días`, p.likes.length && p.likes.map(l => LIKES.find(x => x[0] === l)[1].toLowerCase()).join(", "), p.dest && `destino: ${DEST[p.dest].city}`].filter(Boolean).map(t => `<span class="slot">${esc(t)}</span>`).join("") + p.miss.map(t => `<span class="slot miss">sin entender: ${esc(t)}</span>`).join("") + (p.dudas || []).map(t => `<span class="slot miss">duda: ${esc(t)}</span>`).join("") + (p.diff ? `<span class="slot">las reglas habrían entendido: ${esc(p.diff)}</span>` : "") : "";
   }
 
   /* =========================================================
@@ -832,17 +970,20 @@ dialog.sheet::backdrop { background: rgb(8 10 20 / 0.55); }
   function openHow() {
     const tk = getToken();
     $("#sheet-in").innerHTML = `<div class="sheet-head"><div><p class="eyebrow">Arquitectura de la demo</p><h2 id="sheet-title">Cómo funciona</h2></div><button type="button" class="icon-btn" data-close aria-label="Cerrar">×</button></div>
-      <div class="pipeline"><div><b>1 Consulta</b>Texto libre o formulario</div><div><b>2 Intérprete</b>Aquí reglas; en producción un LLM que solo extrae datos</div><div class="hard"><b>3 Filtro duro</b>Reglas de edad con fuente; lo desconocido queda pendiente</div><div><b>4 Candidatos</b>Destino × vuelo × alojamiento</div><div><b>5 Puntuación</b>Gustos 62 % + presupuesto 38 % (pasarse penaliza el triple)</div><div><b>6 Grupo</b>60 % media + 40 % la persona menos contenta</div><div><b>7 Explicación</b>Por qué sí, por qué no y qué falta</div></div>
+      <div class="pipeline"><div><b>1 Consulta</b>Texto libre o formulario</div><div><b>2 Intérprete</b>Reglas o IA (Claude) que solo extrae datos, con validador</div><div class="hard"><b>3 Filtro duro</b>Reglas de edad con fuente; lo desconocido queda pendiente</div><div><b>4 Candidatos</b>Destino × vuelo × alojamiento</div><div><b>5 Puntuación</b>Gustos 62 % + presupuesto 38 % (pasarse penaliza el triple)</div><div><b>6 Grupo</b>60 % media + 40 % la persona menos contenta</div><div><b>7 Explicación</b>Por qué sí, por qué no y qué falta</div></div>
       <table class="rt"><tr><th>Qué</th><th>Estado en esta demo</th></tr>
         <tr><td>Reglas de edad de aerolíneas, alojamientos y actividades</td><td>Reales, con fuente y fecha (mías y de la web Ruta16 del equipo)</td></tr>
         <tr><td>Documentos por país y guía «Papeles»</td><td>Reales, con fuente y etiqueta (41 puntos). Portugal: carta recomendada (Q-20)</td></tr>
         <tr><td>Precios, gasto diario y duraciones</td><td><strong>Estimaciones ilustrativas</strong>, no precios actuales</td></tr>
-        <tr><td>Intérprete de la consulta</td><td>Reglas simples; no usa IA</td></tr>
+        <tr><td>Intérprete de la consulta</td><td>Reglas simples, o <strong>IA (Claude)</strong> en el enlace publicado: solo extrae datos a un formato cerrado y un validador comprueba tipos, rangos y listas. No decide lo permitido por edad</td></tr>
         <tr><td>Ámsterdam, Praga y Dublín</td><td>Sin verificar: aparecen como pendientes, nunca como permitidos</td></tr>
         <tr><td>Mapa sin conexión</td><td>Real: MapLibre + fronteras de Natural Earth, funciona en cualquier sitio</td></tr>
         <tr><td>Mapa con calles</td><td>Real: OpenFreeMap, sin clave; necesita abrir el HTML en el navegador</td></tr>
         <tr><td>Mapbox (teselas y ruta a pie)</td><td>Implementado; necesita tu token público. Sin token no se ha podido probar</td></tr>
         <tr><td>Reservas</td><td>No hay reservas ni pagos</td></tr></table>
+      <div class="box"><h3>Banco de pruebas: IA frente a reglas</h3><p class="small">12 frases como las que escribiría un grupo, con la respuesta correcta escrita a mano. Se comparan 7 datos por frase: personas, edades, salida, presupuesto, días, gustos y destino.</p>
+        <div class="row">${sampleFn ? '<button type="button" class="btn sm" id="bench-run">Probar las 12 frases con la IA</button>' : '<span class="small muted">La IA solo se puede probar en el enlace publicado de Claude.</span>'}<span class="small muted" id="bench-status" aria-live="polite"></span></div>
+        <div id="bench-out">${benchTable()}</div></div>
       <div class="box"><h3>Conectar Mapbox (opcional)</h3><p class="small">Usa un token <strong>público</strong> (empieza por <code>pk.</code>) restringido a la web donde abras la demo. Se guarda solo en este navegador.</p>
         <div class="row"><input class="input" id="mb-token" type="password" autocomplete="off" placeholder="pk.…" style="max-width:340px" aria-label="Token público de Mapbox"><button type="button" class="btn sm" id="mb-save">Guardar</button>${tk ? `<button type="button" class="btn ghost sm" id="mb-clear">Borrar token</button>` : ""}</div>
         <p class="small muted">${tk ? "Hay un token guardado en este navegador." : "No hay token guardado."} Dentro del visor de Claude Mapbox no carga (bloquea servidores externos); funciona abriendo el archivo HTML.</p></div>`;
@@ -868,7 +1009,30 @@ dialog.sheet::backdrop { background: rgb(8 10 20 / 0.55); }
   function update(animate) { renderLeft(); renderResults(animate); renderModes(); refreshMap(); }
   document.addEventListener("click", ev => {
     const t = ev.target.closest("button"); if (!t) return; const d = t.dataset;
-    if (t.id === "parse") { const p = parseQuery($("#nl").value); applyParsed(p); update(true); if (state.sel) flyTo(state.sel); else flyEurope(); }
+    if (t.id === "parse") { const p = parseQuery($("#nl").value); p.via = "reglas"; applyParsed(p); update(true); if (state.sel) flyTo(state.sel); else flyEurope(); }
+    else if (t.id === "parse-ai") {
+      if (!sampleFn) return; const text = $("#nl").value.trim(); if (!text) return;
+      t.disabled = true; $("#ai-stop").hidden = false; $("#ai-status").textContent = "La IA está leyendo vuestro mensaje…";
+      parseWithAI(text).then(p => {
+        const r = rulesAsAI(parseQuery(text)); const diffs = FIELDS.filter(([k]) => !fieldOk(k, r, { ...p, ages: p.ages || [], likes: p.likes || [] })).map(([, l]) => l.toLowerCase());
+        p.diff = diffs.length ? "distinto en " + diffs.join(", ") : "";
+        applyParsed(p); update(true); if (state.sel) flyTo(state.sel); else flyEurope();
+        $("#ai-status").textContent = "Hecho. La IA solo ha extraído los datos; lo que se puede hacer con cada edad lo deciden las reglas con fuente.";
+      }).catch(e => { $("#ai-status").textContent = aiFail(e); })
+        .finally(() => { t.disabled = false; $("#ai-stop").hidden = true; });
+    }
+    else if (t.id === "ai-stop") { if (aiCtl) aiCtl.abort(); }
+    else if (t.id === "wz-open") openWelcome();
+    else if (t.id === "wz-go") wzApply();
+    else if (t.id === "wz-example") $("#welcome").close();
+    else if (d.wzlike) { wz.likes.has(d.wzlike) ? wz.likes.delete(d.wzlike) : wz.likes.add(d.wzlike); t.setAttribute("aria-pressed", String(wz.likes.has(d.wzlike))); }
+    else if (t.id === "wz-rules") { wz.msg = $("#wz-msg").value; const p = parseQuery(wz.msg); p.via = "reglas"; wzFrom(p); }
+    else if (t.id === "wz-ai") {
+      wz.msg = $("#wz-msg").value; if (!sampleFn || !wz.msg.trim()) return;
+      t.disabled = true; $("#wz-status").textContent = "La IA está leyendo vuestro mensaje…";
+      parseWithAI(wz.msg).then(wzFrom).catch(e => { const st = $("#wz-status"); if (st) st.textContent = aiFail(e); }).finally(() => { const b = $("#wz-ai"); if (b) b.disabled = false; });
+    }
+    else if (t.id === "bench-run") runBench();
     else if (d.dest) { state.sel = d.dest; state.tab = "itinerario"; update(true); flyTo(d.dest); }
     else if (d.back !== undefined) { state.sel = null; update(true); flyEurope(); }
     else if (d.tab) { state.tab = d.tab; renderResults(); }
@@ -900,18 +1064,29 @@ dialog.sheet::backdrop { background: rgb(8 10 20 / 0.55); }
     if (el.dataset.m) { const m = state.group.find(x => String(x.id) === el.dataset.m); if (!m) return; if (el.dataset.f === "age") m.age = +el.value; if (el.dataset.f === "name") m.name = el.value.trim() || "Sin nombre"; update(); return; }
     if (el.id === "origin") { state.origin = el.value; update(); }
     if (el.id === "days") { state.days = Math.max(2, Math.min(7, +el.value || 4)); update(); }
+    if (el.id === "wz-n") { wz.n = +el.value; wz.ages = Array.from({ length: wz.n }, (_, i) => wz.ages[i] ?? wz.ages[0] ?? 17); wz.msg = ($("#wz-msg") || {}).value || wz.msg; renderWelcome(); return; }
+    if (el.dataset.wzage) { wz.ages[+el.dataset.wzage] = +el.value; return; }
+    if (el.id === "wz-origin") { wz.origin = el.value; return; }
+    if (el.id === "wz-days") { wz.days = Math.max(2, Math.min(7, +el.value || 4)); el.value = wz.days; return; }
     if (el.id === "lf-dest") { state.legalFilter.dest = el.value; openPapeles(); }
     if (el.id === "lf-quien") { state.legalFilter.quien = el.value; openPapeles(); }
   });
-  document.addEventListener("input", ev => { if (ev.target.id === "budget") { state.budget = +ev.target.value; $("#budget-v").textContent = eur(state.budget); renderResults(); refreshMap(); } });
+  document.addEventListener("input", ev => { if (ev.target.id === "wz-budget") { wz.budget = +ev.target.value; $("#wz-budget-v").textContent = eur(wz.budget); return; } if (ev.target.id === "budget") { state.budget = +ev.target.value; $("#budget-v").textContent = eur(state.budget); renderResults(); refreshMap(); } });
   $("#sheet").addEventListener("click", ev => { if (ev.target === $("#sheet")) $("#sheet").close(); });
 
   /* Fotos como fondos compartidos (se decodifican una vez) */
   (function injectPhotos() { const css = Object.entries(PHOTOS).map(([k, u]) => `.ph-${k}.ph-${k}{background-image:url("${u}");background-size:cover}`).join(""); if (css) { const st = document.createElement("style"); st.textContent = css; document.head.appendChild(st); } })();
 
-  state.parsed = parseQuery($("#nl").value);
+  (async () => {
+    try { sampleFn = window.claude && typeof window.claude.use === "function" ? await window.claude.use("sample") : null; } catch (e) { sampleFn = null; }
+    if (sampleFn && $("#welcome").open && !$("#wz-ai")) { wz.msg = ($("#wz-msg") || {}).value || wz.msg; renderWelcome(); }
+    if (sampleFn) { $("#parse-ai").hidden = false; $("#ai-note").textContent = "Con IA: la primera vez Claude te pedirá permiso y usa tu propia cuenta. La IA solo extrae datos; las normas de edad las deciden las reglas."; }
+  })();
+  state.parsed = parseQuery($("#nl").value); state.parsed.via = "reglas";
   initMap();
   update(true);
+  $("#wz").addEventListener("submit", ev => { ev.preventDefault(); wzApply(); });
+  openWelcome();
   animateArcs();
 })();
 </script>

@@ -46,3 +46,8 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 
 - **Hecho:** el Planner tiene pestañas **Vuelos, Dormir y Ocio** por destino. Cada oferta y plan se evalúa persona a persona con motivo, condiciones y fuente; lo que no vale se agrupa en «ocultos por edad o sin verificar», con las dificultades de la guía legal. Ocio de día y de noche (alcohol, discotecas, bares, horarios de Alemania, espacios públicos). El gusto «noche» ya no puntúa si la edad no permite ningún plan nocturno (Lisboa, con 15 años: de 100 a 69). Nota [[Motor de IA personalizado]]: la IA entiende, ordena y explica, pero no decide la elegibilidad.
 - **Pendiente:** probar un LLM solo para interpretar la consulta (20 frases reales de la encuesta).
+
+## 2026-11-08. Planner: pantalla de entrada e intérprete con IA
+
+- **Hecho:** al entrar, el Planner pide primero **cuántos sois, la edad de cada uno y qué buscáis** (gustos, salida, días y presupuesto), con la opción de contarlo en texto libre. Intérprete con **IA (Claude)** en el enlace publicado, con validador; las reglas de edad siguen decidiendo. Banco de 12 frases: las reglas aciertan 62 de 84 datos (74 %) y fallan en personas (3/12) y edades (3/12). Ver [[Motor de IA personalizado]].
+- **Pendiente:** ejecutar el banco con la IA en el enlace y anotar el resultado; probarlo con frases reales de la encuesta.

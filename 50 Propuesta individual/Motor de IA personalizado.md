@@ -59,3 +59,23 @@ Motivos:
 1. Conectar el intérprete del Planner a un LLM (solo la parte de entender la consulta) y comparar con el intérprete de reglas usando 20 frases reales de la encuesta.
 2. Medir: datos bien extraídos, edades correctas y cero normas inventadas.
 3. Enseñarlo en las entrevistas: ¿las familias se fían más si cada «sí» lleva fuente?
+
+## Prueba implementada (08/11/2026)
+
+En el [Planner](https://claude.ai/artifact/63QKdMuDJnkHYTX3j58dpM) hay dos intérpretes y un banco de pruebas:
+
+- **«Entender con IA (Claude)»**: solo aparece en el enlace publicado de Claude. Usa la cuenta de quien abre la página y le pide permiso la primera vez. La IA (modelo rápido) devuelve un JSON cerrado: personas, edades de cada uno, salida, presupuesto, días, gustos, destino y dudas. Un **validador** comprueba tipos, rangos y listas permitidas antes de usarlo. Debajo se indica si las reglas habrían entendido otra cosa.
+- **Banco de pruebas** («Cómo funciona»): 12 frases con la respuesta correcta escrita a mano y 7 datos por frase (84 en total).
+
+| Dato | Reglas (medido en Chrome) | IA |
+|---|---|---|
+| Personas | 3/12 | Pendiente de ejecutar en el enlace |
+| Edades | 3/12 | Pendiente |
+| Salida | 12/12 | Pendiente |
+| Presupuesto | 11/12 | Pendiente |
+| Días | 10/12 | Pendiente |
+| Gustos | 11/12 | Pendiente |
+| Destino | 12/12 | Pendiente |
+| **Total** | **62/84 (74 %)** | Pendiente |
+
+Las reglas fallan donde más importa: **quiénes van y qué edad tiene cada uno** («mi prima y yo», «dos tenemos 17 y uno 18»). Es justo donde se espera que la IA aporte. Para tener el dato de la IA hay que pulsar «Probar las 12 frases con la IA» en el enlace (una sola consulta) y apuntar el resultado aquí.
