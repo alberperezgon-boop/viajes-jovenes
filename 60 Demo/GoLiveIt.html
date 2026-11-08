@@ -45,10 +45,11 @@ button, input, select, textarea { font: inherit; color: inherit; }
 
 .banner { max-width: 940px; margin: 0 auto 14px; display: flex; gap: 10px; align-items: flex-start; background: var(--sign); color: var(--sign-ink); border-radius: 12px; padding: 9px 14px; font-size: 0.84rem; }
 .banner b { font-weight: 800; }
-.banner { flex-wrap: wrap; }
-.banner p { flex: 1 1 240px; min-width: 0; }
+.banner { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: start; }
+.banner .banner-actions { grid-column: 1 / -1; display: flex; gap: 8px; flex-wrap: wrap; }
+@media (min-width: 640px) { .banner { grid-template-columns: auto minmax(0, 1fr) auto; } .banner .banner-actions { grid-column: auto; } }
 .pause { flex: none; border: 1.5px solid var(--sign-ink); background: transparent; color: var(--sign-ink); border-radius: 999px; padding: 4px 10px; font-weight: 800; font-size: 0.76rem; cursor: pointer; }
-.paused .photo img, .paused .overlay * { animation-play-state: paused !important; }
+.paused .photo .ph, .paused .overlay * { animation-play-state: paused !important; }
 button, a { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 @media (hover: hover) {
   .btn:hover { filter: brightness(1.1); }
@@ -109,7 +110,7 @@ button, a { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 .age[aria-pressed="true"] span { color: var(--sign-ink); }
 .agebar { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; background: var(--surface-2); border-radius: 14px; padding: 8px 10px; }
 .agebar .eyebrow { margin-right: 2px; }
-.agebar .a { border: 1.5px solid var(--line); background: var(--surface); border-radius: 10px; min-width: 40px; padding: 4px 8px; font-family: var(--f-mono); font-weight: 800; cursor: pointer; }
+.agebar .a { border: 1.5px solid var(--line); background: var(--surface); border-radius: 10px; min-width: 36px; padding: 4px 8px; font-family: var(--f-mono); font-weight: 800; cursor: pointer; }
 .agebar .a[aria-pressed="true"] { background: var(--sign); color: var(--sign-ink); border-color: var(--ink); }
 .agebar .c { border: 0; background: none; font-size: 0.78rem; font-weight: 700; color: var(--muted); cursor: pointer; padding: 4px 6px; border-radius: 8px; }
 .agebar .c[aria-pressed="true"] { color: var(--ink); background: var(--surface); }
@@ -139,7 +140,7 @@ button, a { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 
 /* Carteles de destino */
 .photo { position: relative; display: block; overflow: hidden; background: linear-gradient(135deg, var(--board), var(--sign)); }
-.photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; animation: kb 28s ease-in-out infinite alternate; }
+.photo .ph { position: absolute; inset: 0; background-size: cover; background-repeat: no-repeat; animation: kb 28s ease-in-out infinite alternate; }
 .photo::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 55%; background: linear-gradient(to bottom, transparent, rgb(6 9 30 / 0.55)); pointer-events: none; }
 .photo .overlay { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
 .photo .credit { position: absolute; top: 8px; right: 8px; z-index: 2; font-size: 0.66rem; font-weight: 600; background: rgb(0 0 0 / 0.5); color: #fff; padding: 2px 7px; border-radius: 6px; text-decoration: none; }
@@ -248,6 +249,13 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
 .note-block { display: grid; gap: 6px; }
 .note-block ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; font-size: 0.9rem; }
 .tag { font-family: var(--f-mono); font-size: 0.75rem; background: var(--surface-2); border-radius: 6px; padding: 1px 6px; }
+.me-name { font-weight: 800; padding: 0 4px; }
+.delta { font-size: 0.84rem; color: var(--muted); }
+.delta b { color: var(--ink); }
+.destpick { display: flex; gap: 6px; flex-wrap: wrap; }
+.destpick .chip { font-family: var(--f-mono); }
+.notes .reset { justify-self: start; }
+@media (max-width: 380px) { .board-top .dim { display: none; } .board { padding: 14px 14px 12px; } .code { font-size: 2rem; } }
 @media (max-width: 460px) {
   .member-fields { grid-template-columns: minmax(0, 1fr) 72px auto; } .member-fields select { grid-column: 1 / -1; grid-row: 2; }
   .grid2 { grid-template-columns: minmax(0, 1fr); } .facts { grid-template-columns: minmax(0, 1fr); } .code { font-size: 2.2rem; }
@@ -258,7 +266,7 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
 <div class="banner" role="note">
   <span aria-hidden="true">✈</span>
   <p><b>GoLiveIt · demo de Alberto.</b> Normas por edad reales y con fuente («Equipo» = web Ruta16 de un compañero). Precios, listas y experiencias, de ejemplo. No vende ni reserva.</p>
-  <button type="button" class="pause" id="pause" aria-pressed="false">Pausar animaciones</button>
+  <div class="banner-actions"><button type="button" class="pause" id="pause" aria-pressed="false">Pausar animaciones</button><button type="button" class="pause" id="hide-banner">Ocultar aviso</button></div>
 </div>
 
 <div class="shell">
@@ -275,6 +283,7 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
         </div>
         <div class="tally" id="tally" aria-hidden="true"></div>
         <p class="sr" id="tally-live" role="status"></p>
+        <p class="delta" id="delta"></p>
         <div class="section">
           <div class="row between"><h2>Destinos para tu edad</h2><span class="small muted" id="sort-hint"></span></div>
           <div class="row" id="likes" aria-label="Qué os gusta"></div>
@@ -300,6 +309,7 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
       <div class="view" id="v-destino" hidden>
         <div class="hero" id="hero"></div>
         <div class="agebar" id="agebar-d"></div>
+        <div class="destpick" id="destpick-d" role="group" aria-label="Cambiar de destino"></div>
         <div class="section">
           <div class="row between"><h2 id="facts-title"></h2><span class="stamp t-EQUIPO">Leyes del país</span></div>
           <p class="small muted">Te contamos lo que dice la ley de cada país, no lo que tienes que hacer.</p>
@@ -332,7 +342,7 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
         <form class="search" id="fl-form">
           <div class="grid2">
             <div class="field"><label for="fl-from">Desde</label><select class="input" id="fl-from"></select></div>
-            <div class="field"><label for="fl-to">A</label><input class="input" id="fl-to" readonly></div>
+            <div class="field"><label for="fl-to">A</label><select class="input" id="fl-to"></select></div>
             <div class="field"><label for="fl-out">Ida</label><input class="input" id="fl-out" type="date"></div>
             <div class="field"><label for="fl-back">Vuelta</label><input class="input" id="fl-back" type="date"></div>
           </div>
@@ -445,17 +455,21 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
   const adultOf = (g, m) => g.find(x => x !== m && x.age >= 18);
   const sixteenOf = (g, m) => g.find(x => x !== m && x.age >= 16);
   const OK18 = "Mayor de edad: sin límite por edad.";
+  const con = x => x.me ? "contigo" : "con " + x.name;
+  const quien = x => x.me ? "tú" : x.name;
+  const aNombre = x => x.me ? "a tu nombre" : "a nombre de " + x.name;
+  const para = list => list.map(m => m.me ? "ti" : m.name).join(", ");
 
   const ITEMS = {
     vueling: { name: "Vueling", cat: "vuelo", src: "vueling", rule: (m, g) => m.age >= 16 ? R("ok", "Desde 16 vuelas solo, también con escalas.")
       : m.age >= 12 ? R("req", "De 12 a 15, solo vuelos directos y reservando en su web.", [G("Vuelo directo"), G("Reserva en la web de Vueling")])
-      : sixteenOf(g, m) ? R("req", "Menores de 12, con alguien de 16 o más.", [G("Viajar con " + sixteenOf(g, m).name)]) : R("no", "Menores de 12 no vuelan solos.") },
+      : sixteenOf(g, m) ? R("req", "Menores de 12, con alguien de 16 o más.", [G("Viajar " + con(sixteenOf(g, m)))]) : R("no", "Menores de 12 no vuelan solos.") },
     ryanair: { name: "Ryanair", cat: "vuelo", src: "ryanair", rule: (m, g) => m.age >= 16 ? R("ok", "Desde 16 vuelas solo. No hay servicio de acompañamiento.")
-      : adultOf(g, m) ? R("req", "Menores de 16, en la misma reserva que un adulto (sus páginas dicen 16 o 18).", [G("Misma reserva que " + adultOf(g, m).name)]) : R("no", "No lleva a menores de 16 sin acompañante.") },
+      : adultOf(g, m) ? R("req", "Menores de 16, en la misma reserva que un adulto (sus páginas dicen 16 o 18).", [G("Misma reserva que " + quien(adultOf(g, m)))]) : R("no", "No lleva a menores de 16 sin acompañante.") },
     easyjet: { name: "easyJet", cat: "vuelo", src: "easyjet", rule: (m, g) => m.age >= 16 ? R("ok", "Desde 16 vuelas solo.")
-      : sixteenOf(g, m) ? R("req", "Menores de 16, con un acompañante de 16 o más.", [G("Viajar con " + sixteenOf(g, m).name)]) : R("no", "No deja embarcar a menores de 16 solos.") },
+      : sixteenOf(g, m) ? R("req", "Menores de 16, con un acompañante de 16 o más.", [G("Viajar " + con(sixteenOf(g, m)))]) : R("no", "No deja embarcar a menores de 16 solos.") },
     wizz: { name: "Wizz Air", cat: "vuelo", src: "wizz", rule: (m, g) => m.age >= 14 ? R("ok", m.age < 16 ? "Con 14 o 15 vuelas solo, pero no puedes hacerte cargo de otro menor." : "Vuelas solo desde los 14.")
-      : sixteenOf(g, m) ? R("req", "Menores de 14, con alguien de 16 o más en la misma reserva.", [G("Misma reserva que " + sixteenOf(g, m).name)]) : R("no", "Menores de 14 no vuelan solos.") },
+      : sixteenOf(g, m) ? R("req", "Menores de 14, con alguien de 16 o más en la misma reserva.", [G("Misma reserva que " + quien(sixteenOf(g, m)))]) : R("no", "Menores de 14 no vuelan solos.") },
     iberia: { name: "Iberia", cat: "vuelo", src: "iberia", rule: m => m.age >= 12 ? R("ok", "Desde 12 vuelas solo; de 12 a 17 el acompañamiento es opcional y de pago.")
       : m.age >= 5 ? R("req", "De 5 a 11, servicio de acompañamiento obligatorio.", [F("Contratar el acompañamiento de Iberia")]) : R("no", "Menores de 5 no vuelan solos.") },
     tap: { name: "TAP Air Portugal", cat: "vuelo", src: "tap", rule: m => m.age >= 12 ? R("ok", "De 12 a 17, el servicio de menor no acompañado es opcional.") : R("unk", "Para menores de 12 no tenemos el dato.") },
@@ -465,10 +479,10 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
     ba: { name: "British Airways", cat: "vuelo", src: "ba", rule: m => m.age >= 16 ? R("ok", "Con 16 o 17 vuelas solo, sin formulario.")
       : m.age >= 14 ? R("req", "Con 14 o 15, con formulario de los padres y copia de su documento.", [F("Formulario de consentimiento de British Airways")]) : R("no", "No hay acompañamiento para menores de 14.") },
     airbnb: { name: "Apartamentos de Airbnb", cat: "dormir", src: "airbnb", rule: (m, g) => m.age >= 18 ? R("ok", "Mayor de edad: puede reservar.")
-      : adultOf(g, m) ? R("req", "Los menores no reservan y deben ir con un adulto: la reserva va a nombre de " + adultOf(g, m).name + " y viaja con vosotros.", [G("Reserva a nombre de " + adultOf(g, m).name)])
+      : adultOf(g, m) ? R("req", "Los menores no reservan y deben ir con un adulto: la reserva va " + aNombre(adultOf(g, m)) + (adultOf(g, m).me ? " y viajas con el grupo." : " y viaja con vosotros."), [G("Reserva " + aNombre(adultOf(g, m)))])
       : R("no", "Menores de 18 no reservan ni se alojan sin un adulto.") },
     accor: { name: "Hoteles Accor (ibis, Novotel…)", cat: "dormir", src: "accor", rule: (m, g) => m.age >= 18 ? R("ok", OK18)
-      : adultOf(g, m) ? R("req", "Piden que todo menor vaya con un adulto. Confirmad con el hotel si vale " + adultOf(g, m).name + ".", [G("Viajar con " + adultOf(g, m).name)])
+      : adultOf(g, m) ? R("req", "Piden que todo menor vaya con un adulto. Confirmad con el hotel si " + (adultOf(g, m).me ? "vales tú." : "vale " + adultOf(g, m).name + "."), [G("Viajar " + con(adultOf(g, m)))])
       : R("no", "Todo menor debe ir con un adulto.") },
     pousadas: { name: "Pousadas de Juventude", cat: "dormir", src: "pousadas", rule: m => m.age >= 16 ? R("ok", "Desde 16, sin condiciones por edad en Portugal continental.")
       : R("req", "Menores de 16, con un adulto o con autorización para la estancia.", [F("Autorización de los padres para la estancia")]) },
@@ -479,22 +493,22 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
     djh: { name: "Albergues DJH", cat: "dormir", src: "djh", rule: m => m.age >= 18 ? R("ok", OK18) : R("unk", "Solo tenemos la política de Hannover y Mecklemburgo, no la de Berlín.", [], "SIN VERIFICAR") },
     yha: { name: "Albergues YHA", cat: "dormir", src: "yha", rule: (m, g) => m.age >= 18 ? R("ok", OK18)
       : m.age >= 16 ? R("req", "Con 16 o 17, solo en habitación privada y en albergues seleccionados.", [G("Habitación privada"), F("Formulario de los padres 2 días antes"), G("Reserva directa en la web de YHA")])
-      : adultOf(g, m) ? R("req", "Menores de 16, con un adulto de 18 o más.", [G("Ir con " + adultOf(g, m).name)]) : R("no", "Menores de 16, siempre con un adulto de 18 o más.") },
+      : adultOf(g, m) ? R("req", "Menores de 16, con un adulto de 18 o más.", [G("Ir " + con(adultOf(g, m)))]) : R("no", "Menores de 16, siempre con un adulto de 18 o más.") },
     metro_lis: { name: "Metro de Lisboa", cat: "moverse", src: "metro_lis", rule: () => R("ok", "Gratis hasta 23 solo con tarjeta «navegante» y NIF portugués. De visita, pagas billete.") },
     rer: { name: "RER B del aeropuerto", cat: "moverse", src: "rer", rule: () => R("ok", "14 € por trayecto. El descuento es solo de 4 a 9 años.") },
     leonardo: { name: "Leonardo Express", cat: "moverse", src: "leonardo", rule: () => R("ok", "14 €. En grupo, «Minigruppi»: 4 billetes por 40 €.") },
     vbb: { name: "Billete ABC desde el BER", cat: "moverse", src: "vbb", rule: () => R("ok", "5,00 € (5,20 € desde enero de 2027).") },
     tfl: { name: "Transporte de Londres", cat: "moverse", src: "tfl", rule: m => R("ok", m.age >= 16 && m.age < 18 ? "50 % con la «16+ Zip Oyster», que piden tus padres." : "Tarifa según edad.") },
     museus_pt: { name: "Jerónimos y museos", cat: "hacer", src: "museus_pt", rule: () => R("ok", "De 13 a 24 años, 50 % de descuento.") },
-    discos_lis: { name: "Discotecas", cat: "hacer", src: "asae", rule: m => m.age >= 16 ? R("ok", "Desde 16, enseñando documento.") : R("no", "Menores de 16, solo con un adulto.") },
+    discos_lis: { name: "Discotecas", cat: "hacer", src: "asae", rule: (m, g) => m.age >= 16 ? R("ok", "Desde 16, enseñando documento.") : adultOf(g, m) ? R("req", "Menores de 16, con un adulto identificado que se haga responsable.", [G("Ir " + con(adultOf(g, m)))]) : R("no", "Menores de 16, solo con un adulto.") },
     louvre: { name: "Museo del Louvre", cat: "hacer", src: "louvre", rule: () => R("ok", "Gratis para menores de 18 con franja reservada.") },
     discos_par: { name: "Discotecas", cat: "hacer", src: "legi", rule: m => m.age >= 18 ? R("ok", OK18) : R("unk", "La ley no fija edad: decide cada local.") },
     colosseo: { name: "Coliseo y Foro", cat: "hacer", src: "colosseo", rule: () => R("ok", "Gratis para menores de 18 reservando en la web oficial.") },
     discos_rom: { name: "Discotecas", cat: "hacer", src: "prefettura", rule: m => m.age >= 18 ? R("ok", OK18) : R("unk", "La edad mínima la fija cada local o evento.") },
     smb: { name: "Isla de los Museos", cat: "hacer", src: "smb", rule: () => R("ok", "Gratis hasta los 18 enseñando un documento.") },
-    fiestas_ber: { name: "Fiestas y discotecas", cat: "hacer", src: "juschg", rule: m => m.age >= 18 ? R("ok", OK18) : m.age >= 16 ? R("req", "Con 16 o 17, sin adulto hasta las 24:00.", [G("Salir antes de las 24:00")]) : R("no", "Menores de 16, no sin un adulto.") },
+    fiestas_ber: { name: "Fiestas y discotecas", cat: "hacer", src: "juschg", rule: (m, g) => m.age >= 18 ? R("ok", OK18) : m.age >= 16 ? R("req", "Con 16 o 17, sin adulto hasta las 24:00.", [G("Salir antes de las 24:00")]) : adultOf(g, m) ? R("req", "Menores de 16, solo con un adulto responsable.", [G("Ir " + con(adultOf(g, m)))]) : R("no", "Menores de 16, no sin un adulto.") },
     bm: { name: "British Museum", cat: "hacer", src: "bm", rule: () => R("ok", "Colección permanente gratis.") },
-    discos_lon: { name: "Discotecas", cat: "hacer", src: "uk_lic", rule: m => m.age >= 18 ? R("ok", OK18) : m.age >= 16 ? R("unk", "Con 16 o 17 decide cada local según su licencia.") : R("no", "Menores de 16, no sin un adulto.") }
+    discos_lon: { name: "Discotecas", cat: "hacer", src: "uk_lic", rule: (m, g) => m.age >= 18 ? R("ok", OK18) : m.age >= 16 ? R("unk", "Con 16 o 17 decide cada local según su licencia.") : adultOf(g, m) ? R("unk", "Menores de 16, solo con un adulto; además decide cada local.") : R("no", "Menores de 16, no sin un adulto.") }
   };
 
   /* Lo que puedes hacer en cada país según tu edad (la ley del país) */
@@ -520,7 +534,7 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
       { icon: "train", t: "Tren al centro", src: "leonardo", f: () => V("lim", "14 €; en grupo, 4 billetes por 40 €.") }
     ],
     DE: [
-      { icon: "glass", t: "Cerveza y vino", src: "juschg", f: a => a >= 16 ? V("si", "Legal desde los 16. Destilados, no hasta los 18. En España sigue siendo a los 18.") : V("no", "Con menos de 16, solo con tus padres.") },
+      { icon: "glass", t: "Cerveza y vino", src: "juschg", f: a => a >= 16 ? V("si", "Legal desde los 16. Destilados, no hasta los 18.") : V("no", "Con menos de 16, solo con tus padres.") },
       { icon: "music", t: "Fiestas y discotecas", src: "juschg", f: a => a >= 18 ? V("si", "Sin límite de hora.") : a >= 16 ? V("lim", "Sin un adulto, hasta las 24:00.") : V("no", "Con menos de 16, no sin un adulto.") },
       { icon: "moon", t: "Bares y clubes nocturnos", src: "juschg", f: a => a >= 18 ? V("si", "Mayor de edad.") : V("no", "Prohibidos para menores.") },
       { icon: "museum", t: "Isla de los Museos", src: "smb", f: a => a < 18 ? V("si", "Gratis hasta los 18 con documento.") : V("lim", "Entrada normal.") }
@@ -628,12 +642,16 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
     berlin: `<g class="drive"><rect x="0" y="148" width="54" height="15" rx="3" fill="#F2C230"/>${[4, 16, 28, 40].map(x => `<rect x="${x}" y="151" width="8" height="5" fill="#2E3440"/>`).join("")}</g>`,
     londres: `<g class="drive"><rect x="0" y="140" width="42" height="24" rx="3" fill="#D7263D"/>${[3, 13, 23, 33].map(x => `<rect x="${x}" y="143" width="7" height="6" fill="#FDECEC"/><rect x="${x}" y="153" width="7" height="6" fill="#FDECEC"/>`).join("")}<circle cx="9" cy="164" r="3" fill="#222"/><circle cx="33" cy="164" r="3" fill="#222"/></g>`
   };
+  (function injectPhotos() {
+    const css = Object.entries(PHOTOS).map(([k, u]) => `.ph-${k}{background-image:url("${u}")}`).join("");
+    if (css) { const st = document.createElement("style"); st.textContent = css; document.head.appendChild(st); }
+  })();
   function poster(k, h, decorative) {
     const p = PHOTO[k];
     const cloud = (x, y, cls) => `<g class="cloud ${cls}"><ellipse cx="${x}" cy="${y}" rx="22" ry="8" fill="#fff" opacity=".6"/><ellipse cx="${x + 14}" cy="${y - 5}" rx="13" ry="9" fill="#fff" opacity=".6"/></g>`;
     const plane = `<g class="fly"><path d="M-70 6 H-4" stroke="#fff" stroke-width="1.4" stroke-dasharray="4 4" opacity=".85"/><path d="M0 4 L18 2 L24 -4 L27 -4 L25 2 L32 1 L34 -2 L36 -2 L35 3 L36 8 L34 8 L32 5 L25 4 L27 10 L24 10 L18 6 Z" fill="#fff"/></g>`;
     const overlay = `<svg class="overlay" viewBox="0 0 320 180" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${p.clouds ? cloud(40, 30, "c1") + cloud(200, 22, "c2") : ""}${plane}<g class="sticker">${VEHICLE[k]}</g></svg>`;
-    const img = PHOTOS[k] ? `<img src="${PHOTOS[k]}" alt="${decorative ? "" : esc(p.alt)}" width="960" height="540" decoding="async" style="object-position:${p.pos}">` : "";
+    const img = `<span class="ph ph-${k}" style="background-position:${p.pos}" ${decorative ? 'aria-hidden="true"' : `role="img" aria-label="${esc(p.alt)}"`}></span>`;
     const credit = decorative ? "" : `<a class="credit" href="${p.page}" target="_blank" rel="noopener">Foto: ${esc(p.by)} · ${esc(p.lic)}</a>`;
     return `<span class="photo" style="height:${h}px">${img}${overlay}${credit}</span>`;
   }
@@ -642,9 +660,42 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
   const me = { id: 1, name: "Tú", age: 16, nat: "ES", res: true, me: true };
   const state = {
     view: "explorar", age: 16, company: "amigos", likes: new Set(["noche", "museos"]), dest: "lisboa", filter: "todo", listFilter: null,
-    group: [], saved: new Set(["air:ryanair", "pousadas", "museus_pt"]), done: new Set(), approved: null, nextId: 4,
+    group: [], savedBy: { lisboa: new Set(["air:ryanair", "pousadas", "museus_pt"]) }, doneBy: { lisboa: new Set() }, saved: null, done: null, approved: null, nextId: 4, bannerHidden: false, opener: null,
     from: "SVQ", out: "2027-04-09", back: "2027-04-11", direct: false, flash: null, showHidden: false, lastFacts: {}
   };
+  state.saved = state.savedBy.lisboa; state.done = state.doneBy.lisboa;
+  const STORE = "goliveit-demo-v1";
+  const setsToJSON = o => Object.fromEntries(Object.entries(o).map(([k, v]) => [k, [...v]]));
+  function persist() {
+    try {
+      localStorage.setItem(STORE, JSON.stringify({ age: state.age, company: state.company, dest: state.dest, likes: [...state.likes], from: state.from, out: state.out, back: state.back, direct: state.direct,
+        savedBy: setsToJSON(state.savedBy), doneBy: setsToJSON(state.doneBy), bannerHidden: state.bannerHidden,
+        group: state.company === "custom" ? state.group.map(m => ({ id: m.id, name: m.name, age: m.age, nat: m.nat, res: m.res, me: !!m.me })) : null, nextId: state.nextId }));
+    } catch (e) { /* sin almacenamiento: la demo funciona igual */ }
+  }
+  function restore() {
+    try {
+      const x = JSON.parse(localStorage.getItem(STORE) || "null"); if (!x || typeof x !== "object") return;
+      const isDate = v => typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v);
+      if ([15, 16, 17, 18].includes(x.age)) state.age = x.age;
+      if (["solo", "amigos", "mayor", "custom"].includes(x.company)) state.company = x.company;
+      if (DEST[x.dest]) state.dest = x.dest;
+      if (Array.isArray(x.likes)) state.likes = new Set(x.likes.filter(l => LIKES.some(L => L[0] === l)));
+      if (ORIGINS.some(o => o[0] === x.from)) state.from = x.from;
+      if (isDate(x.out) && isDate(x.back) && x.back >= x.out) { state.out = x.out; state.back = x.back; }
+      state.direct = !!x.direct; state.bannerHidden = !!x.bannerHidden;
+      if (x.savedBy && typeof x.savedBy === "object") { state.savedBy = {}; Object.entries(x.savedBy).forEach(([k, v]) => { if (DEST[k] && Array.isArray(v)) state.savedBy[k] = new Set(v.filter(i => typeof i === "string" && ITEMS[idOf(i)])); }); }
+      if (x.doneBy && typeof x.doneBy === "object") { state.doneBy = {}; Object.entries(x.doneBy).forEach(([k, v]) => { if (DEST[k] && Array.isArray(v)) state.doneBy[k] = new Set(v.filter(i => typeof i === "string")); }); }
+      if (state.company === "custom" && Array.isArray(x.group)) {
+        const g = x.group.filter(m => m && typeof m.name === "string" && Number.isFinite(m.age)).slice(0, 8).map(m => ({ id: +m.id || 0, name: m.name.slice(0, 30), age: Math.max(6, Math.min(30, m.age)), nat: ["ES", "UE", "OT"].includes(m.nat) ? m.nat : "ES", res: m.res !== false, me: !!m.me }));
+        const mine = g.find(m => m.me);
+        if (mine) { me.age = mine.age; me.nat = mine.nat; me.res = mine.res; state.age = Math.max(15, Math.min(18, mine.age)); state.group = g.map(m => m.me ? me : m); state.nextId = Math.max(+x.nextId || 4, ...g.map(m => m.id + 1)); }
+        else state.company = "amigos";
+      } else if (state.company === "custom") state.company = "amigos";
+    } catch (e) { /* datos guardados corruptos: se ignoran */ }
+    state.saved = state.savedBy[state.dest] || (state.savedBy[state.dest] = new Set());
+    state.done = state.doneBy[state.dest] || (state.doneBy[state.dest] = new Set());
+  }
   function buildGroup() {
     me.age = state.age;
     if (state.company === "custom") return;
@@ -738,6 +789,12 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
       <p class="small">${st.possible ? `${pl(st.flOk.length, "vuelo", "vuelos")} y ${pl(st.stOk.length, "alojamiento", "alojamientos")} valen para vosotros.` : "Con vuestra edad no hay alojamiento verificado allí."}</p>
       <button type="button" class="btn sign" data-open-dest="${k}">Ver ${esc(d.city)}</button></div>`;
   }
+  function totalsFor(group) {
+    const keep = state.group; state.group = group;
+    const st = Object.keys(DEST).map(k => destStats(k)); state.group = keep;
+    const air = new Set(); st.forEach(x => x.flOk.forEach(o => air.add(o.a)));
+    return { air: air.size, stays: st.reduce((n, x) => n + x.stOk.length, 0), dest: st.filter(x => x.possible).length };
+  }
   function renderExplore(animate) {
     $("#credits").innerHTML = Object.entries(PHOTO).map(([k, p]) => `${esc(DEST[k].city)}: <a href="${p.page}" target="_blank" rel="noopener">${esc(p.by)}</a> (${esc(p.lic)})`).join(" · ") + ". Fuente: Wikimedia Commons. Las animaciones son propias.";
     $("#ages").innerHTML = [15, 16, 17, 18].map(a => `<button type="button" class="age" data-age="${a}" aria-pressed="${state.age === a}"><b>${a}</b><span>${a === 18 ? "comparar" : "años"}</span></button>`).join("");
@@ -745,7 +802,12 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
     const stats = Object.keys(DEST).map(k => ({ k, ...destStats(k), overlap: DEST[k].tags.filter(t => state.likes.has(t)) }));
     const airSet = new Set(); stats.forEach(s => s.flOk.forEach(x => airSet.add(x.a)));
     const stays = stats.reduce((n, s) => n + s.stOk.length, 0); const possible = stats.filter(s => s.possible).length;
-    if (!$("#tally").children.length) $("#tally").innerHTML = `<div><b id="t-air">0</b><span>aerolíneas te aceptan</span></div><div><b id="t-stay">0</b><span>alojamientos para ti</span></div><div><b id="t-dest">0</b><span>de 5 destinos posibles</span></div>`;
+    if (!$("#tally").children.length) $("#tally").innerHTML = `<div><b id="t-air">0</b><span id="t-air-l"></span></div><div><b id="t-stay">0</b><span id="t-stay-l"></span></div><div><b id="t-dest">0</b><span>de 5 destinos posibles</span></div>`;
+    const grp = state.group.length > 1; $("#t-air-l").textContent = grp ? "aerolíneas os aceptan" : "aerolíneas te aceptan"; $("#t-stay-l").textContent = grp ? "alojamientos para vosotros" : "alojamientos para ti";
+    const minors = state.group.some(m => m.age < 18);
+    if (minors) { const adult = totalsFor(state.group.map(m => ({ ...m, age: Math.max(18, m.age) }))); const lost = adult.stays - stays;
+      $("#delta").innerHTML = lost > 0 ? `Si todos tuvierais 18: <b>${pl(adult.stays, "alojamiento", "alojamientos")}</b> y <b>${adult.dest} de 5</b> destinos. La edad os quita <b>${pl(lost, "alojamiento", "alojamientos")}</b>: el problema está en dónde dormir.` : "Con vuestra edad ya tenéis las mismas opciones que con 18."; }
+    else $("#delta").textContent = "Sois mayores de edad: la edad ya no os limita.";
     countUp($("#t-air"), airSet.size); countUp($("#t-stay"), stays); countUp($("#t-dest"), possible);
     $("#tally-live").textContent = `Con ${ageLabel()}: ${pl(airSet.size, "aerolínea", "aerolíneas")}, ${pl(stays, "alojamiento", "alojamientos")} y ${possible} de 5 destinos posibles.`;
     if (animate) scan($("#tally"));
@@ -759,7 +821,7 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
         <span class="dest-body">
           <span class="dest-title"><strong>${esc(d.city)}</strong><span class="iata">${d.iata}</span></span>
           <span class="facts-mini">${top.map(f => `<span class="fm ${VERDICT[f.r.v][0]}"><span aria-hidden="true">${VERDICT[f.r.v][1]}</span>${esc(f.t)}</span>`).join("")}</span>
-          ${s.possible ? `<span class="small"><b>${pl(s.flOk.length, "vuelo", "vuelos")}</b> desde <b>${eur(s.minPrice)}</b> ·<b>${pl(s.stOk.length, "alojamiento", "alojamientos")}</b> · <span class="muted">precios de ejemplo</span></span>`
+          ${s.possible ? `<span class="small"><b>${pl(s.flOk.length, "vuelo", "vuelos")}</b> desde <b>${eur(s.minPrice)}</b> · <b>${pl(s.stOk.length, "alojamiento", "alojamientos")}</b> · <span class="muted">precios de ejemplo</span></span>`
             : `<span class="warn">${s.stOk.length ? "Ninguna aerolínea os acepta" : "Sin alojamiento verificado para vuestra edad"}</span>`}
         </span></button>`;
     }).join("");
@@ -776,6 +838,7 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
     const d = D(); const st = destStats(state.dest); const a = minAge();
     $("#hero").innerHTML = poster(state.dest, 220) + `<div class="hero-cap"><h1>${esc(d.city)}</h1><span class="agepill">con ${ageLabel()}</span></div>`;
     ageBar("#agebar-d"); if (animate) scan($("#facts"));
+    $("#destpick-d").innerHTML = Object.keys(DEST).map(k => `<button type="button" class="chip" data-open-dest="${k}" aria-pressed="${state.dest === k}">${DEST[k].iata} · ${esc(DEST[k].city)}</button>`).join("");
     $("#facts-title").textContent = `Con ${a} años en ${d.city}`;
     const prev = state.lastFacts[state.dest] || {}; const now = {};
     $("#facts").innerHTML = st.facts.map((f, i) => { now[f.t] = f.r.v; const changed = prev[f.t] && prev[f.t] !== f.r.v; const src = SRC[f.src];
@@ -785,8 +848,8 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
     const stays = st.st.slice().sort((x, y) => RANK[x.e.s] - RANK[y.e.s] || x.p - y.p);
     const okStays = stays.filter(x => visible(x.e.s)), hidden = stays.filter(x => !visible(x.e.s));
     $("#stays").innerHTML = okStays.length ? okStays.map((x, i) => offerCard(x.s, x.e, eur(x.p), "noche · ejemplo", ITEMS[x.s].cat, i, animate)).join("")
-      : `<div class="empty">Con ${ageLabel()} no hay alojamiento verificado en ${esc(d.city)}. ${state.company !== "mayor" ? "Prueba «Con alguien de 18»." : ""}</div>`;
-    $("#stays-hidden").innerHTML = hiddenBox(hidden.map(x => ({ name: ITEMS[x.s].name, e: x.e })), "alojamientos ocultos por vuestra edad");
+      : `<div class="empty">Con ${ageLabel()} no hay alojamiento verificado en ${esc(d.city)}. ${state.company !== "mayor" ? '<br><button type="button" class="btn sign sm" data-company="mayor" style="margin-top:8px">Probar con alguien de 18</button>' : ""}</div>`;
+    $("#stays-hidden").innerHTML = hiddenBox(hidden.map(x => ({ name: ITEMS[x.s].name, e: x.e })), "alojamientos ocultos por edad o sin verificar");
     renderMap();
   }
   function offerCard(key, e, price, unit, kind, i, animate) {
@@ -801,7 +864,7 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
   }
   function hiddenBox(rows, label) {
     if (!rows.length) return "";
-    return `<details class="hidden-box"><summary>${rows.length} ${label}: ver por qué</summary>${rows.map(r => `<div class="hidden-row"><span><strong>${esc(r.name)}</strong><br><span class="muted">${esc(r.e.per.find(x => x.r.s === r.e.s).r.why)}</span></span>${pill(r.e.s)}</div>`).join("")}</details>`;
+    return `<details class="hidden-box"><summary>${rows.length} ${label} · ver por qué</summary>${rows.map(r => `<div class="hidden-row"><span><strong>${esc(r.name)}</strong><br><span class="muted">${esc(r.e.per.find(x => x.r.s === r.e.s).r.why)}</span></span>${pill(r.e.s)}</div>`).join("")}</details>`;
   }
   function renderMap() {
     const d = D();
@@ -821,13 +884,13 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
   }
   function itemCard(k) {
     const e = evalItem(k); const saved = state.saved.has(k);
-    const bad = e.per.filter(x => x.r.s === e.s).map(x => x.m.name).join(", ");
+    const bad = para(e.per.filter(x => x.r.s === e.s).map(x => x.m));
     const line = { ok: "Vale para todo el grupo.", req: "Requisitos para " + bad + ".", no: "No permitido para " + bad + ".", unk: "Sin verificar para " + bad + ": no lo recomendamos." }[e.s];
     return `<button type="button" class="item${saved ? " saved" : ""}" data-item="${k}"><span><span class="eyebrow">${k.startsWith("air:") ? "vuelo" : e.it.cat}</span><br><span class="t">${esc(itemName(k))}</span></span>${pill(e.s)}
       <span class="sub">${saved ? "★ Guardado · " : ""}${esc(line)}</span></button>`;
   }
-  function openItem(k) {
-    const e = evalItem(k); const src = SRC[e.it.src]; const saved = state.saved.has(k);
+  function openItem(k, focusSel) {
+    const e = evalItem(k); const src = SRC[e.it.src]; const saved = state.saved.has(k); state.opener = k;
     const tag = e.per.map(x => x.r.tag).find(Boolean) || (src.url ? src.tag : "SIN VERIFICAR");
     $("#sheet-in").innerHTML = `
       <div class="sheet-head"><div><p class="eyebrow">${k.startsWith("air:") ? "Aerolínea" : e.it.cat} · ${esc(D().city)}</p><h2 id="sheet-title">${esc(itemName(k))}</h2></div><button type="button" class="icon-btn" data-close aria-label="Cerrar">×</button></div>
@@ -838,6 +901,7 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
       <button type="button" class="btn ${saved ? "ghost" : "sign"} block" data-save="${k}">${saved ? "Quitar de guardados" : "★ Guardar en el viaje"}</button>
       <p class="small muted">Puedes guardar cualquier sitio, como en Corner. Solo lo verificado entra en el plan que ven las familias.</p>`;
     const dlg = $("#sheet"); if (!dlg.open) dlg.showModal();
+    if (focusSel) { const el = $("#sheet-in " + focusSel); if (el) el.focus(); }
   }
 
   /* ===================== VUELOS ===================== */
@@ -847,22 +911,24 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
     $("#fl-title").textContent = `Vuelos a ${d.city} con ${ageLabel()}`;
     ageBar("#agebar-v"); if (animate) scan($("#offers"));
     $("#fl-from").innerHTML = ORIGINS.map(([c, l]) => `<option value="${c}"${c === state.from ? " selected" : ""}>${l} (${c})</option>`).join("");
-    $("#fl-to").value = `${d.city} (${d.iata})`;
+    $("#fl-to").innerHTML = Object.keys(DEST).map(k => `<option value="${k}"${k === state.dest ? " selected" : ""}>${esc(DEST[k].city)} (${DEST[k].iata})</option>`).join("");
+    $("#fl-back").min = state.out;
     $("#fl-out").value = state.out; $("#fl-back").value = state.back; $("#fl-direct").checked = state.direct;
     const o = state.from, dir = state.direct;
     const links = [
       ["Google Flights", `https://www.google.com/travel/flights?hl=es&q=${encodeURIComponent(`Flights from ${o} to ${d.kayak} on ${state.out} through ${state.back}${dir ? " nonstop" : ""}`)}`],
       ["Skyscanner", `https://www.skyscanner.es/transporte/vuelos/${o.toLowerCase()}/${d.sky}/${yymmdd(state.out)}/${yymmdd(state.back)}/?adultsv2=${n}&rtn=1${dir ? "&preferDirects=true" : ""}`],
-      ["Kayak", `https://www.kayak.es/flights/${o}-${d.kayak}/${state.out}/${state.back}/${n}adults${dir ? "?fs=stops=0" : ""}`]
+      ["Kayak", `https://www.kayak.es/flights/${o}-${d.kayak}/${state.out}/${state.back}${n > 1 ? "/" + n + "adults" : ""}${dir ? "?fs=stops=0" : ""}`]
     ];
     $("#fl-ext").innerHTML = links.map(([l, u]) => `<a class="btn ghost" href="${u}" target="_blank" rel="noopener">${l} ↗</a>`).join("");
     const young = state.group.filter(m => m.age >= 12 && m.age < 16);
-    $("#fl-hint").textContent = young.length ? `Con ${young[0].age} años: Ryanair y easyJet piden un acompañante; Vueling, solo vuelos directos.` : `Con 16 o más volais sin adulto en Vueling, Ryanair, easyJet y Wizz Air.`;
+    const minorsF = state.group.some(m => m.age < 18);
+    $("#fl-hint").textContent = young.length ? `Con ${young[0].age} años: Ryanair y easyJet piden un acompañante; Vueling, solo vuelos directos.` : minorsF ? "Con 16 o 17 voláis sin adulto en Vueling, Ryanair, easyJet y Wizz Air. Para salir de España, los menores necesitan la declaración de permiso de viaje." : "Todos sois mayores de edad: ninguna aerolínea os limita por edad.";
     const fl = st.fl.filter(x => !dir || x.dir).sort((x, y) => RANK[x.e.s] - RANK[y.e.s] || x.p - y.p);
     const ok = fl.filter(x => visible(x.e.s)), hidden = fl.filter(x => !visible(x.e.s));
     $("#offers").innerHTML = ok.length ? ok.map((x, i) => offerCard("air:" + x.a, x.e, eur(x.p), "ida y vuelta · ejemplo", `${x.dir ? "Directo" : "Escala"} · ${d.flights.find(f => f[0] === x.a)[3]}`, i, animate)).join("")
-      : `<div class="empty">Ninguna oferta acepta a vuestro grupo. Prueba «Con alguien de 18».</div>`;
-    $("#offers-hidden").innerHTML = hiddenBox(hidden.map(x => ({ name: ITEMS[x.a].name + (x.dir ? " · directo" : " · con escala"), e: x.e })), "vuelos ocultos por vuestra edad");
+      : `<div class="empty">Ninguna oferta acepta a vuestro grupo.${state.company !== "mayor" ? '<br><button type="button" class="btn sign sm" data-company="mayor" style="margin-top:8px">Probar con alguien de 18</button>' : ""}</div>`;
+    $("#offers-hidden").innerHTML = hiddenBox(hidden.map(x => ({ name: ITEMS[x.a].name + (x.dir ? " · directo" : " · con escala"), e: x.e })), "vuelos ocultos por edad o sin verificar");
   }
 
   /* ===================== PLAN ===================== */
@@ -911,14 +977,15 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
 
   /* ===================== GRUPO ===================== */
   function openGroup() {
+    state.opener = null;
     $("#sheet-in").innerHTML = `<div class="sheet-head"><div><p class="eyebrow">Quién viaja</p><h2 id="sheet-title">Tu grupo</h2></div><button type="button" class="icon-btn" data-close aria-label="Cerrar">×</button></div>
       <p class="small muted">Edad, nacionalidad y dónde vive cada uno cambian lo que podéis reservar y los papeles.</p>
       ${state.group.map(m => `<div class="member"><div class="member-fields">
-        <input class="input" id="name-${m.id}" data-m="${m.id}" data-f="name" value="${esc(m.name)}" aria-label="Nombre" autocomplete="off">
+        ${m.me ? '<span class="me-name">Tú</span>' : `<input class="input" id="name-${m.id}" data-m="${m.id}" data-f="name" value="${esc(m.name)}" aria-label="Nombre" autocomplete="off">`}
         <input class="input" id="age-${m.id}" data-m="${m.id}" data-f="age" type="number" min="10" max="25" value="${m.age}" aria-label="Edad de ${esc(m.name)}">
         <select class="input" id="nat-${m.id}" data-m="${m.id}" data-f="nat" aria-label="Nacionalidad de ${esc(m.name)}">
           <option value="ES"${m.nat === "ES" ? " selected" : ""}>Española</option><option value="UE"${m.nat === "UE" ? " selected" : ""}>Otra de la UE</option><option value="OT"${m.nat === "OT" ? " selected" : ""}>De fuera de la UE</option></select>
-        ${m.me ? `<span class="small muted">Tú</span>` : `<button type="button" class="icon-btn" data-remove="${m.id}" aria-label="Quitar a ${esc(m.name)}">×</button>`}</div>
+        ${m.me ? "<span></span>" : `<button type="button" class="icon-btn" data-remove="${m.id}" aria-label="Quitar a ${esc(m.name)}">×</button>`}</div>
         <label class="row small"><input type="checkbox" id="res-${m.id}" data-m="${m.id}" data-f="res"${m.res ? " checked" : ""}> Vive en España</label></div>`).join("")}
       <div class="row"><button type="button" class="btn ghost" data-add-member>Añadir a alguien</button><button type="button" class="btn sign" data-close>Listo</button></div>`;
     const dlg = $("#sheet"); if (!dlg.open) dlg.showModal();
@@ -939,7 +1006,8 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
       <div class="note-block"><span class="eyebrow">Lo que añadimos</span><ul>${n.nuevo.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>
       <div class="note-block"><span class="eyebrow">Hipótesis</span><p>${n.hip.map(h => `<span class="tag">${h}</span>`).join(" ")}</p></div>
       <div class="note-block"><span class="eyebrow">Datos</span><p class="small">${esc(n.datos)}</p></div>
-      <div class="note-block"><span class="eyebrow">Pregunta de entrevista (antes de enseñar la demo)</span><p class="small">${esc(n.q)}</p></div>`;
+      <div class="note-block"><span class="eyebrow">Pregunta de entrevista (antes de enseñar la demo)</span><p class="small">${esc(n.q)}</p></div>
+      <button type="button" class="btn ghost sm reset" data-reset>Reiniciar la demo</button>`;
   }
 
   /* ===================== NAVEGACIÓN ===================== */
@@ -952,9 +1020,17 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
     ({ explorar: renderExplore, destino: renderDest, vuelos: renderFlights, plan: renderPlan, familia: renderFamily })[view](opts.animate);
     renderNotes();
     if (location.hash.slice(1) !== view) { try { history.replaceState(null, "", "#" + view); } catch (e) { /* algunos visores no lo permiten */ } }
+    persist();
   }
   const rerender = (animate) => show(state.view, { animate });
-  function setDest(k) { if (state.dest === k) return false; state.dest = k; state.saved = new Set(); state.done = new Set(); state.approved = null; state.filter = "todo"; state.listFilter = null; return true; }
+  function setDest(k) { if (state.dest === k) return false; state.dest = k; state.saved = state.savedBy[k] || (state.savedBy[k] = new Set()); state.done = state.doneBy[k] || (state.doneBy[k] = new Set()); state.approved = null; state.filter = "todo"; state.listFilter = null; return true; }
+  function resetDemo() {
+    try { localStorage.removeItem(STORE); } catch (e) { /* nada que borrar */ }
+    Object.assign(state, { age: 16, company: "amigos", likes: new Set(["noche", "museos"]), savedBy: { lisboa: new Set(["air:ryanair", "pousadas", "museus_pt"]) }, doneBy: { lisboa: new Set() }, dest: "", from: "SVQ", out: "2027-04-09", back: "2027-04-11", direct: false, approved: null, bannerHidden: false, nextId: 4 });
+    $(".banner").hidden = false; $("#q").value = ""; $("#detect").innerHTML = "";
+    setDest("lisboa"); buildGroup(); go("explorar", { flip: true });
+  }
+  function refocus() { if (!state.opener) return; const el = [...document.querySelectorAll("[data-item]")].find(x => x.dataset.item === state.opener); if (el) el.focus({ preventScroll: true }); }
   const go = (v, opts) => { show(v, Object.assign({ animate: true }, opts)); window.scrollTo({ top: 0, behavior: reduced() ? "auto" : "smooth" }); };
 
   document.addEventListener("click", ev => {
@@ -967,10 +1043,11 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
     else if (d.openDest) { const f = setDest(d.openDest); go("destino", { flip: f }); }
     else if (d.openList) { const l = LISTS.find(x => x.id === d.openList); const f = setDest(l.dest); state.listFilter = l.id; state.filter = "todo"; go("destino", { flip: f }); }
     else if (d.clearList !== undefined) { state.listFilter = null; renderMap(); }
-    else if (d.like) { state.likes.has(d.like) ? state.likes.delete(d.like) : state.likes.add(d.like); renderExplore(true); }
+    else if (d.like) { state.likes.has(d.like) ? state.likes.delete(d.like) : state.likes.add(d.like); renderExplore(true); persist(); }
     else if (d.filter) { state.filter = d.filter; renderMap(); }
-    else if (d.save) { const k = d.save; state.saved.has(k) ? state.saved.delete(k) : state.saved.add(k); state.approved = null; const open = $("#sheet").open; rerender(false); if (open) openItem(k); }
-    else if (d.close !== undefined) { $("#sheet").close(); rerender(false); }
+    else if (d.save) { const k = d.save; state.saved.has(k) ? state.saved.delete(k) : state.saved.add(k); state.approved = null; const open = $("#sheet").open; rerender(false); if (open) openItem(k, "[data-save]"); }
+    else if (d.close !== undefined) { $("#sheet").close(); rerender(false); refocus(); }
+    else if (d.reset !== undefined) resetDemo();
     else if (d.item) openItem(d.item);
     else if (d.editGroup !== undefined) openGroup();
     else if (d.addMember !== undefined) { state.company = "custom"; state.group.push({ id: state.nextId, name: "Amigo " + state.nextId, age: 17, nat: "ES", res: true }); state.nextId++; state.approved = null; openGroup(); }
@@ -979,6 +1056,7 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
     else if (d.unapprove !== undefined) { state.approved = null; renderFamily(); }
     else if (d.ask !== undefined) { $("#ask-box").innerHTML = `<div class="field" style="margin-top:10px"><label for="ask-text">¿Qué cambiarías?</label><textarea class="input" id="ask-text" rows="3">¿Podéis volver un día antes?</textarea><button type="button" class="btn ghost" data-send-ask>Enviar comentario</button></div>`; }
     else if (d.sendAsk !== undefined) { $("#ask-box").innerHTML = `<p class="small" style="margin-top:10px">Comentario enviado (en la demo no sale de esta pantalla).</p>`; }
+    else if (t.id === "hide-banner") { state.bannerHidden = true; $(".banner").hidden = true; persist(); }
     else if (t.id === "pause") { const p = document.documentElement.classList.toggle("paused"); t.setAttribute("aria-pressed", String(p)); t.textContent = p ? "Reanudar animaciones" : "Pausar animaciones"; }
     else if (t.id === "copy-link") {
       const txt = $("#share-link").textContent; const msg = m => { $("#copy-msg").textContent = m; };
@@ -1002,16 +1080,21 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
   });
   document.addEventListener("change", ev => {
     const el = ev.target;
-    if (el.dataset && el.dataset.done !== undefined) { el.checked ? state.done.add(el.dataset.done) : state.done.delete(el.dataset.done); renderBoard(); return; }
+    if (el.dataset && el.dataset.done !== undefined) { el.checked ? state.done.add(el.dataset.done) : state.done.delete(el.dataset.done); renderBoard(); persist(); return; }
+    const plus = (iso, days) => { const t = new Date(iso + "T00:00:00Z"); t.setUTCDate(t.getUTCDate() + days); return t.toISOString().slice(0, 10); };
     if (el.id === "fl-from") { state.from = el.value; renderFlights(); renderBoard(); }
-    if (el.id === "fl-out" && el.value) { state.out = el.value; renderFlights(); renderBoard(); }
-    if (el.id === "fl-back" && el.value) { state.back = el.value; renderFlights(); renderBoard(); }
+    if (el.id === "fl-to") { const f = setDest(el.value); show("vuelos", { flip: f, animate: true }); return; }
+    if (el.id === "fl-out" && el.value) { state.out = el.value; if (state.back < state.out) state.back = plus(state.out, 2); renderFlights(); renderBoard(); }
+    if (el.id === "fl-back" && el.value) { state.back = el.value < state.out ? state.out : el.value; renderFlights(); renderBoard(); }
     if (el.id === "fl-direct") { state.direct = el.checked; renderFlights(true); }
+    persist();
   });
   $("#sheet").addEventListener("click", ev => { if (ev.target === $("#sheet")) { $("#sheet").close(); rerender(false); } });
-  $("#sheet").addEventListener("cancel", () => setTimeout(() => rerender(false), 0));
+  $("#sheet").addEventListener("cancel", () => setTimeout(() => { rerender(false); refocus(); }, 0));
   $("#fl-form").addEventListener("submit", ev => ev.preventDefault());
   window.addEventListener("hashchange", () => show(location.hash.slice(1)));
+  restore();
+  if (state.bannerHidden) $(".banner").hidden = true;
   buildGroup();
   show(location.hash.slice(1) || "explorar", { animate: true });
 })();

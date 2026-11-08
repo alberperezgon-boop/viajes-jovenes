@@ -29,3 +29,9 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 
 - **Hecho:** nombre GoLiveIt y paleta cobalto + mandarina (D-12). Cinco fotos de Wikimedia Commons con licencia libre y crédito (ver [[Fuentes]]), con zoom lento y las animaciones propias encima como pegatinas. `60 Demo/build.mjs` incrusta las fotos y genera `GoLiveIt.html` (artefacto) y `GoLiveIt-para-compartir.html` (archivo que funciona solo, ~1,1 MB). Probado con REA en móvil (claro) y escritorio (oscuro).
 - **Pendiente:** comprobar la marca y el dominio de GoLiveIt (Q-21).
+
+## 2026-11-08. Auditoría de la demo (v4)
+
+- **Hecho:** revisión completa del código y recorridos con REA a 320 px y en escritorio oscuro, con recarga de página. 10 errores corregidos (el más grave: se perdía lo guardado al cambiar de destino) y 7 mejoras. Detalle en [[Auditoría de la demo]].
+- **Aprendido:** con 15 años y amigos de la misma edad, **la edad quita 14 de 15 alojamientos** en los cinco destinos. Es la cifra más clara para defender H-03 ante el equipo.
+- **Pendiente:** Q-20, Q-21 y pilotar las encuestas.
