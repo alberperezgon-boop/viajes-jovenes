@@ -65,3 +65,7 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 
 - **Hecho:** se quita la edición persona a persona del panel (edad, nombre y gustos de cada uno), porque metía ruido visual y podía liar. En su lugar, un **resumen del grupo** arriba («Vais 3 · 2 de 17 y 1 de 18 años · Buscáis: playa, ambiente joven») con un botón «Cambiar» que abre la bienvenida. Personas sin nombre («Persona 2»). Si todo el grupo tiene el mismo resultado, sale una sola etiqueta («Todo el grupo ✓»).
 - **Consecuencia:** los gustos se marcan para todo el grupo, así que en el prototipo ya no se ven conflictos de gustos entre personas. El motor sigue preparado para ellos si en el futuro cada uno vota desde su móvil.
+
+## 2026-11-08. Planner: reserva simulada (D-13)
+
+- **Hecho:** la pestaña Vuelos es un comparador: ida y vuelta con horarios de ejemplo, duración, directo o con escala, precio por persona y total, orden por más barato o más rápido y filtro de solo directos. Dormir permite «Elegir este». La cesta suma el total y lleva a la reserva simulada: resumen tipo tarjeta de embarque, condiciones por edad que hay que confirmar (permiso de viaje, carta de Portugal…), «¿Quién paga?» y envío a la familia. Después se simula la aprobación y salen las tarjetas de embarque y el bono marcados «NO VÁLIDO PARA VIAJAR». Recorrido completo probado en Chrome.

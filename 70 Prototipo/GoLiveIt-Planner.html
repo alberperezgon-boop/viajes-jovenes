@@ -249,13 +249,60 @@ body { background: radial-gradient(900px 500px at 100% -10%, color-mix(in srgb, 
 .gsum-top { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: center; }
 .gsum-n { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: var(--pop); color: var(--pop-ink); font-family: var(--f-mono); font-weight: 800; font-size: 1.2rem; }
 .gsum .btn { background: rgb(255 255 255 / 0.2); color: #fff; }
+.searchbar { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; padding: 10px 14px; border-radius: 14px; background: var(--ink); color: var(--surface); font-size: 0.84rem; }
+.searchbar b { font-family: var(--f-mono); font-size: 0.95rem; }
+.sorttabs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.sorttab { border: 1.5px solid var(--line); background: var(--surface); border-radius: 14px; padding: 8px 12px; display: grid; text-align: left; cursor: pointer; }
+.sorttab span { font-size: 0.75rem; color: var(--muted); font-weight: 700; }
+.sorttab b { font-family: var(--f-mono); font-size: 1.05rem; }
+.sorttab[aria-pressed="true"] { border-color: var(--brand); box-shadow: inset 0 -3px 0 var(--brand); }
+.fcard { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 12px; padding: 12px 14px; border-radius: 16px; background: var(--surface); box-shadow: 0 1px 0 var(--line), 0 10px 26px -18px rgb(14 19 48 / 0.45); border: 2px solid transparent; }
+.fcard.chosen { border-color: var(--pop); }
+.fcard.dim { opacity: 0.7; }
+.f-air { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; }
+.f-logo { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; background: var(--brand); color: #fff; font-family: var(--f-mono); font-size: 0.72rem; font-weight: 800; }
+.f-legs { display: grid; gap: 8px; }
+.f-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 8px; align-items: center; }
+.leg { display: grid; } .leg.r { text-align: right; }
+.leg b { font-family: var(--f-mono); font-size: 1.05rem; } .leg span { font-size: 0.72rem; color: var(--muted); font-weight: 700; }
+.line { display: grid; justify-items: center; font-size: 0.68rem; color: var(--muted); }
+.line i { display: block; width: 100%; height: 2px; background: var(--line); border-radius: 2px; margin: 2px 0; position: relative; }
+.line i::after { content: "✈"; position: absolute; right: -2px; top: -8px; font-size: 0.7rem; color: var(--muted); font-style: normal; }
+.line .dir { color: var(--ok); font-weight: 800; } .line .esc { color: var(--req); font-weight: 800; }
+.f-price { display: grid; justify-items: end; align-content: start; gap: 2px; text-align: right; }
+.price.big { font-size: 1.35rem; }
+.f-foot { grid-column: 1 / -1; display: grid; gap: 6px; border-top: 1px dashed var(--line); padding-top: 8px; }
+.f-why > summary { cursor: pointer; font-size: 0.78rem; font-weight: 700; color: var(--link); }
+.cart { position: sticky; bottom: -16px; margin: 4px -16px -16px; padding: 12px 16px 14px; background: var(--surface); border-top: 1px solid var(--line); box-shadow: 0 -10px 24px -18px rgb(14 19 48 / 0.5); display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 10px; align-items: center; z-index: 3; }
+.cart-items { display: grid; gap: 4px; min-width: 0; }
+.ci { border: 1.5px dashed var(--line); background: none; border-radius: 10px; padding: 3px 8px; font-size: 0.76rem; font-weight: 700; text-align: left; cursor: pointer; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ci.on { border-style: solid; border-color: var(--pop); color: var(--ink); }
+.cart-tot { display: grid; text-align: right; } .cart-tot strong { font-family: var(--f-mono); font-size: 1.2rem; }
+.demo-banner { background: var(--req-soft); color: var(--req); border-radius: 12px; padding: 8px 12px; font-size: 0.82rem; font-weight: 700; margin: 0; }
+.pass { border-radius: 18px; overflow: hidden; background: linear-gradient(120deg, var(--brand), var(--brand-2)); color: #fff; display: grid; }
+.pass-top { display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; align-items: center; padding: 12px 16px; border-bottom: 1px dashed rgb(255 255 255 / 0.35); }
+.pass-top .r { text-align: right; } .pass-top b { display: block; font-family: var(--f-mono); font-size: 1.1rem; }
+.pass .eyebrow { color: rgb(255 255 255 / 0.8); }
+.pass-plane { font-size: 1.3rem; }
+.pass-bot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; padding: 10px 16px; background: rgb(0 0 0 / 0.15); font-size: 0.8rem; font-weight: 700; }
+.co-check { display: flex; gap: 8px; align-items: flex-start; font-size: 0.86rem; padding: 6px 0; border-top: 1px solid var(--line); }
+.co-check input { width: 18px; height: 18px; accent-color: var(--pop); margin-top: 1px; }
+.done { display: flex; gap: 12px; align-items: center; padding: 12px 14px; border-radius: 16px; background: var(--surface-2); }
+.done.ok { background: var(--ok-soft); }
+.done-ic { font-size: 2rem; }
+.steps { margin: 0; padding-left: 20px; display: grid; gap: 6px; font-size: 0.86rem; }
+.steps li.ok { color: var(--ok); font-weight: 700; } .steps li.now { font-weight: 800; }
+.ticket { position: relative; display: flex; justify-content: space-between; gap: 10px; align-items: center; padding: 12px 16px; border-radius: 16px; background: var(--surface); border: 1.5px dashed var(--brand); overflow: hidden; }
+.ticket > div { display: grid; gap: 2px; }
+.ticket.stay { border-color: var(--pop); }
+.ticket-stamp { font-family: var(--f-mono); font-size: 0.66rem; font-weight: 800; letter-spacing: 0.08em; color: var(--no); border: 2px solid var(--no); border-radius: 6px; padding: 3px 6px; transform: rotate(-6deg); white-space: nowrap; }
 #wz-go { font-size: 1rem; padding: 12px 18px; box-shadow: 0 10px 22px -10px var(--pop); }
 </style>
 
 <div class="app">
   <header class="top">
     <span class="wm">Go<span>Live</span>It</span>
-    <span class="tag">Planea el viaje con tu grupo · prototipo</span>
+    <span class="tag">Busca, compara y reserva viajes para tu edad · demo</span>
     <span class="spacer"></span>
     <span class="seg" role="group" aria-label="Tipo de mapa" id="mapmode"></span>
     <button type="button" class="tbtn" id="pause" aria-pressed="false">Pausar animaciones</button>
@@ -490,6 +537,7 @@ body { background: radial-gradient(900px 500px at 100% -10%, color-mix(in srgb, 
      ========================================================= */
   const me = { id: 1, name: "Tú", age: 17, nat: "ES", likes: new Set(["playa", "joven"]), me: true };
   const state = {
+    cart: { k: null, fl: null, st: null }, flSort: "precio", flDirect: false, co: { step: 1, checks: new Set() },
     group: [me, ...[2, 3, 4].map(i => ({ id: i, name: "Persona " + i, age: 17, nat: "ES", likes: new Set(["playa", "joven"]) }))],
     origin: "SVQ", days: 4, date: "2027-03-25", budget: 250, sel: null, tab: "todo", compare: new Set(), mapMode: "offline", nextId: 5, parsed: null, legalFilter: { quien: "todos", cuando: "todos", dest: "auto" }
   };
@@ -910,7 +958,7 @@ Reglas de extracción:
     else if (state.tab === "papeles") body = docsBlock(a) + legalList(a.d.country);
     else body = budgetBar(a) + `<table class="rt"><tr><th>Partida</th><th>Cálculo</th><th>Por persona</th></tr><tr><td>Vuelo</td><td>${esc(ITEMS[a.fl.a].name)}, ida y vuelta</td><td>${eur(a.cost.vuelo)}</td></tr><tr><td>Dormir</td><td>${esc(ITEMS[a.st.s].name)} × ${Math.max(1, state.days - 1)} noches</td><td>${eur(a.cost.aloj)}</td></tr><tr><td>Día a día</td><td>${eur(a.d.daily)} × ${state.days} días</td><td>${eur(a.cost.dia)}</td></tr></table><p class="small muted">Estimaciones ilustrativas para la demo: no son precios actuales. En producción saldrían de APIs de proveedores o de enlaces de afiliación.</p>`;
     $("#results").innerHTML = `<div style="display:grid;gap:12px"><button type="button" class="btn ghost sm" data-back style="justify-self:start">← Volver a los destinos</button>${head}
-      ${a.score != null ? `<div class="tabs" role="tablist">${tabs.map(([t, l]) => `<button type="button" role="tab" data-tab="${t}" aria-selected="${state.tab === t}">${l}</button>`).join("")}</div>` : ""}<div style="display:grid;gap:12px">${body}</div></div>`;
+      ${a.score != null ? `<div class="tabs" role="tablist">${tabs.map(([t, l]) => `<button type="button" role="tab" data-tab="${t}" aria-selected="${state.tab === t}">${l}</button>`).join("")}</div>` : ""}<div style="display:grid;gap:12px">${body}</div>${a.score != null ? cartBar(a) : ""}</div>`;
   }
   /* ---------- Sitios en el mapa y pestaña «Todo»: la oferta recomendada para vuestra edad ---------- */
   function places(a) {
@@ -926,7 +974,8 @@ Reglas de extracción:
     const hidden = (a.flights.length - fl.length) + (a.stays.length - st.length) + (oc.length - ok.length);
     const row = (icon, title, sub, badge, price) => `<div class="mini"><span class="mini-ic" aria-hidden="true">${icon}</span><span><strong>${title}</strong><br><span class="small muted">${sub}</span></span><span class="mini-r">${price ? `<span class="price">${price}</span>` : ""}${badge}</span></div>`;
     const block = (title, tab, rows) => `<div class="box cat ${{ vuelos: "cat-fly", dormir: "cat-stay", ocio: "cat-fun" }[tab]}"><div class="cat-h"><h3>${title}</h3><button type="button" class="btn sm" data-tab="${tab}">Ver detalle</button></div><div class="cat-b">${rows || '<p class="small bad">Con vuestra edad aquí no sale nada.</p>'}</div></div>`;
-    return `<p class="small">Todo lo que <strong>os sale con vuestra edad</strong> en ${esc(a.d.city)}. Los precios son orientativos; lo que no os dejan hacer no aparece aquí.</p>
+    return `<div class="bk-box"><div class="bk-head"><span class="bk-badge">Reservar</span><strong>Montad vuestro viaje</strong></div><p class="small">Elegid vuelo y dónde dormir entre lo que os deja vuestra edad, y mandadlo a vuestra familia para que lo apruebe y lo pague.</p><div class="bk-links"><button type="button" class="cta-bk" data-tab="vuelos">✈ Elegir vuelo</button><button type="button" class="cta-bk" data-tab="dormir">🛏 Elegir alojamiento</button></div></div>
+      <p class="small">Todo lo que <strong>os sale con vuestra edad</strong> en ${esc(a.d.city)}. Los precios son orientativos; lo que no os dejan hacer no aparece aquí.</p>
       ${block("✈ Vuelos que podéis coger", "vuelos", fl.map(x => row("✈", esc(ITEMS[x.a].name), (x.dir ? "Directo" : "Con escala") + " · " + state.origin + " → " + a.d.iata, pill(x.e.s), eur(x.p))).join(""))}
       ${block("🛏 Dónde podéis dormir", "dormir", st.map(x => row("🛏", esc(ITEMS[x.s].name), groupWhy(x.e), pill(x.e.s), eur(x.p) + "/noche")).join("") + (st.length ? bookingBox(a, true) : ""))}
       ${block("🎟 Planes para vuestra edad", "ocio", ok.map(x => row(x.when === "noche" ? "☾" : "☀", esc(x.name), groupWhy(x.e), x.key ? pill(x.e.s) : pill("ok", "Libre"))).join(""))}
@@ -959,10 +1008,10 @@ Reglas de extracción:
   function groupWhy(e) { const per = e.per.filter(x => x.r.s === e.s); return [...new Set(per.map(x => x.r.why))].map(esc).join(" "); }
   function reqList(e) { const seen = new Map(); e.per.forEach(x => x.r.reqs.forEach(q => seen.set(q.t, q.who))); return seen.size ? `<ul class="why">${[...seen].map(([t, who]) => `<li>${esc(t)} <span class="pill who">${who}</span></li>`).join("")}</ul>` : ""; }
   function srcLine(key) { const x = SRC[key]; return `<p class="small">${x.url ? `<a href="${x.url}" target="_blank" rel="noopener">${esc(x.label)}</a>` : esc(x.label)} <span class="tipo">${esc(x.tag)} · ${esc(x.date)}</span></p>`; }
-  function offer({ title, sub, price, e, link }) {
+  function offer({ title, sub, price, e, link, pick }) {
     return `<div class="offer${visible(e.s) ? "" : " dim"}"><div class="row between"><strong>${title}</strong>${e.it ? pill(e.s) : pill("ok", "Libre")}</div>
       ${sub || price ? `<div class="row between small"><span class="muted">${sub || ""}</span>${price ? `<span class="price">${price}</span>` : ""}</div>` : ""}
-      <p class="small">${groupWhy(e)}</p>${personChips(e)}${reqList(e)}${e.it ? `<span class="tipo">${TIPOS[e.it.tipo]}</span>${srcLine(e.it.src)}` : ""}${link && visible(e.s) ? link : ""}</div>`;
+      <p class="small">${groupWhy(e)}</p>${personChips(e)}${reqList(e)}${e.it ? `<span class="tipo">${TIPOS[e.it.tipo]}</span>${srcLine(e.it.src)}` : ""}${pick && visible(e.s) ? pick : ""}${link && visible(e.s) ? link : ""}</div>`;
   }
   function splitList(list, render, hiddenLabel) {
     const ok = list.filter(x => visible(x.e.s)), hid = list.filter(x => !visible(x.e.s));
@@ -974,23 +1023,110 @@ Reglas de extracción:
     return its.length ? `<div class="box"><h3>Posibles líos y cómo evitarlos</h3>${its.map(i => `<div><strong>${esc(i.titulo)}</strong><p class="small">${esc(i.texto)}</p><p class="small"><a href="${esc(i.url)}" target="_blank" rel="noopener">${esc(i.fuente)}</a> <span class="tipo">${esc(i.etiqueta)}</span></p></div>`).join("")}</div>` : "";
   }
   function counts(list) { const ok = list.filter(x => x.e.s === "ok").length, req = list.filter(x => x.e.s === "req").length; return { ok, req, vis: ok + req, no: list.length - ok - req }; }
+
+
+  /* ---------- RESERVA SIMULADA: como un comparador de vuelos, pero filtrado por vuestra edad ----------
+     No se reserva ni se cobra nada. No se piden datos de pago ni de documentos.
+     Horarios y precios de ejemplo (deterministas), nunca presentados como actuales. */
+  const AIR_CODE = { ryanair: "FR", vueling: "VY", easyjet: "U2", wizz: "W6", iberia: "IB", tap: "TP", airfrance: "AF", ita: "AZ", lufthansa: "LH", ba: "BA" };
+  const km = (p, q) => { const r = Math.PI / 180, dLat = (q[1] - p[1]) * r, dLon = (q[0] - p[0]) * r; const h = Math.sin(dLat / 2) ** 2 + Math.cos(p[1] * r) * Math.cos(q[1] * r) * Math.sin(dLon / 2) ** 2; return 6371 * 2 * Math.asin(Math.sqrt(h)); };
+  const hsh = t => [...t].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
+  const hm = ([h, m]) => String(h).padStart(2, "0") + ":" + String(m).padStart(2, "0");
+  const plus = ([h, m], min) => { const t = h * 60 + m + min; return [Math.floor(t / 60) % 24, t % 60]; };
+  const durTxt = m => `${Math.floor(m / 60)} h ${String(m % 60).padStart(2, "0")}`;
+  const flKey = x => x.a + ":" + (x.dir ? 1 : 0);
+  function schedule(a, x) {
+    const dur = Math.round(35 + km(ORIGINS[state.origin].c, a.d.c) / 13 + (x.dir ? 0 : 95 + hsh(x.a + a.k) % 60));
+    return { dur, out: [6 + hsh(x.a + a.k + state.origin) % 13, (hsh(x.a) % 4) * 15], back: [9 + hsh(a.k + x.a) % 11, (hsh(a.k + state.origin) % 4) * 15] };
+  }
+  function cartSel(a) { // lo elegido, solo si sigue siendo válido para la edad del grupo
+    const same = state.cart.k === a.k;
+    const fl = same && state.cart.fl ? a.flights.find(x => flKey(x) === state.cart.fl && visible(x.e.s)) : null;
+    const st = same && state.cart.st ? a.stays.find(x => x.s === state.cart.st && visible(x.e.s)) : null;
+    return { fl, st };
+  }
+  function flightCard(a, x) {
+    const sc = schedule(a, x), n = state.group.length, chosen = cartSel(a).fl === x, ok = visible(x.e.s);
+    const leg = (from, to, t) => `<div class="f-row"><div class="leg"><b>${hm(t)}</b><span>${from}</span></div><div class="line"><span>${durTxt(sc.dur)}</span><i></i><span class="${x.dir ? "dir" : "esc"}">${x.dir ? "Directo" : "1 escala"}</span></div><div class="leg r"><b>${hm(plus(t, sc.dur))}</b><span>${to}</span></div></div>`;
+    return `<article class="fcard${ok ? "" : " dim"}${chosen ? " chosen" : ""}">
+      <div class="f-air"><span class="f-logo" aria-hidden="true">${AIR_CODE[x.a] || "✈"}</span><strong>${esc(ITEMS[x.a].name)}</strong></div>
+      <div class="f-legs">${leg(state.origin, a.d.iata, sc.out)}${leg(a.d.iata, state.origin, sc.back)}</div>
+      <div class="f-price"><span class="price big">${eur(x.p)}</span><span class="small muted">por persona, ida y vuelta</span><span class="small">${eur(x.p * n)} los ${n}</span>
+        ${ok ? `<button type="button" class="btn ${chosen ? "" : "pop"} sm" data-pick-fl="${flKey(x)}">${chosen ? "Elegido ✓" : "Elegir"}</button>` : pill(x.e.s)}</div>
+      <div class="f-foot">${personChips(x.e)}<details class="f-why"><summary>${ok ? "Por qué podéis volar" : "Por qué no"}</summary><p class="small">${groupWhy(x.e)}</p>${reqList(x.e)}<span class="tipo">${TIPOS[x.e.it.tipo]}</span>${srcLine(x.e.it.src)}</details></div>
+    </article>`;
+  }
   function flightsTab(a) {
-    const n = state.group.length, o = state.origin, k = a.k;
-    const list = a.flights.map(f => ({ e: f.e, title: esc(ITEMS[f.a].name), sub: (f.dir ? "Directo" : "Con escala") + " · " + o + " → " + a.d.iata, price: eur(f.p) + " i/v (estimación)" }));
-    const c = counts(list);
-    const links = [["Google Flights", `https://www.google.com/travel/flights?hl=es&q=${encodeURIComponent(`Vuelos de ${o} a ${a.d.iata}`)}`], ["Skyscanner", `https://www.skyscanner.es/transporte/vuelos/${o.toLowerCase()}/${SKY[k]}/?adultsv2=${n}&rtn=1`]];
-    return `<p class="small"><strong>${c.vis} de ${list.length}</strong> aerolíneas os dejan volar (${c.req} con condiciones). Los precios son <strong>orientativos</strong>; los reales, en el buscador.</p>
-      <div class="row">${links.map(([l, u]) => `<a class="btn ghost sm" href="${u}" target="_blank" rel="noopener">${l} ↗</a>`).join("")}</div>
-      <p class="small muted">Ojo: las aerolíneas no venden billetes a menores, así que reserva y paga tu madre o tu padre. En el mostrador os pueden pedir el permiso de viaje.</p>
-      ${splitList(list, offer, "aerolíneas que no os dejan o sin confirmar")}${legalTips(["dif-aerolinea-mostrador", "eme-rechazo-embarque"], a.d.country)}`;
+    const n = state.group.length, o = state.origin, back = addDays(state.date, Math.max(1, state.days - 1));
+    let list = a.flights.slice(); if (state.flDirect) list = list.filter(x => x.dir);
+    const by = { precio: (x, y) => x.p - y.p, rapido: (x, y) => schedule(a, x).dur - schedule(a, y).dur };
+    const ok = list.filter(x => visible(x.e.s)).sort(by[state.flSort]), hid = list.filter(x => !visible(x.e.s));
+    const cheap = ok.slice().sort(by.precio)[0], fast = ok.slice().sort(by.rapido)[0];
+    const ages = [...new Set(state.group.map(m => m.age))].join(" y ");
+    const tab = (k, l, v) => `<button type="button" class="sorttab" data-flsort="${k}" aria-pressed="${state.flSort === k}"><span>${l}</span><b>${v || "—"}</b></button>`;
+    return `<div class="searchbar"><b>${o} → ${a.d.iata}</b><span>${dmy(state.date)} – ${dmy(back)}</span><span>${pl(n, "viajero", "viajeros")} de ${ages} años</span></div>
+      <div class="sorttabs">${tab("precio", "Más barato", cheap && eur(cheap.p))}${tab("rapido", "Más rápido", fast && durTxt(schedule(a, fast).dur))}</div>
+      <label class="small row" style="gap:6px"><input type="checkbox" id="fl-direct"${state.flDirect ? " checked" : ""}> Solo vuelos directos</label>
+      <p class="small"><strong>${ok.length} de ${list.length}</strong> aerolíneas os dejan volar con vuestra edad. <span class="muted">Horarios y precios de ejemplo; la reserva es simulada.</span></p>
+      ${ok.length ? ok.map(x => flightCard(a, x)).join("") : `<div class="box"><p class="bad">Ninguna aerolínea de la lista os deja volar así.</p><p class="small muted">Quitad «Solo directos» o probad a meter a alguien de 18.</p></div>`}
+      ${hid.length ? `<details class="hid"><summary>${hid.length} aerolíneas que no os dejan o sin confirmar</summary><div style="display:grid;gap:8px;margin-top:8px">${hid.map(x => flightCard(a, x)).join("")}</div></details>` : ""}
+      <p class="small muted">¿Precios de verdad? <a href="https://www.google.com/travel/flights?hl=es&q=${encodeURIComponent(`Vuelos de ${o} a ${a.d.iata}`)}" target="_blank" rel="noopener">Google Flights ↗</a> · <a href="https://www.skyscanner.es/transporte/vuelos/${o.toLowerCase()}/${SKY[a.k]}/?adultsv2=${n}&rtn=1" target="_blank" rel="noopener">Skyscanner ↗</a></p>
+      ${legalTips(["dif-aerolinea-mostrador", "eme-rechazo-embarque"], a.d.country)}`;
   }
   function staysTab(a) {
-    const nights = Math.max(1, state.days - 1);
-    const list = a.stays.map(x => ({ e: x.e, title: esc(ITEMS[x.s].name), sub: `${nights} noches en ${esc(a.d.city)}`, price: eur(x.p) + "/noche (estimación)", link: bkLink(a, x.s) }));
+    const nights = Math.max(1, state.days - 1), n = state.group.length, chosen = cartSel(a).st;
+    const list = a.stays.map(x => ({ e: x.e, title: `${(KIND[STAY_KIND[x.s]] || {}).icon || "🛏"} ${esc(ITEMS[x.s].name)}`, sub: `${nights} noches · ${pl(n, "persona", "personas")}`, price: `${eur(x.p)}/noche · ${eur(x.p * nights * n)} total`, link: bkLink(a, x.s),
+      pick: `<button type="button" class="btn ${chosen === x ? "" : "pop"} sm" data-pick-st="${x.s}" style="justify-self:start">${chosen === x ? "Elegido ✓" : "Elegir este"}</button>` }));
     const c = counts(list);
-    return `<p class="small"><strong>${c.vis} de ${list.length}</strong> sitios para dormir os aceptan.${c.vis === 0 ? " Dormir es lo más difícil con vuestra edad." : ""}</p>
-      <p class="small muted">Aunque un albergue acepte menores, para reservar suelen pedir 18: que reserve un adulto, y pedid por escrito que os confirmen que aceptan menores sin adultos.</p>
-      ${bookingBox(a)}${splitList(list, offer, "sitios que no os aceptan o sin confirmar")}${legalTips(["dif-checkin-alojamiento", "dif-pago-tarjeta"], a.d.country)}`;
+    return `<div class="searchbar"><b>${esc(a.d.city)}</b><span>${dmy(state.date)} – ${dmy(addDays(state.date, nights))}</span><span>${pl(nights, "noche", "noches")} · ${pl(n, "persona", "personas")}</span></div>
+      <p class="small"><strong>${c.vis} de ${list.length}</strong> sitios para dormir os aceptan.${c.vis === 0 ? " Dormir es lo más difícil con vuestra edad." : ""} <span class="muted">Precios de ejemplo; la reserva es simulada.</span></p>
+      ${splitList(list, offer, "sitios que no os aceptan o sin confirmar")}${bookingBox(a)}${legalTips(["dif-checkin-alojamiento", "dif-pago-tarjeta"], a.d.country)}`;
+  }
+  function cartBar(a) {
+    const { fl, st } = cartSel(a), n = state.group.length, nights = Math.max(1, state.days - 1);
+    const total = (fl ? fl.p * n : 0) + (st ? st.p * nights * n : 0);
+    return `<div class="cart"><div class="cart-items"><button type="button" class="ci${fl ? " on" : ""}" data-tab="vuelos">✈ ${fl ? esc(ITEMS[fl.a].name) : "Elige vuelo"}</button><button type="button" class="ci${st ? " on" : ""}" data-tab="dormir">🛏 ${st ? esc(ITEMS[st.s].name) : "Elige dónde dormir"}</button></div>
+      <div class="cart-tot"><span class="small">Total para ${n}</span><strong>${eur(total)}</strong></div><button type="button" class="btn pop" id="checkout"${fl && st ? "" : " disabled"}>Reservar</button></div>`;
+  }
+  /* Pantalla de reserva (simulada): condiciones por edad → la familia aprueba y paga */
+  function coConditions(a, fl, st) {
+    const m = new Map();
+    [fl.e, st.e].forEach(e => e.per.forEach(x => x.r.reqs.forEach(q => m.set(q.t, q.who))));
+    countryDocs(me, a.d.country).concat(...state.group.filter(p => p !== me).map(p => countryDocs(p, a.d.country))).filter(d => d.s !== "ok").forEach(d => m.set(d.t, d.t.includes("permiso") || d.t.includes("autorización") || d.t.includes("Carta") || d.t.includes("Consentimiento") || d.t.includes("consentimiento") ? "familia" : "grupo"));
+    return [...m].map(([t, who], i) => ({ id: "c" + i, t, who }));
+  }
+  function openCheckout() {
+    const a = analyse(state.sel); const { fl, st } = cartSel(a); if (!fl || !st) return;
+    const n = state.group.length, nights = Math.max(1, state.days - 1), sc = schedule(a, fl), back = addDays(state.date, nights);
+    const total = fl.p * n + st.p * nights * n, conds = coConditions(a, fl, st), co = state.co;
+    const code = "GLI-DEMO-" + (hsh(a.k + flKey(fl) + st.s + state.date + n).toString(36).toUpperCase().slice(0, 5));
+    const trip = `<div class="pass"><div class="pass-top"><div><span class="eyebrow">Ida · ${dmy(state.date)}</span><b>${state.origin} ${hm(sc.out)}</b></div><span class="pass-plane">✈</span><div class="r"><span class="eyebrow">${esc(ITEMS[fl.a].name)} · ${fl.dir ? "directo" : "1 escala"}</span><b>${a.d.iata} ${hm(plus(sc.out, sc.dur))}</b></div></div>
+      <div class="pass-top"><div><span class="eyebrow">Vuelta · ${dmy(back)}</span><b>${a.d.iata} ${hm(sc.back)}</b></div><span class="pass-plane">✈</span><div class="r"><span class="eyebrow">${durTxt(sc.dur)}</span><b>${state.origin} ${hm(plus(sc.back, sc.dur))}</b></div></div>
+      <div class="pass-bot"><span>🛏 ${esc(ITEMS[st.s].name)} · ${pl(nights, "noche", "noches")}</span><span>${state.group.map(p => esc(p.name) + " (" + p.age + ")").join(" · ")}</span></div></div>`;
+    let body;
+    if (co.step === 1) {
+      const allChecked = conds.every(c => co.checks.has(c.id));
+      body = `${trip}
+        <table class="rt"><tr><td>Vuelos (${n} × ${eur(fl.p)})</td><td>${eur(fl.p * n)}</td></tr><tr><td>Alojamiento (${n} × ${nights} noches × ${eur(st.p)})</td><td>${eur(st.p * nights * n)}</td></tr><tr><th>Total (precios de ejemplo)</th><th>${eur(total)}</th></tr></table>
+        <div class="box"><h3>Antes de pagar, confirmad esto</h3><p class="small muted">Sale de las normas de la aerolínea, el alojamiento y el país para vuestra edad.</p>
+          ${conds.length ? conds.map(c => `<label class="co-check"><input type="checkbox" data-co="${c.id}"${co.checks.has(c.id) ? " checked" : ""}> <span>${esc(c.t)} <span class="pill who">${c.who}</span></span></label>`).join("") : '<p class="small">Con vuestra edad no hay condiciones extra.</p>'}</div>
+        <div class="box"><h3>¿Quién paga?</h3><p class="small">${state.group.some(p => p.age >= 18) ? `En el grupo va alguien de 18 o más (${state.group.filter(p => p.age >= 18).map(p => esc(p.name)).join(", ")}): puede reservar y pagar esa persona, o vuestras familias. Los menores no pueden contratar.` : "Con menos de 18 no podéis contratar ni pagar vosotros: aerolíneas y alojamientos piden que reserve y pague una persona adulta. La reserva se manda a tu familia para que la revise y la pague."}</p></div>
+        <button type="button" class="btn pop block" id="co-send"${allChecked ? "" : " disabled"}>Enviar a mi familia para que apruebe y pague</button>
+        ${allChecked ? "" : '<p class="small muted">Marca todas las condiciones para seguir.</p>'}`;
+    } else if (co.step === 2) {
+      body = `<div class="done"><span class="done-ic">📨</span><div><h3>Solicitud enviada a tu familia (simulada)</h3><p class="small">Código de la demo: <b>${code}</b></p></div></div>
+        <ol class="steps"><li class="ok">Elegisteis vuelo y alojamiento que valen para vuestra edad</li><li class="now">Tu familia revisa precio, condiciones y papeles</li><li>Tu familia paga con su cuenta</li><li>Recibís billetes y reserva</li></ol>${trip}
+        <button type="button" class="btn pop block" id="co-approve">Simular que mi familia aprueba y paga</button>`;
+    } else {
+      body = `<div class="done ok"><span class="done-ic">🎉</span><div><h3>¡Viaje reservado! (simulación)</h3><p class="small">Código de la demo: <b>${code}</b> · ${eur(total)} pagados por un adulto (simulado)</p></div></div>
+        ${state.group.map(p => `<div class="ticket"><div><span class="eyebrow">Tarjeta de embarque · demo</span><b>${esc(p.name)} · ${p.age} años</b><span class="small">${state.origin} → ${a.d.iata} · ${dmy(state.date)} · ${hm(sc.out)} · ${esc(ITEMS[fl.a].name)}</span></div><span class="ticket-stamp">NO VÁLIDO PARA VIAJAR</span></div>`).join("")}
+        <div class="ticket stay"><div><span class="eyebrow">Bono de alojamiento · demo</span><b>${esc(ITEMS[st.s].name)}</b><span class="small">${dmy(state.date)} – ${dmy(back)} · ${pl(n, "persona", "personas")}</span></div><span class="ticket-stamp">DEMO</span></div>
+        <div class="box"><h3>Lo siguiente</h3><ul class="why">${conds.map(c => `<li>${esc(c.t)} <span class="pill who">${c.who}</span></li>`).join("") || "<li>Nada más.</li>"}<li>Mirad «Papeleo y posibles líos» antes de salir.</li></ul></div>
+        <button type="button" class="btn block" data-close>Cerrar</button>`;
+    }
+    $("#sheet-in").innerHTML = `<div class="sheet-head"><div><p class="eyebrow">Reserva simulada · demo</p><h2 id="sheet-title">${co.step === 1 ? "Revisa vuestro viaje" : co.step === 2 ? "Esperando a tu familia" : "¡Listo!"}</h2></div><button type="button" class="icon-btn" data-close aria-label="Cerrar">×</button></div>
+      <p class="demo-banner">Esto es una demo: no se reserva ni se cobra nada, y no te pedimos datos de pago ni de documentos.</p>${body}`;
+    const dlg = $("#sheet"); if (!dlg.open) dlg.showModal();
   }
   function ocioTab(a) {
     const list = ocioEval(a.k).map(x => ({ e: x.e, title: esc(x.name), sub: x.when === "noche" ? "🌙 De noche" : "☀ De día", night: x.when === "noche", price: "" }));
@@ -1054,7 +1190,7 @@ Reglas de extracción:
         <tr><td>Mapa sin conexión</td><td>Real: MapLibre + fronteras de Natural Earth, funciona en cualquier sitio</td></tr>
         <tr><td>Mapa con calles</td><td>Real: OpenFreeMap, sin clave; necesita abrir el HTML en el navegador</td></tr>
         <tr><td>Mapbox (teselas)</td><td>Implementado; necesita tu token público. Sin token no se ha podido probar</td></tr>
-        <tr><td>Reservas</td><td>No hay reservas ni pagos</td></tr></table>
+        <tr><td>Reservas</td><td><strong>Simuladas</strong>: elegís vuelo y alojamiento, se revisan las condiciones por edad y se envía a la familia. No se reserva ni se cobra nada, y no se piden datos de pago ni de documentos</td></tr><tr><td>Horarios de vuelo</td><td><strong>De ejemplo</strong>, calculados por distancia; no son horarios reales</td></tr></table>
       <div class="box"><h3>Banco de pruebas: IA frente a reglas</h3><p class="small">12 frases como las que escribiría un grupo, con la respuesta correcta escrita a mano. Se comparan 7 datos por frase: personas, edades, salida, presupuesto, días, gustos y destino.</p>
         <div class="row">${sampleFn ? '<button type="button" class="btn sm" id="bench-run">Probar las 12 frases con la IA</button>' : '<span class="small muted">La IA solo se puede probar en el enlace publicado de Claude.</span>'}<span class="small muted" id="bench-status" aria-live="polite"></span></div>
         <div id="bench-out">${benchTable()}</div></div>
@@ -1107,7 +1243,13 @@ Reglas de extracción:
       parseWithAI(wz.msg).then(wzFrom).catch(e => { const st = $("#wz-status"); if (st) st.textContent = aiFail(e); }).finally(() => { const b = $("#wz-ai"); if (b) b.disabled = false; });
     }
     else if (t.id === "bench-run") runBench();
-    else if (d.dest) { state.sel = d.dest; state.tab = "todo"; update(true); flyTo(d.dest); }
+    else if (d.dest) { state.sel = d.dest; state.tab = "todo"; if (state.cart.k !== d.dest) state.cart = { k: d.dest, fl: null, st: null }; update(true); flyTo(d.dest); }
+    else if (d.pickFl) { state.cart = { ...state.cart, k: state.sel, fl: state.cart.fl === d.pickFl ? null : d.pickFl }; renderResults(); }
+    else if (d.pickSt) { state.cart = { ...state.cart, k: state.sel, st: state.cart.st === d.pickSt ? null : d.pickSt }; renderResults(); }
+    else if (d.flsort) { state.flSort = d.flsort; renderResults(); }
+    else if (t.id === "checkout") { state.co = { step: 1, checks: new Set() }; openCheckout(); }
+    else if (t.id === "co-send") { state.co.step = 2; openCheckout(); }
+    else if (t.id === "co-approve") { state.co.step = 3; openCheckout(); }
     else if (d.back !== undefined) { state.sel = null; update(true); flyEurope(); }
     else if (d.tab) { state.tab = d.tab; renderResults(); }
     else if (d.like) { const [id, k] = d.like.split(":"); const m = state.group.find(x => String(x.id) === id); if (m) { m.likes.has(k) ? m.likes.delete(k) : m.likes.add(k); update(); } }
@@ -1137,6 +1279,8 @@ Reglas de extracción:
     if (el.dataset.cmp) { el.checked ? state.compare.add(el.dataset.cmp) : state.compare.delete(el.dataset.cmp); if (state.compare.size > 3) { state.compare.delete(el.dataset.cmp); el.checked = false; toast("Compara como mucho tres destinos."); } renderResults(); return; }
     if (el.dataset.m) { const m = state.group.find(x => String(x.id) === el.dataset.m); if (!m) return; if (el.dataset.f === "age") m.age = +el.value; if (el.dataset.f === "name") m.name = el.value.trim() || "Sin nombre"; update(); return; }
     if (el.id === "origin") { state.origin = el.value; update(); }
+    if (el.dataset.co) { el.checked ? state.co.checks.add(el.dataset.co) : state.co.checks.delete(el.dataset.co); openCheckout(); return; }
+    if (el.id === "fl-direct") { state.flDirect = el.checked; renderResults(); return; }
     if (el.id === "date") { if (el.value) state.date = el.value; update(); return; }
     if (el.id === "days") { state.days = Math.max(2, Math.min(7, +el.value || 4)); update(); }
     if (el.id === "wz-n") { wz.n = +el.value; wz.ages = Array.from({ length: wz.n }, (_, i) => wz.ages[i] ?? wz.ages[0] ?? 17); wz.msg = ($("#wz-msg") || {}).value || wz.msg; renderWelcome(); return; }
