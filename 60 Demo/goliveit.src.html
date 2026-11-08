@@ -261,6 +261,17 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
   .grid2 { grid-template-columns: minmax(0, 1fr); } .facts { grid-template-columns: minmax(0, 1fr); } .code { font-size: 2.2rem; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } .stamp.big { transform: none; } }
+/* Papeles y dificultades (guía legal) */
+.lg { border: 1.5px solid var(--line); border-radius: 14px; padding: 0; }
+.lg > summary { cursor: pointer; padding: 10px 12px; font-weight: 800; list-style: none; display: flex; justify-content: space-between; gap: 8px; }
+.lg > summary::-webkit-details-marker { display: none; }
+.lg > summary::after { content: "+"; font-family: var(--f-mono); }
+.lg[open] > summary::after { content: "−"; }
+.lg-list { display: grid; gap: 8px; padding: 0 12px 12px; }
+.lg-item { display: grid; gap: 3px; border-top: 1px solid var(--line); padding-top: 8px; font-size: 0.86rem; }
+.lg-tags { display: flex; gap: 5px; flex-wrap: wrap; align-items: center; }
+.lg-tag { font-family: var(--f-mono); font-size: 0.6rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 4px; padding: 1px 5px; background: var(--line); }
+.lg-obligatorio { background: #B3261E; color: #fff; } .lg-recomendado { background: #17784A; color: #fff; } .lg-segun_caso { background: #8C5200; color: #fff; } .lg-pendiente { border: 1px dashed currentColor; background: none; }
 </style>
 
 <div class="banner" role="note">
@@ -357,6 +368,7 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
         <div><p class="eyebrow">Vuestro viaje</p><h1 id="plan-title"></h1></div>
         <div id="plan-groups" class="section"></div>
         <div class="section"><h2>Papeles y tareas, persona a persona</h2><div class="section" id="todo"></div></div>
+        <div class="section"><h2>Papeles y dificultades del viaje</h2><p class="small muted">Lo que piden la ley y los proveedores para vuestra edad y destino, con su fuente. Información, no asesoramiento jurídico.</p><div class="section" id="plan-legal"></div></div>
         <div class="share">
           <h3>Mandar el plan a las familias</h3>
           <p class="small muted">Como las listas de Corner, se abre con un enlace sin descargar nada ni crear cuenta.</p>
@@ -567,7 +579,7 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
       out.push({ s: "req", t: "ETA del Reino Unido", d: "Cada persona la suya. Cuesta 20 £.", who: fam });
       if (minor) out.push({ s: "req", t: "Consentimiento escrito de los padres", d: "Con sus datos y los de quien os aloja.", who: "familia" });
     } else out.push({ s: "ok", t: c === "DE" ? "DNI físico o pasaporte" : "DNI o pasaporte en vigor", d: c === "DE" ? "El DNI digital no sirve." : "Cualquiera de los dos vale.", who: "viajero" });
-    if (minor && c === "PT") out.push({ s: "req", t: "Autorización de los padres para Portugal", d: "La pide gov.pt, pero la Ley 23/2007 excluye a ciudadanos de la UE (duda Q-20). Mejor llevarla.", who: "familia" });
+    if (minor && c === "PT") out.push({ s: "req", t: "Carta de autorización de los padres (Portugal)", d: "La ley no la exige a ciudadanos de la UE, pero gov.pt la pide y pueden negar la entrada. Llevadla en portugués o inglés (Q-20).", who: "familia" });
     if (minor && c === "DE") out.push({ s: "req", t: "Carta de consentimiento de los padres", d: "La recomienda la Policía Federal, con sus datos y copia de su documento.", who: "familia" });
     if (minor && c === "FR") out.push({ s: "ok", t: "AST francesa: no hace falta", d: "Solo para menores que viven en Francia.", who: "viajero" });
     if (minor && c === "IT") out.push({ s: "ok", t: "Declaración italiana: no hace falta", d: "Solo para italianos menores de 14.", who: "viajero" });
@@ -628,6 +640,7 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
   /* ===================== FOTOS REALES + ANIMACIONES ===================== */
   /* Las fotos se incrustan al construir (build.mjs). Licencias libres de Wikimedia Commons. */
   const PHOTOS = /*__PHOTOS__*/{};
+  const LEGAL = /*__LEGAL__*/{ "actualizado": null, "items": [] };
   const PHOTO = {
     lisboa: { pos: "62% 40%", alt: "Tranvía 28 amarillo subiendo por una calle de Alfama, en Lisboa", by: "Paul Arps", lic: "CC BY 2.0", page: "https://commons.wikimedia.org/wiki/File:Tram_28_in_Alfama_(Lissabon_2016)_(26029557541).jpg", clouds: true },
     paris: { pos: "33% 36%", alt: "Torre Eiffel iluminada de noche desde los jardines del Trocadero", by: "Adriano Aurelio Araujo", lic: "CC BY 2.0", page: "https://commons.wikimedia.org/wiki/File:Brilho_Eiffell-_Eiffel_shine_-_Flickr_-_Adriano_Aurelio_Araujo.jpg", clouds: false },
@@ -940,8 +953,21 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
       return { m, items };
     });
   }
+  function legalBlock(country) {
+    const ages = state.group.map(m => m.age);
+    const items = (LEGAL.items || []).filter(it => (it.paises.includes("TODOS") || it.paises.includes("ES") || it.paises.includes(country))
+      && ages.some(a => (it.edadMin == null || a >= it.edadMin) && (it.edadMax == null || a <= it.edadMax)));
+    if (!items.length) return `<p class="small muted">La guía legal no está cargada en esta versión.</p>`;
+    const EST = { obligatorio: "Obligatorio", recomendado: "Recomendado", segun_caso: "Según el caso", pendiente: "Pendiente" };
+    const WHO = { joven: "joven", familia: "familia", ambos: "joven y familia" };
+    return [["antes", "Antes de salir"], ["viaje", "Durante el viaje"], ["incidencia", "Si algo sale mal"]].map(([c, l], i) => {
+      const its = items.filter(x => x.cuando === c); if (!its.length) return "";
+      return `<details class="lg"${i === 0 ? " open" : ""}><summary><span>${l}</span><span class="small muted">${its.length}</span></summary><div class="lg-list">${its.map(x => `<div class="lg-item"><div class="lg-tags"><span class="lg-tag lg-${x.estado}">${EST[x.estado] || esc(x.estado)}</span><span class="lg-tag">${WHO[x.quien] || esc(x.quien)}</span></div><strong>${esc(x.titulo)}</strong><span class="small">${esc(x.texto)}</span><span class="small"><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.fuente)}</a> · <span class="muted">${esc(x.etiqueta)}</span></span></div>`).join("")}</div></details>`;
+    }).join("");
+  }
   function renderPlan() {
     const d = D();
+    $("#plan-legal").innerHTML = legalBlock(d.country);
     $("#plan-title").textContent = `${state.from} → ${d.iata} · ${d.city}`;
     $("#share-link").textContent = `goliveit.app/p/${d.iata}-8F3K`;
     const groups = { listo: [], unk: [], no: [] };
@@ -996,7 +1022,7 @@ dialog.sheet::backdrop { background: rgb(8 10 14 / 0.55); }
     explorar: { corner: ["Recomendación según gustos", "Guardar desde un enlace de TikTok o Instagram (F01)", "Listas hechas por otros usuarios (S06, W03)"], nuevo: ["Filtro por edad: al elegir 15, 16, 17 o 18 se recalculan aerolíneas, alojamientos y destinos", "Cada destino resume lo que puedes hacer con tu edad según la ley del país"], hip: ["H-02", "H-03", "H-05", "H-08"], datos: "Normas reales (mías y del equipo). Precios, duraciones y listas, de ejemplo. Prueba 15 y 18 para ver cómo cambia.", q: "¿Qué fue lo primero que mirasteis al elegir destino la última vez?" },
     destino: { corner: ["Mapa con pines y ficha de lugar (S03, S04)", "Guardar cualquier sitio; solo lo verificado entra en el plan (F06)"], nuevo: ["«Con 16 años en Berlín»: lo que dice la ley del país sobre ocio, alcohol, museos y transporte", "Alojamientos filtrados por edad, con los ocultos y su motivo"], hip: ["H-03", "H-11", "H-19"], datos: "Leyes del país recogidas por el equipo. Ojo: enseñar el alcohol como gancho puede restar confianza a los padres (H-04); conviene probarlo en entrevistas.", q: "¿Qué buscáis hacer en un viaje sin adultos? ¿Qué os ha dejado fuera por la edad?" },
     vuelos: { corner: ["Guardar un vuelo como se guarda un sitio"], nuevo: ["Ofertas filtradas por edad, incluida la regla de escalas de Vueling de 12 a 15", "Ocultos con su motivo", "Precios reales fuera: Google Flights, Skyscanner y Kayak"], hip: ["H-03", "H-11"], datos: "Precios y duraciones de ejemplo: un artefacto no puede consultar APIs de vuelos. Rutas sin comprobar.", q: "¿Cómo buscasteis el vuelo la última vez? ¿Mirasteis la edad mínima?" },
-    plan: { corner: ["Listas compartibles por enlace que se ven sin la app (F04)"], nuevo: ["Guardado / verificado / no vale para vuestra edad", "Papeles por país y persona, con quién hace cada cosa"], hip: ["H-06", "H-07", "H-12"], datos: "Las casillas no se guardan al recargar. Portugal: autorización en duda (Q-20).", q: "¿Cómo os organizasteis para saber quién tenía que llevar qué?" },
+    plan: { corner: ["Listas compartibles por enlace que se ven sin la app (F04)"], nuevo: ["Guardado / verificado / no vale para vuestra edad", "Papeles por país y persona, con quién hace cada cosa"], hip: ["H-06", "H-07", "H-12"], datos: "Las casillas no se guardan al recargar. Portugal: carta de los padres recomendada (Q-20).", q: "¿Cómo os organizasteis para saber quién tenía que llevar qué?" },
     familia: { corner: [], nuevo: ["Vista para la familia sin cuenta: qué firman ellos y qué cumple el grupo", "Aprobación del plan: nuestro diferencial"], hip: ["H-04", "H-12", "H-14"], datos: "Aprobación y comentarios de demostración.", q: "(A padres) ¿Qué tendrías que ver para decir que sí sin poner condiciones?" }
   };
   function renderNotes() {

@@ -35,3 +35,9 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 - **Hecho:** revisión completa del código y recorridos con REA a 320 px y en escritorio oscuro, con recarga de página. 10 errores corregidos (el más grave: se perdía lo guardado al cambiar de destino) y 7 mejoras. Detalle en [[Auditoría de la demo]].
 - **Aprendido:** con 15 años y amigos de la misma edad, **la edad quita 14 de 15 alojamientos** en los cinco destinos. Es la cifra más clara para defender H-03 ante el equipo.
 - **Pendiente:** Q-20, Q-21 y pilotar las encuestas.
+
+## 2026-11-08. Segunda iteración: Corner v2, recomendador, mapas, guía legal y Planner
+
+- **Hecho:** [[Corner - ingeniería inversa v2]] (6 capturas públicas y protocolo de experimentos), [[Arquitectura del recomendador]], [[Investigación Mapbox y mapas]], [[Integración de proveedores y marketplace]], [[Guía legal y práctica del viaje de menores]] (41 puntos en `60 Demo/data/legal.json`), [[Benchmark UX-UI]], [[Concepto GoLiveIt]] e [[Informe crítico (segunda iteración)]]. Prototipo **GoLiveIt Planner** con el mapa en el centro (MapLibre; sin conexión, OpenFreeMap y Mapbox con token), probado en Chrome a 1440 px con REA. Ver [[Léeme - cómo ejecutar el prototipo]]. La demo GoLiveIt añade «Papeles y dificultades» en el plan.
+- **Aprendido:** Q-20 resuelta en la práctica: la ley no exige la autorización a ciudadanos de la UE, pero gov.pt la pide → carta recomendada. Ninguna API de proveedores dice si un grupo de 16-17 puede alojarse: la base de reglas propia es el activo.
+- **Pendiente:** actualizar Decisiones, Evidencias y Dudas (Q-08, Q-13, Q-14, Q-19, Q-20) con lo de los agentes; publicar el Planner como artefacto; Mapbox real (sin token); experimentos de Corner con la cuenta de un mayor de edad.

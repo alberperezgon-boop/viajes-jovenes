@@ -1,0 +1,831 @@
+<meta charset="utf-8">
+<title>GoLiveIt Planner</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700;800&display=swap">
+<style>
+/* GoLiveIt Planner. Escritorio primero: panel de viaje | mapa central | viajes posibles. Cobalto + mandarina, mapa como lienzo. */
+:root {
+  --bg: #EEF0F8; --surface: #FFFFFF; --surface-2: #ECEEF8; --ink: #0E1330; --muted: #555C7B; --line: #D9DDEE;
+  --brand: #1730D6; --brand-2: #3049E4; --brand-fg: #FFFFFF; --brand-dim: #C9D0FF; --pop: #FF7A2F; --pop-ink: #1E0B00;
+  --link: #1730D6; --sea: #CFE0F7; --land: #F8F9FD; --border-c: #B9C2DE; --arc: #1730D6;
+  --ok: #17784A; --ok-soft: #DDF2E5; --req: #8C5200; --req-soft: #FDEBC8; --no: #B3261E; --no-soft: #FBE0DC; --unk: #5B6272; --unk-soft: #E6E8EE;
+  --f-display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --f-body: "Figtree", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #080A18; --surface: #13162B; --surface-2: #1C2040; --ink: #EEF0FB; --muted: #A3A9C6; --line: #2A2F52;
+  --brand: #1626B8; --brand-2: #2B3CD0; --link: #A2B3FF; --sea: #0E1733; --land: #1B2142; --border-c: #34406E; --arc: #FF9A5C;
+  --ok: #5ACB8E; --ok-soft: #14301F; --req: #F3B54E; --req-soft: #36280D; --no: #FF8B80; --no-soft: #3A1614; --unk: #A6AEBE; --unk-soft: #262A35;
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #080A18; --surface: #13162B; --surface-2: #1C2040; --ink: #EEF0FB; --muted: #A3A9C6; --line: #2A2F52;
+  --brand: #1626B8; --brand-2: #2B3CD0; --link: #A2B3FF; --sea: #0E1733; --land: #1B2142; --border-c: #34406E; --arc: #FF9A5C;
+  --ok: #5ACB8E; --ok-soft: #14301F; --req: #F3B54E; --req-soft: #36280D; --no: #FF8B80; --no-soft: #3A1614; --unk: #A6AEBE; --unk-soft: #262A35;
+  color-scheme: dark; }
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { height: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 14.5px; line-height: 1.45;
+  padding-left: max(0px, env(safe-area-inset-left, 0px)); padding-right: max(0px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { font-family: var(--f-display); font-stretch: 112%; margin: 0; line-height: 1.12; text-wrap: balance; }
+h2 { font-size: 1.08rem; font-weight: 820; }
+h3 { font-size: 0.96rem; font-weight: 760; }
+p { margin: 0; }
+a { color: var(--link); }
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--pop); outline-offset: 2px; }
+button, a { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.muted { color: var(--muted); }
+.small { font-size: 0.82rem; }
+.eyebrow { font-family: var(--f-mono); font-size: 0.66rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.between { justify-content: space-between; }
+
+/* Estructura de escritorio */
+.app { height: 100%; display: grid; grid-template-columns: 370px minmax(0, 1fr) 410px; grid-template-rows: auto minmax(0, 1fr); }
+.top { grid-column: 1 / -1; background: var(--brand); color: var(--brand-fg); display: flex; align-items: center; gap: 16px; padding: 10px 18px; }
+.wm { font-family: var(--f-display); font-stretch: 125%; font-weight: 900; font-size: 1.25rem; letter-spacing: -0.01em; }
+.wm span { color: var(--pop); }
+.top .tag { font-family: var(--f-mono); font-size: 0.7rem; letter-spacing: 0.1em; color: var(--brand-dim); text-transform: uppercase; }
+.top .spacer { flex: 1; }
+.seg { display: inline-flex; background: rgb(255 255 255 / 0.12); border-radius: 10px; padding: 3px; gap: 2px; }
+.seg button { border: 0; background: none; color: var(--brand-dim); border-radius: 8px; padding: 5px 10px; font-weight: 700; font-size: 0.78rem; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--pop); color: var(--pop-ink); }
+.tbtn { border: 1px solid rgb(255 255 255 / 0.35); background: transparent; color: var(--brand-fg); border-radius: 999px; padding: 6px 12px; font-weight: 700; font-size: 0.8rem; cursor: pointer; }
+.tbtn.solid { background: var(--pop); border-color: var(--pop); color: var(--pop-ink); }
+.panel { background: var(--surface); overflow: auto; min-width: 0; display: grid; align-content: start; gap: 16px; padding: 16px; }
+.panel.left { border-right: 1px solid var(--line); }
+.panel.right { border-left: 1px solid var(--line); }
+.mapwrap { position: relative; min-width: 0; background: var(--sea); }
+#map { position: absolute; inset: 0; }
+@media (max-width: 1100px) { .app { grid-template-columns: 1fr; grid-template-rows: auto 55vh auto auto; height: auto; } .panel { overflow: visible; } .panel.left { order: 3; } .panel.right { order: 4; } }
+
+/* Controles */
+.btn { border: 0; border-radius: 12px; padding: 10px 14px; font-weight: 800; cursor: pointer; background: var(--ink); color: var(--surface); display: inline-flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; }
+.btn.pop { background: var(--pop); color: var(--pop-ink); }
+.btn.ghost { background: var(--surface-2); color: var(--ink); }
+.btn.sm { padding: 6px 10px; font-size: 0.8rem; border-radius: 10px; }
+.btn.block { width: 100%; }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+@media (hover: hover) { .btn:hover, .tbtn:hover { filter: brightness(1.1); } .chip:hover, .card:hover { border-color: var(--muted); } }
+.field { display: grid; gap: 5px; min-width: 0; }
+.field label, .label { font-weight: 700; font-size: 0.82rem; }
+.input { width: 100%; border: 1.5px solid var(--line); background: var(--land); border-radius: 10px; padding: 8px 10px; min-width: 0; }
+textarea.input { resize: vertical; min-height: 88px; line-height: 1.4; }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.chip { border: 1.5px solid var(--line); background: var(--surface); border-radius: 999px; padding: 4px 10px; cursor: pointer; font-size: 0.78rem; font-weight: 700; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+.slot { font-size: 0.78rem; font-weight: 700; border-radius: 8px; padding: 3px 8px; background: var(--surface-2); }
+.slot.miss { background: var(--req-soft); color: var(--req); }
+input[type="range"] { width: 100%; accent-color: var(--pop); }
+.box { border: 1.5px solid var(--line); border-radius: 16px; padding: 12px; display: grid; gap: 10px; }
+
+/* Grupo */
+.member { display: grid; gap: 6px; border-top: 1px solid var(--line); padding-top: 10px; }
+.member:first-of-type { border-top: 0; padding-top: 0; }
+.member-head { display: grid; grid-template-columns: minmax(0, 1fr) 96px auto; gap: 6px; align-items: center; }
+.likes { display: flex; gap: 4px; flex-wrap: wrap; }
+.likes .chip { padding: 2px 8px; font-size: 0.72rem; }
+.icon-btn { border: 0; background: var(--surface-2); border-radius: 8px; width: 30px; height: 30px; cursor: pointer; font-weight: 800; }
+
+/* Estados */
+.status { display: inline-flex; align-items: center; gap: 5px; font-size: 0.72rem; font-weight: 800; border-radius: 999px; padding: 2px 8px 2px 3px; white-space: nowrap; }
+.status .g { display: inline-grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; font-size: 0.64rem; color: var(--surface); }
+.s-ok { background: var(--ok-soft); color: var(--ok); } .s-ok .g { background: var(--ok); }
+.s-req { background: var(--req-soft); color: var(--req); } .s-req .g { background: var(--req); }
+.s-no { background: var(--no-soft); color: var(--no); } .s-no .g { background: var(--no); }
+.s-unk { background: var(--unk-soft); color: var(--unk); } .s-unk .g { background: var(--unk); }
+.mchip { font-size: 0.7rem; font-weight: 700; border-radius: 6px; padding: 1px 6px; }
+.stamp { display: inline-block; font-family: var(--f-mono); font-size: 0.6rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; border: 1.5px solid currentColor; border-radius: 5px; padding: 1px 6px; color: var(--link); }
+.stamp.t-EQUIPO { color: var(--ok); }
+.stamp.t-SIN-VERIFICAR, .stamp.t-PENDIENTE, .stamp.t-SECUNDARIA { color: var(--unk); border-style: dashed; }
+.tipo { font-family: var(--f-mono); font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+
+/* Tarjetas de viaje */
+.summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.summary div { background: var(--surface); padding: 8px 10px; display: grid; }
+.summary b { font-family: var(--f-mono); font-size: 1.3rem; font-variant-numeric: tabular-nums; }
+.summary span { font-size: 0.72rem; color: var(--muted); font-weight: 600; }
+.cards { display: grid; gap: 10px; }
+.card { border: 1.5px solid var(--line); border-radius: 18px; overflow: hidden; background: var(--surface); display: grid; }
+.card.sel { border-color: var(--ink); box-shadow: 4px 4px 0 var(--pop); }
+.card-ph { height: 86px; position: relative; background: linear-gradient(120deg, var(--brand), var(--pop)); background-size: cover; background-position: center; }
+.card-ph .score { position: absolute; right: 10px; bottom: -14px; background: var(--ink); color: var(--surface); border: 3px solid var(--surface); border-radius: 14px; padding: 2px 9px; font-family: var(--f-mono); font-weight: 800; font-size: 1.05rem; }
+.card-ph .mono { position: absolute; left: 12px; bottom: 8px; font-family: var(--f-mono); font-weight: 800; font-size: 1.6rem; color: #fff; text-shadow: 0 2px 8px rgb(0 0 0 / 0.4); }
+.card-body { padding: 14px 12px 12px; display: grid; gap: 8px; }
+.card-title { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.card-title strong { font-family: var(--f-display); font-stretch: 112%; font-weight: 850; font-size: 1.12rem; }
+.why { margin: 0; padding-left: 16px; display: grid; gap: 2px; font-size: 0.8rem; }
+.budget { display: grid; gap: 4px; }
+.bar { position: relative; display: flex; height: 10px; border-radius: 99px; overflow: hidden; background: var(--surface-2); }
+.bar i { display: block; height: 100%; }
+.bar .cap { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--ink); }
+.legend-b { display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.7rem; color: var(--muted); }
+.legend-b i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 4px; }
+.warn { font-size: 0.78rem; font-weight: 700; color: var(--req); }
+.bad { font-size: 0.8rem; font-weight: 700; color: var(--no); }
+
+/* Detalle */
+.detail-head { position: relative; height: 130px; border-radius: 16px; overflow: hidden; background: linear-gradient(120deg, var(--brand), var(--pop)); background-size: cover; background-position: center; }
+.detail-head .cap { position: absolute; left: 10px; bottom: 10px; right: 10px; display: flex; justify-content: space-between; align-items: end; gap: 8px; }
+.detail-head h2 { background: var(--brand); color: var(--brand-fg); padding: 4px 10px 5px; border-radius: 10px; font-size: 1.3rem; }
+.detail-head .credit { position: absolute; top: 6px; right: 6px; font-size: 0.62rem; background: rgb(0 0 0 / 0.5); color: #fff; padding: 1px 6px; border-radius: 5px; text-decoration: none; }
+.tabs { display: flex; gap: 4px; background: var(--surface-2); padding: 4px; border-radius: 12px; }
+.tabs button { flex: 1; border: 0; background: none; border-radius: 9px; padding: 6px 4px; font-weight: 700; font-size: 0.78rem; cursor: pointer; color: var(--muted); }
+.tabs button[aria-selected="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 0 var(--line); }
+.day { display: grid; gap: 6px; }
+.stop { display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; gap: 8px; align-items: start; font-size: 0.84rem; }
+.stop .n { width: 24px; height: 24px; border-radius: 50%; background: var(--brand); color: #fff; display: grid; place-items: center; font-family: var(--f-mono); font-weight: 800; font-size: 0.72rem; }
+.stop.skip { opacity: 0.6; }
+.stop.skip .n { background: var(--no); }
+.etable { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+.etable th, .etable td { text-align: left; padding: 6px 4px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.etable th { font-weight: 700; color: var(--muted); font-size: 0.7rem; }
+.legal-item { border: 1.5px solid var(--line); border-radius: 12px; padding: 10px; display: grid; gap: 4px; }
+.legal-item .row { gap: 5px; }
+.pill { font-size: 0.66rem; font-weight: 800; border-radius: 999px; padding: 1px 7px; text-transform: uppercase; letter-spacing: 0.04em; }
+.e-obligatorio { background: var(--no-soft); color: var(--no); } .e-recomendado { background: var(--ok-soft); color: var(--ok); }
+.e-segun_caso { background: var(--req-soft); color: var(--req); } .e-pendiente { background: var(--unk-soft); color: var(--unk); }
+.who { background: var(--surface-2); color: var(--ink); }
+
+/* Mapa: marcadores y controles */
+.mk { position: relative; border: 0; background: none; cursor: pointer; padding: 0; transform: translateY(-50%); }
+.mk .dot { display: grid; place-items: center; border-radius: 50%; border: 3px solid var(--surface); color: #fff; font-family: var(--f-mono); font-weight: 800; box-shadow: 0 4px 12px rgb(0 0 0 / 0.25); transition: transform 0.2s ease; }
+.mk .lbl { position: absolute; left: 50%; top: 100%; transform: translateX(-50%); margin-top: 3px; white-space: nowrap; font-weight: 800; font-size: 0.72rem; background: var(--surface); color: var(--ink); padding: 1px 6px; border-radius: 6px; box-shadow: 0 1px 4px rgb(0 0 0 / 0.15); }
+.mk.sel .dot { transform: scale(1.18); outline: 3px solid var(--pop); }
+.mk.origin .dot { background: var(--ink); }
+.mk.stopmk .dot { width: 24px; height: 24px; font-size: 0.7rem; background: var(--brand); }
+.mk.stopmk.skip .dot { background: var(--no); }
+.maptools { position: absolute; right: 12px; top: 12px; display: grid; gap: 6px; z-index: 3; }
+.maptools button { width: 34px; height: 34px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); font-weight: 800; cursor: pointer; }
+.maplegend { position: absolute; left: 12px; bottom: 12px; z-index: 3; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 8px 10px; display: grid; gap: 4px; font-size: 0.72rem; max-width: 280px; }
+.attrib { position: absolute; right: 8px; bottom: 6px; z-index: 3; font-size: 0.62rem; background: rgb(255 255 255 / 0.8); color: #222; padding: 1px 6px; border-radius: 5px; }
+.attrib a { color: #1730D6; }
+.toast { position: absolute; left: 50%; top: 12px; transform: translateX(-50%); z-index: 4; background: var(--ink); color: var(--surface); border-radius: 12px; padding: 8px 12px; font-size: 0.8rem; max-width: 80%; }
+.maplibregl-map { position: relative; overflow: hidden; -webkit-tap-highlight-color: transparent; }
+.maplibregl-canvas { position: absolute; left: 0; top: 0; }
+.maplibregl-canvas-container.maplibregl-interactive { cursor: grab; }
+.maplibregl-canvas-container.maplibregl-interactive:active { cursor: grabbing; }
+.maplibregl-marker { position: absolute; top: 0; left: 0; will-change: transform; }
+
+/* Diálogos */
+dialog.sheet { border: 0; padding: 0; width: min(760px, calc(100% - 32px)); max-height: 88vh; border-radius: 20px; background: var(--surface); color: var(--ink); overscroll-behavior: contain; }
+dialog.sheet::backdrop { background: rgb(8 10 20 / 0.55); }
+.sheet-in { padding: 20px; display: grid; gap: 14px; }
+.sheet-head { display: flex; justify-content: space-between; gap: 10px; align-items: start; }
+.pipeline { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.pipeline div { background: var(--surface-2); border-radius: 12px; padding: 8px; font-size: 0.74rem; display: grid; gap: 3px; align-content: start; }
+.pipeline div b { font-size: 0.78rem; }
+.pipeline div.hard { background: var(--no-soft); color: var(--no); }
+.rt { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+.rt th, .rt td { border-bottom: 1px solid var(--line); padding: 6px; text-align: left; vertical-align: top; }
+.rise { animation: rise 0.4s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: calc(var(--i, 0) * 40ms); }
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
+
+<div class="app">
+  <header class="top">
+    <span class="wm">Go<span>Live</span>It</span>
+    <span class="tag">Planner · prototipo de investigación</span>
+    <span class="spacer"></span>
+    <span class="seg" role="group" aria-label="Tipo de mapa" id="mapmode"></span>
+    <button type="button" class="tbtn" id="pause" aria-pressed="false">Pausar animaciones</button>
+    <button type="button" class="tbtn" data-open="how">Cómo funciona</button>
+    <button type="button" class="tbtn solid" data-open="papeles">Papeles y dificultades</button>
+  </header>
+
+  <aside class="panel left" aria-label="Tu viaje">
+    <div class="field">
+      <label for="nl">Cuéntanos el viaje</label>
+      <textarea class="input" id="nl" spellcheck="false">Somos cuatro amigos de 17 años, salimos de Sevilla, tenemos 250 € por persona y queremos pasar cuatro días en una ciudad europea con ambiente joven, playa y actividades.</textarea>
+      <div class="row"><button type="button" class="btn pop sm" id="parse">Entender y buscar</button><span class="small muted">Intérprete de demostración: reglas, no IA.</span></div>
+      <div class="row" id="slots" aria-live="polite"></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label for="origin">Salida</label><select class="input" id="origin"></select></div>
+      <div class="field"><label for="days">Días</label><input class="input" id="days" type="number" min="2" max="7" value="4"></div>
+    </div>
+    <div class="field">
+      <label for="budget">Presupuesto por persona: <span id="budget-v"></span></label>
+      <input id="budget" type="range" min="100" max="700" step="10" value="250">
+    </div>
+    <div class="box">
+      <div class="row between"><h3>Grupo</h3><button type="button" class="btn ghost sm" id="add-member">Añadir</button></div>
+      <p class="small muted">Cada persona marca sus gustos: así se ven los conflictos y cómo se resuelven.</p>
+      <div id="members"></div>
+    </div>
+  </aside>
+
+  <section class="mapwrap" aria-label="Mapa">
+    <div id="map"></div>
+    <div class="maptools"><button type="button" id="zin" aria-label="Acercar">+</button><button type="button" id="zout" aria-label="Alejar">−</button><button type="button" id="zeu" aria-label="Ver Europa">⌂</button></div>
+    <div class="maplegend" id="maplegend"></div>
+    <div class="attrib" id="attrib"></div>
+    <div class="toast" id="toast" hidden role="status"></div>
+  </section>
+
+  <aside class="panel right" aria-label="Viajes posibles">
+    <div id="results"></div>
+  </aside>
+</div>
+
+<dialog class="sheet" id="sheet" aria-labelledby="sheet-title"><div class="sheet-in" id="sheet-in"></div></dialog>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datamaps/0.5.10/datamaps.world.min.js"></script>
+<script>
+(() => {
+  /* =========================================================
+     DATOS INYECTADOS AL CONSTRUIR (build.mjs)
+     ========================================================= */
+  const PHOTOS = /*__PHOTOS__*/{};
+  const LEGAL = /*__LEGAL__*/{ "actualizado": null, "items": [] };
+
+  /* =========================================================
+     FUENTES (misma convención que la bóveda)
+     ========================================================= */
+  const MIA = "07/11/2026";
+  const S = (label, url, tag, date) => ({ label, url, tag, date });
+  const EQ = (label, url, date = "07/11/2026") => S(label, url, "EQUIPO", date);
+  const SRC = {
+    interior: S("FAQ de Interior, Instrucción 10/2019 SES", "https://web.guardiacivil.es/export/sites/guardiaCivil/documentos/pdfs/2024/FAQ_autorizacion_viaje_menores.pdf", "VERIFICADO", MIA),
+    vueling: S("Ayuda de Vueling: menores", "https://help.vueling.com/hc/es/articles/19798828271633-Menores-no-acompa%C3%B1ados", "OFICIAL-INDIRECTO", MIA),
+    ryanair: S("Ryanair: viajar con niños", "https://help.ryanair.com/hc/en-sk/sections/12503179588113-Travelling-With-Children-Travelling-With-Children", "OFICIAL-INDIRECTO", MIA),
+    iberia: S("Iberia: menores", "https://www.iberia.com/us/fly-with-iberia/minors/", "OFICIAL-INDIRECTO", MIA),
+    airbnb: S("Airbnb: edades mínimas", "https://www.airbnb.com/help/article/3930", "OFICIAL-INDIRECTO", MIA),
+    easyjet: EQ("easyJet: volando con niños", "https://www.easyjet.com/es/ayuda/embarcar-y-volar/volando-con-ninos", "05/11/2026"),
+    wizz: EQ("Wizz Air: viajar con niños", "https://www.wizzair.com/en-gb/help-centre/booking-information-and-services/with-children", "05/11/2026"),
+    tap: EQ("TAP: menores", "https://www.flytap.com/en-us/travel-with-children/unaccompanied-minors"),
+    airfrance: EQ("Air France: Kids Solo", "https://wwws.airfrance.fr/information/legal/option-kids-solo"),
+    ita: EQ("ITA Airways: menores", "https://www.ita-airways.com/it/it/book-and-prepare/other-requests/families-and-children/unaccompained-minors"),
+    lufthansa: EQ("Lufthansa: menores", "https://www.lufthansa.com/us/en/unaccompanied-minors"),
+    ba: EQ("British Airways: niños solos", "https://www.britishairways.com/content/information/travel-assistance/children-travelling-alone"),
+    gov_pt: EQ("gov.pt: viajar a Portugal", "https://www.gov.pt/guias/viajar-para-portugal"),
+    ext_pt: EQ("Exteriores: Portugal", "https://www.exteriores.gob.es/es/ServiciosAlCiudadano/Paginas/Detalle-recomendaciones-de-viaje.aspx?trc=Portugal"),
+    ext_fr: EQ("Exteriores: Francia", "https://www.exteriores.gob.es/es/ServiciosAlCiudadano/Paginas/Detalle-recomendaciones-de-viaje.aspx?trc=Francia"),
+    ext_it: EQ("Consulado en Roma", "https://www.exteriores.gob.es/Consulados/roma/es/ViajarA/Paginas/Recomendaciones-de-viaje.aspx"),
+    ext_de: EQ("Exteriores: Alemania", "https://www.exteriores.gob.es/es/ServiciosAlCiudadano/Paginas/Detalle-recomendaciones-de-viaje.aspx?trc=Alemania"),
+    bpol: EQ("Bundespolizei: menores", "https://bundespolizei.de/sicher-auf-reisen/passrechtliche-hinweise/reisen-mit-minderjaehrigen"),
+    uk_eta: EQ("GOV.UK: ETA", "https://www.gov.uk/eta"),
+    uk_minor: EQ("GOV.UK: menores de 18", "https://www.gov.uk/standard-visitor/if-youre-under-18"),
+    uk_doc: EQ("GOV.UK: visitantes de la UE", "https://www.gov.uk/guidance/visiting-the-uk-as-an-eu-eea-or-swiss-citizen"),
+    pousadas: EQ("Pousadas de Juventude: normas", "https://www.pousadasjuventude.pt/pt/normas-e-condicoes/"),
+    hifrance: EQ("HI France: condiciones (PDF)", "https://www.hifrance.org/wp-content/uploads/2023/07/CGV-HIFrance-Indivividuel-06.07.2023.pdf"),
+    aig: EQ("AIG: Ostello Sperlonga", "https://www.aighostels.it/hostels/sperlonga"),
+    djh: EQ("DJH Hannover", "https://www.jugendherberge.de/lvb-hannover/service/alleinreisende-jugendliche/"),
+    yha: EQ("YHA: menores de 18", "https://www.yha.org.uk/our-policies/under-18s-admissions-policy"),
+    accor: EQ("Accor: condiciones de venta", "https://all.accor.com/gb/booking/internet-sales-conditions.html"),
+    metro_lis: EQ("Metro de Lisboa", "https://www.metrolisboa.pt/2025/07/31/sub18-e-sub23-atualizacao-de-dados/"),
+    museus_pt: EQ("Museus e Monumentos de Portugal", "https://www.museusemonumentos.pt/pt/pagina/bilhetes"),
+    asae: EQ("ASAE: menores de 16", "https://www.asae.gov.pt/perguntas-frequentes1/area-economica/bares/bares-frequencia-por-menores-de-16-anos.aspx"),
+    rer: EQ("Île-de-France Mobilités (PDF)", "https://www.iledefrance-mobilites.fr/medias/portail-idfm/acEkM5GXnQHGY2UT_IDFM_guide_tarifaire_A5_190326-2.pdf"),
+    louvre: EQ("Louvre: visita", "https://www.louvre.fr/en/visit"),
+    legi: EQ("Légifrance: menores", "https://www.legifrance.gouv.fr/codes/id/LEGISCTA000006171207"),
+    leonardo: EQ("Trenitalia: Leonardo Express", "https://www.trenitalia.com/it/regionale/collegamenti-regionale/leonardo-express.html"),
+    colosseo: EQ("Parque del Coliseo", "https://colosseo.it/2024/10/biglietti-gratuiti/"),
+    vbb: EQ("VBB: billete sencillo", "https://www.vbb.de/tickets/einzelfahrausweise/einzelfahrausweis/"),
+    smb: EQ("Museos Estatales de Berlín", "https://www.smb.museum/en/plan-your-visit/concessions-free-admission/"),
+    juschg: EQ("JuSchG (Alemania)", "https://www.gesetze-im-internet.de/juschg/"),
+    tfl: EQ("TfL: 16+ Zip Oyster", "https://tfl.gov.uk/fares/free-and-discounted-travel/16-plus-zip-oyster-photocard"),
+    bm: EQ("British Museum", "https://www.britishmuseum.org/visit/family-visits"),
+    uk_lic: EQ("Licensing Act 2003, s. 145", "https://www.legislation.gov.uk/ukpga/2003/17/section/145"),
+    none: S("Sin fuente verificada", null, "SIN VERIFICAR", MIA)
+  };
+
+  /* =========================================================
+     MOTOR DE ELEGIBILIDAD (reglas con fuente; lo desconocido = pendiente)
+     tipo: legal | comercial | contratacion | checkin | estancia | acceso
+     ========================================================= */
+  const R = (s, why, reqs = []) => ({ s, why, reqs });
+  const F = t => ({ t, who: "familia" });
+  const G = t => ({ t, who: "grupo" });
+  const adultOf = (g, m) => g.find(x => x !== m && x.age >= 18);
+  const sixteenOf = (g, m) => g.find(x => x !== m && x.age >= 16);
+  const con = x => x.me ? "contigo" : "con " + x.name;
+  const quien = x => x.me ? "tú" : x.name;
+  const OK18 = "Mayor de edad: sin límite por edad.";
+  const TIPOS = { legal: "Requisito legal", comercial: "Condición comercial", contratacion: "Capacidad de contratación", checkin: "Requisito de check-in", estancia: "Condición de estancia", acceso: "Requisito de acceso" };
+
+  const ITEMS = {
+    vueling: { name: "Vueling", cat: "vuelo", tipo: "comercial", src: "vueling", rule: (m, g) => m.age >= 16 ? R("ok", "Desde 16 vuelas solo, también con escalas.") : m.age >= 12 ? R("req", "De 12 a 15, solo vuelos directos y reservando en su web.", [G("Vuelo directo")]) : sixteenOf(g, m) ? R("req", "Menores de 12, con alguien de 16 o más.", [G("Viajar " + con(sixteenOf(g, m)))]) : R("no", "Menores de 12 no vuelan solos.") },
+    ryanair: { name: "Ryanair", cat: "vuelo", tipo: "comercial", src: "ryanair", rule: (m, g) => m.age >= 16 ? R("ok", "Desde 16 vuelas solo.") : adultOf(g, m) ? R("req", "Menores de 16, en la misma reserva que un adulto.", [G("Misma reserva que " + quien(adultOf(g, m)))]) : R("no", "No lleva a menores de 16 sin acompañante.") },
+    easyjet: { name: "easyJet", cat: "vuelo", tipo: "comercial", src: "easyjet", rule: (m, g) => m.age >= 16 ? R("ok", "Desde 16 vuelas solo.") : sixteenOf(g, m) ? R("req", "Menores de 16, con un acompañante de 16 o más.", [G("Viajar " + con(sixteenOf(g, m)))]) : R("no", "No embarca a menores de 16 solos.") },
+    wizz: { name: "Wizz Air", cat: "vuelo", tipo: "comercial", src: "wizz", rule: (m, g) => m.age >= 14 ? R("ok", "Vuelas solo desde los 14.") : sixteenOf(g, m) ? R("req", "Menores de 14, con alguien de 16 o más.", [G("Misma reserva que " + quien(sixteenOf(g, m)))]) : R("no", "Menores de 14 no vuelan solos.") },
+    iberia: { name: "Iberia", cat: "vuelo", tipo: "comercial", src: "iberia", rule: m => m.age >= 12 ? R("ok", "Desde 12 vuelas solo; acompañamiento opcional de 12 a 17.") : R("req", "De 5 a 11, acompañamiento obligatorio.", [F("Contratar el acompañamiento")]) },
+    tap: { name: "TAP", cat: "vuelo", tipo: "comercial", src: "tap", rule: m => m.age >= 12 ? R("ok", "De 12 a 17, el servicio de menor no acompañado es opcional.") : R("unk", "Sin dato para menores de 12.") },
+    airfrance: { name: "Air France", cat: "vuelo", tipo: "comercial", src: "airfrance", rule: m => m.age >= 18 ? R("ok", OK18) : R("unk", "Falta la edad mínima para volar solo.") },
+    ita: { name: "ITA Airways", cat: "vuelo", tipo: "comercial", src: "ita", rule: m => m.age >= 15 ? R("ok", "De 15 a 17 vuelas solo.") : R("unk", "Sin dato para menores de 15.") },
+    lufthansa: { name: "Lufthansa", cat: "vuelo", tipo: "comercial", src: "lufthansa", rule: m => m.age >= 12 ? R("ok", "De 12 a 17, acompañamiento opcional.") : R("unk", "Sin dato para menores de 12.") },
+    ba: { name: "British Airways", cat: "vuelo", tipo: "comercial", src: "ba", rule: m => m.age >= 16 ? R("ok", "Con 16 o 17 vuelas solo, sin formulario.") : m.age >= 14 ? R("req", "Con 14 o 15, formulario de los padres.", [F("Formulario de British Airways")]) : R("no", "Sin acompañamiento para menores de 14.") },
+    airbnb: { name: "Apartamento (Airbnb)", cat: "dormir", tipo: "contratacion", src: "airbnb", rule: (m, g) => m.age >= 18 ? R("ok", "Mayor de edad: puede reservar.") : adultOf(g, m) ? R("req", "Los menores no reservan: la reserva va a nombre de " + quien(adultOf(g, m)) + ", que viaja con el grupo.", [G("Reserva a nombre de " + quien(adultOf(g, m)))]) : R("no", "Menores de 18 no reservan ni se alojan sin un adulto.") },
+    accor: { name: "Hotel (Accor)", cat: "dormir", tipo: "checkin", src: "accor", rule: (m, g) => m.age >= 18 ? R("ok", OK18) : adultOf(g, m) ? R("req", "Todo menor con un adulto; confirmad con el hotel.", [G("Viajar " + con(adultOf(g, m)))]) : R("no", "Todo menor debe ir con un adulto.") },
+    pousadas: { name: "Pousadas de Juventude", cat: "dormir", tipo: "estancia", src: "pousadas", rule: m => m.age >= 16 ? R("ok", "Desde 16, sin condiciones por edad.") : R("req", "Menores de 16, con autorización para la estancia.", [F("Autorización para la estancia")]) },
+    hifrance: { name: "Albergues HI France", cat: "dormir", tipo: "checkin", src: "hifrance", rule: m => m.age >= 18 ? R("ok", OK18) : m.age >= 16 ? R("req", "Desde 16, con autorización de los padres y copia de su documento.", [F("Autorización para el albergue")]) : R("no", "Con menos de 16, solo con monitores o un adulto.") },
+    aig: { name: "Albergues AIG", cat: "dormir", tipo: "checkin", src: "aig", rule: m => m.age >= 18 ? R("ok", OK18) : R("unk", "Solo hay política de un albergue fuera de Roma.") },
+    djh: { name: "Albergues DJH", cat: "dormir", tipo: "checkin", src: "djh", rule: m => m.age >= 18 ? R("ok", OK18) : R("unk", "Solo hay política de asociaciones fuera de Berlín.") },
+    yha: { name: "Albergues YHA", cat: "dormir", tipo: "estancia", src: "yha", rule: (m, g) => m.age >= 18 ? R("ok", OK18) : m.age >= 16 ? R("req", "Con 16 o 17, habitación privada en albergues seleccionados.", [G("Habitación privada"), F("Formulario de los padres 2 días antes")]) : adultOf(g, m) ? R("req", "Menores de 16, con un adulto.", [G("Ir " + con(adultOf(g, m)))]) : R("no", "Menores de 16, siempre con un adulto.") },
+    metro_lis: { name: "Metro de Lisboa", cat: "moverse", tipo: "comercial", src: "metro_lis", rule: () => R("ok", "Gratis hasta 23 solo con NIF portugués; de visita, billete normal.") },
+    rer: { name: "RER B (aeropuerto)", cat: "moverse", tipo: "comercial", src: "rer", rule: () => R("ok", "14 € por trayecto.") },
+    leonardo: { name: "Leonardo Express", cat: "moverse", tipo: "comercial", src: "leonardo", rule: () => R("ok", "14 €; en grupo, 4 billetes por 40 €.") },
+    vbb: { name: "Billete ABC (BER)", cat: "moverse", tipo: "comercial", src: "vbb", rule: () => R("ok", "5,00 € (5,20 € desde enero de 2027).") },
+    tfl: { name: "Transporte de Londres", cat: "moverse", tipo: "comercial", src: "tfl", rule: m => R("ok", m.age >= 16 && m.age < 18 ? "50 % con la 16+ Zip Oyster." : "Tarifa según edad.") },
+    museus_pt: { name: "Jerónimos y museos", cat: "hacer", tipo: "acceso", src: "museus_pt", rule: () => R("ok", "De 13 a 24 años, 50 % de descuento.") },
+    discos_lis: { name: "Bairro Alto de noche", cat: "hacer", tipo: "acceso", src: "asae", rule: (m, g) => m.age >= 16 ? R("ok", "Discotecas desde 16, con documento. Alcohol, nada hasta 18.") : adultOf(g, m) ? R("req", "Menores de 16, con un adulto responsable.", [G("Ir " + con(adultOf(g, m)))]) : R("no", "Menores de 16, solo con un adulto.") },
+    louvre: { name: "Museo del Louvre", cat: "hacer", tipo: "acceso", src: "louvre", rule: () => R("ok", "Gratis para menores de 18 con franja reservada.") },
+    colosseo: { name: "Coliseo y Foro", cat: "hacer", tipo: "acceso", src: "colosseo", rule: () => R("ok", "Gratis para menores de 18 reservando.") },
+    smb: { name: "Isla de los Museos", cat: "hacer", tipo: "acceso", src: "smb", rule: () => R("ok", "Gratis hasta los 18 con documento.") },
+    fiestas_ber: { name: "Fiesta en Kreuzberg", cat: "hacer", tipo: "acceso", src: "juschg", rule: (m, g) => m.age >= 18 ? R("ok", OK18) : m.age >= 16 ? R("req", "Con 16 o 17, sin adulto hasta las 24:00.", [G("Salir antes de las 24:00")]) : adultOf(g, m) ? R("req", "Menores de 16, con un adulto responsable.", [G("Ir " + con(adultOf(g, m)))]) : R("no", "Menores de 16, no sin un adulto.") },
+    bm: { name: "British Museum", cat: "hacer", tipo: "acceso", src: "bm", rule: () => R("ok", "Colección permanente gratis.") },
+    discos_lon: { name: "Camden de noche", cat: "hacer", tipo: "acceso", src: "uk_lic", rule: m => m.age >= 18 ? R("ok", OK18) : m.age >= 16 ? R("unk", "Con 16 o 17 decide cada local.") : R("no", "Menores de 16, no sin un adulto.") }
+  };
+
+  function countryDocs(m, c) {
+    const out = []; const minor = m.age < 18;
+    if (minor) {
+      if (m.nat === "ES") out.push({ s: "req", t: "Declaración de permiso de viaje", d: "La firma uno de los padres ante Policía, Guardia Civil, notario o alcalde. Vale 90 días.", src: "interior" });
+      else out.push({ s: "unk", t: "Permiso según su nacionalidad", d: "Los menores extranjeros siguen la ley de su país.", src: "interior" });
+    }
+    if (c === "UK") {
+      out.push({ s: "req", t: "Pasaporte y ETA (20 £)", d: "El DNI no vale. Cada persona su ETA.", src: "uk_eta" });
+      if (minor) out.push({ s: "req", t: "Consentimiento escrito de los padres", d: "Con sus datos y los de quien os aloja.", src: "uk_minor" });
+    } else if (["PT", "FR", "IT", "DE"].includes(c)) out.push({ s: "ok", t: c === "DE" ? "DNI físico o pasaporte" : "DNI o pasaporte", d: "En vigor.", src: { PT: "ext_pt", FR: "ext_fr", IT: "ext_it", DE: "ext_de" }[c] });
+    else out.push({ s: "unk", t: "Documentos de entrada sin verificar", d: "No tenemos las normas de este país todavía.", src: "none" });
+    if (minor && c === "PT") out.push({ s: "req", t: "Carta de autorización de los padres (Portugal)", d: "La ley no la exige a ciudadanos de la UE, pero gov.pt la pide y pueden negar la entrada. Llevadla en portugués o inglés (Q-20).", src: "gov_pt" });
+    if (minor && c === "DE") out.push({ s: "req", t: "Carta de consentimiento", d: "La recomienda la Policía Federal.", src: "bpol" });
+    return out;
+  }
+
+  /* =========================================================
+     DESTINOS (5 con datos del equipo, 3 sin verificar)
+     Precios y gastos: ESTIMACIONES ILUSTRATIVAS, no son precios actuales.
+     ========================================================= */
+  const ORIGINS = { SVQ: { name: "Sevilla", c: [-5.984, 37.389], k: 1 }, MAD: { name: "Madrid", c: [-3.704, 40.417], k: 0.9 }, AGP: { name: "Málaga", c: [-4.421, 36.721], k: 1 }, BCN: { name: "Barcelona", c: [2.169, 41.387], k: 0.88 }, VLC: { name: "Valencia", c: [-0.376, 39.47], k: 1 } };
+  const NATIONAL_AIR = { PT: "tap", FR: "airfrance", IT: "ita", DE: "lufthansa", UK: "ba" };
+  const LIKES = [["playa", "Playa"], ["joven", "Ambiente joven"], ["noche", "Noche"], ["museos", "Museos"], ["historia", "Historia"], ["comida", "Comida"], ["compras", "Compras"]];
+  const DEST = {
+    lisboa: { city: "Lisboa", country: "PT", cname: "Portugal", iata: "LIS", c: [-9.139, 38.722], verified: true, tags: ["playa", "joven", "noche", "comida", "historia"], daily: 28,
+      flights: [["ryanair", 39, true], ["vueling", 59, true], ["easyjet", 64, false], ["tap", 89, true], ["iberia", 118, false]], stays: [["pousadas", 24], ["airbnb", 45], ["accor", 72]],
+      stops: [["Llegada en metro desde el aeropuerto", "metro_lis", [-9.129, 38.774]], ["Pousada de Juventude (zona aproximada)", "pousadas", [-9.146, 38.732]], ["Jerónimos y Belém", "museus_pt", [-9.207, 38.698]], ["Alfama y miradores", null, [-9.134, 38.714]], ["Playa de Carcavelos", null, [-9.336, 38.679]], ["Bairro Alto de noche", "discos_lis", [-9.145, 38.713]]] },
+    paris: { city: "París", country: "FR", cname: "Francia", iata: "PAR", c: [2.352, 48.857], verified: true, tags: ["museos", "historia", "comida", "compras"], daily: 42,
+      flights: [["ryanair", 45, true], ["vueling", 69, true], ["easyjet", 79, false], ["iberia", 128, false], ["airfrance", 139, false]], stays: [["hifrance", 34], ["airbnb", 58], ["accor", 89]],
+      stops: [["RER B desde el aeropuerto", "rer", [2.37, 48.95]], ["Albergue HI (zona aproximada)", "hifrance", [2.37, 48.877]], ["Museo del Louvre", "louvre", [2.338, 48.861]], ["Montmartre", null, [2.343, 48.887]], ["Le Marais", null, [2.362, 48.859]], ["Torre Eiffel", null, [2.295, 48.858]]] },
+    roma: { city: "Roma", country: "IT", cname: "Italia", iata: "ROM", c: [12.496, 41.903], verified: true, tags: ["historia", "museos", "comida"], daily: 34,
+      flights: [["ryanair", 49, true], ["wizz", 58, true], ["vueling", 79, false], ["ita", 119, true], ["iberia", 150, false]], stays: [["aig", 27], ["airbnb", 49], ["accor", 85]],
+      stops: [["Leonardo Express a Termini", "leonardo", [12.501, 41.901]], ["Albergue (zona aproximada)", "aig", [12.5, 41.9]], ["Coliseo y Foro", "colosseo", [12.492, 41.89]], ["Fontana di Trevi", null, [12.483, 41.901]], ["Trastevere", null, [12.47, 41.89]], ["Panteón", null, [12.477, 41.899]]] },
+    berlin: { city: "Berlín", country: "DE", cname: "Alemania", iata: "BER", c: [13.405, 52.52], verified: true, tags: ["joven", "noche", "museos", "historia"], daily: 32,
+      flights: [["ryanair", 65, true], ["easyjet", 72, false], ["vueling", 85, false], ["lufthansa", 159, false]], stays: [["djh", 31], ["airbnb", 44], ["accor", 69]],
+      stops: [["Billete ABC desde el BER", "vbb", [13.5, 52.366]], ["Albergue (zona aproximada)", "djh", [13.39, 52.51]], ["Isla de los Museos", "smb", [13.402, 52.517]], ["Puerta de Brandeburgo", null, [13.378, 52.516]], ["East Side Gallery", null, [13.44, 52.505]], ["Fiesta en Kreuzberg", "fiestas_ber", [13.438, 52.497]]] },
+    londres: { city: "Londres", country: "UK", cname: "Reino Unido", iata: "LON", c: [-0.128, 51.507], verified: true, tags: ["joven", "museos", "noche", "compras"], daily: 48,
+      flights: [["ryanair", 55, true], ["easyjet", 69, true], ["vueling", 75, false], ["ba", 138, true], ["iberia", 145, false]], stays: [["yha", 39], ["airbnb", 62], ["accor", 95]],
+      stops: [["Metro desde el aeropuerto", "tfl", [-0.177, 51.517]], ["Albergue YHA (zona aproximada)", "yha", [-0.123, 51.53]], ["British Museum", "bm", [-0.127, 51.519]], ["Westminster", null, [-0.125, 51.5]], ["Tate Modern", null, [-0.099, 51.508]], ["Camden de noche", "discos_lon", [-0.146, 51.541]]] },
+    amsterdam: { city: "Ámsterdam", country: "NL", cname: "Países Bajos", iata: "AMS", c: [4.904, 52.368], verified: false, tags: ["joven", "noche", "museos"] },
+    praga: { city: "Praga", country: "CZ", cname: "Chequia", iata: "PRG", c: [14.438, 50.076], verified: false, tags: ["historia", "noche", "joven"] },
+    dublin: { city: "Dublín", country: "IE", cname: "Irlanda", iata: "DUB", c: [-6.26, 53.35], verified: false, tags: ["noche", "historia"] }
+  };
+  const PHOTO = {
+    lisboa: { pos: "62% 40%", by: "Paul Arps", lic: "CC BY 2.0", page: "https://commons.wikimedia.org/wiki/File:Tram_28_in_Alfama_(Lissabon_2016)_(26029557541).jpg" },
+    paris: { pos: "33% 36%", by: "Adriano Aurelio Araujo", lic: "CC BY 2.0", page: "https://commons.wikimedia.org/wiki/File:Brilho_Eiffell-_Eiffel_shine_-_Flickr_-_Adriano_Aurelio_Araujo.jpg" },
+    roma: { pos: "45% 35%", by: "Wilfredor", lic: "CC0", page: "https://commons.wikimedia.org/wiki/File:Colosseum_of_Rome_and_Roman_forum.jpg" },
+    berlin: { pos: "30% 35%", by: "Klaus Bärwinkel", lic: "CC BY-SA 4.0", page: "https://commons.wikimedia.org/wiki/File:2019_Berlin_Fernsehturm_Spree_Dom.jpg" },
+    londres: { pos: "74% 50%", by: "Diliff", lic: "CC BY-SA 2.5", page: "https://commons.wikimedia.org/wiki/File:Palace_of_Westminster,_London_-_Feb_2007.jpg" }
+  };
+
+  /* =========================================================
+     ESTADO
+     ========================================================= */
+  const me = { id: 1, name: "Tú", age: 17, nat: "ES", likes: new Set(["playa", "joven"]), me: true };
+  const state = {
+    group: [me, { id: 2, name: "Lucía", age: 17, nat: "ES", likes: new Set(["playa", "joven"]) }, { id: 3, name: "Hugo", age: 17, nat: "ES", likes: new Set(["noche", "joven"]) }, { id: 4, name: "Sara", age: 17, nat: "ES", likes: new Set(["museos", "playa"]) }],
+    origin: "SVQ", days: 4, budget: 250, sel: null, tab: "itinerario", compare: new Set(), mapMode: "offline", nextId: 5, parsed: null, legalFilter: { quien: "todos", cuando: "todos", dest: "auto" }
+  };
+
+  /* =========================================================
+     UTILIDADES
+     ========================================================= */
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const EUR = new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
+  const eur = n => EUR.format(Math.round(n));
+  const STATUS = { ok: ["s-ok", "✓", "Verificado"], req: ["s-req", "!", "Con requisitos"], no: ["s-no", "×", "No permitido"], unk: ["s-unk", "?", "Pendiente de verificar"] };
+  const RANK = { ok: 0, req: 1, unk: 2, no: 3 };
+  const COLOR = s => getComputedStyle(document.documentElement).getPropertyValue({ ok: "--ok", req: "--req", no: "--no", unk: "--unk" }[s]).trim();
+  const pill = (s, label) => `<span class="status ${STATUS[s][0]}"><span class="g" aria-hidden="true">${STATUS[s][1]}</span>${label || STATUS[s][2]}</span>`;
+  const worst = list => list.reduce((a, x) => RANK[x] > RANK[a] ? x : a, "ok");
+  const stamp = src => `<span class="stamp t-${src.tag.replace(/ /g, "-")}">${esc(src.tag)} · ${esc(src.date.replace(/\//g, "·"))}</span>`;
+  const reduced = () => window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const norm = s => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+  const pl = (n, s, p) => `${n} ${n === 1 ? s : p}`;
+
+  function evalItem(key, group = state.group) {
+    const it = ITEMS[key];
+    const per = group.map(m => ({ m, r: it.rule(m, group) }));
+    return { key, it, per, s: worst(per.map(x => x.r.s)) };
+  }
+  function evalFlight(air, direct, group = state.group) {
+    const e = evalItem(air, group);
+    if (air === "vueling" && !direct && group.some(m => m.age >= 12 && m.age < 16)) return { ...e, s: "no", per: e.per.map(x => x.m.age < 16 ? { m: x.m, r: R("no", "De 12 a 15, Vueling no deja volar con escala.") } : x) };
+    return e;
+  }
+  const visible = s => s === "ok" || s === "req";
+
+  /* =========================================================
+     RECOMENDADOR: filtro duro de elegibilidad → puntuación → grupo → explicación
+     ========================================================= */
+  function analyse(k, group = state.group) {
+    const d = DEST[k]; const n = group.length; const nights = Math.max(1, state.days - 1);
+    const sat = group.map(m => ({ m, v: m.likes.size ? [...m.likes].filter(t => d.tags.includes(t)).length / m.likes.size : 0.5, hits: [...m.likes].filter(t => d.tags.includes(t)) }));
+    const avg = sat.reduce((a, x) => a + x.v, 0) / n; const min = Math.min(...sat.map(x => x.v));
+    const pref = 0.6 * avg + 0.4 * min;
+    if (!d.verified) return { k, d, status: "unk", score: null, sat, pref, reason: "No tenemos verificadas las normas de entrada, alojamientos ni actividades para menores. Pendiente, no permitido." };
+    const flights = d.flights.map(([a, p, dir]) => ({ a, p: p * ORIGINS[state.origin].k, dir, e: evalFlight(a, dir, group) })).sort((x, y) => RANK[x.e.s] - RANK[y.e.s] || x.p - y.p);
+    const stays = d.stays.map(([s, p]) => ({ s, p, e: evalItem(s, group) })).sort((x, y) => RANK[x.e.s] - RANK[y.e.s] || x.p - y.p);
+    const docs = group.map(m => ({ m, docs: countryDocs(m, d.country) }));
+    const fOk = flights.filter(x => visible(x.e.s)), sOk = stays.filter(x => visible(x.e.s));
+    const docUnk = docs.some(x => x.docs.some(y => y.s === "unk"));
+    if (!fOk.length || !sOk.length) {
+      const why = !sOk.length ? `Ningún alojamiento verificado acepta a vuestro grupo (${stays.map(x => ITEMS[x.s].name + ": " + STATUS[x.e.s][2].toLowerCase()).join("; ")}).` : "Ninguna aerolínea de la lista acepta a vuestro grupo.";
+      return { k, d, status: !sOk.length && stays.some(x => x.e.s === "unk") ? "unk" : "no", score: null, sat, pref, reason: why, flights, stays, docs };
+    }
+    const fl = fOk[0], st = sOk[0];
+    const cost = { vuelo: fl.p, aloj: st.p * nights, dia: d.daily * state.days };
+    const total = cost.vuelo + cost.aloj + cost.dia;
+    const fit = total <= state.budget ? 1 : Math.max(0, 1 - 3 * (total - state.budget) / state.budget);
+    const score = Math.round(100 * (0.62 * pref + 0.38 * fit));
+    const reqs = fl.e.s === "req" || st.e.s === "req" || docs.some(x => x.docs.some(y => y.s === "req"));
+    const why = [];
+    const liked = [...new Set(sat.flatMap(x => x.hits))].map(t => LIKES.find(l => l[0] === t)[1].toLowerCase());
+    if (liked.length) why.push(`Encaja con ${liked.join(", ")}; satisfacción media ${Math.round(avg * 100)} % y la persona menos contenta ${Math.round(min * 100)} %.`);
+    why.push(total <= state.budget ? `Cabe en el presupuesto: unos ${eur(total)} de ${eur(state.budget)} por persona (estimación).` : `Se pasa unos ${eur(total - state.budget)} del presupuesto (estimación).`);
+    why.push(`Dormir: ${ITEMS[st.s].name} (${STATUS[st.e.s][2].toLowerCase()}). Volar: ${ITEMS[fl.a].name}${fl.dir ? " directo" : " con escala"}.`);
+    const warn = [];
+    if (d.country === "PT") warn.push("Portugal: llevad una carta de los padres; gov.pt la pide aunque la ley no (Q-20).");
+    if (d.country === "UK") warn.push("Reino Unido: pasaporte y ETA para todos.");
+    if (docUnk) warn.push("Hay documentos sin verificar para alguna nacionalidad.");
+    return { k, d, status: reqs ? "req" : "ok", score, sat, pref, avg, min, fit, cost, total, fl, st, flights, stays, docs, why, warn };
+  }
+  function rankAll() {
+    const all = Object.keys(DEST).map(k => analyse(k));
+    const viable = all.filter(a => a.score != null).sort((a, b) => b.score - a.score);
+    const rest = all.filter(a => a.score == null).sort((a, b) => RANK[a.status] - RANK[b.status]);
+    return { viable, rest, all };
+  }
+
+  /* =========================================================
+     ITINERARIO (ilustrativo): reparte las paradas y filtra por edad
+     ========================================================= */
+  function itinerary(a) {
+    const stops = a.d.stops.map(([name, item, c], i) => {
+      const e = item ? evalItem(item) : null;
+      return { i, name, item, c, e, skip: e && !visible(e.s) };
+    });
+    const days = []; const per = Math.max(1, Math.ceil((stops.length - 2) / Math.max(1, state.days - 1)));
+    days.push({ title: "Día 1 · Llegada", stops: stops.slice(0, 2) });
+    let rest = stops.slice(2), d = 2;
+    while (rest.length && d <= state.days) { days.push({ title: `Día ${d}`, stops: rest.slice(0, per) }); rest = rest.slice(per); d++; }
+    if (d <= state.days) days.push({ title: `Día ${state.days} · Vuelta`, stops: [] });
+    return { days, stops };
+  }
+
+  /* =========================================================
+     INTÉRPRETE DE LA CONSULTA (demostración con reglas; en producción: LLM + validador)
+     ========================================================= */
+  const NUM = { un: 1, uno: 1, una: 1, dos: 2, tres: 3, cuatro: 4, cinco: 5, seis: 6, siete: 7 };
+  const toN = w => /^\d+$/.test(w) ? +w : NUM[w];
+  function parseQuery(text) {
+    const q = norm(text); const out = { slots: [], miss: [] };
+    let m = q.match(/\b(\d+|un|uno|una|dos|tres|cuatro|cinco|seis)\s+(amig[oa]s|personas|colegas|chic[oa]s|amigos y amigas)/);
+    let people = m ? toN(m[1]) + (/somos/.test(q) ? 0 : 1) : (/\bsol[oa]\b/.test(q) ? 1 : null);
+    if (people) out.people = Math.max(1, Math.min(6, people)); else out.miss.push("cuántos sois");
+    m = q.match(/\b(1[4-9])\s*anos/); if (m) out.age = +m[1]; else out.miss.push("edad");
+    const org = Object.entries(ORIGINS).find(([, o]) => q.includes(norm(o.name))); if (org) out.origin = org[0]; else out.miss.push("salida");
+    m = q.match(/(\d{2,4})\s*(€|euros|eur)/); if (m) out.budget = Math.max(100, Math.min(700, +m[1])); else out.miss.push("presupuesto");
+    m = q.match(/\b(\d+|dos|tres|cuatro|cinco|seis|siete)\s*(dias|noches)/); if (m) out.days = Math.max(2, Math.min(7, toN(m[1]) + (m[2] === "noches" ? 1 : 0))); else out.miss.push("días");
+    const LK = { playa: /playa|mar\b|costa/, joven: /joven|universitari|estudiant/, noche: /fiesta|noche|discoteca|salir/, museos: /museo|arte|cultura/, historia: /historia|monumento|antigu/, comida: /comida|comer|gastronom/, compras: /compras|tiendas|shopping/ };
+    out.likes = Object.keys(LK).filter(k => LK[k].test(q));
+    const dest = Object.entries(DEST).find(([, d]) => q.includes(norm(d.city)));
+    if (dest) out.dest = dest[0];
+    return out;
+  }
+  function applyParsed(p) {
+    if (p.origin) state.origin = p.origin;
+    if (p.budget) state.budget = p.budget;
+    if (p.days) state.days = p.days;
+    const age = p.age || me.age; const n = p.people || state.group.length; const likes = p.likes.length ? p.likes : ["joven"];
+    const names = ["Lucía", "Hugo", "Sara", "Leo", "Inés"];
+    me.age = age; me.likes = new Set(likes);
+    state.group = [me, ...Array.from({ length: n - 1 }, (_, i) => ({ id: i + 2, name: names[i], age, nat: "ES", likes: new Set(likes) }))];
+    state.nextId = n + 1; state.parsed = p;
+    if (p.dest) state.sel = p.dest; else state.sel = null;
+  }
+
+  /* =========================================================
+     MAPA (MapLibre GL JS; sin conexión / OpenFreeMap / Mapbox)
+     ========================================================= */
+  let map = null, worldGeo = null, markers = [], stopMarkers = [], dashStep = 0, dashTimer = null;
+  const MODES = [["offline", "Sin conexión"], ["osm", "Calles (OSM)"], ["mapbox", "Mapbox"]];
+  const ATTRIB = { offline: 'Fronteras: Natural Earth (dominio público) vía Datamaps · <a href="https://maplibre.org/" target="_blank" rel="noopener">MapLibre</a>', osm: '<a href="https://openfreemap.org/" target="_blank" rel="noopener">OpenFreeMap</a> © <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener">OpenMapTiles</a> Datos de <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap</a>', mapbox: '<strong>mapbox</strong> · <a href="https://www.mapbox.com/about/maps/" target="_blank" rel="noopener">© Mapbox</a> <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap</a> <a href="https://www.mapbox.com/map-feedback/" target="_blank" rel="noopener"><strong>Improve this map</strong></a>' };
+  function getToken() { try { return localStorage.getItem("goliveit-mapbox-token") || ""; } catch (e) { return ""; } }
+  function offlineStyle() {
+    const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+    return { version: 8, sources: { world: { type: "geojson", data: worldGeo || { type: "FeatureCollection", features: [] } } },
+      layers: [{ id: "bg", type: "background", paint: { "background-color": css("--sea") } },
+        { id: "land", type: "fill", source: "world", paint: { "fill-color": css("--land") } },
+        { id: "borders", type: "line", source: "world", paint: { "line-color": css("--border-c"), "line-width": 0.8 } }] };
+  }
+  function styleFor(mode) {
+    if (mode === "osm") return "https://tiles.openfreemap.org/styles/positron";
+    if (mode === "mapbox") {
+      const t = getToken();
+      return { version: 8, sources: { mb: { type: "raster", tileSize: 256, tiles: [`https://api.mapbox.com/styles/v1/mapbox/light-v11/tiles/256/{z}/{x}/{y}@2x?access_token=${encodeURIComponent(t)}`] } }, layers: [{ id: "mb", type: "raster", source: "mb" }] };
+    }
+    return offlineStyle();
+  }
+  function toast(msg, ms = 4200) { const t = $("#toast"); t.textContent = msg; t.hidden = false; clearTimeout(toast.h); toast.h = setTimeout(() => { t.hidden = true; }, ms); }
+  function initMap() {
+    try {
+      const topo = window.Datamap && window.Datamap.prototype.worldTopo;
+      if (topo && window.topojson) worldGeo = window.topojson.feature(topo, topo.objects.world);
+    } catch (e) { worldGeo = null; }
+    if (!window.maplibregl) { $("#map").innerHTML = `<p class="small" style="padding:20px">No se pudo cargar la librería de mapas. Comprueba la conexión.</p>`; return; }
+    map = new maplibregl.Map({ container: "map", style: styleFor("offline"), center: [3, 46], zoom: 3.4, attributionControl: false, dragRotate: false, pitchWithRotate: false });
+    map.once("load", () => { map.fitBounds(EU_BOUNDS, { padding: { top: 50, bottom: 90, left: 40, right: 60 }, duration: 0 }); });
+    const ensureOverlays = () => { try { if (map.isStyleLoaded() && !map.getSource("arcs")) addOverlays(); } catch (e) { /* el estilo aún carga */ } };
+    map.on("style.load", ensureOverlays); map.on("styledata", ensureOverlays); map.on("idle", ensureOverlays);
+    map.on("error", ev => {
+      if (state.mapMode !== "offline" && ev && ev.error) { const m = state.mapMode; state.mapMode = "offline"; renderModes(); map.setStyle(styleFor("offline")); toast(m === "mapbox" ? "Mapbox no respondió (¿token público válido y permitido para esta web?). Vuelvo al mapa sin conexión." : "No se pudo cargar el mapa con calles: este visor bloquea servidores externos. Abre el archivo HTML en tu navegador. Vuelvo al mapa sin conexión."); }
+    });
+    $("#attrib").innerHTML = ATTRIB.offline;
+  }
+  function gc(a, b, n = 48) { // arco de círculo máximo entre dos puntos [lon, lat]
+    const r = Math.PI / 180, [l1, p1] = [a[0] * r, a[1] * r], [l2, p2] = [b[0] * r, b[1] * r];
+    const d = 2 * Math.asin(Math.sqrt(Math.sin((p2 - p1) / 2) ** 2 + Math.cos(p1) * Math.cos(p2) * Math.sin((l2 - l1) / 2) ** 2)); const pts = [];
+    for (let i = 0; i <= n; i++) { const f = i / n, A = Math.sin((1 - f) * d) / Math.sin(d), B = Math.sin(f * d) / Math.sin(d);
+      const x = A * Math.cos(p1) * Math.cos(l1) + B * Math.cos(p2) * Math.cos(l2), y = A * Math.cos(p1) * Math.sin(l1) + B * Math.cos(p2) * Math.sin(l2), z = A * Math.sin(p1) + B * Math.sin(p2);
+      pts.push([Math.atan2(y, x) / r, Math.atan2(z, Math.sqrt(x * x + y * y)) / r]); }
+    return pts;
+  }
+  function overlayData() {
+    const res = rankAll(); const o = ORIGINS[state.origin].c;
+    const arcs = res.viable.map(a => ({ type: "Feature", properties: { k: a.k, sel: state.sel === a.k ? 1 : 0 }, geometry: { type: "LineString", coordinates: gc(o, a.d.c) } }));
+    let route = [];
+    if (state.sel && DEST[state.sel].verified) { const a = analyse(state.sel); if (a.score != null) route = itinerary(a).stops.filter(s => !s.skip).map(s => s.c); }
+    return { res, arcs: { type: "FeatureCollection", features: arcs }, route: { type: "FeatureCollection", features: route.length > 1 ? [{ type: "Feature", properties: {}, geometry: { type: "LineString", coordinates: route } }] : [] } };
+  }
+  function addOverlays() {
+    if (!map) return; const data = overlayData(); const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+    if (!map.getSource("arcs")) {
+      map.addSource("arcs", { type: "geojson", data: data.arcs });
+      map.addLayer({ id: "arcs", type: "line", source: "arcs", layout: { "line-cap": "round" }, paint: { "line-color": css("--arc"), "line-width": ["case", ["==", ["get", "sel"], 1], 3, 1.6], "line-opacity": 0.85, "line-dasharray": [0, 4, 3] } });
+      map.addSource("route", { type: "geojson", data: data.route });
+      map.addLayer({ id: "route", type: "line", source: "route", layout: { "line-cap": "round", "line-join": "round" }, paint: { "line-color": css("--pop"), "line-width": 4, "line-opacity": 0.9 } });
+    }
+    refreshMap(data);
+  }
+  function refreshMap(data = overlayData()) {
+    if (!map || !map.getSource("arcs")) return;
+    map.getSource("arcs").setData(data.arcs); map.getSource("route").setData(data.route);
+    markers.forEach(m => m.remove()); markers = [];
+    const o = ORIGINS[state.origin];
+    markers.push(new maplibregl.Marker({ element: mkEl(o.name, "origin", "●", 22, null) }).setLngLat(o.c).addTo(map));
+    const showStops = state.sel && DEST[state.sel].verified && analyse(state.sel).score != null;
+    data.res.all.forEach(a => {
+      if (showStops && a.k === state.sel) return;
+      const st = a.status;
+      const size = a.score != null ? 26 + Math.round(a.score / 6) : 24;
+      const el = mkEl(a.d.city, (state.sel === a.k ? "sel " : ""), a.score != null ? a.score : STATUS[st][1], size, st, a.k);
+      markers.push(new maplibregl.Marker({ element: el }).setLngLat(a.d.c).addTo(map));
+    });
+    stopMarkers.forEach(m => m.remove()); stopMarkers = [];
+    if (state.sel && DEST[state.sel].verified) {
+      const a = analyse(state.sel);
+      if (a.score != null) itinerary(a).stops.forEach((s, i) => { const el = document.createElement("div"); el.className = "mk stopmk" + (s.skip ? " skip" : ""); el.innerHTML = `<span class="dot" title="${esc(s.name)}">${i + 1}</span>`; stopMarkers.push(new maplibregl.Marker({ element: el }).setLngLat(s.c).addTo(map)); });
+    }
+    if (state.mapMode === "mapbox" && state.sel) mapboxWalk();
+  }
+  function mkEl(label, cls, inner, size, st, k) {
+    const b = document.createElement(k ? "button" : "div"); if (k) { b.type = "button"; b.dataset.dest = k; b.setAttribute("aria-label", `${label}: ${st ? STATUS[st][2] : ""}`); }
+    b.className = "mk " + cls; const color = st ? COLOR(st) : "";
+    b.innerHTML = `<span class="dot" style="width:${size}px;height:${size}px;font-size:${Math.max(10, size / 2.6)}px;${color ? `background:${color}` : ""}">${inner}</span><span class="lbl">${esc(label)}</span>`;
+    return b;
+  }
+  function animateArcs() {
+    clearInterval(dashTimer);
+    if (reduced() || document.documentElement.classList.contains("paused")) return;
+    const seq = [[0, 4, 3], [0.5, 4, 2.5], [1, 4, 2], [1.5, 4, 1.5], [2, 4, 1], [2.5, 4, 0.5], [3, 4, 0], [0, 0.5, 3, 3.5], [0, 1, 3, 3], [0, 1.5, 3, 2.5], [0, 2, 3, 2], [0, 2.5, 3, 1.5], [0, 3, 3, 1], [0, 3.5, 3, 0.5]];
+    dashTimer = setInterval(() => { if (map && map.getLayer("arcs")) { dashStep = (dashStep + 1) % seq.length; map.setPaintProperty("arcs", "line-dasharray", seq[dashStep]); } }, 90);
+  }
+  function flyTo(k) { if (!map) return; const d = DEST[k];
+    if (state.mapMode === "offline" && d.verified && !flyTo.hinted) { flyTo.hinted = true; toast("El mapa sin conexión solo tiene fronteras. Para ver calles, pulsa «Calles (OSM)» arriba (funciona al abrir el HTML en tu navegador)."); } const a = d.verified ? analyse(k) : null;
+    if (a && a.score != null) { const pts = itinerary(a).stops.map(s => s.c); const b = pts.reduce((bb, p) => [[Math.min(bb[0][0], p[0]), Math.min(bb[0][1], p[1])], [Math.max(bb[1][0], p[0]), Math.max(bb[1][1], p[1])]], [pts[0], pts[0]]); map.fitBounds(b, { padding: { top: 70, bottom: 150, left: 60, right: 70 }, maxZoom: 13.5, speed: reduced() ? 4 : 1.1 }); }
+    else map.flyTo({ center: d.c, zoom: d.verified ? 11 : 6, speed: reduced() ? 4 : 1.1, essential: true }); }
+  const EU_BOUNDS = [[-10.5, 35.5], [15.5, 54.5]];
+  function flyEurope() { if (map) map.fitBounds(EU_BOUNDS, { padding: { top: 50, bottom: 90, left: 40, right: 60 }, speed: reduced() ? 4 : 1.2 }); }
+  async function mapboxWalk() { // Solo con token de Mapbox: ruta a pie real entre paradas (no probado sin token)
+    const t = getToken(); if (!t || !state.sel) return; const a = analyse(state.sel); if (a.score == null) return;
+    const pts = itinerary(a).stops.filter(s => !s.skip).slice(1).map(s => s.c.join(",")).join(";");
+    try { const r = await fetch(`https://api.mapbox.com/directions/v5/mapbox/walking/${pts}?geometries=geojson&overview=full&access_token=${encodeURIComponent(t)}`); const j = await r.json();
+      if (j.routes && j.routes[0] && map.getSource("route")) { map.getSource("route").setData({ type: "FeatureCollection", features: [{ type: "Feature", properties: {}, geometry: j.routes[0].geometry }] }); toast(`Ruta a pie con Mapbox: ${(j.routes[0].distance / 1000).toFixed(1)} km.`); } }
+    catch (e) { toast("No se pudo calcular la ruta a pie con Mapbox."); }
+  }
+
+  /* =========================================================
+     RENDER: panel izquierdo
+     ========================================================= */
+  function renderLeft() {
+    $("#origin").innerHTML = Object.entries(ORIGINS).map(([k, o]) => `<option value="${k}"${k === state.origin ? " selected" : ""}>${o.name} (${k})</option>`).join("");
+    $("#days").value = state.days; $("#budget").value = state.budget; $("#budget-v").textContent = eur(state.budget);
+    $("#members").innerHTML = state.group.map(m => `<div class="member">
+      <div class="member-head">${m.me ? '<strong>Tú</strong>' : `<input class="input" data-m="${m.id}" data-f="name" value="${esc(m.name)}" aria-label="Nombre" autocomplete="off">`}
+        <select class="input" data-m="${m.id}" data-f="age" aria-label="Edad de ${esc(m.name)}">${[15, 16, 17, 18, 19].map(a => `<option value="${a}"${a === m.age ? " selected" : ""}>${a} años</option>`).join("")}</select>
+        ${m.me ? "<span></span>" : `<button type="button" class="icon-btn" data-remove="${m.id}" aria-label="Quitar a ${esc(m.name)}">×</button>`}</div>
+      <div class="likes" role="group" aria-label="Gustos de ${esc(m.name)}">${LIKES.map(([k, l]) => `<button type="button" class="chip" data-like="${m.id}:${k}" aria-pressed="${m.likes.has(k)}">${l}</button>`).join("")}</div></div>`).join("");
+    const p = state.parsed;
+    $("#slots").innerHTML = p ? [p.people && `${p.people} personas`, p.age && `${p.age} años`, p.origin && ORIGINS[p.origin].name, p.budget && `${eur(p.budget)}/persona`, p.days && `${p.days} días`, p.likes.length && p.likes.map(l => LIKES.find(x => x[0] === l)[1].toLowerCase()).join(", "), p.dest && `destino: ${DEST[p.dest].city}`].filter(Boolean).map(t => `<span class="slot">${esc(t)}</span>`).join("") + p.miss.map(t => `<span class="slot miss">sin entender: ${esc(t)}</span>`).join("") : "";
+  }
+
+  /* =========================================================
+     RENDER: panel derecho (lista o detalle)
+     ========================================================= */
+  function budgetBar(a) {
+    const tot = Math.max(a.total, state.budget); const w = v => (v / tot * 100).toFixed(1) + "%";
+    return `<div class="budget"><div class="row between small"><span>${eur(a.total)} por persona <span class="muted">· estimación ilustrativa</span></span><span class="muted">tope ${eur(state.budget)}</span></div>
+      <div class="bar" role="img" aria-label="Coste estimado ${eur(a.total)} frente a presupuesto ${eur(state.budget)}"><i style="width:${w(a.cost.vuelo)};background:var(--brand)"></i><i style="width:${w(a.cost.aloj)};background:var(--pop)"></i><i style="width:${w(a.cost.dia)};background:var(--ok)"></i><span class="cap" style="left:${w(state.budget)}"></span></div>
+      <div class="legend-b"><span><i style="background:var(--brand)"></i>Vuelo ${eur(a.cost.vuelo)}</span><span><i style="background:var(--pop)"></i>Dormir ${eur(a.cost.aloj)}</span><span><i style="background:var(--ok)"></i>Día a día ${eur(a.cost.dia)}</span></div></div>`;
+  }
+  const phStyle = k => PHOTOS[k] ? `class="card-ph ph-${k}" style="background-position:${PHOTO[k].pos}"` : `class="card-ph"`;
+  function memberChips(a) {
+    return state.group.map(m => { const st = worst([a.fl ? a.fl.e.per.find(x => x.m === m).r.s : "unk", a.st ? a.st.e.per.find(x => x.m === m).r.s : "unk"]); return `<span class="mchip ${STATUS[st][0]}">${esc(m.name)} ${STATUS[st][1]}</span>`; }).join("");
+  }
+  function renderResults(animate) {
+    if (state.sel) return renderDetail();
+    const { viable, rest } = rankAll();
+    const unk = rest.filter(r => r.status === "unk").length, no = rest.filter(r => r.status === "no").length;
+    $("#results").innerHTML = `<div class="section" style="display:grid;gap:12px">
+      <div><p class="eyebrow">Viajes posibles</p><h2>Para ${pl(state.group.length, "persona", "personas")} de ${[...new Set(state.group.map(m => m.age))].join(" y ")} años desde ${ORIGINS[state.origin].name}</h2></div>
+      <div class="summary"><div><b>${viable.length}</b><span>viables</span></div><div><b>${no}</b><span>no permitidos</span></div><div><b>${unk}</b><span>pendientes</span></div></div>
+      <p class="sr" role="status">${viable.length} destinos viables, ${no} no permitidos y ${unk} pendientes de verificar.</p>
+      ${state.compare.size >= 2 ? `<button type="button" class="btn pop block" data-open="compare">Comparar ${state.compare.size} destinos</button>` : `<p class="small muted">Marca «Comparar» en dos o tres destinos para verlos lado a lado.</p>`}
+      <div class="cards">${viable.map((a, i) => `<article class="card${animate ? " rise" : ""}" style="--i:${i}">
+        <div ${phStyle(a.k)}><span class="mono">${a.d.iata}</span><span class="score" title="Encaje de 0 a 100">${a.score}</span></div>
+        <div class="card-body">
+          <div class="card-title"><strong>${esc(a.d.city)}</strong>${pill(a.status)}</div>
+          <div class="row" style="gap:4px">${memberChips(a)}</div>
+          ${budgetBar(a)}
+          <ul class="why">${a.why.map(w => `<li>${esc(w)}</li>`).join("")}</ul>
+          ${a.warn.map(w => `<p class="warn">${esc(w)}</p>`).join("")}
+          <div class="row"><button type="button" class="btn sm" data-dest="${a.k}">Ver viaje</button><label class="small row" style="gap:4px"><input type="checkbox" data-cmp="${a.k}"${state.compare.has(a.k) ? " checked" : ""}> Comparar</label></div>
+        </div></article>`).join("") || `<div class="box"><p class="bad">Con vuestra edad y presupuesto no hay ningún viaje viable verificado.</p><p class="small muted">Prueba a añadir a alguien de 18 o a cambiar de salida.</p></div>`}</div>
+      ${rest.length ? `<h3>Descartados o pendientes</h3><div class="cards">${rest.map(a => `<article class="card"><div class="card-body"><div class="card-title"><strong>${esc(a.d.city)}</strong>${pill(a.status)}</div><p class="small">${esc(a.reason)}</p><div class="row"><button type="button" class="btn ghost sm" data-dest="${a.k}">Por qué</button></div></div></article>`).join("")}</div>` : ""}
+    </div>`;
+  }
+  function renderDetail() {
+    const a = analyse(state.sel); const k = state.sel; const tabs = [["itinerario", "Itinerario"], ["elegibilidad", "Elegibilidad"], ["papeles", "Papeles"], ["presupuesto", "Presupuesto"]];
+    const head = `<div class="detail-head${PHOTOS[k] ? " ph-" + k : ""}" style="${PHOTOS[k] ? `background-position:${PHOTO[k].pos}` : ""}">${PHOTO[k] ? `<a class="credit" href="${PHOTO[k].page}" target="_blank" rel="noopener">Foto: ${esc(PHOTO[k].by)} · ${esc(PHOTO[k].lic)}</a>` : ""}<div class="cap"><h2>${esc(a.d.city)}</h2>${a.score != null ? `<span class="status s-ok" style="background:var(--surface);color:var(--ink)">Encaje ${a.score}/100</span>` : pill(a.status)}</div></div>`;
+    let body = "";
+    if (a.score == null) {
+      body = `<div class="box"><p class="${a.status === "no" ? "bad" : "warn"}">${esc(a.reason)}</p>${a.d.verified ? "" : `<p class="small muted">Regla del motor: lo que no está verificado queda como «pendiente», nunca como «permitido». Para activarlo hay que verificar normas de entrada de ${esc(a.d.cname)}, alojamientos y actividades.</p>`}</div>`
+        + (a.stays ? eligTable(a) : "") + legalList(a.d.country);
+    } else if (state.tab === "itinerario") {
+      const it = itinerary(a);
+      body = `<p class="small muted">Itinerario ilustrativo. Las paradas que no permite vuestra edad se omiten y se explica el motivo. ${state.mapMode === "mapbox" && getToken() ? "Ruta a pie calculada con Mapbox Directions." : "En el mapa, líneas rectas entre paradas (con token de Mapbox: ruta a pie real)."}</p>`
+        + it.days.map(d => `<div class="day"><h3>${esc(d.title)}</h3>${d.stops.length ? d.stops.map(s => `<div class="stop${s.skip ? " skip" : ""}"><span class="n">${s.i + 1}</span><span><strong>${esc(s.name)}</strong>${s.e ? `<br><span class="small muted">${esc(s.e.per.find(x => x.r.s === s.e.s).r.why)}</span>` : `<br><span class="small muted">Espacio público: sin requisito de edad.</span>`}${s.skip ? `<br><span class="small bad">Omitido para vuestro grupo.</span>` : ""}</span>${s.e ? pill(s.e.s) : ""}</div>`).join("") : `<p class="small muted">Vuelta a ${esc(ORIGINS[state.origin].name)}.</p>`}</div>`).join("");
+    } else if (state.tab === "elegibilidad") body = eligTable(a);
+    else if (state.tab === "papeles") body = docsBlock(a) + legalList(a.d.country);
+    else body = budgetBar(a) + `<table class="rt"><tr><th>Partida</th><th>Cálculo</th><th>Por persona</th></tr><tr><td>Vuelo</td><td>${esc(ITEMS[a.fl.a].name)}, ida y vuelta</td><td>${eur(a.cost.vuelo)}</td></tr><tr><td>Dormir</td><td>${esc(ITEMS[a.st.s].name)} × ${Math.max(1, state.days - 1)} noches</td><td>${eur(a.cost.aloj)}</td></tr><tr><td>Día a día</td><td>${eur(a.d.daily)} × ${state.days} días</td><td>${eur(a.cost.dia)}</td></tr></table><p class="small muted">Estimaciones ilustrativas para la demo: no son precios actuales. En producción saldrían de APIs de proveedores o de enlaces de afiliación.</p>`;
+    $("#results").innerHTML = `<div style="display:grid;gap:12px"><button type="button" class="btn ghost sm" data-back style="justify-self:start">← Todos los viajes</button>${head}
+      ${a.score != null ? `<div class="tabs" role="tablist">${tabs.map(([t, l]) => `<button type="button" role="tab" data-tab="${t}" aria-selected="${state.tab === t}">${l}</button>`).join("")}</div>` : ""}<div style="display:grid;gap:12px">${body}</div></div>`;
+  }
+  function eligTable(a) {
+    const rows = [...(a.flights || []).map(f => ({ name: ITEMS[f.a].name + (f.dir ? " · directo" : " · con escala"), e: f.e })), ...(a.stays || []).map(s => ({ name: ITEMS[s.s].name, e: s.e }))];
+    return `<p class="small muted">Cada fila es una regla con fuente. Tipos: ${Object.values(TIPOS).join(" · ")}.</p><div style="overflow-x:auto"><table class="etable"><tr><th>Servicio</th>${state.group.map(m => `<th>${esc(m.name)} (${m.age})</th>`).join("")}<th>Fuente</th></tr>
+      ${rows.map(r => `<tr><td><strong>${esc(r.name)}</strong><br><span class="tipo">${TIPOS[r.e.it.tipo]}</span></td>${r.e.per.map(x => `<td title="${esc(x.r.why)}"><span class="status ${STATUS[x.r.s][0]}" style="padding:2px" aria-label="${STATUS[x.r.s][2]}"><span class="g" aria-hidden="true">${STATUS[x.r.s][1]}</span></span></td>`).join("")}<td>${SRC[r.e.it.src].url ? `<a href="${SRC[r.e.it.src].url}" target="_blank" rel="noopener">${esc(SRC[r.e.it.src].label)}</a><br>` : ""}<span class="tipo">${esc(SRC[r.e.it.src].tag)} · ${esc(SRC[r.e.it.src].date)}</span></td></tr>`).join("")}</table></div>`;
+  }
+  function docsBlock(a) { // agrupa a quienes necesitan exactamente los mismos papeles
+    const groups = [];
+    a.docs.forEach(x => { const key = x.docs.map(d => d.s + d.t).join("|"); const g = groups.find(y => y.key === key); g ? g.people.push(x.m) : groups.push({ key, people: [x.m], docs: x.docs }); });
+    const icon = s => `<span class="status ${STATUS[s][0]}" style="padding:2px" title="${STATUS[s][2]}"><span class="g" aria-hidden="true">${STATUS[s][1]}</span><span class="sr">${STATUS[s][2]}</span></span>`;
+    return `<div class="box"><h3>Documentos para ${esc(a.d.cname)}</h3><span class="tipo">${TIPOS.legal}</span>${groups.map(g => `<div><strong>${g.people.length === state.group.length && state.group.length > 1 ? "Todo el grupo" : g.people.map(m => esc(m.name)).join(", ")} (${[...new Set(g.people.map(m => m.age))].join(" y ")} años)</strong><ul class="why">${g.docs.map(d => `<li>${icon(d.s)} <strong>${esc(d.t)}</strong>: <span class="muted">${esc(d.d)}</span> ${SRC[d.src].url ? `<a href="${SRC[d.src].url}" target="_blank" rel="noopener">fuente</a>` : ""}</li>`).join("")}</ul></div>`).join("")}</div>`;
+  }
+
+
+  /* =========================================================
+     PAPELES Y DIFICULTADES (guía legal)
+     ========================================================= */
+  const CUANDO = { antes: "Antes de salir", viaje: "Durante el viaje", incidencia: "Si algo sale mal" };
+  const ESTADO = { obligatorio: "Obligatorio", recomendado: "Recomendado", segun_caso: "Según el caso", pendiente: "Pendiente" };
+  function legalItems(country, f = state.legalFilter) {
+    const ages = state.group.map(m => m.age);
+    return (LEGAL.items || []).filter(it => (!country || it.paises.includes("TODOS") || it.paises.includes("ES") || it.paises.includes(country))
+      && ages.some(a => (it.edadMin == null || a >= it.edadMin) && (it.edadMax == null || a <= it.edadMax))
+      && (f.quien === "todos" || it.quien === f.quien || it.quien === "ambos") && (f.cuando === "todos" || it.cuando === f.cuando));
+  }
+  function legalList(country, f) {
+    const items = legalItems(country, f);
+    if (!(LEGAL.items || []).length) return `<div class="box"><p class="small muted">La guía legal todavía no está cargada en esta versión.</p></div>`;
+    return Object.entries(CUANDO).map(([c, l]) => { const its = items.filter(i => i.cuando === c); return its.length ? `<div class="day"><h3>${l}</h3>${its.map(i => `<div class="legal-item"><div class="row"><span class="pill e-${i.estado}">${ESTADO[i.estado] || i.estado}</span><span class="pill who">${i.quien === "ambos" ? "joven y familia" : i.quien}</span><strong>${esc(i.titulo)}</strong></div><p class="small">${esc(i.texto)}</p><p class="small"><a href="${esc(i.url)}" target="_blank" rel="noopener">${esc(i.fuente)}</a> <span class="stamp t-${esc((i.etiqueta || "").replace(/ /g, "-"))}">${esc(i.etiqueta || "")}</span></p></div>`).join("")}</div>` : ""; }).join("") || `<p class="small muted">Nada con estos filtros.</p>`;
+  }
+  function openPapeles() {
+    const f = state.legalFilter; const country = f.dest === "auto" ? (state.sel ? DEST[state.sel].country : null) : (f.dest === "todos" ? null : f.dest);
+    const countries = [["auto", "Destino elegido"], ["todos", "Todos"], ["PT", "Portugal"], ["FR", "Francia"], ["IT", "Italia"], ["DE", "Alemania"], ["UK", "Reino Unido"]];
+    const items = legalItems(country);
+    $("#sheet-in").innerHTML = `<div class="sheet-head"><div><p class="eyebrow">Viajar con 16 o 17 años sin adultos</p><h2 id="sheet-title">Papeles y dificultades</h2><p class="small muted">Información con fuente, no asesoramiento jurídico. Guía actualizada: ${esc(LEGAL.actualizado || "pendiente")}.</p></div><button type="button" class="icon-btn" data-close aria-label="Cerrar">×</button></div>
+      <div class="grid2"><div class="field"><label for="lf-dest">País</label><select class="input" id="lf-dest">${countries.map(([v, l]) => `<option value="${v}"${f.dest === v ? " selected" : ""}>${l}</option>`).join("")}</select></div>
+      <div class="field"><label for="lf-quien">Quién</label><select class="input" id="lf-quien">${[["todos", "Todos"], ["joven", "El joven"], ["familia", "La familia"]].map(([v, l]) => `<option value="${v}"${f.quien === v ? " selected" : ""}>${l}</option>`).join("")}</select></div></div>
+      <div class="row">${[["todos", "Todo"], ...Object.entries(CUANDO)].map(([v, l]) => `<button type="button" class="chip" data-lcuando="${v}" aria-pressed="${f.cuando === v}">${l}</button>`).join("")}<span class="small muted">${items.length} puntos para las edades de vuestro grupo</span></div>
+      <div class="row"><button type="button" class="btn pop sm" id="copy-check">Copiar como lista</button><span class="small muted" id="copy-msg" aria-live="polite"></span></div>
+      <div style="display:grid;gap:12px">${legalList(country)}</div>`;
+    const dlg = $("#sheet"); if (!dlg.open) dlg.showModal();
+  }
+  function openHow() {
+    const tk = getToken();
+    $("#sheet-in").innerHTML = `<div class="sheet-head"><div><p class="eyebrow">Arquitectura de la demo</p><h2 id="sheet-title">Cómo funciona</h2></div><button type="button" class="icon-btn" data-close aria-label="Cerrar">×</button></div>
+      <div class="pipeline"><div><b>1 Consulta</b>Texto libre o formulario</div><div><b>2 Intérprete</b>Aquí reglas; en producción un LLM que solo extrae datos</div><div class="hard"><b>3 Filtro duro</b>Reglas de edad con fuente; lo desconocido queda pendiente</div><div><b>4 Candidatos</b>Destino × vuelo × alojamiento</div><div><b>5 Puntuación</b>Gustos 62 % + presupuesto 38 % (pasarse penaliza el triple)</div><div><b>6 Grupo</b>60 % media + 40 % la persona menos contenta</div><div><b>7 Explicación</b>Por qué sí, por qué no y qué falta</div></div>
+      <table class="rt"><tr><th>Qué</th><th>Estado en esta demo</th></tr>
+        <tr><td>Reglas de edad de aerolíneas, alojamientos y actividades</td><td>Reales, con fuente y fecha (mías y de la web Ruta16 del equipo)</td></tr>
+        <tr><td>Documentos por país y guía «Papeles»</td><td>Reales, con fuente y etiqueta (41 puntos). Portugal: carta recomendada (Q-20)</td></tr>
+        <tr><td>Precios, gasto diario y duraciones</td><td><strong>Estimaciones ilustrativas</strong>, no precios actuales</td></tr>
+        <tr><td>Intérprete de la consulta</td><td>Reglas simples; no usa IA</td></tr>
+        <tr><td>Ámsterdam, Praga y Dublín</td><td>Sin verificar: aparecen como pendientes, nunca como permitidos</td></tr>
+        <tr><td>Mapa sin conexión</td><td>Real: MapLibre + fronteras de Natural Earth, funciona en cualquier sitio</td></tr>
+        <tr><td>Mapa con calles</td><td>Real: OpenFreeMap, sin clave; necesita abrir el HTML en el navegador</td></tr>
+        <tr><td>Mapbox (teselas y ruta a pie)</td><td>Implementado; necesita tu token público. Sin token no se ha podido probar</td></tr>
+        <tr><td>Reservas</td><td>No hay reservas ni pagos</td></tr></table>
+      <div class="box"><h3>Conectar Mapbox (opcional)</h3><p class="small">Usa un token <strong>público</strong> (empieza por <code>pk.</code>) restringido a la web donde abras la demo. Se guarda solo en este navegador.</p>
+        <div class="row"><input class="input" id="mb-token" type="password" autocomplete="off" placeholder="pk.…" style="max-width:340px" aria-label="Token público de Mapbox"><button type="button" class="btn sm" id="mb-save">Guardar</button>${tk ? `<button type="button" class="btn ghost sm" id="mb-clear">Borrar token</button>` : ""}</div>
+        <p class="small muted">${tk ? "Hay un token guardado en este navegador." : "No hay token guardado."} Dentro del visor de Claude Mapbox no carga (bloquea servidores externos); funciona abriendo el archivo HTML.</p></div>`;
+    const dlg = $("#sheet"); if (!dlg.open) dlg.showModal();
+  }
+  function openCompare() {
+    const list = [...state.compare].map(k => analyse(k)).filter(a => a.score != null);
+    const row = (label, f) => `<tr><th>${label}</th>${list.map(a => `<td>${f(a)}</td>`).join("")}</tr>`;
+    $("#sheet-in").innerHTML = `<div class="sheet-head"><div><p class="eyebrow">Comparar</p><h2 id="sheet-title">${list.map(a => esc(a.d.city)).join(" · ")}</h2></div><button type="button" class="icon-btn" data-close aria-label="Cerrar">×</button></div>
+      <div style="overflow-x:auto"><table class="rt">${row("Encaje", a => `<strong>${a.score}/100</strong>`)}${row("Estado", a => pill(a.status))}${row("Coste estimado", a => eur(a.total))}${row("Persona menos contenta", a => Math.round(a.min * 100) + " %")}${row("Dormir", a => esc(ITEMS[a.st.s].name))}${row("Volar", a => esc(ITEMS[a.fl.a].name))}${row("Papeles de los menores", a => a.docs.filter(x => x.m.age < 18)[0] ? a.docs.find(x => x.m.age < 18).docs.filter(d => d.s !== "ok").map(d => esc(d.t)).join("<br>") : "—")}${row("Avisos", a => a.warn.map(esc).join("<br>") || "—")}</table></div>
+      <p class="small muted">Costes: estimaciones ilustrativas.</p>`;
+    const dlg = $("#sheet"); if (!dlg.open) dlg.showModal();
+  }
+  function renderModes() {
+    $("#mapmode").innerHTML = MODES.map(([k, l]) => `<button type="button" data-mode="${k}" aria-pressed="${state.mapMode === k}">${l}</button>`).join("");
+    $("#attrib").innerHTML = ATTRIB[state.mapMode];
+    $("#maplegend").innerHTML = `<strong class="small">Destinos para vuestro grupo</strong><div class="row" style="gap:4px">${pill("ok", "Viable")}${pill("req", "Con requisitos")}${pill("no", "No permitido")}${pill("unk", "Pendiente")}</div><span class="small muted">El número es el encaje (0-100). Líneas: vuelos posibles desde ${esc(ORIGINS[state.origin].name)}.</span>`;
+  }
+
+  /* =========================================================
+     CICLO
+     ========================================================= */
+  function update(animate) { renderLeft(); renderResults(animate); renderModes(); refreshMap(); }
+  document.addEventListener("click", ev => {
+    const t = ev.target.closest("button"); if (!t) return; const d = t.dataset;
+    if (t.id === "parse") { const p = parseQuery($("#nl").value); applyParsed(p); update(true); if (state.sel) flyTo(state.sel); else flyEurope(); }
+    else if (d.dest) { state.sel = d.dest; state.tab = "itinerario"; update(true); flyTo(d.dest); }
+    else if (d.back !== undefined) { state.sel = null; update(true); flyEurope(); }
+    else if (d.tab) { state.tab = d.tab; renderResults(); }
+    else if (d.like) { const [id, k] = d.like.split(":"); const m = state.group.find(x => String(x.id) === id); if (m) { m.likes.has(k) ? m.likes.delete(k) : m.likes.add(k); update(); } }
+    else if (d.remove) { state.group = state.group.filter(m => String(m.id) !== d.remove); update(); }
+    else if (t.id === "add-member") { if (state.group.length < 6) { state.group.push({ id: state.nextId++, name: "Amigo " + (state.nextId - 1), age: 17, nat: "ES", likes: new Set(["joven"]) }); update(); } }
+    else if (d.mode) { if (d.mode === "mapbox" && !getToken()) { openHow(); toast("Para usar Mapbox, guarda primero tu token público."); return; } state.mapMode = d.mode; renderModes(); if (map) map.setStyle(styleFor(d.mode)); $("#attrib").innerHTML = ATTRIB[d.mode]; }
+    else if (d.open === "papeles") openPapeles();
+    else if (d.open === "how") openHow();
+    else if (d.open === "compare") openCompare();
+    else if (d.close !== undefined) $("#sheet").close();
+    else if (d.lcuando) { state.legalFilter.cuando = d.lcuando; openPapeles(); }
+    else if (t.id === "mb-save") { const v = $("#mb-token").value.trim(); if (!/^pk\./.test(v)) { toast("Usa un token público: empieza por pk."); return; } try { localStorage.setItem("goliveit-mapbox-token", v); } catch (e) { /* sin almacenamiento */ } openHow(); toast("Token guardado en este navegador."); }
+    else if (t.id === "mb-clear") { try { localStorage.removeItem("goliveit-mapbox-token"); } catch (e) { /* nada */ } if (state.mapMode === "mapbox") { state.mapMode = "offline"; renderModes(); if (map) map.setStyle(styleFor("offline")); } openHow(); }
+    else if (t.id === "copy-check") {
+      const country = state.legalFilter.dest === "auto" ? (state.sel ? DEST[state.sel].country : null) : (state.legalFilter.dest === "todos" ? null : state.legalFilter.dest);
+      const txt = "GoLiveIt · Papeles del viaje\n" + legalItems(country).map(i => `- [${ESTADO[i.estado] || i.estado}] ${i.titulo} (${i.quien}): ${i.url}`).join("\n");
+      const msg = m => { const el = $("#copy-msg"); if (el) el.textContent = m; };
+      try { navigator.clipboard.writeText(txt).then(() => msg("Lista copiada."), () => msg("No se pudo copiar.")); } catch (e) { msg("No se pudo copiar."); }
+    }
+    else if (t.id === "zin") map && map.zoomIn();
+    else if (t.id === "zout") map && map.zoomOut();
+    else if (t.id === "zeu") { state.sel = null; update(); flyEurope(); }
+    else if (t.id === "pause") { const p = document.documentElement.classList.toggle("paused"); t.setAttribute("aria-pressed", String(p)); t.textContent = p ? "Reanudar animaciones" : "Pausar animaciones"; animateArcs(); }
+  });
+  document.addEventListener("change", ev => {
+    const el = ev.target;
+    if (el.dataset.cmp) { el.checked ? state.compare.add(el.dataset.cmp) : state.compare.delete(el.dataset.cmp); if (state.compare.size > 3) { state.compare.delete(el.dataset.cmp); el.checked = false; toast("Compara como mucho tres destinos."); } renderResults(); return; }
+    if (el.dataset.m) { const m = state.group.find(x => String(x.id) === el.dataset.m); if (!m) return; if (el.dataset.f === "age") m.age = +el.value; if (el.dataset.f === "name") m.name = el.value.trim() || "Sin nombre"; update(); return; }
+    if (el.id === "origin") { state.origin = el.value; update(); }
+    if (el.id === "days") { state.days = Math.max(2, Math.min(7, +el.value || 4)); update(); }
+    if (el.id === "lf-dest") { state.legalFilter.dest = el.value; openPapeles(); }
+    if (el.id === "lf-quien") { state.legalFilter.quien = el.value; openPapeles(); }
+  });
+  document.addEventListener("input", ev => { if (ev.target.id === "budget") { state.budget = +ev.target.value; $("#budget-v").textContent = eur(state.budget); renderResults(); refreshMap(); } });
+  $("#sheet").addEventListener("click", ev => { if (ev.target === $("#sheet")) $("#sheet").close(); });
+
+  /* Fotos como fondos compartidos (se decodifican una vez) */
+  (function injectPhotos() { const css = Object.entries(PHOTOS).map(([k, u]) => `.ph-${k}.ph-${k}{background-image:url("${u}");background-size:cover}`).join(""); if (css) { const st = document.createElement("style"); st.textContent = css; document.head.appendChild(st); } })();
+
+  state.parsed = parseQuery($("#nl").value);
+  initMap();
+  update(true);
+  animateArcs();
+})();
+</script>

@@ -13,8 +13,10 @@ const keys = ["lisboa", "paris", "roma", "berlin", "londres"];
 const photos = Object.fromEntries(keys.map(k => [k, "data:image/jpeg;base64," + readFileSync(join(dir, "fotos", `${k}.jpg`)).toString("base64")]));
 
 const MARK = "/*__PHOTOS__*/{}";
-if (!src.includes(MARK)) throw new Error("Falta el marcador de fotos en goliveit.src.html");
-const page = src.replace(MARK, JSON.stringify(photos));
+const LMARK = '/*__LEGAL__*/{ "actualizado": null, "items": [] }';
+if (!src.includes(MARK) || !src.includes(LMARK)) throw new Error("Faltan los marcadores de fotos o de guía legal en goliveit.src.html");
+const legal = JSON.parse(readFileSync(join(dir, "data", "legal.json"), "utf8"));
+const page = src.replace(MARK, () => JSON.stringify(photos)).replace(LMARK, () => JSON.stringify(legal).replace(/</g, "\\u003c"));
 writeFileSync(join(dir, "GoLiveIt.html"), page);
 
 const body = page
