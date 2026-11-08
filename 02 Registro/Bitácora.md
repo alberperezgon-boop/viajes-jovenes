@@ -60,3 +60,8 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 
 - **Hecho:** fecha de salida en la bienvenida y en el panel. En **Dormir** y en **Todo**, botón «Ofertas reales · Buscar en Booking.com», que abre la búsqueda real con destino, fechas, personas y tipo (albergues, apartamentos u hoteles), ordenada por precio. **Solo para los tipos que aceptan la edad del grupo** según nuestras reglas, con el aviso de mirar «Normas de la casa». Filtros comprobados en Booking el 08/11/2026 (Lisboa, albergues: 81 resultados para 4 personas del 25 al 28/03/2027). Repaso visual: cabecera en degradado, tarjetas con sombra y foto más grande, pestañas tipo píldora y bloques de color por categoría.
 - **Límite:** las ofertas de Booking no se ven dentro de la página. Su API está reservada a afiliados gestionados y el *scraping* no está permitido. Para verlas dentro haría falta el programa de afiliados (CJ), que tendría que contratar un adulto del equipo.
+
+## 2026-11-08. Planner: fuera el bloque «Quién se apunta»
+
+- **Hecho:** se quita la edición persona a persona del panel (edad, nombre y gustos de cada uno), porque metía ruido visual y podía liar. En su lugar, un **resumen del grupo** arriba («Vais 3 · 2 de 17 y 1 de 18 años · Buscáis: playa, ambiente joven») con un botón «Cambiar» que abre la bienvenida. Personas sin nombre («Persona 2»). Si todo el grupo tiene el mismo resultado, sale una sola etiqueta («Todo el grupo ✓»).
+- **Consecuencia:** los gustos se marcan para todo el grupo, así que en el prototipo ya no se ven conflictos de gustos entre personas. El motor sigue preparado para ellos si en el futuro cada uno vota desde su móvil.

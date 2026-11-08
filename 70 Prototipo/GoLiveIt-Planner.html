@@ -244,6 +244,11 @@ body { background: radial-gradient(900px 500px at 100% -10%, color-mix(in srgb, 
 #welcome .chip { padding: 7px 14px; font-size: 0.86rem; }
 #welcome .chip[aria-pressed="true"] { background: var(--pop); color: var(--pop-ink); border-color: var(--pop); }
 .wz-step { background: var(--surface-2); border-radius: 16px; padding: 12px 14px; }
+.gsum { border-radius: 16px; padding: 12px 14px; display: grid; gap: 6px; color: #fff; background: linear-gradient(120deg, var(--brand), var(--brand-2) 65%, color-mix(in srgb, var(--pop) 40%, var(--brand-2))); box-shadow: 0 10px 24px -14px var(--brand); }
+.gsum .muted { color: rgb(255 255 255 / 0.8); }
+.gsum-top { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: center; }
+.gsum-n { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: var(--pop); color: var(--pop-ink); font-family: var(--f-mono); font-weight: 800; font-size: 1.2rem; }
+.gsum .btn { background: rgb(255 255 255 / 0.2); color: #fff; }
 #wz-go { font-size: 1rem; padding: 12px 18px; box-shadow: 0 10px 22px -10px var(--pop); }
 </style>
 
@@ -259,7 +264,7 @@ body { background: radial-gradient(900px 500px at 100% -10%, color-mix(in srgb, 
   </header>
 
   <aside class="panel left" aria-label="Tu viaje">
-    <button type="button" class="btn sm block" id="wz-open">Cambiar quién va y qué buscáis</button>
+    <div class="gsum" id="group-sum" aria-live="polite"></div>
     <div class="field">
       <label for="nl">Cuéntanos vuestro plan</label>
       <textarea class="input" id="nl" spellcheck="false">Somos cuatro amigos de 17 años, salimos de Sevilla, tenemos 250 € por persona y queremos pasar cuatro días en una ciudad europea con ambiente joven, playa y actividades.</textarea>
@@ -276,11 +281,6 @@ body { background: radial-gradient(900px 500px at 100% -10%, color-mix(in srgb, 
     <div class="field">
       <label for="budget">Pasta por persona: <span id="budget-v"></span></label>
       <input id="budget" type="range" min="100" max="700" step="10" value="250">
-    </div>
-    <div class="box">
-      <div class="row between"><h3>Quién se apunta</h3><button type="button" class="btn ghost sm" id="add-member">+ Añadir</button></div>
-      <p class="small muted">Cada uno marca lo que le mola: así se ve dónde chocáis y cómo lo cuadramos.</p>
-      <div id="members"></div>
     </div>
   </aside>
 
@@ -490,7 +490,7 @@ body { background: radial-gradient(900px 500px at 100% -10%, color-mix(in srgb, 
      ========================================================= */
   const me = { id: 1, name: "Tú", age: 17, nat: "ES", likes: new Set(["playa", "joven"]), me: true };
   const state = {
-    group: [me, { id: 2, name: "Lucía", age: 17, nat: "ES", likes: new Set(["playa", "joven"]) }, { id: 3, name: "Hugo", age: 17, nat: "ES", likes: new Set(["noche", "joven"]) }, { id: 4, name: "Sara", age: 17, nat: "ES", likes: new Set(["museos", "playa"]) }],
+    group: [me, ...[2, 3, 4].map(i => ({ id: i, name: "Persona " + i, age: 17, nat: "ES", likes: new Set(["playa", "joven"]) }))],
     origin: "SVQ", days: 4, date: "2027-03-25", budget: 250, sel: null, tab: "todo", compare: new Set(), mapMode: "offline", nextId: 5, parsed: null, legalFilter: { quien: "todos", cuando: "todos", dest: "auto" }
   };
 
@@ -730,7 +730,7 @@ Reglas de extracción:
     if (p.budget) state.budget = p.budget;
     if (p.days) state.days = p.days;
     const age = p.age || me.age; const n = p.people || state.group.length; const likes = p.likes.length ? p.likes : ["joven"];
-    const names = ["Lucía", "Hugo", "Sara", "Leo", "Inés"];
+    const names = ["Persona 2", "Persona 3", "Persona 4", "Persona 5", "Persona 6"];
     const ageOf = i => (p.ages && p.ages[i] != null ? Math.max(15, Math.min(19, p.ages[i])) : Math.max(15, Math.min(19, age)));
     me.age = ageOf(0); me.likes = new Set(likes);
     state.group = [me, ...Array.from({ length: n - 1 }, (_, i) => ({ id: i + 2, name: names[i], age: ageOf(i + 1), nat: "ES", likes: new Set(likes) }))];
@@ -847,13 +847,13 @@ Reglas de extracción:
   function renderLeft() {
     $("#origin").innerHTML = Object.entries(ORIGINS).map(([k, o]) => `<option value="${k}"${k === state.origin ? " selected" : ""}>${o.name} (${k})</option>`).join("");
     $("#days").value = state.days; $("#date").value = state.date; $("#budget").value = state.budget; $("#budget-v").textContent = eur(state.budget);
-    $("#members").innerHTML = state.group.map(m => `<div class="member">
-      <div class="member-head">${m.me ? '<strong>Tú</strong>' : `<input class="input" data-m="${m.id}" data-f="name" value="${esc(m.name)}" aria-label="Nombre" autocomplete="off">`}
-        <select class="input" data-m="${m.id}" data-f="age" aria-label="Edad de ${esc(m.name)}">${[15, 16, 17, 18, 19].map(a => `<option value="${a}"${a === m.age ? " selected" : ""}>${a} años</option>`).join("")}</select>
-        ${m.me ? "<span></span>" : `<button type="button" class="icon-btn" data-remove="${m.id}" aria-label="Quitar a ${esc(m.name)}">×</button>`}</div>
-      <div class="likes" role="group" aria-label="Gustos de ${esc(m.name)}">${LIKES.map(([k, l]) => `<button type="button" class="chip" data-like="${m.id}:${k}" aria-pressed="${m.likes.has(k)}">${l}</button>`).join("")}</div></div>`).join("");
+    // Resumen del grupo (sin editar persona a persona: eso se hace en la bienvenida)
+    const byAge = {}; state.group.forEach(m => { byAge[m.age] = (byAge[m.age] || 0) + 1; });
+    const ageTxt = Object.entries(byAge).sort((x, y) => x[0] - y[0]).map(([a, n]) => (state.group.length === 1 ? "" : n + " de ") + a).join(" y ") + " años";
+    const likeTxt = [...new Set(state.group.flatMap(m => [...m.likes]))].map(l => LIKES.find(x => x[0] === l)[1].toLowerCase()).join(", ") || "de todo";
+    $("#group-sum").innerHTML = `<div class="gsum-top"><span class="gsum-n">${state.group.length}</span><span><strong>${state.group.length === 1 ? "Vas solo/a" : "Vais " + state.group.length}</strong><br><span class="small">${esc(ageTxt)}</span></span><button type="button" class="btn sm" id="wz-open">Cambiar</button></div><p class="small"><span class="muted">Buscáis:</span> ${esc(likeTxt)}</p>`;
     const p = state.parsed;
-    $("#slots").innerHTML = p ? [p.via === "ia" ? "Entendido por la IA" : p.via === "formulario" ? "Datos de la bienvenida" : "Entendido sin IA", p.people && `${p.people} personas`, p.ages && p.ages.length ? `${[...new Set(p.ages)].join(", ")} años` : p.age && `${p.age} años`, p.origin && ORIGINS[p.origin].name, p.budget && `${eur(p.budget)}/persona`, p.days && `${p.days} días`, p.likes.length && p.likes.map(l => LIKES.find(x => x[0] === l)[1].toLowerCase()).join(", "), p.dest && `destino: ${DEST[p.dest].city}`].filter(Boolean).map(t => `<span class="slot">${esc(t)}</span>`).join("") + p.miss.map(t => `<span class="slot miss">sin entender: ${esc(t)}</span>`).join("") + (p.dudas || []).map(t => `<span class="slot miss">duda: ${esc(t)}</span>`).join("") + (p.diff ? `<span class="slot">las reglas habrían entendido: ${esc(p.diff)}</span>` : "") : "";
+    $("#slots").innerHTML = p && p.via !== "formulario" ? [p.via === "ia" ? "Entendido por la IA" : p.via === "formulario" ? "Datos de la bienvenida" : "Entendido sin IA", p.people && `${p.people} personas`, p.ages && p.ages.length ? `${[...new Set(p.ages)].join(", ")} años` : p.age && `${p.age} años`, p.origin && ORIGINS[p.origin].name, p.budget && `${eur(p.budget)}/persona`, p.days && `${p.days} días`, p.likes.length && p.likes.map(l => LIKES.find(x => x[0] === l)[1].toLowerCase()).join(", "), p.dest && `destino: ${DEST[p.dest].city}`].filter(Boolean).map(t => `<span class="slot">${esc(t)}</span>`).join("") + p.miss.map(t => `<span class="slot miss">sin entender: ${esc(t)}</span>`).join("") + (p.dudas || []).map(t => `<span class="slot miss">duda: ${esc(t)}</span>`).join("") + (p.diff ? `<span class="slot">las reglas habrían entendido: ${esc(p.diff)}</span>` : "") : "";
   }
 
   /* =========================================================
@@ -867,7 +867,9 @@ Reglas de extracción:
   }
   const phStyle = k => PHOTOS[k] ? `class="card-ph ph-${k}" style="background-position:${PHOTO[k].pos}"` : `class="card-ph"`;
   function memberChips(a) {
-    return state.group.map(m => { const st = worst([a.fl ? a.fl.e.per.find(x => x.m === m).r.s : "unk", a.st ? a.st.e.per.find(x => x.m === m).r.s : "unk"]); return `<span class="mchip ${STATUS[st][0]}">${esc(m.name)} ${STATUS[st][1]}</span>`; }).join("");
+    const per = state.group.map(m => ({ m, st: worst([a.fl ? a.fl.e.per.find(x => x.m === m).r.s : "unk", a.st ? a.st.e.per.find(x => x.m === m).r.s : "unk"]) }));
+    if (per.length > 1 && per.every(x => x.st === per[0].st)) return `<span class="mchip ${STATUS[per[0].st][0]}">Todo el grupo ${STATUS[per[0].st][1]}</span>`;
+    return per.map(({ m, st }) => `<span class="mchip ${STATUS[st][0]}">${esc(m.name)} ${STATUS[st][1]}</span>`).join("");
   }
   function renderResults(animate) {
     if (state.sel) return renderDetail();
@@ -951,7 +953,9 @@ Reglas de extracción:
       <p class="small muted">Solo salen los tipos de alojamiento que aceptan vuestra edad según normas verificadas. ${compact ? "" : "La búsqueda cuenta a todos como adultos para ver camas; al reservar, poned las edades reales. "}Cada sitio tiene sus normas: mirad «Normas de la casa» (edad mínima para el check-in) y que reserve un adulto.</p></div>`;
   }
   /* ---------- Vuelos, Dormir y Ocio: todo según la edad de cada persona ---------- */
-  function personChips(e) { return `<div class="row" style="gap:4px">${e.per.map(x => `<span class="mchip ${STATUS[x.r.s][0]}" title="${esc(x.r.why)}">${esc(x.m.name)} ${x.m.age} ${STATUS[x.r.s][1]}</span>`).join("")}</div>`; }
+  function personChips(e) {
+    if (e.per.length > 1 && e.per.every(x => x.r.s === e.per[0].r.s && x.r.why === e.per[0].r.why)) return `<div class="row" style="gap:4px"><span class="mchip ${STATUS[e.per[0].r.s][0]}">Todo el grupo ${STATUS[e.per[0].r.s][1]}</span></div>`;
+    return `<div class="row" style="gap:4px">${e.per.map(x => `<span class="mchip ${STATUS[x.r.s][0]}" title="${esc(x.r.why)}">${esc(x.m.name)} ${x.m.age} ${STATUS[x.r.s][1]}</span>`).join("")}</div>`; }
   function groupWhy(e) { const per = e.per.filter(x => x.r.s === e.s); return [...new Set(per.map(x => x.r.why))].map(esc).join(" "); }
   function reqList(e) { const seen = new Map(); e.per.forEach(x => x.r.reqs.forEach(q => seen.set(q.t, q.who))); return seen.size ? `<ul class="why">${[...seen].map(([t, who]) => `<li>${esc(t)} <span class="pill who">${who}</span></li>`).join("")}</ul>` : ""; }
   function srcLine(key) { const x = SRC[key]; return `<p class="small">${x.url ? `<a href="${x.url}" target="_blank" rel="noopener">${esc(x.label)}</a>` : esc(x.label)} <span class="tipo">${esc(x.tag)} · ${esc(x.date)}</span></p>`; }
