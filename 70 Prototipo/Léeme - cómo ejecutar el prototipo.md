@@ -38,6 +38,7 @@ El archivo para compartir pesa ~1,1 MB (lleva las cinco fotos dentro) y necesita
 | Precios, gasto diario y noches | **Estimación ilustrativa**. No son precios actuales | — |
 | Ubicación de albergues | **Aproximada** («zona aproximada») | — |
 | Ámsterdam, Praga, Dublín | **Sin verificar**: salen como «pendiente», nunca como viables | Sí |
+| Enlaces a Booking.com (albergues, apartamentos, hoteles) | **Real**: abre la búsqueda de Booking con destino, fechas, número de personas, tipo de alojamiento y orden por precio. Solo sale el tipo que acepta vuestra edad según nuestras reglas. Las ofertas no se copian a la página (no hay API abierta ni se permite el scraping) | Sí, el 08/11/2026 (filtros 203 = albergues, 201 = apartamentos, 204 = hoteles) |
 | Reservas y pagos | **No existen** | — |
 
 ## Recorrido para enseñarlo (3 minutos)

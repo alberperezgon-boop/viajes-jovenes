@@ -55,3 +55,8 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 ## 2026-11-08. Planner: tono joven y oferta completa por edad
 
 - **Hecho:** textos reescritos para jóvenes de 16-17 («¿Quiénes os vais y qué os mola?», «Sí podéis / Sí, pero ojo / No con vuestra edad», «Papeleo y posibles líos»), sin cambiar reglas ni fuentes. Fuera el itinerario: cada destino abre en **Todo**, con la oferta recomendada para la edad del grupo (vuelos, sitios para dormir y planes), y el mapa marca los sitios sin rutas.
+
+## 2026-11-08. Planner: Booking.com y diseño
+
+- **Hecho:** fecha de salida en la bienvenida y en el panel. En **Dormir** y en **Todo**, botón «Ofertas reales · Buscar en Booking.com», que abre la búsqueda real con destino, fechas, personas y tipo (albergues, apartamentos u hoteles), ordenada por precio. **Solo para los tipos que aceptan la edad del grupo** según nuestras reglas, con el aviso de mirar «Normas de la casa». Filtros comprobados en Booking el 08/11/2026 (Lisboa, albergues: 81 resultados para 4 personas del 25 al 28/03/2027). Repaso visual: cabecera en degradado, tarjetas con sombra y foto más grande, pestañas tipo píldora y bloques de color por categoría.
+- **Límite:** las ofertas de Booking no se ven dentro de la página. Su API está reservada a afiliados gestionados y el *scraping* no está permitido. Para verlas dentro haría falta el programa de afiliados (CJ), que tendría que contratar un adulto del equipo.

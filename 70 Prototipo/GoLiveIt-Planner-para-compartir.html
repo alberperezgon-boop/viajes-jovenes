@@ -206,6 +206,50 @@ dialog.sheet::backdrop { background: rgb(8 10 20 / 0.55); }
 .rise { animation: rise 0.4s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: calc(var(--i, 0) * 40ms); }
 @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+/* ===== Pulido visual ===== */
+body { background: radial-gradient(900px 500px at 100% -10%, color-mix(in srgb, var(--pop) 12%, transparent), transparent 65%), var(--bg); }
+.top { background: linear-gradient(100deg, var(--brand), var(--brand-2) 70%, color-mix(in srgb, var(--pop) 35%, var(--brand-2))); box-shadow: 0 6px 20px -12px rgb(14 19 48 / 0.6); position: relative; z-index: 5; }
+.panel.left, .panel.right { background: color-mix(in srgb, var(--surface) 92%, var(--bg)); }
+.card { border: 0; box-shadow: 0 1px 0 var(--line), 0 12px 30px -16px rgb(14 19 48 / 0.35); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+@media (hover: hover) { .card:hover { transform: translateY(-2px); box-shadow: 0 1px 0 var(--line), 0 18px 36px -16px rgb(14 19 48 / 0.45); } }
+.card-ph { height: 132px; }
+.card-ph::after, .detail-head::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 35%, rgb(8 10 24 / 0.6)); pointer-events: none; }
+.card-ph .mono, .card-ph .score, .detail-head .cap, .detail-head .credit { z-index: 1; }
+.card-ph .mono { font-size: 2.1rem; letter-spacing: 0.02em; }
+.detail-head { height: 190px; border-radius: 22px; }
+.detail-head h2 { font-size: 1.6rem; padding: 5px 12px 6px; }
+.summary { border-radius: 16px; border: 0; box-shadow: 0 8px 24px -16px rgb(14 19 48 / 0.35); }
+.summary b { color: var(--link); font-size: 1.5rem; }
+.tabs { border-radius: 999px; padding: 4px; }
+.tabs button { border-radius: 999px; padding: 7px 4px; }
+.tabs button[aria-selected="true"] { background: var(--brand); color: #fff; box-shadow: 0 6px 14px -6px var(--brand); }
+.box { background: var(--surface); box-shadow: 0 10px 26px -18px rgb(14 19 48 / 0.35); }
+.box.cat { border: 0; padding: 0; gap: 0; overflow: hidden; }
+.cat-h { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 12px 14px; color: #fff; }
+.cat-h h3 { font-size: 1.05rem; }
+.cat-h .btn { background: rgb(255 255 255 / 0.22); color: inherit; }
+.cat-fly .cat-h { background: linear-gradient(120deg, var(--brand), var(--brand-2)); }
+.cat-stay .cat-h { background: linear-gradient(120deg, #FF7A2F, #FFA25F); color: var(--pop-ink); }
+.cat-fun .cat-h { background: linear-gradient(120deg, #13693F, #22A066); }
+.cat-b { padding: 4px 14px 14px; display: grid; gap: 8px; }
+.mini { grid-template-columns: 34px minmax(0, 1fr) auto; align-items: center; }
+.mini-ic { width: 34px; height: 34px; border-radius: 11px; display: grid; place-items: center; background: var(--surface-2); }
+.offer { background: var(--surface); box-shadow: 0 8px 20px -16px rgb(14 19 48 / 0.4); }
+.offer .cta-bk { justify-self: start; margin-top: 4px; }
+.bk-box { border-radius: 16px; padding: 12px 14px; display: grid; gap: 8px; background: linear-gradient(135deg, color-mix(in srgb, var(--brand) 14%, var(--surface)), var(--surface) 70%); border: 1.5px solid color-mix(in srgb, var(--brand) 35%, var(--line)); }
+.bk-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.bk-badge { font-family: var(--f-mono); font-size: 0.6rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; background: var(--pop); color: var(--pop-ink); border-radius: 6px; padding: 2px 7px; }
+.bk-links { display: flex; flex-wrap: wrap; gap: 8px; }
+.cta-bk { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; font-weight: 800; font-size: 0.84rem; padding: 9px 14px; border-radius: 12px; background: var(--brand); color: #fff; box-shadow: 0 8px 18px -10px var(--brand); }
+@media (hover: hover) { .cta-bk:hover { filter: brightness(1.12); } }
+#welcome .sheet-head { margin: -20px -20px 0; padding: 22px 20px 18px; background: linear-gradient(120deg, var(--brand), var(--brand-2) 55%, var(--pop)); color: #fff; }
+#welcome .sheet-head .eyebrow, #welcome .sheet-head .muted { color: rgb(255 255 255 / 0.88); }
+#welcome h2 { font-size: 1.5rem; line-height: 1.25; padding-top: 2px; }
+#wz > .row.between:last-child { position: sticky; bottom: -20px; margin: 0 -20px -20px; padding: 12px 20px 16px; background: var(--surface); border-top: 1px solid var(--line); z-index: 2; }
+#welcome .chip { padding: 7px 14px; font-size: 0.86rem; }
+#welcome .chip[aria-pressed="true"] { background: var(--pop); color: var(--pop-ink); border-color: var(--pop); }
+.wz-step { background: var(--surface-2); border-radius: 16px; padding: 12px 14px; }
+#wz-go { font-size: 1rem; padding: 12px 18px; box-shadow: 0 10px 22px -10px var(--pop); }
 </style>
 
 <div class="app">
@@ -233,6 +277,7 @@ dialog.sheet::backdrop { background: rgb(8 10 20 / 0.55); }
       <div class="field"><label for="origin">Salís de</label><select class="input" id="origin"></select></div>
       <div class="field"><label for="days">Días</label><input class="input" id="days" type="number" min="2" max="7" value="4"></div>
     </div>
+    <div class="field"><label for="date">¿Cuándo os vais?</label><input class="input" id="date" type="date" min="2026-11-09" value="2027-03-25"></div>
     <div class="field">
       <label for="budget">Pasta por persona: <span id="budget-v"></span></label>
       <input id="budget" type="range" min="100" max="700" step="10" value="250">
@@ -451,7 +496,7 @@ dialog.sheet::backdrop { background: rgb(8 10 20 / 0.55); }
   const me = { id: 1, name: "Tú", age: 17, nat: "ES", likes: new Set(["playa", "joven"]), me: true };
   const state = {
     group: [me, { id: 2, name: "Lucía", age: 17, nat: "ES", likes: new Set(["playa", "joven"]) }, { id: 3, name: "Hugo", age: 17, nat: "ES", likes: new Set(["noche", "joven"]) }, { id: 4, name: "Sara", age: 17, nat: "ES", likes: new Set(["museos", "playa"]) }],
-    origin: "SVQ", days: 4, budget: 250, sel: null, tab: "todo", compare: new Set(), mapMode: "offline", nextId: 5, parsed: null, legalFilter: { quien: "todos", cuando: "todos", dest: "auto" }
+    origin: "SVQ", days: 4, date: "2027-03-25", budget: 250, sel: null, tab: "todo", compare: new Set(), mapMode: "offline", nextId: 5, parsed: null, legalFilter: { quien: "todos", cuando: "todos", dest: "auto" }
   };
 
   /* =========================================================
@@ -650,7 +695,7 @@ Reglas de extracción:
   }
 
   /* ---------- Pantalla de entrada: primero edades y qué buscáis ---------- */
-  const wz = { n: 4, ages: [17, 17, 17, 17], origin: "SVQ", days: 4, budget: 250, likes: new Set(["playa", "joven"]), msg: "" };
+  const wz = { n: 4, ages: [17, 17, 17, 17], origin: "SVQ", days: 4, date: "2027-03-25", budget: 250, likes: new Set(["playa", "joven"]), msg: "" };
   function renderWelcome() {
     const ageSel = i => `<div class="field"><label for="wz-age-${i}">${i === 0 ? "Tú" : "Persona " + (i + 1)}</label><select class="input" id="wz-age-${i}" data-wzage="${i}">${[15, 16, 17, 18, 19].map(a => `<option value="${a}"${a === wz.ages[i] ? " selected" : ""}>${a} años</option>`).join("")}</select></div>`;
     $("#wz").innerHTML = `<div class="sheet-head"><div><p class="eyebrow">Lo primero</p><h2 id="wz-title">¿Quiénes os vais y qué os mola?</h2><p class="small muted">Vuestra edad decide qué vuelos, sitios para dormir y planes os salen. No te pedimos nombres.</p></div></div>
@@ -661,6 +706,7 @@ Reglas de extracción:
         <div class="row" role="group" aria-label="Qué buscáis">${LIKES.map(([k, l]) => `<button type="button" class="chip" data-wzlike="${k}" aria-pressed="${wz.likes.has(k)}">${l}</button>`).join("")}</div>
         <div class="grid2"><div class="field"><label for="wz-origin">Salís de</label><select class="input" id="wz-origin">${Object.entries(ORIGINS).map(([k, o]) => `<option value="${k}"${k === wz.origin ? " selected" : ""}>${o.name}</option>`).join("")}</select></div>
           <div class="field"><label for="wz-days">Días</label><input class="input" id="wz-days" type="number" min="2" max="7" value="${wz.days}"></div></div>
+        <div class="field"><label for="wz-date">¿Cuándo os vais?</label><input class="input" id="wz-date" type="date" min="2026-11-09" value="${wz.date}"></div>
         <div class="field"><label for="wz-budget">Pasta por persona: <span id="wz-budget-v">${eur(wz.budget)}</span></label><input id="wz-budget" type="range" min="100" max="700" step="10" value="${wz.budget}"></div></div>
       <details class="hid"${wz.msg ? " open" : ""}><summary>¿Te es más fácil escribirlo? Cuéntanoslo y lo rellenamos</summary><div class="field" style="margin-top:8px"><textarea class="input" id="wz-msg" placeholder="Ej.: somos tres, dos de 17 y uno de 18, desde Madrid, 400 € y 5 días, fiesta y museos">${esc(wz.msg)}</textarea>
         <div class="row"><button type="button" class="btn ghost sm" id="wz-rules">Rellenar</button>${sampleFn ? '<button type="button" class="btn sm" id="wz-ai">Rellenar con IA ✨</button>' : ""}<span class="small" id="wz-status" aria-live="polite"></span></div></div></details>
@@ -681,7 +727,7 @@ Reglas de extracción:
   function wzApply() {
     const p = { people: wz.n, ages: wz.ages.slice(0, wz.n), age: wz.ages[0], origin: wz.origin, days: wz.days, budget: wz.budget, likes: [...wz.likes], miss: [], via: "formulario" };
     $("#nl").value = `Somos ${wz.n === 1 ? "uno" : wz.n}, de ${[...new Set(p.ages)].join(" y ")} años, salimos de ${ORIGINS[wz.origin].name}, ${wz.budget} € por persona y ${wz.days} días. Buscamos: ${p.likes.map(l => LIKES.find(x => x[0] === l)[1].toLowerCase()).join(", ") || "de todo"}.`;
-    applyParsed(p); $("#welcome").close(); update(true); flyEurope();
+    state.date = wz.date; applyParsed(p); $("#welcome").close(); update(true); flyEurope();
   }
 
   function applyParsed(p) {
@@ -805,7 +851,7 @@ Reglas de extracción:
      ========================================================= */
   function renderLeft() {
     $("#origin").innerHTML = Object.entries(ORIGINS).map(([k, o]) => `<option value="${k}"${k === state.origin ? " selected" : ""}>${o.name} (${k})</option>`).join("");
-    $("#days").value = state.days; $("#budget").value = state.budget; $("#budget-v").textContent = eur(state.budget);
+    $("#days").value = state.days; $("#date").value = state.date; $("#budget").value = state.budget; $("#budget-v").textContent = eur(state.budget);
     $("#members").innerHTML = state.group.map(m => `<div class="member">
       <div class="member-head">${m.me ? '<strong>Tú</strong>' : `<input class="input" data-m="${m.id}" data-f="name" value="${esc(m.name)}" aria-label="Nombre" autocomplete="off">`}
         <select class="input" data-m="${m.id}" data-f="age" aria-label="Edad de ${esc(m.name)}">${[15, 16, 17, 18, 19].map(a => `<option value="${a}"${a === m.age ? " selected" : ""}>${a} años</option>`).join("")}</select>
@@ -882,22 +928,42 @@ Reglas de extracción:
     const fl = a.flights.filter(x => visible(x.e.s)), st = a.stays.filter(x => visible(x.e.s)), ok = oc.filter(x => visible(x.e.s));
     const hidden = (a.flights.length - fl.length) + (a.stays.length - st.length) + (oc.length - ok.length);
     const row = (icon, title, sub, badge, price) => `<div class="mini"><span class="mini-ic" aria-hidden="true">${icon}</span><span><strong>${title}</strong><br><span class="small muted">${sub}</span></span><span class="mini-r">${price ? `<span class="price">${price}</span>` : ""}${badge}</span></div>`;
-    const block = (title, tab, rows) => `<div class="box"><div class="row between"><h3>${title}</h3><button type="button" class="btn ghost sm" data-tab="${tab}">Ver detalle</button></div>${rows || '<p class="small bad">Con vuestra edad aquí no sale nada.</p>'}</div>`;
+    const block = (title, tab, rows) => `<div class="box cat ${{ vuelos: "cat-fly", dormir: "cat-stay", ocio: "cat-fun" }[tab]}"><div class="cat-h"><h3>${title}</h3><button type="button" class="btn sm" data-tab="${tab}">Ver detalle</button></div><div class="cat-b">${rows || '<p class="small bad">Con vuestra edad aquí no sale nada.</p>'}</div></div>`;
     return `<p class="small">Todo lo que <strong>os sale con vuestra edad</strong> en ${esc(a.d.city)}. Los precios son orientativos; lo que no os dejan hacer no aparece aquí.</p>
       ${block("✈ Vuelos que podéis coger", "vuelos", fl.map(x => row("✈", esc(ITEMS[x.a].name), (x.dir ? "Directo" : "Con escala") + " · " + state.origin + " → " + a.d.iata, pill(x.e.s), eur(x.p))).join(""))}
-      ${block("🛏 Dónde podéis dormir", "dormir", st.map(x => row("🛏", esc(ITEMS[x.s].name), groupWhy(x.e), pill(x.e.s), eur(x.p) + "/noche")).join(""))}
+      ${block("🛏 Dónde podéis dormir", "dormir", st.map(x => row("🛏", esc(ITEMS[x.s].name), groupWhy(x.e), pill(x.e.s), eur(x.p) + "/noche")).join("") + (st.length ? bookingBox(a, true) : ""))}
       ${block("🎟 Planes para vuestra edad", "ocio", ok.map(x => row(x.when === "noche" ? "☾" : "☀", esc(x.name), groupWhy(x.e), x.key ? pill(x.e.s) : pill("ok", "Libre"))).join(""))}
       ${hidden ? `<p class="small muted">${hidden} cosas no os salen por la edad o están sin confirmar: las tienes en cada pestaña, con el motivo.</p>` : ""}`;
+  }
+  /* ---------- Booking.com: abre la búsqueda real (sin API ni scraping) ----------
+     Solo se ofrece el tipo de alojamiento cuya regla verificada acepta vuestra edad. */
+  const KIND = { hostel: { label: "Albergues", icon: "🛏", id: 203 }, apart: { label: "Apartamentos", icon: "🏠", id: 201 }, hotel: { label: "Hoteles", icon: "🏨", id: 204 } };
+  const STAY_KIND = { pousadas: "hostel", hifrance: "hostel", aig: "hostel", djh: "hostel", yha: "hostel", airbnb: "apart", accor: "hotel" };
+  const addDays = (iso, n) => { const d = new Date(iso + "T12:00:00Z"); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
+  const dmy = iso => iso.slice(8, 10) + "/" + iso.slice(5, 7) + "/" + iso.slice(0, 4);
+  function bookingUrl(a, kind) {
+    const p = new URLSearchParams({ ss: a.d.city, checkin: state.date, checkout: addDays(state.date, Math.max(1, state.days - 1)), group_adults: String(state.group.length), no_rooms: "1", group_children: "0", order: "price", nflt: "ht_id=" + KIND[kind].id });
+    return "https://www.booking.com/searchresults.es.html?" + p.toString();
+  }
+  function bkLink(a, stayKey) { const k = STAY_KIND[stayKey]; return k ? `<a class="cta-bk" href="${bookingUrl(a, k)}" target="_blank" rel="noopener">${KIND[k].icon} Ver ${KIND[k].label.toLowerCase()} reales en Booking.com ↗</a>` : ""; }
+  function bookingBox(a, compact) {
+    const kinds = [...new Set(a.stays.filter(x => visible(x.e.s)).map(x => STAY_KIND[x.s]).filter(Boolean))];
+    if (!kinds.length) return compact ? "" : `<div class="bk-box"><p class="small"><strong>Booking.com:</strong> con vuestra edad, y sin un adulto en el grupo, ningún tipo de alojamiento verificado os acepta aquí, así que no os mandamos a buscar.</p></div>`;
+    const out = addDays(state.date, Math.max(1, state.days - 1));
+    return `<div class="bk-box"><div class="bk-head"><span class="bk-badge">Ofertas reales</span><strong>Buscar en Booking.com</strong></div>
+      <p class="small">${dmy(state.date)} → ${dmy(out)} · ${pl(state.group.length, "persona", "personas")} · de más barato a más caro</p>
+      <div class="bk-links">${kinds.map(k => `<a class="cta-bk" href="${bookingUrl(a, k)}" target="_blank" rel="noopener">${KIND[k].icon} ${KIND[k].label} ↗</a>`).join("")}</div>
+      <p class="small muted">Solo salen los tipos de alojamiento que aceptan vuestra edad según normas verificadas. ${compact ? "" : "La búsqueda cuenta a todos como adultos para ver camas; al reservar, poned las edades reales. "}Cada sitio tiene sus normas: mirad «Normas de la casa» (edad mínima para el check-in) y que reserve un adulto.</p></div>`;
   }
   /* ---------- Vuelos, Dormir y Ocio: todo según la edad de cada persona ---------- */
   function personChips(e) { return `<div class="row" style="gap:4px">${e.per.map(x => `<span class="mchip ${STATUS[x.r.s][0]}" title="${esc(x.r.why)}">${esc(x.m.name)} ${x.m.age} ${STATUS[x.r.s][1]}</span>`).join("")}</div>`; }
   function groupWhy(e) { const per = e.per.filter(x => x.r.s === e.s); return [...new Set(per.map(x => x.r.why))].map(esc).join(" "); }
   function reqList(e) { const seen = new Map(); e.per.forEach(x => x.r.reqs.forEach(q => seen.set(q.t, q.who))); return seen.size ? `<ul class="why">${[...seen].map(([t, who]) => `<li>${esc(t)} <span class="pill who">${who}</span></li>`).join("")}</ul>` : ""; }
   function srcLine(key) { const x = SRC[key]; return `<p class="small">${x.url ? `<a href="${x.url}" target="_blank" rel="noopener">${esc(x.label)}</a>` : esc(x.label)} <span class="tipo">${esc(x.tag)} · ${esc(x.date)}</span></p>`; }
-  function offer({ title, sub, price, e }) {
+  function offer({ title, sub, price, e, link }) {
     return `<div class="offer${visible(e.s) ? "" : " dim"}"><div class="row between"><strong>${title}</strong>${e.it ? pill(e.s) : pill("ok", "Libre")}</div>
       ${sub || price ? `<div class="row between small"><span class="muted">${sub || ""}</span>${price ? `<span class="price">${price}</span>` : ""}</div>` : ""}
-      <p class="small">${groupWhy(e)}</p>${personChips(e)}${reqList(e)}${e.it ? `<span class="tipo">${TIPOS[e.it.tipo]}</span>${srcLine(e.it.src)}` : ""}</div>`;
+      <p class="small">${groupWhy(e)}</p>${personChips(e)}${reqList(e)}${e.it ? `<span class="tipo">${TIPOS[e.it.tipo]}</span>${srcLine(e.it.src)}` : ""}${link && visible(e.s) ? link : ""}</div>`;
   }
   function splitList(list, render, hiddenLabel) {
     const ok = list.filter(x => visible(x.e.s)), hid = list.filter(x => !visible(x.e.s));
@@ -921,11 +987,11 @@ Reglas de extracción:
   }
   function staysTab(a) {
     const nights = Math.max(1, state.days - 1);
-    const list = a.stays.map(x => ({ e: x.e, title: esc(ITEMS[x.s].name), sub: `${nights} noches en ${esc(a.d.city)}`, price: eur(x.p) + "/noche (estimación)" }));
+    const list = a.stays.map(x => ({ e: x.e, title: esc(ITEMS[x.s].name), sub: `${nights} noches en ${esc(a.d.city)}`, price: eur(x.p) + "/noche (estimación)", link: bkLink(a, x.s) }));
     const c = counts(list);
     return `<p class="small"><strong>${c.vis} de ${list.length}</strong> sitios para dormir os aceptan.${c.vis === 0 ? " Dormir es lo más difícil con vuestra edad." : ""}</p>
       <p class="small muted">Aunque un albergue acepte menores, para reservar suelen pedir 18: que reserve un adulto, y pedid por escrito que os confirmen que aceptan menores sin adultos.</p>
-      ${splitList(list, offer, "sitios que no os aceptan o sin confirmar")}${legalTips(["dif-checkin-alojamiento", "dif-pago-tarjeta"], a.d.country)}`;
+      ${bookingBox(a)}${splitList(list, offer, "sitios que no os aceptan o sin confirmar")}${legalTips(["dif-checkin-alojamiento", "dif-pago-tarjeta"], a.d.country)}`;
   }
   function ocioTab(a) {
     const list = ocioEval(a.k).map(x => ({ e: x.e, title: esc(x.name), sub: x.when === "noche" ? "🌙 De noche" : "☀ De día", night: x.when === "noche", price: "" }));
@@ -1072,10 +1138,12 @@ Reglas de extracción:
     if (el.dataset.cmp) { el.checked ? state.compare.add(el.dataset.cmp) : state.compare.delete(el.dataset.cmp); if (state.compare.size > 3) { state.compare.delete(el.dataset.cmp); el.checked = false; toast("Compara como mucho tres destinos."); } renderResults(); return; }
     if (el.dataset.m) { const m = state.group.find(x => String(x.id) === el.dataset.m); if (!m) return; if (el.dataset.f === "age") m.age = +el.value; if (el.dataset.f === "name") m.name = el.value.trim() || "Sin nombre"; update(); return; }
     if (el.id === "origin") { state.origin = el.value; update(); }
+    if (el.id === "date") { if (el.value) state.date = el.value; update(); return; }
     if (el.id === "days") { state.days = Math.max(2, Math.min(7, +el.value || 4)); update(); }
     if (el.id === "wz-n") { wz.n = +el.value; wz.ages = Array.from({ length: wz.n }, (_, i) => wz.ages[i] ?? wz.ages[0] ?? 17); wz.msg = ($("#wz-msg") || {}).value || wz.msg; renderWelcome(); return; }
     if (el.dataset.wzage) { wz.ages[+el.dataset.wzage] = +el.value; return; }
     if (el.id === "wz-origin") { wz.origin = el.value; return; }
+    if (el.id === "wz-date") { if (el.value) wz.date = el.value; return; }
     if (el.id === "wz-days") { wz.days = Math.max(2, Math.min(7, +el.value || 4)); el.value = wz.days; return; }
     if (el.id === "lf-dest") { state.legalFilter.dest = el.value; openPapeles(); }
     if (el.id === "lf-quien") { state.legalFilter.quien = el.value; openPapeles(); }
