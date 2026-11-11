@@ -93,3 +93,9 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 
 - **Hecho:** [[Competencia de GoLiveIt]]. No hemos encontrado a nadie que filtre por edad y lo una a la aprobación de la familia. Lo más parecido es informativo (app del Centro Europeo del Consumidor de Alemania, guía de Eurodesk e Injuve, artículos de blogs). La competencia por el dinero de los padres son los viajes con monitores: 500-1.600 € a la semana. Integrada la demo avanzada del compañero (D-16): **26 destinos**, 18 posibles desde Sevilla para 4 personas de 17, albergues consultados por correo, planes, fotos y salida desde cualquier localidad de España, con bus para los destinos españoles.
 - **Pendiente:** guardar los correos de los albergues como prueba; Luxemburgo y los «16 por confirmar».
+
+## 2026-11-11. Consultas a 24 albergues nuevos
+
+- **Hecho:** 24 correos enviados desde la cuenta personal de Alberto, como interesado en ir y cada uno en el idioma del lugar, a albergues de 18 ciudades (España, Portugal, Francia, Italia, Alemania, Austria, Chequia, Hungría, Grecia y Polonia). Ver [[Consultas a albergues - 11-11-2026]]. Sin rebotes al enviarlos.
+- **Aprendido:** en Londres, Ámsterdam, Dublín y Venecia no se encontró ningún albergue que no exija un adulto. MIJE (París), Pfefferbett y DJH (Berlín, Múnich) y Atlantis (Cracovia) ya publican normas para 16-17 años con permiso de los padres.
+- **Pendiente:** registrar las respuestas y, si cambian, actualizar las reglas del Planner; segundo intento con TOC, Shelter, Plus Florence y LATROUPE (opción del amigo de 18).
