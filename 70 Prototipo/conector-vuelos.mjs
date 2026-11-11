@@ -44,6 +44,24 @@ async function duffel(q) {
   return (j.data.offers || []).map(simplify).sort((a, b) => a.total - b.total).slice(0, 12);
 }
 
+// Reserva de PRUEBA (solo con token de test): datos de pasajeros ficticios, fecha de nacimiento acorde a la edad real.
+const NOMBRES = ["Uno", "Dos", "Tres", "Cuatro", "Cinco", "Seis", "Siete", "Ocho", "Nueve"];
+function bornOn(travel, age) { const d = new Date(travel + "T12:00:00Z"); d.setUTCFullYear(d.getUTCFullYear() - age); d.setUTCDate(d.getUTCDate() - 60); return d.toISOString().slice(0, 10); }
+async function api(path, opts = {}) {
+  const r = await fetch("https://api.duffel.com" + path, { ...opts, headers: { Authorization: "Bearer " + TOKEN, "Duffel-Version": "v2", "Content-Type": "application/json", Accept: "application/json" } });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) { const e = (j.errors || [])[0] || {}; const err = new Error(e.message || e.title || "Error de Duffel " + r.status); err.detail = (j.errors || []).map(x => ({ code: x.code, title: x.title, message: x.message, source: x.source })); throw err; }
+  return j.data;
+}
+async function reservarPrueba(q) {
+  const offer = await api("/air/offers/" + encodeURIComponent(q.offerId));
+  const travel = offer.slices[0].segments[0].departing_at.slice(0, 10);
+  const passengers = offer.passengers.map((p, i) => ({ id: p.id, title: i % 2 ? "ms" : "mr", gender: i % 2 ? "f" : "m", given_name: "Prueba", family_name: NOMBRES[i] || "Extra",
+    born_on: bornOn(travel, q.ages[i] ?? 17), email: "familia.prueba@example.com", phone_number: "+34600000000" }));
+  const order = await api("/air/orders", { method: "POST", body: JSON.stringify({ data: { type: "instant", selected_offers: [offer.id], passengers, payments: [{ type: "balance", currency: offer.total_currency, amount: offer.total_amount }] } }) });
+  return { ok: true, booking_reference: order.booking_reference, order_id: order.id, live: order.live_mode, total: +order.total_amount, currency: order.total_currency, airline: order.owner && order.owner.name, pax: order.passengers.map(p => ({ type: p.type, born_on: p.born_on })) };
+}
+
 function prueba(q) { // datos inventados para probar la pantalla, siempre marcados como PRUEBA
   const mk = (airline, code, pp, h) => ({ id: "prueba_" + code, airline, iata: code, total: pp * q.ages.length, currency: "EUR", perPerson: pp, live: false, prueba: true, expires: null, paxTypes: q.ages.map(() => null),
     slices: [{ from: q.from, to: q.to, dur: "PT2H25M", stops: 0, dep: q.out + "T" + h + ":00", arr: q.out + "T" + String((+h.slice(0, 2) + 2) % 24).padStart(2, "0") + h.slice(2) + ":00", carriers: [code] }, ...(q.back ? [{ from: q.to, to: q.from, dur: "PT2H30M", stops: 0, dep: q.back + "T18:10:00", arr: q.back + "T20:40:00", carriers: [code] }] : [])] });
@@ -56,6 +74,15 @@ createServer(async (req, res) => {
   if (req.method === "OPTIONS") { res.writeHead(204); return res.end(); }
   const send = (code, obj) => { res.writeHead(code, { "Content-Type": "application/json; charset=utf-8" }); res.end(JSON.stringify(obj)); };
   if (req.method === "GET" && req.url === "/estado") return send(200, { ok: true, modo: PRUEBA ? "prueba" : (TOKEN.startsWith("duffel_test") ? "test" : "live"), proveedor: "Duffel" });
+  if (req.method === "POST" && req.url === "/reservar") {
+    let rb = ""; for await (const c of req) { rb += c; if (rb.length > 4096) return send(413, { error: "Petición demasiado grande" }); }
+    let q; try { q = JSON.parse(rb); } catch { return send(400, { error: "JSON no válido" }); }
+    if (typeof q.offerId !== "string" || !/^[A-Za-z0-9_]+$/.test(q.offerId) || !Array.isArray(q.ages) || q.ages.some(a => !Number.isInteger(a) || a < 0 || a > 120)) return send(400, { error: "Datos de reserva no válidos" });
+    if (PRUEBA) return send(200, { ok: true, prueba: true, booking_reference: "PRUEBA", order_id: null, live: false });
+    if (!TOKEN.startsWith("duffel_test")) return send(403, { error: "Desde la demo solo se reserva en modo test de Duffel." });
+    try { send(200, await reservarPrueba(q)); } catch (e) { send(422, { error: String(e.message || e), detail: e.detail || null }); }
+    return;
+  }
   if (req.method !== "POST" || req.url !== "/vuelos") return send(404, { error: "Ruta no encontrada" });
   let raw = ""; for await (const c of req) { raw += c; if (raw.length > 4096) return send(413, { error: "Petición demasiado grande" }); }
   let q; try { q = JSON.parse(raw); } catch { return send(400, { error: "JSON no válido" }); }

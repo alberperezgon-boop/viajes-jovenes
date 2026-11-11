@@ -40,3 +40,16 @@ Con el token de test, Duffel devuelve su aerolínea de prueba; para precios de v
 - **Hallazgo: Duffel exige al menos un pasajero adulto en la búsqueda.** Un grupo solo de menores no puede ni buscar. Solución para el **precio**: desde 16 se busca como adulto, que es la tarifa que cobran Ryanair, Vueling o easyJet desde esa edad. La norma de edad para viajar sin adultos la sigue aplicando GoLiveIt. Para **reservar** de verdad hará falta un adulto (familia), como ya prevé D-13.
 - **En modo test, Duffel simula las ofertas:** salen aerolíneas reales (Iberia, British Airways, TAP) y «Duffel Airways» (ficticia), pero precios y horarios inventados. La demo lo dice en el recuadro.
 - El token no se guardó en ningún archivo: solo vivió en la memoria del conector durante la prueba.
+
+## ¿Acepta Duffel una reserva de menores pagada por la familia? (11/11/2026, modo test)
+
+| Prueba | Pasajeros | Resultado |
+|---|---|---|
+| Duffel Airways (aerolínea de prueba) | 4 de 17 (fecha de nacimiento real, tipo «adulto») | **Aceptada** · KZVZHI |
+| Iberia (oferta simulada) | 4 de 17 | **Aceptada** · 6N553T |
+| Iberia (oferta simulada) | 2 de 17 y 2 de 15 | **Aceptada** · S773JJ |
+| Desde el modo padres de la demo | 4 de 17, British Airways (simulada) | **Aceptada** · MWG7CR |
+
+- **Conclusión:** la API de Duffel **no bloquea** que todos los pasajeros sean menores, ni que pague alguien que no vuela (se paga desde el saldo de la cuenta). Lo único que exige es un pasajero de tipo adulto **en la búsqueda**, y con 16-17 basta (tarifa de adulto).
+- **Cuidado:** es **modo test**. En modo real decide cada aerolínea con la fecha de nacimiento (por ejemplo, Ryanair no deja volar a menores de 16 sin alguien de 18 o más). Por eso GoLiveIt aplica su regla por aerolínea antes de ofrecer la reserva.
+- **Datos usados:** pasajeros ficticios («Prueba Uno», correo @example.com y teléfono inventado) con fecha de nacimiento acorde a la edad. El conector **solo reserva con token de test**: con uno real devuelve 403.

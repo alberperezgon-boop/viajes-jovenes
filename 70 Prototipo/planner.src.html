@@ -388,6 +388,20 @@ dialog.sheet { overflow-x: hidden; }
 .pot { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
 .pot label { display: grid; gap: 3px; font-weight: 700; }
 #wz-go { font-size: 1rem; padding: 12px 18px; box-shadow: 0 10px 22px -10px var(--pop); }
+/* Modo padres v2 */
+.fam-glance { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.fam-glance > div { display: grid; gap: 2px; padding: 10px 12px; border-radius: 12px; }
+.fam-glance b { font-size: 1.4rem; line-height: 1; }
+.fam-glance span { font-size: 0.8rem; }
+.g-ok { background: var(--ok-soft); color: var(--ok); } .g-req { background: var(--req-soft); color: var(--req); } .g-unk { background: var(--unk-soft); color: var(--unk); }
+.fam-tl { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.fam-tl li { display: grid; grid-template-columns: minmax(150px, 210px) 1fr; gap: 10px; padding: 8px 0; border-top: 1px solid var(--line); font-size: 0.9rem; }
+.fam-tl li:first-child { border-top: 0; }
+.tl-when { font-weight: 700; color: var(--brand); }
+.fam-tl li.late .tl-when { color: var(--no); }
+.fam-faq { border-top: 1px solid var(--line); padding: 8px 0; } .fam-faq:first-of-type { border-top: 0; }
+.fam-faq summary { cursor: pointer; font-weight: 700; }
+@media (max-width: 560px) { .fam-glance { grid-template-columns: 1fr; } .fam-tl li { grid-template-columns: 1fr; } }
 /* Modo padres (F-06) */
 .fam-btn { justify-self: start; }
 .fam-sum { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
@@ -1573,6 +1587,8 @@ Reglas de extracción:
       <div class="fam-sum"><div><span class="eyebrow">Quién va</span><b>${pl(n, "persona", "personas")}</b><span class="small">${minors.length ? minors.length + " de " + [...new Set(minors.map(x => x.age))].join(" y ") + " años" : ""}${adults.length ? (minors.length ? " y " : "") + adults.length + " de 18 o más" : ""}</span></div>
         <div><span class="eyebrow">Desde</span><b>${esc(originName())}</b><span class="small">${m.fl.mode === "bus" ? "en bus" : "en avión"}</span></div>
         <div><span class="eyebrow">Por persona</span><b>${eur(m.total)}</b><span class="small">${eur(m.total * n)} entre todos · orientativo</span></div></div>
+      ${famGlance([fl.e.s, st.e.s, ...docs.map(d => d.s)])}
+      ${famLiveBox(a)}
       <div class="box"><h3>Lo que hemos comprobado para su edad</h3>
         ${famRow(fl.e, `${fl.mode === "bus" ? "🚌" : "✈"} ${esc(ITEMS[fl.a].name)} · ${fl.dir ? "directo" : "con escala"}`, fl.mode !== "bus" && minors.length ? '<p class="small muted">GoLiveIt nunca propone transbordos por cuenta propia con menores.</p>' : "")}
         ${famRow(st.e, `🛏 ${esc(ITEMS[st.s].name)}`, (asked ? `<p class="small"><b>El equipo de GoLiveIt lo consultó por correo</b> (mirad la fuente debajo). Aun así, que os lo confirmen por escrito para vuestras fechas.</p>` : "") + (ITEMS[st.s].link ? `<p class="small"><a href="${esc(ITEMS[st.s].link)}" target="_blank" rel="noopener">Web del alojamiento ↗</a>${ITEMS[st.s].email ? " · " + esc(ITEMS[st.s].email) : ""}</p>` : ""))}
@@ -1581,6 +1597,7 @@ Reglas de extracción:
         ${fam.length ? `<ul class="why">${fam.map(i => `<li>${esc(i.t)}${i.extra ? ` <span class="small muted">· ${esc(i.extra)}</span>` : ""}</li>`).join("")}</ul>` : '<p class="small">Nada especial para su edad en este viaje.</p>'}
         ${minors.length ? `<button type="button" class="btn sm" data-kit="${st.s}">📄 Cartas de autorización para ${esc(ITEMS[st.s].name)}</button>` : ""}
         <p class="small muted">Pagar también os toca a vosotros: los menores no pueden contratar, y aerolíneas y alojamientos piden que reserve un adulto.</p></div>
+      ${famTimeline(a, minors)}
       <div class="box"><h3>Lo que todavía no sabemos</h3><ul class="why">
         <li>Tasa turística de ${esc(a.d.city)} y si los menores la pagan: <b>pendiente</b>.</li>
         ${unkPlans ? `<li>${pl(unkPlans, "plan", "planes")} sin confirmar si dejan entrar a menores sin un adulto (salen marcados en la app).</li>` : ""}
@@ -1594,6 +1611,7 @@ Reglas de extracción:
         ${leg("sal-seguro-viaje") ? `<li>${legLink("sal-seguro-viaje")}</li>` : ""}
         ${leg("eme-rechazo-embarque") ? `<li>Si no les dejan embarcar: ${legLink("eme-rechazo-embarque", "qué derechos tienen")}</li>` : ""}
         <li>Si en el alojamiento no les dejan entrar: ${alt.length ? `otros que aceptan su edad en ${esc(a.d.city)}: ${alt.map(x => `<b>${esc(ITEMS[x.s].name)}</b> (${STATUS[x.e.s][2].toLowerCase()})`).join(", ")}.` : "no tenemos otro verificado en esta ciudad; que llamen a casa y busquen juntos."}</li></ul></div>
+      ${famFaq(a, minors)}
       <div class="box"><span class="tipo">Consejo GoLiveIt · no es una norma</span><h3>Acuerdos que suelen funcionar</h3><ul class="why">
         <li>Un mensaje al llegar al alojamiento y otro cada noche.</li><li>Hora de vuelta pactada entre vosotros antes de salir.</li>
         <li>Ubicación compartida solo si lo pactáis: no viene activada.</li><li>La respuesta del alojamiento y las cartas, impresas y en el móvil.</li></ul></div>
@@ -1864,6 +1882,8 @@ Reglas de extracción:
     else if (d.open === "family") openFamily();
     else if (t.id === "fam-ok") { state.famOk = true; openFamily(); }
     else if (t.id === "fam-print-btn") printFamily();
+    else if (t.id === "fam-price") famPrice();
+    else if (t.id === "fam-book") { t.disabled = true; t.textContent = "Reservando…"; famBook(d.offer); }
     else if (t.id === "fam-pay") { const k = $("#sheet-in").dataset.fam, a = k && analyse(k); if (!a) return; const m = money(a); state.sel = k; state.cart = { k, fl: flKey(m.fl), st: m.st.s }; state.co = { step: 3, checks: new Set() }; update(); openCheckout(); }
     else if (t.id === "fam-copy") { const k = $("#sheet-in").dataset.fam, a = k && analyse(k); if (!a) return; const msg = x => { const el = $("#fam-msg"); if (el) el.textContent = x; }; try { navigator.clipboard.writeText(familyText(a)).then(() => msg("Copiado."), () => msg("No se pudo copiar.")); } catch (e) { msg("No se pudo copiar."); } }
     else if (d.kit) openKit(d.kit);
@@ -2136,6 +2156,78 @@ Reglas de extracción:
       const k = nd(v.ciudad); (NIGHT.venues[k] = NIGHT.venues[k] || []).push(id);
     });
   })();
+  /* ---------- Modo padres v2: resumen, precio real y reserva de prueba, calendario de papeles y dudas frecuentes ---------- */
+  const legItem = (id, c) => (LEGAL.items || []).find(i => i.id === id && (i.paises.includes("TODOS") || !c || i.paises.includes(c)));
+  const legSrc = i => i ? `<a href="${esc(i.url)}" target="_blank" rel="noopener">fuente</a> <span class="tipo">${esc(tagTxt(i.etiqueta))}</span>` : "";
+  function famGlance(rows) {
+    const c = { ok: 0, req: 0, unk: 0, no: 0 }; rows.forEach(s => { c[s] = (c[s] || 0) + 1; });
+    return `<div class="fam-glance"><div class="g-ok"><b>${c.ok}</b><span>comprobado y sin pegas</span></div><div class="g-req"><b>${c.req}</b><span>con condiciones (papeles o normas)</span></div><div class="g-unk"><b>${c.unk + c.no}</b><span>${c.no ? "no permitido o pendiente" : "pendiente de confirmar"}</span></div></div>`;
+  }
+  function famBest(a, data) {
+    const offs = (data.offers || []).map(o => { const key = IATA_KEY[o.iata], direct = o.slices.every(s => s.stops === 0), e = key ? evalFlight(key, direct) : null; return { o, key, e, ok: e ? visible(e.s) : false }; }).filter(x => x.ok).sort((x, y) => x.o.total - y.o.total);
+    return offs[0] || null;
+  }
+  function famLiveBox(a) {
+    const F = state.famLive && state.famLive.k === a.k ? state.famLive : null, n = state.group.length;
+    let body = '<p class="small">Pide el precio de vuelo de ahora mismo, con las edades del grupo, solo de aerolíneas que les dejan volar a su edad.</p>';
+    if (F && F.loading) body = '<p class="small">Consultando precios…</p>';
+    else if (F && F.err) body = `<p class="warn">${esc(F.err)}</p><p class="small muted">Sin el conector se queda el precio orientativo de arriba. Cómo encenderlo: pestaña Vuelos → «Precios reales ahora».</p>`;
+    else if (F && F.data) {
+      const b = famBest(a, F.data), test = F.data.modo !== "live";
+      body = b ? `<div class="fam-row">${pill(b.e.s, b.e.s === "ok" ? "Pueden" : "Pueden, con condiciones")}<div><strong>${esc(b.o.airline)} · ${eur(Math.round(b.o.perPerson))} por persona · ${eur(Math.round(b.o.total))} los ${n}</strong>
+          <p class="small">${b.o.slices.map(s => `${s.from} ${String(s.dep).slice(11, 16)} → ${s.to} ${String(s.arr).slice(11, 16)} · ${s.stops ? s.stops + " escala" : "directo"}`).join(" · ")}</p><p class="small">${groupWhy(b.e)}</p>
+          ${test ? '<p class="small warn">Modo test de Duffel: oferta simulada, precio no real.</p>' : ""}${b.key !== money(a).fl.a ? `<p class="small muted">El resto de esta página sigue con el vuelo de ejemplo de la demo (${esc(ITEMS[money(a).fl.a].name)}).</p>` : ""}</div></div>
+        ${F.booking ? `<div class="done ok"><span class="done-ic">🎫</span><div><h3>Reserva de prueba hecha · ${esc(F.booking.booking_reference || "")}</h3><p class="small">${esc(F.booking.airline || b.o.airline)} · ${eur(Math.round(F.booking.total || b.o.total))} pagados por la familia desde el saldo de prueba. ${F.booking.prueba ? "Datos inventados del conector." : "Duffel aceptó a los pasajeros de " + [...new Set(state.group.map(m => m.age))].join(" y ") + " años sin un adulto en el vuelo."} No se emite billete ni se cobra nada.</p></div></div>`
+          : F.bookErr ? `<p class="warn">Duffel no aceptó la reserva: ${esc(F.bookErr)}</p>` : test ? `<button type="button" class="btn pop sm" id="fam-book" data-offer="${esc(b.o.id)}">Reservar en modo test (paga la familia)</button><p class="small muted">Con pasajeros ficticios y la edad real de cada uno. Solo funciona en modo test: desde la demo nunca se reserva de verdad.</p>` : '<p class="small muted">En modo real, la reserva se hace en la web de la aerolínea.</p>'}`
+        : '<p class="small">Ninguna oferta de ahora mismo es de una aerolínea que les deje volar a su edad.</p>';
+    }
+    return `<div class="box"><div class="row between"><h3>Precio real del vuelo y reserva</h3><span class="bk-badge">Duffel · beta</span></div>${body}
+      ${F && (F.loading || F.booking) ? "" : `<button type="button" class="btn sm" id="fam-price">${F && F.data ? "Volver a consultar" : "Consultar precio real"}</button>`}</div>`;
+  }
+  async function famPrice() {
+    const k = $("#sheet-in").dataset.fam, a = k && analyse(k); if (!a) return;
+    state.famLive = { k, loading: true }; openFamily();
+    try {
+      const ping = await fetch(LIVE_URL + "/estado", { cache: "no-store" }).then(r => r.json()); if (!ping || !ping.ok) throw new Error("off");
+      const r = await fetch(LIVE_URL + "/vuelos", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ from: realAir(), to: destAir(a.d), out: state.date, back: addDays(state.date, Math.max(1, state.days - 1)), ages: state.group.map(m => m.age), direct: false }) });
+      const j = await r.json(); if (!r.ok) throw new Error(j.error || "Error del conector");
+      state.famLive = { k, data: j };
+    } catch (e) { state.famLive = { k, err: e.message === "off" || /fetch|network|Failed/i.test(String(e.message)) ? "El conector de vuelos no está encendido en este PC." : "El conector respondió con un error: " + e.message }; }
+    if ($("#sheet").open) openFamily();
+  }
+  async function famBook(offerId) {
+    const F = state.famLive; if (!F || !F.data) return;
+    try {
+      const r = await fetch(LIVE_URL + "/reservar", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ offerId, ages: state.group.map(m => m.age) }) });
+      const j = await r.json(); if (!r.ok || !j.ok) throw new Error(j.error || "Error del conector");
+      state.famLive = { ...F, booking: j }; state.famOk = true;
+    } catch (e) { state.famLive = { ...F, bookErr: String(e.message || e) }; }
+    if ($("#sheet").open) openFamily();
+  }
+  function famTimeline(a, minors) {
+    const dep = state.date, today = new Date().toISOString().slice(0, 10), abroad = a.d.country !== "ES";
+    const rows = [];
+    if (abroad && minors.length) { const it = legItem("tra-permiso-plazo-90"); rows.push({ when: `del ${dmy(addDays(dep, -90))} al ${dmy(addDays(dep, -7))}`, end: addDays(dep, -7), t: "Permiso de viaje en Policía, Guardia Civil, notario o alcaldía (vale 90 días)", src: legSrc(it || legItem("doc-permiso-salida-espana")) }); }
+    { const it = legItem("sal-tse-pedir"); rows.push({ when: `antes del ${dmy(addDays(dep, -10))}`, end: addDays(dep, -10), t: "Tarjeta Sanitaria Europea de cada uno (llega en 5 días como máximo; dejamos margen)", src: legSrc(it) }); }
+    { const it = legItem("sal-seguro-viaje"); rows.push({ when: "antes de pagar los vuelos", end: null, t: "Seguro de viaje con repatriación que admita menores sin adultos", src: legSrc(it) }); }
+    rows.push({ when: "antes de pagar el alojamiento", end: null, t: "Confirmación por escrito del alojamiento de que acepta su edad", src: '<span class="tipo">Consejo GoLiveIt</span>' });
+    if (minors.length) rows.push({ when: `firmadas antes del ${dmy(addDays(dep, -2))}`, end: addDays(dep, -2), t: "Cartas de autorización para el alojamiento (y copia de vuestro DNI si la piden)", src: '<span class="tipo">Lo pide el alojamiento</span>' });
+    if (abroad) { const it = legItem("eme-registro-viajeros", a.d.country) || legItem("eme-registro-viajeros"); rows.push({ when: "antes de salir", end: dep, t: "Registro de Viajeros de Exteriores", src: legSrc(it) }); }
+    return `<div class="box"><h3>Calendario de papeles</h3><p class="small muted">Fechas calculadas para un viaje que sale el ${dmy(dep)}.</p><ol class="fam-tl">${rows.map(r => `<li class="${r.end && r.end < today ? "late" : ""}"><span class="tl-when">${esc(r.when)}${r.end && r.end < today ? " · ya pasó" : ""}</span><span>${esc(r.t)} ${r.src}</span></li>`).join("")}</ol></div>`;
+  }
+  function famFaq(a, minors) {
+    const abroad = a.d.country !== "ES", q = [];
+    const p1 = legItem(abroad ? "doc-permiso-salida-espana" : "doc-espana-sin-permiso");
+    if (p1) q.push(["¿Pueden viajar sin nosotros?", esc(p1.texto) + " " + legSrc(p1)]);
+    const t = legItem("sal-tse-pedir"), s = legItem("sal-seguro-viaje");
+    q.push(["¿Y si se ponen enfermos?", [t && esc(t.texto) + " " + legSrc(t), s && esc(s.texto) + " " + legSrc(s)].filter(Boolean).join("<br>")]);
+    const rid = NIGHT.rule[norm(String(a.d.city || ""))], law = OCIO_LAW[a.d.country] || [];
+    const nightTxt = [rid ? `<b>${esc(ITEMS[rid].name)}:</b> ${groupWhy(evalItem(rid))}` : "", ...law.slice(0, 3).map(id => `<b>${esc(ITEMS[id].name)}:</b> ${STATUS[evalItem(id).s][2]}`)].filter(Boolean).join("<br>");
+    q.push(["¿Pueden salir de noche o beber alcohol?", nightTxt || "Para este destino no tenemos todavía las normas de noche: pendiente. Alcohol, nunca a menores de 18 en GoLiveIt."]);
+    q.push(["¿Quién reserva y paga?", "Vosotros. Los menores no pueden contratar, y aerolíneas y alojamientos piden que reserve y pague un adulto. En GoLiveIt la familia revisa, aprueba y paga."]);
+    q.push(["¿Qué hacemos si nos llaman con un problema?", "Mirad «Si algo falla» más abajo: emergencias, consulado y alojamientos alternativos que aceptan su edad."]);
+    return `<div class="box"><h3>Lo que suelen preguntar los padres</h3>${q.map(([h, b]) => `<details class="fam-faq"><summary>${h}</summary><p class="small">${b}</p></details>`).join("")}</div>`;
+  }
   function nightBox(a) {
     const k = norm(String(a.d.city || "")), rid = NIGHT.rule[k], vids = NIGHT.venues[k] || [];
     if (!rid && !vids.length) return "";

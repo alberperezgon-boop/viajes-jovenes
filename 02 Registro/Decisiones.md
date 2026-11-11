@@ -70,3 +70,9 @@ Cada decisión dice quién la tomó, con qué evidencia y qué la haría cambiar
 
 - **Decisión:** la pestaña Planes tiene el bloque «🌙 Noche: qué os dejan», con la norma de la región (Madrid, Andalucía, Cataluña, Comunitat Valenciana, Alemania, Países Bajos, Reino Unido, Francia, Italia, Portugal e Irlanda) y 14 normas de 13 locales con su edad publicada. Lo que no publica edad sale pendiente. Ver [[Ocio nocturno - edad por local]].
 - **Hallazgo:** con 16-17, las discotecas de las ciudades grandes son casi siempre de 18; lo abierto son conciertos, sesiones sin alcohol (Madrid, desde 14) y fiestas para adolescentes.
+
+## D-21. El modo padres usa el precio real y la familia reserva (modo test) (11/11/2026)
+
+- **Decisión:** el modo padres añade (1) un **resumen de un vistazo** (comprobado, con condiciones, pendiente), (2) **precio real del vuelo** con Duffel (la oferta más barata de una aerolínea que les deja volar a su edad) y **reserva en modo test pagada por la familia**, (3) un **calendario de papeles** con fechas reales del viaje (permiso de viaje entre 90 y 7 días antes, TSE, seguro, confirmación escrita, cartas y Registro de Viajeros, con fuentes) y (4) **lo que suelen preguntar los padres**, respondido con fuentes de la guía.
+- **Prueba:** Duffel aceptó en modo test las reservas de grupos de 16-17 (y mixtos con 15) sin un adulto en el vuelo. Ver [[Conector de vuelos en tiempo real]].
+- **Límite:** desde la demo nunca se reserva de verdad; en modo real, cada aerolínea decide con la fecha de nacimiento.

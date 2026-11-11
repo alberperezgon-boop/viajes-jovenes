@@ -117,3 +117,5 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 - **Pendiente:** que Alberto cree la cuenta de Duffel si quiere precios reales (pasos en [[Conector de vuelos en tiempo real]]); Q-29 a Q-31.
 
 - **Prueba con Duffel (test):** el conector funciona de punta a punta. Hallazgo: Duffel no deja buscar sin un adulto; para el precio, 16-17 se buscan como adulto (tarifa low cost). Ver [[Conector de vuelos en tiempo real]].
+
+- **Reserva de prueba con Duffel:** aceptadas 4 órdenes de test con grupos de menores pagadas por la familia (D-21). Modo padres mejorado: resumen, precio real y reserva de prueba, calendario de papeles y dudas de padres.
