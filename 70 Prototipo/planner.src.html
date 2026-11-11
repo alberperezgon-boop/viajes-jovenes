@@ -1038,7 +1038,9 @@ Reglas de extracción:
   }
   function flyTo(k) { if (!map) return; const d = DEST[k];
     if (state.mapMode === "offline" && d.verified && !flyTo.hinted) { flyTo.hinted = true; toast("El mapa simple no tiene calles. Pulsa «Calles» arriba para verlas (funciona abriendo el archivo HTML)."); } const a = d.verified ? analyse(k) : null;
-    if (a && a.score != null) { const pts = places(a).map(p => p.c); const b = pts.reduce((bb, p) => [[Math.min(bb[0][0], p[0]), Math.min(bb[0][1], p[1])], [Math.max(bb[1][0], p[0]), Math.max(bb[1][1], p[1])]], [pts[0], pts[0]]); map.fitBounds(b, { padding: { top: 70, bottom: 150, left: 60, right: 70 }, maxZoom: 13.5, speed: reduced() ? 4 : 1.1 }); }
+    const pts0 = a && a.score != null ? places(a).map(p => p.c).filter(c => Array.isArray(c) && c.length === 2) : [];
+    if (pts0.length === 1) pts0.push(d.c);
+    if (pts0.length) { const pts = pts0; const b = pts.reduce((bb, p) => [[Math.min(bb[0][0], p[0]), Math.min(bb[0][1], p[1])], [Math.max(bb[1][0], p[0]), Math.max(bb[1][1], p[1])]], [pts[0], pts[0]]); map.fitBounds(b, { padding: { top: 70, bottom: 150, left: 60, right: 70 }, maxZoom: 13.5, speed: reduced() ? 4 : 1.1 }); }
     else map.flyTo({ center: d.c, zoom: d.verified ? 11 : 6, speed: reduced() ? 4 : 1.1, essential: true }); }
   const EU_BOUNDS = [[-10.5, 35.5], [15.5, 54.5]];
   function flyEurope() { if (map) map.fitBounds(EU_BOUNDS, { padding: { top: 50, bottom: 90, left: 40, right: 60 }, speed: reduced() ? 4 : 1.2 }); }
@@ -1774,9 +1776,10 @@ Reglas de extracción:
       ITEMS[id] = { name: h.nombre, cat: "dormir", tipo: "checkin", src: id, link: h.web || null, rule: (m, g) => {
         if (m.age >= 18) return R("ok", OK18);
         if (h.unk) return R("unk", h.texto);
-        if (m.age >= h.minSolo) return R("req", h.texto, (h.reqs || []).map(t => /habitaci|separad/i.test(t) ? G(t) : F(t)));
+        const kind = t => /autoriz|permiso|padres|DNI|documento/i.test(t) ? F(t) : G(t);
+        if (m.age >= h.minSolo) return R("req", h.texto, (h.reqs || []).map(kind));
         const ad = adultOf(g, m);
-        if (ad && h.conAdulto) return R("req", "Con menos de " + h.minSolo + ", con un adulto. " + h.texto, [G("Ir " + con(ad)), ...(h.adultoReqs || []).map(t => G(t))]);
+        if (ad && h.conAdulto) return R("req", (h.minSolo >= 18 ? "Hace falta alguien de 18 en el grupo. " : "Con menos de " + h.minSolo + ", con alguien de 18. ") + h.texto, [G("Ir " + con(ad)), ...(h.adultoReqs || []).map(kind)]);
         if (h.conAdulto == null) return R("unk", "Para tu edad no lo dicen. " + h.texto);
         return R("no", h.texto);
       } };

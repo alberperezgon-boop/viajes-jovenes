@@ -4,12 +4,20 @@
   "pais": "España",
   "nombre": "Alberg Pere Tarrés",
   "web": "https://www.peretarres.org/es/hostel-barcelona",
-  "fuente": "Consulta por correo enviada el 11/11/2026",
+  "fuente": "Respuesta del albergue por correo, 11/11/2026",
   "url": "https://www.peretarres.org/es/hostel-barcelona",
   "consultado": "11/11/2026",
-  "unk": true,
-  "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
-  "etiqueta": "PENDIENTE"
+  "unk": null,
+  "texto": "Por correo: los menores necesitan autorización paterna y el mayor de edad del grupo se hace responsable. Recomiendan habitación «family» para no compartir con desconocidos. Puede reservar y pagar cualquiera del grupo.",
+  "etiqueta": "EQUIPO",
+  "reqs": [],
+  "adultoReqs": [
+   "Autorización de los padres de cada menor",
+   "El de 18 se hace responsable del grupo"
+  ],
+  "conAdulto": true,
+  "minSolo": 18,
+  "respuesta": "11/11/2026"
  },
  {
   "ciudad": "Barcelona",
@@ -40,36 +48,53 @@
   "pais": "España",
   "nombre": "Urban Youth Hostel",
   "web": "https://www.urbanyouthhostel.com/",
-  "fuente": "Consulta por correo enviada el 11/11/2026",
+  "fuente": "Respuesta del albergue por correo, 11/11/2026",
   "url": "https://www.urbanyouthhostel.com/",
   "consultado": "11/11/2026",
-  "unk": true,
-  "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
-  "etiqueta": "PENDIENTE"
+  "unk": null,
+  "texto": "Por correo: la edad mínima para alojarse es 18 años.",
+  "etiqueta": "EQUIPO",
+  "reqs": [],
+  "adultoReqs": [],
+  "conAdulto": false,
+  "minSolo": 18,
+  "respuesta": "11/11/2026"
  },
  {
   "ciudad": "Granada",
   "pais": "España",
   "nombre": "El Granado Hostel",
   "web": "https://www.elgranado.com/",
-  "fuente": "Consulta por correo enviada el 11/11/2026",
+  "fuente": "Respuesta del albergue por correo, 11/11/2026",
   "url": "https://www.elgranado.com/",
   "consultado": "11/11/2026",
-  "unk": true,
-  "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
-  "etiqueta": "PENDIENTE"
+  "unk": null,
+  "texto": "Por correo: sí, sin adultos y en habitación compartida, con una autorización escrita de los padres por cada menor (no tienen formulario). Sin normas especiales ni hora de vuelta.",
+  "etiqueta": "EQUIPO",
+  "reqs": [
+   "Autorización escrita de los padres (basta una frase firmada)"
+  ],
+  "adultoReqs": [],
+  "conAdulto": true,
+  "minSolo": 16,
+  "respuesta": "11/11/2026"
  },
  {
   "ciudad": "Málaga",
   "pais": "España",
   "nombre": "Feel Hostels City Center",
   "web": "http://www.feelhostels.com/",
-  "fuente": "Consulta por correo enviada el 11/11/2026",
+  "fuente": "Respuesta del albergue por correo, 11/11/2026",
   "url": "http://www.feelhostels.com/",
   "consultado": "11/11/2026",
-  "unk": true,
-  "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
-  "etiqueta": "PENDIENTE"
+  "unk": null,
+  "texto": "Por correo: con un grupo de menores (aunque uno tenga 18) solo aceptan si va un padre o un tutor (profesor).",
+  "etiqueta": "EQUIPO",
+  "reqs": [],
+  "adultoReqs": [],
+  "conAdulto": false,
+  "minSolo": 18,
+  "respuesta": "11/11/2026"
  },
  {
   "ciudad": "Lisboa",
@@ -124,19 +149,21 @@
   "pais": "Francia",
   "nombre": "MIJE Marais",
   "web": "https://www.mije.com/",
-  "fuente": "Web de MIJE Marais",
+  "fuente": "Respuesta del albergue por correo, 11/11/2026",
   "url": "https://www.mije.com/auberge-jeunesse-paris/cgv-indivs-paris",
   "consultado": "11/11/2026",
   "minSolo": 17,
   "reqs": [
-   "Autorización firmada de los padres y copia del DNI de uno de ellos"
+   "Autorización de los padres (carta con fechas y firma) y copia del DNI de uno de ellos"
   ],
   "conAdulto": true,
   "adultoReqs": [
-   "Habitación privada"
+   "Habitación privada con el de 16"
   ],
-  "texto": "Con 17, sin adulto con autorización firmada y copia del DNI de un progenitor; con menos de 17, con una persona mayor de edad y en habitación privada.",
-  "etiqueta": "OFICIAL-INDIRECTO"
+  "texto": "Por correo: con 17, sin adulto, con autorización de los padres y copia del DNI de uno. Con 16, hace falta alguien de 18 o más y habitación privada con él. Sin hora de vuelta (abierto 24 h).",
+  "etiqueta": "EQUIPO",
+  "unk": null,
+  "respuesta": "11/11/2026"
  },
  {
   "ciudad": "Roma",
@@ -155,12 +182,19 @@
   "pais": "Italia",
   "nombre": "Alessandro Palace & Bar",
   "web": "https://hostelsalessandro.com/",
-  "fuente": "Web de Alessandro Palace & Bar",
+  "fuente": "Respuesta del albergue por correo, 11/11/2026",
   "url": "https://hostelsalessandro.com/contacts-group-reservations-2/",
   "consultado": "11/11/2026",
-  "unk": true,
-  "texto": "Sin norma escrita: su formulario de grupos cuenta como «adultos» a los mayores de 16. Preguntado por correo el 11/11/2026.",
-  "etiqueta": "OFICIAL-INDIRECTO"
+  "unk": null,
+  "texto": "Por correo: vale si va alguien de 18, que es el responsable del grupo; así no piden autorización de los padres. Reserva el de 18 en su web. Abierto 24 h, sin hora de vuelta.",
+  "etiqueta": "EQUIPO",
+  "reqs": [],
+  "adultoReqs": [
+   "Reserva hecha por el de 18 en su web"
+  ],
+  "conAdulto": true,
+  "minSolo": 18,
+  "respuesta": "11/11/2026"
  },
  {
   "ciudad": "Florencia",
@@ -179,12 +213,19 @@
   "pais": "Italia",
   "nombre": "Ostello Tasso",
   "web": "https://ostellotasso.it/",
-  "fuente": "Consulta por correo enviada el 11/11/2026",
+  "fuente": "Respuesta del albergue por correo, 11/11/2026",
   "url": "https://ostellotasso.it/",
   "consultado": "11/11/2026",
-  "unk": true,
-  "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
-  "etiqueta": "PENDIENTE"
+  "unk": null,
+  "texto": "Por correo: los menores necesitan una autorización firmada («delega») y copia del documento de sus padres. Puede reservar cualquiera. No aclararon el tipo de habitación.",
+  "etiqueta": "EQUIPO",
+  "reqs": [
+   "Autorización firmada (delega) y copia del documento de los padres"
+  ],
+  "adultoReqs": [],
+  "conAdulto": true,
+  "minSolo": 16,
+  "respuesta": "11/11/2026"
  },
  {
   "ciudad": "Milán",
@@ -219,16 +260,19 @@
   "pais": "Alemania",
   "nombre": "Jugendherberge Berlin International",
   "web": "https://www.jugendherberge.de/en/youth-hostels/berlin-international/",
-  "fuente": "Web de Jugendherberge Berlin International",
+  "fuente": "Respuesta del albergue por correo, 11/11/2026",
   "url": "https://www.jugendherberge.de/en/you-have-got-questions-on-youth-hostels-we-give-you-the-answers/",
   "consultado": "11/11/2026",
   "minSolo": 14,
   "reqs": [
-   "Permiso de los padres"
+   "Permiso firmado de los padres (formulario DJH)"
   ],
   "conAdulto": true,
-  "texto": "Red DJH: desde 14 se puede viajar solo; hasta los 18, con permiso de los padres.",
-  "etiqueta": "OFICIAL-INDIRECTO"
+  "texto": "Por correo: todos los menores de 18 llevan el permiso firmado de los padres (formulario DJH). Recomiendan habitación privada. Reserva y paga cualquiera. Sin hora de vuelta.",
+  "etiqueta": "EQUIPO",
+  "unk": null,
+  "adultoReqs": [],
+  "respuesta": "11/11/2026"
  },
  {
   "ciudad": "Múnich",
@@ -252,12 +296,20 @@
   "pais": "Austria",
   "nombre": "Hostel Ruthensteiner",
   "web": "https://www.hostelruthensteiner.com/",
-  "fuente": "Web de Hostel Ruthensteiner",
+  "fuente": "Respuesta del albergue por correo, 11/11/2026",
   "url": "https://hostelruthensteiner.com/faq-frequently-asked-questions/",
   "consultado": "11/11/2026",
-  "unk": true,
-  "texto": "«Children» no pueden dormir en dormitorios compartidos, pero no dice hasta qué edad ni si aceptan menores sin padres.",
-  "etiqueta": "OFICIAL-INDIRECTO"
+  "unk": null,
+  "texto": "Por correo: los menores de 18 solo en habitación privada y con permiso firmado de los padres. Basta con que reserve el de 18. Sin hora de vuelta; en Austria no se puede beber alcohol de alta graduación hasta los 18.",
+  "etiqueta": "EQUIPO",
+  "reqs": [
+   "Habitación privada (no dormitorio compartido)",
+   "Permiso firmado de los padres (formulario del albergue)"
+  ],
+  "adultoReqs": [],
+  "conAdulto": true,
+  "minSolo": 16,
+  "respuesta": "11/11/2026"
  },
  {
   "ciudad": "Praga",
@@ -280,12 +332,19 @@
   "pais": "Hungría",
   "nombre": "Maverick Central Market",
   "web": "https://mavericklodges.com/",
-  "fuente": "Consulta por correo enviada el 11/11/2026",
+  "fuente": "Respuesta del albergue por correo, 11/11/2026",
   "url": "https://mavericklodges.com/",
   "consultado": "11/11/2026",
-  "unk": true,
-  "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
-  "etiqueta": "PENDIENTE"
+  "unk": null,
+  "texto": "Por correo: sí, sin adulto, con el formulario de permiso de los padres y copia del documento de quien firma, enviados antes de llegar. Habitación compartida o privada, como queráis. Puede reservar un menor. Sin hora de vuelta.",
+  "etiqueta": "EQUIPO",
+  "reqs": [
+   "Permiso de los padres y copia del DNI de quien firma, enviados antes de llegar"
+  ],
+  "adultoReqs": [],
+  "conAdulto": true,
+  "minSolo": 16,
+  "respuesta": "11/11/2026"
  },
  {
   "ciudad": "Atenas",
@@ -304,16 +363,19 @@
   "pais": "Polonia",
   "nombre": "Hostel Atlantis",
   "web": "https://www.atlantishostel.pl/",
-  "fuente": "Web de Hostel Atlantis",
+  "fuente": "Respuesta del albergue por correo, 11/11/2026",
   "url": "https://www.atlantishostel.pl/regulamin",
   "consultado": "11/11/2026",
-  "minSolo": 0,
+  "minSolo": 16,
   "reqs": [
-   "Consentimiento de los padres o tutores",
-   "Habitación privada (cambio de reserva con recargo)"
+   "Habitación privada (ni con un adulto se puede en compartida)",
+   "Permiso por escrito de los padres (formulario del albergue)"
   ],
   "conAdulto": true,
-  "texto": "Los menores que viajan sin su tutor legal necesitan consentimiento de los padres y deben pasar a habitación privada con recargo.",
-  "etiqueta": "OFICIAL-INDIRECTO"
+  "texto": "Por correo: con 16 y 17, solo habitación privada y con permiso escrito de los padres; aunque vaya alguien de 18, no pueden dormir en compartida. Reserva y paga un mayor de edad. Recepción 24 h, sin hora de vuelta.",
+  "etiqueta": "EQUIPO",
+  "unk": null,
+  "adultoReqs": [],
+  "respuesta": "11/11/2026"
  }
 ]

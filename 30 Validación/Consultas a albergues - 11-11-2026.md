@@ -13,30 +13,39 @@ relacionado: "[[Demo avanzada del compañero (ProyectoMinor)]], [[Competencia de
 
 | # | Ciudad | Alojamiento | Correo | Idioma | Norma publicada en su web | Respuesta |
 |---|---|---|---|---|---|---|
-| 1 | Barcelona | [Alberg Pere Tarrés](https://www.peretarres.org/es/hostel-barcelona) | alberg@peretarres.org | es | — | Pendiente |
+| 1 | Barcelona | [Alberg Pere Tarrés](https://www.peretarres.org/es/hostel-barcelona) | alberg@peretarres.org | es | — | **11/11 · Solo con alguien de 18.** Autorización de los padres de cada menor y el de 18 se responsabiliza. Recomiendan habitación «family». Reserva y paga cualquiera. |
 | 2 | Barcelona | [Alberg Barcelona Xanascat (Mare de Déu de Montserrat)](https://xanascat.gencat.cat/ca/albergs/albergs/Barcelona-Xanascat) | barcelona.xanascat@gencat.cat | es | — | Pendiente |
 | 3 | Madrid | [Albergue Juvenil San Fermín](https://www.san-fermin.org/albergue-juvenil) | albergue@san-fermin.org | es | — | Pendiente |
-| 4 | Valencia | [Urban Youth Hostel](https://www.urbanyouthhostel.com/) | info@urbanyouthhostel.com | es | — | Pendiente |
-| 5 | Granada | [El Granado Hostel](https://www.elgranado.com/) | info@elgranado.com | es | — | Pendiente |
-| 6 | Málaga | [Feel Hostels City Center](http://www.feelhostels.com/) | citycenter@feelhostels.com | es | — | Pendiente |
+| 4 | Valencia | [Urban Youth Hostel](https://www.urbanyouthhostel.com/) | info@urbanyouthhostel.com | es | — | **11/11 · No.** Edad mínima 18. |
+| 5 | Granada | [El Granado Hostel](https://www.elgranado.com/) | info@elgranado.com | es | — | **11/11 · Sí, sin adultos.** Autorización escrita de los padres (vale una frase firmada), habitación compartida, sin normas especiales. |
+| 6 | Málaga | [Feel Hostels City Center](http://www.feelhostels.com/) | citycenter@feelhostels.com | es | — | **11/11 · No.** Solo con padre, madre o tutor (profesor); no basta un amigo de 18. |
 | 7 | Lisboa | [Lisb'On Hostel](https://www.lisb-onhostel.com/) | reservations@lisb-onhostel.com | pt | — | Pendiente |
 | 8 | Lisboa | [Home Lisbon Hostel](https://www.homelisbonhostel.com/) | info@homelisbonhostel.com | pt | — | Pendiente |
 | 9 | Oporto | [Gallery Hostel](https://www.gallery-hostel.com/) | reservations@gallery-hostel.com | pt | — | Pendiente |
 | 10 | París | [BVJ Paris (Louvre / Opéra Montmartre)](https://www.bvjhostelparis.com/) | bvj@orange.fr | fr | — | Pendiente |
-| 11 | París | [MIJE Marais (Maison Internationale de la Jeunesse et des Étudiants)](https://www.mije.com/) | accueil@mije.com | fr | «CGV art. 7.3: «Les mineurs de moins de 17 ans ne peuvent séjourner dans les Auberges, sans être accompagnés d'une personne majeure» (en habitación privada); «Un» ([web](https://www.mije.com/auberge-jeunesse-paris/cgv-indivs-paris)) | Pendiente |
+| 11 | París | [MIJE Marais (Maison Internationale de la Jeunesse et des Étudiants)](https://www.mije.com/) | accueil@mije.com | fr | «CGV art. 7.3: «Les mineurs de moins de 17 ans ne peuvent séjourner dans les Auberges, sans être accompagnés d'une personne majeure» (en habitación privada); «Un» ([web](https://www.mije.com/auberge-jeunesse-paris/cgv-indivs-paris)) | **11/11 · Confirma la web.** Con 17, sin adulto con autorización (carta con fechas y firma) y copia del DNI de un progenitor. Con 16, alguien de 18 y habitación privada. Sin hora de vuelta. |
 | 12 | Roma | [The RomeHello](https://www.theromehello.com/) | groups@theromehello.com | it | — | Pendiente |
-| 13 | Roma | [Alessandro Palace & Bar (Hostels Alessandro)](https://hostelsalessandro.com/) | palace@hostelsalessandro.com | it | «Sin norma explícita; el formulario de grupos distingue «Adults (over 16 years)» y «Minors (under 16 years)».» ([web](https://hostelsalessandro.com/contacts-group-reservations-2/)) | Pendiente |
+| 13 | Roma | [Alessandro Palace & Bar (Hostels Alessandro)](https://hostelsalessandro.com/) | palace@hostelsalessandro.com | it | «Sin norma explícita; el formulario de grupos distingue «Adults (over 16 years)» y «Minors (under 16 years)».» ([web](https://hostelsalessandro.com/contacts-group-reservations-2/)) | **11/11 · Solo con alguien de 18**, que es el responsable; así no piden autorización. Reserva el de 18 en su web. Sin hora de vuelta. |
 | 14 | Florencia | [Hostel Archi Rossi](https://www.hostelarchirossi.com/) | ostelloarchirossi@hotmail.com | it | — | Pendiente |
-| 15 | Florencia | [Ostello Tasso](https://ostellotasso.it/) | info@ostellotasso.com | it | — | Pendiente |
+| 15 | Florencia | [Ostello Tasso](https://ostellotasso.it/) | info@ostellotasso.com | it | — | **11/11 · Sí, con papeles.** Autorización firmada («delega») y copia del documento de los padres. Reserva cualquiera. No dicen qué habitación. |
 | 16 | Milán | [Babila Hostel & Bistrot](https://www.babilahostel.it/) | info@babilahostel.it | it | — | Pendiente |
 | 17 | Berlín | [Pfefferbett Hostel](https://pfefferbett.de/) | info@pfefferbett.de | de | «FAQ «Ich bin noch nicht 18, was nun?»: «Kein Problem, aber bitte nur mit Einverständnis der Eltern!» (enlaza un formulario de autorización parental).» ([web](https://pfefferbett.de/wir-ueber-uns/faq/)) | Pendiente |
-| 18 | Berlín | [Jugendherberge Berlin International (DJH)](https://www.jugendherberge.de/en/youth-hostels/berlin-international/) | jh-berlin@jugendherberge.de | de | «FAQ de DJH: «Youngsters are not allowed to travel alone below the age of 14, and need their parents' consent up to the age of 18.»» ([web](https://www.jugendherberge.de/en/you-have-got-questions-on-youth-hostels-we-give-you-the-answers/)) | Pendiente |
+| 18 | Berlín | [Jugendherberge Berlin International (DJH)](https://www.jugendherberge.de/en/youth-hostels/berlin-international/) | jh-berlin@jugendherberge.de | de | «FAQ de DJH: «Youngsters are not allowed to travel alone below the age of 14, and need their parents' consent up to the age of 18.»» ([web](https://www.jugendherberge.de/en/you-have-got-questions-on-youth-hostels-we-give-you-the-answers/)) | **11/11 · Sí, con papeles.** Permiso firmado de los padres (formulario DJH adjunto). Recomiendan habitación privada. Sin hora de vuelta. |
 | 19 | Múnich | [Jugendherberge München City (DJH)](https://www.jugendherberge.de/jugendherbergen/muenchen-city/) | muenchen-city@by.jugendherberge.de | de | «FAQ de DJH: «Youngsters are not allowed to travel alone below the age of 14, and need their parents' consent up to the age of 18.» Las condiciones de DJH Bayern» ([web](https://www.jugendherberge.de/en/you-have-got-questions-on-youth-hostels-we-give-you-the-answers/)) | Pendiente |
-| 20 | Viena | [Hostel Ruthensteiner](https://www.hostelruthensteiner.com/) | info@hostelruthensteiner.com | de | ««Children are not allowed to stay in Dorm rooms but we offer a range of private rooms and apartments» (no aclara a qué edad deja de ser «child» ni habla de meno» ([web](https://hostelruthensteiner.com/faq-frequently-asked-questions/)) | Pendiente |
+| 20 | Viena | [Hostel Ruthensteiner](https://www.hostelruthensteiner.com/) | info@hostelruthensteiner.com | de | ««Children are not allowed to stay in Dorm rooms but we offer a range of private rooms and apartments» (no aclara a qué edad deja de ser «child» ni habla de meno» ([web](https://hostelruthensteiner.com/faq-frequently-asked-questions/)) | **11/11 · Sí, en privada.** Menores solo en habitación privada y con permiso firmado (formulario adjunto). Basta con que reserve el de 18. Recuerdan que en Austria no hay bebidas de alta graduación hasta los 18. |
 | 21 | Praga | [Sir Toby's Hostel](https://sirtobys.com/) | info@sirtobys.com | cs | ««Sir Toby's does not have any age limits [...] in our shared dormitory rooms we can only accept guests aged between 18-39 years old. If you do not meet this cri» ([web](https://sirtobys.com/st-hostel/faqs/)) | Pendiente |
-| 22 | Budapest | [Maverick Central Market](https://mavericklodges.com/) | centralmarket@mavericklodges.com | hu | — | Pendiente |
+| 22 | Budapest | [Maverick Central Market](https://mavericklodges.com/) | centralmarket@mavericklodges.com | hu | — | **11/11 · Sí, sin adulto.** Formulario de los padres y copia del documento de quien firma, enviados antes de llegar. Habitación a elegir. Puede reservar un menor. Sin hora de vuelta. |
 | 23 | Atenas | [Athens Studios](https://www.athensstudios.gr/) | info@athensstudios.gr | el | — | Pendiente |
-| 24 | Cracovia | [Hostel Atlantis](https://www.atlantishostel.pl/) | atlantis@atlantishostel.pl | pl | «Regulamin: los menores deben identificarse y, «jeśli podróżują samodzielnie – bez opiekuna prawnego – muszą posiadać Zgodę Rodzica/Opiekuna Prawnego»; si tienen» ([web](https://www.atlantishostel.pl/regulamin)) | Pendiente |
+| 24 | Cracovia | [Hostel Atlantis](https://www.atlantishostel.pl/) | atlantis@atlantishostel.pl | pl | «Regulamin: los menores deben identificarse y, «jeśli podróżują samodzielnie – bez opiekuna prawnego – muszą posiadać Zgodę Rodzica/Opiekuna Prawnego»; si tienen» ([web](https://www.atlantishostel.pl/regulamin)) | **11/11 · Sí, en privada.** 16-17 solo en habitación privada con permiso escrito (formulario adjunto); ni con un adulto en compartida. Reserva y paga un mayor de edad. |
+
+## Resumen de respuestas (11/11/2026, 11 de 24)
+
+- **Sin adulto:** El Granado (Granada), Maverick (Budapest), Ostello Tasso (Florencia), DJH Berlín, MIJE con 17 (París); **solo en privada:** Ruthensteiner (Viena) y Atlantis (Cracovia). Todos piden autorización de los padres; varios, copia del documento de quien firma.
+- **Solo si va alguien de 18:** Pere Tarrés (Barcelona) y Alessandro Palace (Roma). Es el caso de «el amigo de 18» que queríamos validar.
+- **No:** Urban Youth Hostel (Valencia, mínimo 18) y Feel Hostels (Málaga, solo con padre o tutor).
+- **Nadie pone hora de vuelta** para menores. Ninguno pidió que reservara un adulto salvo Atlantis y Alessandro.
+- Los formularios adjuntos (DJH, Ruthensteiner, Atlantis, Maverick) se quedan en el correo; no se suben al repositorio.
+- En la demo, cada norma lleva la etiqueta **EQUIPO (correo del albergue, 11/11/2026)**.
 
 ## Descartados antes de escribir (su web ya dice que exigen un adulto o no encajan)
 
