@@ -86,7 +86,7 @@ Se recomienda el **1** (es lo único que nadie hace) usando el **2** como argume
 
 ## Estado (11/11/2026)
 
-**Hechas en el Planner: 1, 2 y 3** (D-17). Siguiente: validar el 6 (modo padres) con padres antes de construirlo.
+**Hechas en el Planner: 1, 2 y 3** (D-17) **y 6, modo padres** (D-18). Siguiente: validar el modo padres con familias.
 
 ## Siguiente paso
 

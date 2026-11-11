@@ -38,7 +38,7 @@ relacionado: "[[Demo avanzada del compañero (ProyectoMinor)]], [[Competencia de
 | 23 | Atenas | [Athens Studios](https://www.athensstudios.gr/) | info@athensstudios.gr | el | — | Pendiente |
 | 24 | Cracovia | [Hostel Atlantis](https://www.atlantishostel.pl/) | atlantis@atlantishostel.pl | pl | «Regulamin: los menores deben identificarse y, «jeśli podróżują samodzielnie – bez opiekuna prawnego – muszą posiadać Zgodę Rodzica/Opiekuna Prawnego»; si tienen» ([web](https://www.atlantishostel.pl/regulamin)) | **11/11 · Sí, en privada.** 16-17 solo en habitación privada con permiso escrito (formulario adjunto); ni con un adulto en compartida. Reserva y paga un mayor de edad. |
 
-## Resumen de respuestas (11/11/2026, 11 de 24)
+## Resumen de respuestas (11/11/2026, 11 de 24; revisado de nuevo por la noche: sin respuestas nuevas)
 
 - **Sin adulto:** El Granado (Granada), Maverick (Budapest), Ostello Tasso (Florencia), DJH Berlín, MIJE con 17 (París); **solo en privada:** Ruthensteiner (Viena) y Atlantis (Cracovia). Todos piden autorización de los padres; varios, copia del documento de quien firma.
 - **Solo si va alguien de 18:** Pere Tarrés (Barcelona) y Alessandro Palace (Roma). Es el caso de «el amigo de 18» que queríamos validar.

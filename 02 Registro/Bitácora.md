@@ -105,3 +105,8 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 - **Hecho:** 11 de 24 albergues respondieron el mismo día; sus normas están en el Planner con la etiqueta EQUIPO ([[Consultas a albergues - 11-11-2026]]). Análisis de 3.528 reseñas de la competencia con la skill replica-entrepreneur ([[fixes|Grietas de la competencia]]): nadie atiende a menores; lo que más odian es el engaño en el precio y los reembolsos. Construidas las mejoras F-01 a F-03 (D-17) e integrada la investigación de entrada, ocio y aerolíneas: **26 destinos posibles** para 4 personas de 17 desde Sevilla.
 - **Arreglado:** el mapa fallaba al abrir un destino sin puntos (Granada, Múnich).
 - **Pendiente:** 13 albergues sin respuesta (revisión programada el 13/11 a las 18:00); entrada a Hungría, Grecia y Chequia; tasa turística por ciudad.
+
+## 2026-11-11 (noche). Modo padres
+
+- **Hecho:** modo padres en el Planner (D-18), probado con el enlace de la familia y en un navegador limpio sin errores. Revisado el correo: **no hay respuestas nuevas** de albergues (siguen 11 de 24; la última, Ostello Tasso a las 18:18).
+- **Pendiente:** validar el modo padres con familias; revisión programada de respuestas el 13/11 a las 18:00.

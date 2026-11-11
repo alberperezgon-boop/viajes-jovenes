@@ -393,6 +393,14 @@ dialog.sheet { overflow-x: hidden; }
 .pot { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
 .pot label { display: grid; gap: 3px; font-weight: 700; }
 #wz-go { font-size: 1rem; padding: 12px 18px; box-shadow: 0 10px 22px -10px var(--pop); }
+/* Modo padres (F-06) */
+.fam-btn { justify-self: start; }
+.fam-sum { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.fam-sum > div { display: grid; gap: 2px; padding: 10px 12px; border-radius: 12px; background: var(--surface-2); }
+.fam-sum b { font-size: 1.05rem; }
+.fam-row { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: start; padding: 8px 0; border-top: 1px solid var(--line); }
+.fam-row:first-of-type { border-top: 0; }
+@media (max-width: 560px) { .fam-sum { grid-template-columns: 1fr; } }
 /* Mejoras F-01..F-03 */
 .direct { display: inline-block; margin-left: 6px; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 999px; background: var(--ok-soft); color: var(--ok); vertical-align: middle; }
 .extras { display: grid; gap: 6px; padding: 10px 12px; border-radius: 12px; background: var(--surface-2); margin-top: 6px; }
@@ -1168,7 +1176,7 @@ Reglas de extracción:
     else if (state.tab === "papeles") body = docsBlock(a) + legalList(a.d.country);
     else body = budgetBox(a) + piggyBox(a) + `<div class="box"><h3>¿Cómo se calcula?</h3><p class="small">Es <strong>por persona</strong>: el vuelo de ida y vuelta, las noches de alojamiento y unos gastos al día para comer, moverse y hacer planes. Si elegís un vuelo o un alojamiento, se usa ese; si no, el más barato que os deja vuestra edad. Para ver precios de verdad, usad los enlaces a Kayak y Booking.</p></div>`;
     $("#results").innerHTML = `<div style="display:grid;gap:12px"><button type="button" class="btn ghost sm" data-back style="justify-self:start">← Volver a los destinos</button>${head}
-      ${a.score != null ? `<div class="tabs" role="tablist">${tabs.map(([t, l]) => `<button type="button" role="tab" data-tab="${t}" aria-selected="${state.tab === t}">${l}</button>`).join("")}</div>` : ""}<div style="display:grid;gap:12px">${body}</div>${a.score != null ? cartBar(a) : ""}</div>`;
+      ${a.score != null ? `<div class="tabs" role="tablist">${tabs.map(([t, l]) => `<button type="button" role="tab" data-tab="${t}" aria-selected="${state.tab === t}">${l}</button>`).join("")}</div>` : ""}${a.score != null ? `<button type="button" class="btn sm fam-btn" data-open="family">👪 Modo padres: lo que verá tu familia</button>` : ""}<div style="display:grid;gap:12px">${body}</div>${a.score != null ? cartBar(a) : ""}</div>`;
   }
   /* ---------- Sitios en el mapa y pestaña «Todo»: la oferta recomendada para vuestra edad ---------- */
   function places(a) {
@@ -1367,7 +1375,7 @@ Reglas de extracción:
   }
   /* ---------- F-01 · Kit de papeles: carta de autorización de los padres según lo que pide cada sitio ---------- */
   function stayCtx(id) {
-    const a = analyse(state.sel), x = a.stays.find(y => y.s === id); if (!x) return null;
+    const a = state.sel ? analyse(state.sel) : tripDest(); if (!a || !a.stays) return null; const x = a.stays.find(y => y.s === id); if (!x) return null;
     const it = ITEMS[id], nights = Math.max(1, state.days - 1), d1 = state.date, d2 = addDays(state.date, nights);
     const reqs = new Map(); x.e.per.forEach(p => p.r.reqs.forEach(q => reqs.set(q.t, q.who)));
     return { a, x, it, nights, d1, d2, reqs: [...reqs], minors: state.group.filter(m => m.age < 18), adults: state.group.filter(m => m.age >= 18) };
@@ -1447,6 +1455,106 @@ Reglas de extracción:
     $("#sheet-in").dataset.ask = id;
     const dlg = $("#sheet"); if (!dlg.open) dlg.showModal();
   }
+  /* ---------- F-06 · Modo padres: lo que ve la familia antes de aprobar (solo lectura) ---------- */
+  const EXT_TRC = { PT: "Portugal", FR: "Francia", IT: "Italia", DE: "Alemania", UK: "Reino Unido", NL: "Paises Bajos", IE: "Irlanda", AT: "Austria", HU: "Hungria", GR: "Grecia", PL: "Polonia", CZ: "Republica Checa", LU: "Luxemburgo" };
+  const extUrl = c => EXT_TRC[c] ? "https://www.exteriores.gob.es/es/ServiciosAlCiudadano/Paginas/Detalle-recomendaciones-de-viaje.aspx?trc=" + encodeURIComponent(EXT_TRC[c]) : null;
+  const b64u = s => btoa(unescape(encodeURIComponent(s))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  const unb64u = s => { const t = s.replace(/-/g, "+").replace(/_/g, "/"); return decodeURIComponent(escape(atob(t + "=".repeat((4 - t.length % 4) % 4)))); };
+  // El enlace solo lleva edades y elecciones: nunca nombres ni datos personales
+  function familyLink(a) {
+    const { fl, st } = cartSel(a), m = money(a);
+    const p = { v: 1, k: a.k, d: state.date, n: state.days, o: state.origin, ag: state.group.map(x => x.age), fl: flKey(fl || m.fl), st: (st || m.st).s, b: state.budget };
+    let framed = true; try { framed = window.self !== window.top; } catch (e) { framed = true; }
+    const base = /^https?:$/.test(location.protocol) && !framed ? location.href.split("#")[0] : ""; // dentro del artefacto (marco) no hay enlace útil para los padres
+    return base ? base + "#familia=" + b64u(JSON.stringify(p)) : "";
+  }
+  function readFamilyHash() {
+    const mt = /#familia=([A-Za-z0-9_-]+)/.exec(location.hash || ""); if (!mt) return null;
+    try { const p = JSON.parse(unb64u(mt[1])); return p && p.v === 1 && DEST[p.k] && Array.isArray(p.ag) && p.ag.length && p.ag.length <= 6 ? p : null; } catch (e) { return null; }
+  }
+  function applyFamily(p) {
+    const ages = p.ag.map(x => Math.max(10, Math.min(25, Math.round(+x) || 17)));
+    me.age = ages[0];
+    state.group = [me, ...ages.slice(1).map((age, i) => ({ id: i + 2, name: "Persona " + (i + 2), age, nat: "ES", likes: new Set(["joven"]) }))];
+    state.nextId = state.group.length + 1;
+    if (ORIGINS[p.o]) state.origin = p.o; state.city = null;
+    if (/^\d{4}-\d{2}-\d{2}$/.test(p.d || "")) state.date = p.d;
+    state.days = Math.max(2, Math.min(7, +p.n || 4)); state.budget = Math.max(100, Math.min(700, +p.b || 250));
+    state.sel = p.k; state.tab = "todo"; state.cart = { k: p.k, fl: typeof p.fl === "string" ? p.fl : null, st: typeof p.st === "string" ? p.st : null };
+    state.family = true; state.famOk = false;
+  }
+  function familyText(a) {
+    const m = money(a), back = addDays(state.date, m.nights), link = familyLink(a);
+    const fam = checklist(a).filter(i => i.who === "familia").map(i => "• " + i.t);
+    return [`👪 Viaje a ${a.d.city} para que lo reviséis (GoLiveIt · demo)`,
+      `📅 ${dmy(state.date)} – ${dmy(back)} · ${pl(state.group.length, "persona", "personas")} de ${[...new Set(state.group.map(x => x.age))].join(" y ")} años`,
+      `${m.fl.mode === "bus" ? "🚌" : "🛫"} ${ITEMS[m.fl.a].name} · 🛏 ${ITEMS[m.st.s].name}`,
+      `💶 Unos ${eur(m.total)} por persona (orientativo)`,
+      fam.length ? "📄 Lo que tenéis que hacer vosotros:\n" + fam.join("\n") : "",
+      link ? "Vedlo aquí, con las normas y sus fuentes (solo lectura): " + link : "Os lo enseño en GoLiveIt: normas de cada sitio con su fuente."].filter(Boolean).join("\n");
+  }
+  const FAM_LBL = { ok: "Pueden", req: "Pueden, con condiciones", unk: "Sin confirmar", no: "No pueden" };
+  function famRow(e, title, extra) {
+    return `<div class="fam-row">${pill(e.s, FAM_LBL[e.s])}<div><strong>${title}</strong><p class="small">${groupWhy(e)}</p>${extra || ""}${srcLine(e.it.src)}</div></div>`;
+  }
+  function openFamily() {
+    const a = state.sel && DEST[state.sel].verified && analyse(state.sel).score != null ? analyse(state.sel) : tripDest();
+    if (!a) { toast("Elegid primero un destino que os salga."); return; }
+    const m = money(a), fl = m.fl, st = m.st, back = addDays(state.date, m.nights), n = state.group.length;
+    const minors = state.group.filter(x => x.age < 18), adults = state.group.filter(x => x.age >= 18);
+    const ss = SRC[ITEMS[st.s].src] || {}, asked = ss.tag === "EQUIPO" && /correo/i.test(ss.label || "");
+    const docs = []; const seen = new Set(); state.group.forEach(p => countryDocs(p, a.d.country).forEach(d => { if (!seen.has(d.t)) { seen.add(d.t); docs.push(d); } }));
+    const fam = checklist(a).filter(i => i.who === "familia");
+    const unkPlans = ocioEval(a.k).filter(x => x.e.s === "unk").length, unkDocs = docs.filter(d => d.s === "unk");
+    const alt = a.stays.filter(x => visible(x.e.s) && x.s !== st.s).slice(0, 2);
+    const leg = id => (LEGAL.items || []).find(i => i.id === id && (i.paises.includes("TODOS") || i.paises.includes(a.d.country)));
+    const legLink = (id, t) => { const i = leg(id); return i ? `<a href="${esc(i.url)}" target="_blank" rel="noopener">${esc(t || i.titulo)}</a> <span class="tipo">${esc(tagTxt(i.etiqueta))}</span>` : ""; };
+    const sosNum = a.d.country === "UK" ? "999 (o 112)" : "112";
+    const kidSide = !state.family;
+    $("#sheet-in").innerHTML = `<div class="sheet-head"><div><p class="eyebrow">Modo padres · solo lectura</p><h2 id="sheet-title">${esc(a.d.city)}, del ${dmy(state.date)} al ${dmy(back)}</h2></div><button type="button" class="icon-btn" data-close aria-label="Cerrar">×</button></div>
+      <p class="demo-banner">${state.family ? "Estáis viendo el viaje que os han enviado. " : "Esto es lo que verá tu familia. "}Es una demo: no se reserva ni se paga nada.</p>
+      ${state.famOk ? `<div class="done ok"><span class="done-ic">✅</span><div><h3>Viaje aprobado por la familia (simulado)</h3><p class="small">Lo siguiente es pagar con la cuenta de un adulto.</p></div></div>` : ""}
+      <div id="fam-print" style="display:grid;gap:12px">
+      <div class="fam-sum"><div><span class="eyebrow">Quién va</span><b>${pl(n, "persona", "personas")}</b><span class="small">${minors.length ? minors.length + " de " + [...new Set(minors.map(x => x.age))].join(" y ") + " años" : ""}${adults.length ? (minors.length ? " y " : "") + adults.length + " de 18 o más" : ""}</span></div>
+        <div><span class="eyebrow">Desde</span><b>${esc(originName())}</b><span class="small">${m.fl.mode === "bus" ? "en bus" : "en avión"}</span></div>
+        <div><span class="eyebrow">Por persona</span><b>${eur(m.total)}</b><span class="small">${eur(m.total * n)} entre todos · orientativo</span></div></div>
+      <div class="box"><h3>Lo que hemos comprobado para su edad</h3>
+        ${famRow(fl.e, `${fl.mode === "bus" ? "🚌" : "✈"} ${esc(ITEMS[fl.a].name)} · ${fl.dir ? "directo" : "con escala"}`, fl.mode !== "bus" && minors.length ? '<p class="small muted">GoLiveIt nunca propone transbordos por cuenta propia con menores.</p>' : "")}
+        ${famRow(st.e, `🛏 ${esc(ITEMS[st.s].name)}`, (asked ? `<p class="small"><b>El equipo de GoLiveIt lo consultó por correo</b> (mirad la fuente debajo). Aun así, que os lo confirmen por escrito para vuestras fechas.</p>` : "") + (ITEMS[st.s].link ? `<p class="small"><a href="${esc(ITEMS[st.s].link)}" target="_blank" rel="noopener">Web del alojamiento ↗</a>${ITEMS[st.s].email ? " · " + esc(ITEMS[st.s].email) : ""}</p>` : ""))}
+        ${docs.map(d => `<div class="fam-row">${pill(d.s, FAM_LBL[d.s])}<div><strong>📄 ${esc(d.t)}</strong><p class="small">${esc(d.d)}</p>${SRC[d.src] ? srcLine(d.src) : ""}</div></div>`).join("")}</div>
+      <div class="box"><h3>Lo que tenéis que hacer vosotros</h3>
+        ${fam.length ? `<ul class="why">${fam.map(i => `<li>${esc(i.t)}${i.extra ? ` <span class="small muted">· ${esc(i.extra)}</span>` : ""}</li>`).join("")}</ul>` : '<p class="small">Nada especial para su edad en este viaje.</p>'}
+        ${minors.length ? `<button type="button" class="btn sm" data-kit="${st.s}">📄 Cartas de autorización para ${esc(ITEMS[st.s].name)}</button>` : ""}
+        <p class="small muted">Pagar también os toca a vosotros: los menores no pueden contratar, y aerolíneas y alojamientos piden que reserve un adulto.</p></div>
+      <div class="box"><h3>Lo que todavía no sabemos</h3><ul class="why">
+        <li>Tasa turística de ${esc(a.d.city)} y si los menores la pagan: <b>pendiente</b>.</li>
+        ${unkPlans ? `<li>${pl(unkPlans, "plan", "planes")} sin confirmar si dejan entrar a menores sin un adulto (salen marcados en la app).</li>` : ""}
+        ${unkDocs.map(d => `<li>${esc(d.t)}: <b>pendiente</b>.</li>`).join("")}
+        <li>Los precios son de ejemplo hasta que se reserve.</li></ul>
+        <p class="small muted">Regla de GoLiveIt: lo que no está verificado sale como pendiente, nunca como permitido.</p></div>
+      <div class="box"><h3>Si algo falla</h3><ul class="why">
+        <li><b>Emergencias: ${sosNum}</b>. ${legLink("eme-112-999", "Fuente")}</li>
+        <li>Consulado de España: ${extUrl(a.d.country) ? `<a href="${extUrl(a.d.country)}" target="_blank" rel="noopener">teléfono de emergencia y recomendaciones de Exteriores para ${esc(a.d.cname)} ↗</a>` : "dentro de España no hace falta."}</li>
+        ${a.d.country !== "ES" ? `<li>${legLink("eme-registro-viajeros") || `<a href="https://registroviajeros.exteriores.gob.es/" target="_blank" rel="noopener">Registro de Viajeros de Exteriores ↗</a>`}: así el consulado sabe que están allí.</li>` : ""}
+        ${leg("sal-seguro-viaje") ? `<li>${legLink("sal-seguro-viaje")}</li>` : ""}
+        ${leg("eme-rechazo-embarque") ? `<li>Si no les dejan embarcar: ${legLink("eme-rechazo-embarque", "qué derechos tienen")}</li>` : ""}
+        <li>Si en el alojamiento no les dejan entrar: ${alt.length ? `otros que aceptan su edad en ${esc(a.d.city)}: ${alt.map(x => `<b>${esc(ITEMS[x.s].name)}</b> (${STATUS[x.e.s][2].toLowerCase()})`).join(", ")}.` : "no tenemos otro verificado en esta ciudad; que llamen a casa y busquen juntos."}</li></ul></div>
+      <div class="box"><span class="tipo">Consejo GoLiveIt · no es una norma</span><h3>Acuerdos que suelen funcionar</h3><ul class="why">
+        <li>Un mensaje al llegar al alojamiento y otro cada noche.</li><li>Hora de vuelta pactada entre vosotros antes de salir.</li>
+        <li>Ubicación compartida solo si lo pactáis: no viene activada.</li><li>La respuesta del alojamiento y las cartas, impresas y en el móvil.</li></ul></div>
+      </div>
+      ${state.famOk ? `<button type="button" class="btn pop block" id="fam-pay">Ir a pagar (simulado)</button>` : `<div class="row" style="gap:8px"><button type="button" class="btn pop" id="fam-ok">✅ Aprobamos el viaje (demo)</button><a class="btn" href="https://wa.me/?text=${encodeURIComponent("Hemos visto el viaje a " + a.d.city + " en GoLiveIt y tenemos dudas sobre: ")}" target="_blank" rel="noopener">💬 Tenemos dudas</a><button type="button" class="btn ghost" id="fam-print-btn">🖨 Imprimir</button></div>`}
+      ${kidSide ? `<div class="box"><h3>Enviar a tu familia</h3><p class="small muted">Se abre WhatsApp o tu correo con el resumen${familyLink(a) ? " y un enlace a esta vista. El enlace solo lleva edades y lo elegido, nunca nombres" : ". En este archivo no hay enlace: mándales el resumen o enséñales esta pantalla"}.</p><pre class="share-txt">${esc(familyText(a))}</pre>
+        <div class="row"><a class="btn pop sm" href="https://wa.me/?text=${encodeURIComponent(familyText(a))}" target="_blank" rel="noopener">WhatsApp ↗</a><a class="btn sm" href="mailto:?subject=${encodeURIComponent("Viaje a " + a.d.city + " para que lo reviséis")}&body=${encodeURIComponent(familyText(a))}">Correo</a><button type="button" class="btn ghost sm" id="fam-copy">Copiar</button><span class="small muted" id="fam-msg" aria-live="polite"></span></div></div>` : ""}`;
+    $("#sheet-in").dataset.fam = a.k;
+    const dlg = $("#sheet"); if (!dlg.open) dlg.showModal();
+  }
+  function printFamily() {
+    const html = ($("#fam-print") || {}).innerHTML; if (!html) return;
+    const fr = document.createElement("iframe"); fr.style.cssText = "position:fixed;width:0;height:0;border:0;right:0;bottom:0"; document.body.appendChild(fr);
+    const doc = fr.contentDocument; doc.open(); doc.write(`<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Viaje para la familia</title><style>body{font:13px/1.5 system-ui,sans-serif;color:#000;margin:20px;max-width:760px}h3{font-size:15px;margin:14px 0 4px}.box{border:1px solid #ccc;border-radius:8px;padding:8px 12px;margin:8px 0}.fam-row{display:flex;gap:8px;margin:6px 0}.fam-sum{display:flex;gap:24px}.fam-sum>div{display:grid}.status{font-weight:700}a{color:#000}button{display:none}</style></head><body><h2>${esc($("#sheet-title").textContent)}</h2>${html}</body></html>`); doc.close();
+    setTimeout(() => { try { fr.contentWindow.focus(); fr.contentWindow.print(); } catch (e) { toast("No se pudo abrir la impresión."); } setTimeout(() => fr.remove(), 1500); }, 200);
+  }
   function cartBar(a) {
     const { fl, st } = cartSel(a), n = state.group.length, nights = Math.max(1, state.days - 1);
     const total = (fl ? fl.p * n : 0) + (st ? st.p * nights * n : 0);
@@ -1476,6 +1584,7 @@ Reglas de extracción:
         <div class="box"><h3>Antes de pagar, confirmad esto</h3><p class="small muted">Sale de las normas de la aerolínea, el alojamiento y el país para vuestra edad.</p>
           ${conds.length ? conds.map(c => `<label class="co-check"><input type="checkbox" data-co="${c.id}"${co.checks.has(c.id) ? " checked" : ""}> <span>${esc(c.t)} <span class="pill who">${c.who}</span></span></label>`).join("") : '<p class="small">Con vuestra edad no hay condiciones extra.</p>'}</div>
         <div class="box"><h3>¿Quién paga?</h3><p class="small">${state.group.some(p => p.age >= 18) ? `En el grupo va alguien de 18 o más (${state.group.filter(p => p.age >= 18).map(p => esc(p.name)).join(", ")}): puede reservar y pagar esa persona, o vuestras familias. Los menores no pueden contratar.` : "Con menos de 18 no podéis contratar ni pagar vosotros: aerolíneas y alojamientos piden que reserve y pague una persona adulta. La reserva se manda a tu familia para que la revise y la pague."}</p></div>
+        <button type="button" class="btn ghost sm" data-open="family" style="justify-self:start">👪 Ver lo que verá tu familia</button>
         <button type="button" class="btn pop block" id="co-send"${allChecked ? "" : " disabled"}>Enviar a mi familia para que apruebe y pague</button>
         ${allChecked ? "" : '<p class="small muted">Marca todas las condiciones para seguir.</p>'}`;
     } else if (co.step === 2) {
@@ -1587,7 +1696,7 @@ Reglas de extracción:
   /* ===== Guardar el plan en este navegador (sin datos personales: solo edades y elecciones) ===== */
   const STORE = "goliveit-planner-v1";
   function save() {
-    if (!state.touched) return;
+    if (!state.touched || state.family) return;
     try { localStorage.setItem(STORE, JSON.stringify({ v: 1, group: state.group.map(m => ({ id: m.id, name: m.name, age: m.age, nat: m.nat, likes: [...m.likes], me: !!m.me })), origin: state.origin, city: state.city, days: state.days, date: state.date, budget: state.budget, cart: state.cart, checks: [...state.checks], pot: state.pot })); } catch (e) { /* sin almacenamiento */ }
   }
   function load() {
@@ -1654,7 +1763,7 @@ Reglas de extracción:
       <div class="trip-top">${budgetBox(a)}<div style="display:grid;gap:12px;align-content:start">${piggyBox(a)}${potBox(a)}
         <div class="box"><h3>Compartir el plan</h3><p class="small muted">Con tu grupo o con tu familia. No se envía nada solo: se abre WhatsApp o tu correo con el texto.</p>
           <pre class="share-txt">${esc(txt)}</pre>
-          <div class="row"><a class="btn pop sm" href="https://wa.me/?text=${encodeURIComponent(txt)}" target="_blank" rel="noopener">WhatsApp ↗</a><a class="btn sm" href="mailto:?subject=${encodeURIComponent("Nuestro viaje a " + a.d.city)}&body=${encodeURIComponent(txt)}">Correo</a><button type="button" class="btn ghost sm" id="share-copy">Copiar</button><span class="small muted" id="share-msg" aria-live="polite"></span></div></div></div></div>
+          <div class="row"><a class="btn pop sm" href="https://wa.me/?text=${encodeURIComponent(txt)}" target="_blank" rel="noopener">WhatsApp ↗</a><a class="btn sm" href="mailto:?subject=${encodeURIComponent("Nuestro viaje a " + a.d.city)}&body=${encodeURIComponent(txt)}">Correo</a><button type="button" class="btn ghost sm" id="share-copy">Copiar</button><button type="button" class="btn sm" data-open="family">👪 Modo padres</button><span class="small muted" id="share-msg" aria-live="polite"></span></div></div></div></div>
       <div class="box"><div class="row between"><h3>Checklist antes de irte</h3><strong>${pr.done} de ${pr.total}</strong></div><div class="pbar"><i style="width:${pc}%"></i></div>
         ${Object.keys(GRP).map(g => { const its = list.filter(i => i.grp === g); return its.length ? `<h4 class="ck-h">${GRP[g]}</h4>${its.map(i => `<label class="co-check"><input type="checkbox" data-ck="${esc(i.id)}"${state.checks.has(i.id) ? " checked" : ""}> <span>${esc(i.t)} <span class="pill who">${i.who}</span>${i.extra ? `<br><span class="small muted">${esc(i.extra)}</span>` : ""}</span></label>`).join("")}` : ""; }).join("")}
         <p class="small muted">Lo de «familia» lo tiene que hacer tu madre, tu padre o tu tutor. Más detalle en «Papeleo y posibles líos».</p></div>
@@ -1696,6 +1805,11 @@ Reglas de extracción:
     else if (d.pickSt) { state.cart = { ...state.cart, k: state.sel, st: state.cart.st === d.pickSt ? null : d.pickSt }; renderResults(); }
     else if (d.date && t.classList.contains("cal-d")) { state.date = d.date; update(); }
     else if (d.flsort) { state.flSort = d.flsort; renderResults(); }
+    else if (d.open === "family") openFamily();
+    else if (t.id === "fam-ok") { state.famOk = true; openFamily(); }
+    else if (t.id === "fam-print-btn") printFamily();
+    else if (t.id === "fam-pay") { const k = $("#sheet-in").dataset.fam, a = k && analyse(k); if (!a) return; const m = money(a); state.sel = k; state.cart = { k, fl: flKey(m.fl), st: m.st.s }; state.co = { step: 3, checks: new Set() }; update(); openCheckout(); }
+    else if (t.id === "fam-copy") { const k = $("#sheet-in").dataset.fam, a = k && analyse(k); if (!a) return; const msg = x => { const el = $("#fam-msg"); if (el) el.textContent = x; }; try { navigator.clipboard.writeText(familyText(a)).then(() => msg("Copiado."), () => msg("No se pudo copiar.")); } catch (e) { msg("No se pudo copiar."); } }
     else if (d.kit) openKit(d.kit);
     else if (d.ask) openAsk(d.ask);
     else if (t.id === "kit-print") printLetters();
@@ -1938,7 +2052,9 @@ Reglas de extracción:
     Object.values(DEST).forEach(d => { if (d.team && !d.verified && known(d.country)) d.verified = true; });
   })();
   $("#cities-dl").innerHTML = CITIES_ES.map(c => `<option value="${esc(c[0])}"></option>`).join("");
-  const hadSaved = load();
+  const famP = readFamilyHash();
+  const hadSaved = famP ? false : load();
+  if (famP) applyFamily(famP);
   if (!hadSaved) { state.parsed = parseQuery($("#nl").value); state.parsed.via = "reglas"; }
   initMap();
   update(true);
@@ -1950,6 +2066,7 @@ Reglas de extracción:
   if (hadSaved) { $("#cover-resume").hidden = false; $("#cover-resume").addEventListener("click", () => { closeCover(); }); $("#cover-go").textContent = "Cambiar grupo y planes"; }
   setTimeout(() => { try { $("#cover-go").focus({ preventScroll: true }); } catch (e) { /* nada */ } }, 50);
   animateArcs();
+  if (famP) { closeCover(); setTimeout(() => { flyTo(famP.k); openFamily(); }, 300); }
 })();
 </script>
 

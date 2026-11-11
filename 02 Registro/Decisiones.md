@@ -52,3 +52,10 @@ Cada decisión dice quién la tomó, con qué evidencia y qué la haría cambiar
 - **Normas de alcohol y horarios del país:** van en un recuadro aparte de la pestaña Planes («no son planes»), con lenguaje neutro. No se presentan como algo que hacer.
 - **No se escribe a las aerolíneas por ahora:** la investigación ya resuelve las dudas de edad (Ryanair, Transavia, easyJet, Wizz Air) y Alberto pidió no salirnos de la línea del proyecto.
 - **Por qué:** 10 de los 11 albergues que respondieron piden autorización de los padres, y la queja más repetida de la competencia es el engaño en el precio y los intermediarios (352 reseñas).
+
+## D-18. Modo padres: la familia ve el viaje antes de aprobarlo (11/11/2026)
+
+- **Decisión:** el Planner tiene una vista **solo lectura** para la familia (botón «Modo padres» en cada destino, en «Mi viaje» y en la pantalla de pago). Enseña quién va y desde dónde, el precio orientativo, lo comprobado para su edad (transporte, alojamiento y papeles de entrada, cada uno con su fuente y etiqueta, y si el equipo consultó el alojamiento por correo), lo que tiene que hacer la familia (con las cartas de autorización), **lo que todavía no sabemos** y un **plan B** (112/999, consulado vía Exteriores, Registro de Viajeros, seguro, derechos si no les dejan embarcar y otros alojamientos que aceptan su edad). Termina con «Aprobamos» (pago simulado) o «Tenemos dudas».
+- **Enlace para la familia:** `#familia=` con edades, fechas, destino y elecciones; **nunca nombres**. Abre directamente la vista y no pisa el plan guardado en ese navegador. Dentro del artefacto de claude.ai no se genera enlace (la página va en un marco); funcionará cuando el HTML esté en una web.
+- **Por qué:** los padres pagan, firman y deciden (D-13); las grietas de la competencia muestran que nadie se dirige a ellos ([[fixes|Grietas de la competencia]], punto 6). Sigue en la línea del proyecto: viajar sin adultos, con la familia informada.
+- **Pendiente:** validarlo con padres (encuesta F o entrevistas) antes de darle más peso.
