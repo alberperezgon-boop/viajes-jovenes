@@ -41,6 +41,10 @@ El archivo para compartir pesa ~1,1 MB (lleva las cinco fotos dentro) y necesita
 | Enlaces a Kayak por aerolínea | **Real**: abre Kayak con ruta, fechas, número de viajeros, la aerolínea filtrada y orden por precio. Solo para aerolíneas que dejan volar a vuestra edad | Sí, el 08/11/2026 (SVQ → LIS, Vueling: solo salieron vuelos con escala y algunos con transbordo por cuenta propia) |
 | Comparador de normativa por aerolínea | **Real**: escala de edades de cada aerolínea (desde qué edad se vuela solo y con qué condiciones), con las edades del grupo encima y la fuente | Sí |
 | Enlaces a Booking.com (albergues, apartamentos, hoteles) | **Real**: abre la búsqueda de Booking con destino, fechas, número de personas, tipo de alojamiento y orden por precio. Solo sale el tipo que acepta vuestra edad según nuestras reglas. Las ofertas no se copian a la página (no hay API abierta ni se permite el scraping) | Sí, el 08/11/2026 (filtros 203 = albergues, 201 = apartamentos, 204 = hoteles) |
+| «Mi viaje»: checklist, hucha, bote común y compartir | **Real** (cálculos y texto); se guarda solo en este navegador. Compartir abre WhatsApp o el correo con el texto, no envía nada solo | Sí, en el navegador integrado |
+| Bus FlixBus, calendario de precios y precio en el mapa | Norma de edad de FlixBus **real** (desde 15); precios, horarios y calendario **de ejemplo** | Sí |
+| Sin transbordos por cuenta propia | **Regla del motor**: con menores, las escalas con billetes separados se ocultan y se explica por qué | Sí |
+| Oporto, Ámsterdam, Dublín y Praga | Normas **reales** con fuente (data/destinos-nuevos.json); Praga sale pendiente | Sí |
 | Reservas | **Simuladas**: comparador de vuelos (horarios de ejemplo, orden por precio o duración, solo directos), elegir alojamiento, cesta, revisión de condiciones por edad y envío a la familia para que apruebe y pague. No se reserva ni se cobra nada y no se piden datos de pago ni de documentos | Sí, recorrido completo en Chrome |
 
 ## Recorrido para enseñarlo (3 minutos)

@@ -24,6 +24,9 @@ if (existsSync(legalPath)) {
 const swap = (s, mark, value) => { if (!s.includes(mark)) throw new Error("Falta el marcador " + mark); return s.replace(mark, () => value); };
 let page = swap(src, "/*__PHOTOS__*/{}", JSON.stringify(photos));
 page = swap(page, '/*__LEGAL__*/{ "actualizado": null, "items": [] }', JSON.stringify(legal).replace(/</g, "\\u003c"));
+const dnPath = join(dir, "data", "destinos-nuevos.json");
+const destNew = existsSync(dnPath) ? JSON.parse(readFileSync(dnPath, "utf8")) : { destinos: [] };
+page = swap(page, '/*__DESTNEW__*/{ "destinos": [] }', JSON.stringify(destNew).replace(/</g, "\\u003c"));
 writeFileSync(join(dir, "GoLiveIt-Planner.html"), page);
 
 const body = page

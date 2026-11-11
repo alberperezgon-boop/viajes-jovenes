@@ -27,3 +27,14 @@ Cada decisión dice quién la tomó, con qué evidencia y qué la haría cambiar
 - **Decisión:** el Planner simula reservar vuelo y alojamiento, como un comparador, pero filtrado por edad: elegir, revisar las condiciones de la aerolínea, del alojamiento y del país, y **enviar la reserva a la familia para que la apruebe y la pague**.
 - **Por qué:** lo pidió Alberto para que la demo se entienda como producto. El paso por la familia refleja la realidad legal: los menores no pueden contratar y las aerolíneas y alojamientos piden un adulto. Además, es nuestra propuesta de valor para los padres.
 - **Límites:** todo lleva la marca «simulación» o «demo». Horarios y precios de ejemplo. No se reserva ni se cobra nada, y **no se piden datos de pago ni de documentos**. Las tarjetas de embarque llevan «NO VÁLIDO PARA VIAJAR». Sustituye a la regla anterior de «sin reservas simuladas» solo para el Planner.
+
+## D-14. Funciones que copiamos de los buscadores, y las que no (11/11/2026)
+
+- **Decisión:** del benchmark [[Buscadores y empresas de viaje - ingeniería inversa]] se implementan en el Planner: **sin transbordos por cuenta propia** para grupos con menores (siempre activo y explicado), **bus** junto al avión (FlixBus, edad verificada: desde 15), **precio por persona en el mapa**, **calendario «bajo / típico / alto»** (de ejemplo y marcado así), **bote común** y **hucha** en «Mi viaje», **checklist** de papeles y maleta, **compartir** por WhatsApp o correo, y **memoria del plan** en el navegador.
+- **No se copian:** ofertas con prisa o cuentas atrás, congelar el precio pagando, predicciones sin histórico propio, chat abierto con desconocidos (Hostelworld) ni ubicación en directo por defecto.
+- **Por qué:** son públicos menores; lo que empuja a decidir con prisa o expone datos no encaja con la confianza de las familias.
+
+## D-15. Cuatro destinos nuevos con reglas generadas desde su norma publicada (11/11/2026)
+
+- **Decisión:** Oporto, Ámsterdam y Dublín pasan a ser viables con sus condiciones; Praga sigue pendiente (Q-22 y Q-25). Las reglas salen de `70 Prototipo/data/destinos-nuevos.json` (fuentes en [[Destinos nuevos - normas para 16-17]]). Lo que depende de cada local o no está confirmado sale «sin confirmar». Los vuelos dependen de la ciudad de salida. Precios de ejemplo.
+- **Nota:** el archivo que llegó como «demo del compañero con más destinos» era idéntico al nuestro, así que estos destinos los ha verificado el equipo de investigación de la sesión.

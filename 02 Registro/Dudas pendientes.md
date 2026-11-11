@@ -42,3 +42,12 @@ Prioridad: **A** = bloquea algo de esta semana · **B** = necesario para la prop
 | Q-17 | Programas de afiliación disponibles (Booking, Hostelworld, operadores de tren y bus, actividades): requisitos y comisiones | C | Webs de afiliados | abierta |
 | Q-18 | Población de 16-17 años en España y Andalucía | C | INE, padrón continuo | abierta |
 | Q-19 | ¿Puede un menor de 16-17 años tener tarjeta de pago propia? ¿Qué bancos y apps lo permiten? | C | Webs de bancos | abierta |
+
+## Destinos nuevos (11/11/2026)
+
+| ID | Duda | Prioridad | Cómo resolverla | Estado |
+|---|---|---|---|---|
+| Q-22 | ¿Pide Chequia carta de los padres a menores de la UE que entran sin adultos? Hasta saberlo, Praga sale como pendiente | B | Embajada checa en Madrid o Policía de Extranjería checa | abierta |
+| Q-23 | Transavia se contradice: su ayuda dice que vuelan solos de 12 a 17 y sus condiciones de 2026, de 12 a 16 | C | Escribir a Transavia y guardar la respuesta | abierta |
+| Q-24 | Rutas reales desde Sevilla y Málaga a Oporto, Dublín y Praga (en el prototipo no hay vuelo desde SVQ) | C | Buscadores reales (Kayak, Google Flights) en fechas concretas | abierta |
+| Q-25 | ¿Aplica en Praga la norma general de a&o (desde 14 con permiso escrito)? | B | Escribir a a&o Prague Rhea | abierta |

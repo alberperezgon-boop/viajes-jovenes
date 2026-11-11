@@ -82,3 +82,9 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 ## 2026-11-08. Planner: calles por defecto, presupuesto claro y vocabulario
 
 - **Hecho:** el mapa abre con calles (OpenFreeMap) en español y sin nombres de ciudad que se pisen con los nuestros. Si no se pueden cargar (en el visor de Claude), cambia solo al mapa simple con un aviso. **Presupuesto orientativo por persona** en «Todo» y en «Presupuesto»: total, si entra o cuánto os pasáis, y desglose de vuelo, noches y gastos al día, con «Cambiar». Usa lo elegido o, si no, lo más barato que os deja la edad. Total del grupo aparte. La cesta y la reserva separan «por persona» y «los N». Vocabulario: tipos de norma en lenguaje claro («Norma de la aerolínea o empresa», «Lo dice la ley») y fuentes con nombre legible («Fuente oficial», «Revisado por el equipo»).
+
+## 2026-11-11. Benchmark de buscadores, funciones esenciales y 4 destinos
+
+- **Hecho:** [[Buscadores y empresas de viaje - ingeniería inversa]] (12 productos, 20 funciones candidatas, solo fuentes públicas). En el Planner (D-14): protección contra transbordos por cuenta propia, FlixBus junto a los vuelos, precio por persona en el mapa, calendario de precios de ejemplo, «Mi viaje» (checklist con progreso, hucha semanal, bote común y compartir por WhatsApp o correo) y memoria del plan con «Seguir con mi plan» en la portada. Destinos nuevos (D-15): Oporto (el más sólido), Ámsterdam y Dublín con condiciones, Praga pendiente. Ver [[Destinos nuevos - normas para 16-17]].
+- **Aprendido:** casi todos los buscadores exigen 16-18 años para usar o reservar; el modelo «el joven planifica, el adulto reserva» encaja con el sector. Kiwi.com deja reservar a menores con transbordos por cuenta propia: es el principal riesgo que debemos evitar.
+- **Pendiente:** Q-22 a Q-25. El archivo «del compañero» era idéntico al nuestro: pedir la versión buena.
