@@ -34,6 +34,8 @@ La competencia real casi nunca es otra startup: es **lo que la gente ya hace**. 
 - Localización familiar: Life360, Google Family Link, compartir ubicación de iOS y Android.
 - Seguros de viaje para jóvenes.
 
+> Actualización 11/11/2026: análisis completo en [[Competencia de GoLiveIt]].
+
 ## Pregunta clave
 
 ¿Existe alguien que **verifique qué servicios aceptan menores sin adultos** y lo mantenga actualizado? No se ha encontrado todavía, pero tampoco se ha buscado a fondo. **Ausencia de pruebas no es prueba de ausencia**: buscar en inglés, francés y alemán antes de afirmar que es un hueco.

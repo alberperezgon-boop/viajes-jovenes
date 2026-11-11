@@ -1,0 +1,887 @@
+{
+ "dest": {
+  "turin": {
+   "city": "Turín",
+   "country": "IT",
+   "cname": "Italia",
+   "iata": "TRN",
+   "c": [
+    7.6869,
+    45.0703
+   ],
+   "verified": false,
+   "tags": []
+  },
+  "sevilla": {
+   "city": "Sevilla",
+   "country": "ES",
+   "cname": "España",
+   "iata": "SVQ",
+   "c": [
+    -5.984,
+    37.389
+   ],
+   "verified": false,
+   "tags": []
+  },
+  "marbella": {
+   "city": "Marbella",
+   "country": "ES",
+   "cname": "España",
+   "iata": "",
+   "c": [
+    -4.8824,
+    36.5101
+   ],
+   "verified": false,
+   "tags": [
+    "playa"
+   ]
+  },
+  "huelva": {
+   "city": "Huelva",
+   "country": "ES",
+   "cname": "España",
+   "iata": "",
+   "c": [
+    -6.9447,
+    37.2614
+   ],
+   "verified": false,
+   "tags": []
+  },
+  "jerez": {
+   "city": "Jerez de la Frontera",
+   "country": "ES",
+   "cname": "España",
+   "iata": "XRY",
+   "c": [
+    -6.1373,
+    36.685
+   ],
+   "verified": false,
+   "tags": []
+  },
+  "cordoba": {
+   "city": "Córdoba",
+   "country": "ES",
+   "cname": "España",
+   "iata": "",
+   "c": [
+    -4.7794,
+    37.8882
+   ],
+   "verified": false,
+   "tags": []
+  },
+  "florencia": {
+   "city": "Florencia",
+   "country": "IT",
+   "cname": "Italia",
+   "iata": "FLR",
+   "c": [
+    11.2558,
+    43.7696
+   ],
+   "verified": false,
+   "tags": []
+  },
+  "como": {
+   "city": "Como",
+   "country": "IT",
+   "cname": "Italia",
+   "iata": "",
+   "c": [
+    9.0852,
+    45.8081
+   ],
+   "verified": false,
+   "tags": []
+  },
+  "napoles": {
+   "city": "Nápoles",
+   "country": "IT",
+   "cname": "Italia",
+   "iata": "NAP",
+   "c": [
+    14.2681,
+    40.8518
+   ],
+   "verified": false,
+   "tags": []
+  },
+  "oporto": {
+   "city": "Oporto",
+   "country": "PT",
+   "cname": "Portugal",
+   "iata": "OPO",
+   "c": [
+    -8.6291,
+    41.1579
+   ],
+   "verified": false,
+   "tags": []
+  },
+  "rotterdam": {
+   "city": "Rotterdam",
+   "country": "NL",
+   "cname": "Países Bajos",
+   "iata": "RTM",
+   "c": [
+    4.4777,
+    51.9244
+   ],
+   "verified": false,
+   "tags": []
+  },
+  "utrecht": {
+   "city": "Utrecht",
+   "country": "NL",
+   "cname": "Países Bajos",
+   "iata": "",
+   "c": [
+    5.1214,
+    52.0907
+   ],
+   "verified": false,
+   "tags": []
+  },
+  "lahaya": {
+   "city": "La Haya",
+   "country": "NL",
+   "cname": "Países Bajos",
+   "iata": "",
+   "c": [
+    4.3007,
+    52.0705
+   ],
+   "verified": false,
+   "tags": []
+  },
+  "luxemburgo": {
+   "city": "Luxemburgo",
+   "country": "LU",
+   "cname": "Luxemburgo",
+   "iata": "LUX",
+   "c": [
+    6.1319,
+    49.6116
+   ],
+   "verified": false,
+   "tags": []
+  },
+  "echternach": {
+   "city": "Echternach",
+   "country": "LU",
+   "cname": "Luxemburgo",
+   "iata": "",
+   "c": [
+    6.4206,
+    49.8129
+   ],
+   "verified": false,
+   "tags": []
+  },
+  "vianden": {
+   "city": "Vianden",
+   "country": "LU",
+   "cname": "Luxemburgo",
+   "iata": "",
+   "c": [
+    6.2075,
+    49.935
+   ],
+   "verified": false,
+   "tags": []
+  },
+  "esch": {
+   "city": "Esch-sur-Alzette",
+   "country": "LU",
+   "cname": "Luxemburgo",
+   "iata": "",
+   "c": [
+    5.98,
+    49.4958
+   ],
+   "verified": false,
+   "tags": []
+  },
+  "marsella": {
+   "city": "Marsella",
+   "country": "FR",
+   "cname": "Francia",
+   "iata": "MRS",
+   "c": [
+    5.3698,
+    43.2965
+   ],
+   "verified": false,
+   "tags": []
+  },
+  "niza": {
+   "city": "Niza",
+   "country": "FR",
+   "cname": "Francia",
+   "iata": "NCE",
+   "c": [
+    7.262,
+    43.7102
+   ],
+   "verified": false,
+   "tags": []
+  }
+ },
+ "stays": [
+  {
+   "ciudad": "Marbella",
+   "pais": "España",
+   "nombre": "Albergue Inturjoven Marbella",
+   "edades": "17 años consultados",
+   "min": 17,
+   "info": "Para el grupo de 17 años consultado, la recepción pidió autorización escrita de los padres; el grupo puede compartir habitación. Indicó reserva por su web. Confirmar quién debe reservar y condiciones exactas.",
+   "fuente": "https://www.inturjoven.com/",
+   "booking": "",
+   "tipo": "Respuesta por correo, 7/11/2026"
+  },
+  {
+   "ciudad": "Huelva",
+   "pais": "España",
+   "nombre": "Albergue Inturjoven Huelva",
+   "edades": "17 años consultados",
+   "min": 17,
+   "info": "Para los 17 años consultados: reserva a nombre de padre, madre o tutor; DNI, autorización parental y carné de alberguista. Permite compartir entre amigos. Dijo que se puede reservar por Booking.",
+   "fuente": "https://www.inturjoven.com/",
+   "booking": "",
+   "tipo": "Respuesta por correo, 7/11/2026"
+  },
+  {
+   "ciudad": "Jerez de la Frontera",
+   "pais": "España",
+   "nombre": "Albergue Inturjoven Jerez",
+   "edades": "17 años consultados",
+   "min": 17,
+   "info": "La recepción pide autorización de los tutores para el grupo de 17 años consultado. Solicita fechas para comprobar disponibilidad y recomienda reservar directamente. Confirmar habitaciones y quién realiza la reserva.",
+   "fuente": "https://www.inturjoven.com/",
+   "booking": "",
+   "tipo": "Respuesta por correo, 7/11/2026"
+  },
+  {
+   "ciudad": "Córdoba",
+   "pais": "España",
+   "nombre": "Albergue Inturjoven Córdoba",
+   "edades": "17 años consultados",
+   "min": 17,
+   "info": "Para el grupo de 17 años consultado: autorización firmada y copias de DNI de ambos padres; habitación solo con personas conocidas. La recepción puede tramitar la reserva. Confirma condiciones actuales.",
+   "fuente": "https://www.inturjoven.com/",
+   "booking": "",
+   "tipo": "Respuesta por correo, 7/11/2026"
+  },
+  {
+   "ciudad": "Sevilla",
+   "pais": "España",
+   "nombre": "Albergue Inturjoven Sevilla",
+   "edades": "17; 16 pendiente de aclarar",
+   "min": 17,
+   "info": "Autorización escrita y copia del DNI del firmante. La reserva debe hacerla el progenitor o tutor. La regla dice “mayores de 16”; confirmar para 16 años.",
+   "fuente": "https://inturjoven.com/wp-content/uploads/descargables/condiciones-generales.pdf",
+   "booking": "https://www.booking.com/hotel/es/albergue-inturjoven-sevilla.es.html",
+   "tipo": "Condiciones generales oficiales"
+  },
+  {
+   "ciudad": "Londres",
+   "pais": "Reino Unido",
+   "nombre": "Park Villa Boutique Hostel",
+   "edades": "16 y 17",
+   "min": 16,
+   "info": "Habitación privada o compartida. La reserva requiere autorización del tutor por correo antes de la llegada y los documentos que indique.",
+   "fuente": "https://www.parkvilla.co.uk/bookings/",
+   "booking": "https://www.booking.com/hotel/gb/park-villa.en-gb.html",
+   "tipo": "Respuesta por correo, 7/11/2026"
+  },
+  {
+   "ciudad": "Roma",
+   "pais": "Italia",
+   "nombre": "Ostello Bello Roma Colosseo",
+   "edades": "16 y 17",
+   "min": 16,
+   "info": "Habitación privada o compartida; autorización firmada y copia del documento del progenitor o tutor. Consultar quién debe reservar.",
+   "fuente": "https://ostellobello.com/it/faq/",
+   "booking": "https://www.booking.com/hotel/it/ostello-bello-roma.html",
+   "tipo": "Respuesta por correo, 7/11/2026"
+  },
+  {
+   "ciudad": "Florencia",
+   "pais": "Italia",
+   "nombre": "Ostello Bello Firenze",
+   "edades": "16 y 17",
+   "min": 16,
+   "info": "Habitación privada o compartida, con autorización y copia de identidad del tutor. Consultar condiciones de reserva.",
+   "fuente": "https://ostellobello.com/en/hostel/florence/",
+   "booking": "https://www.booking.com/hotel/it/ostello-bello-firenze.html",
+   "tipo": "Respuesta por correo, 7/11/2026"
+  },
+  {
+   "ciudad": "Como",
+   "pais": "Italia",
+   "nombre": "Ostello Bello Como",
+   "edades": "17; 16 confirmar",
+   "min": 17,
+   "info": "A los 17, autorización firmada y copia del documento; no exige habitación privada. El alojamiento confirmó la posibilidad de reservar por Booking.",
+   "fuente": "https://ostellobello.com/en/hostel/como/",
+   "booking": "",
+   "tipo": "Respuesta por correo, 7/11/2026"
+  },
+  {
+   "ciudad": "Nápoles",
+   "pais": "Italia",
+   "nombre": "Ostello Bello Napoli",
+   "edades": "17 en dormitorio; 16 pendiente",
+   "min": 17,
+   "info": "Para dormitorio pide mínimo 17, autorización y copias de los documentos de ambos padres. Su respuesta difiere de la FAQ general: confirmar antes de reservar.",
+   "fuente": "https://ostellobello.com/en/hostel/naples/",
+   "booking": "",
+   "tipo": "Respuesta por correo, 7/11/2026"
+  },
+  {
+   "ciudad": "Lisboa",
+   "pais": "Portugal",
+   "nombre": "Sant Jordi Hostels Lisbon",
+   "edades": "17; 16 confirmar",
+   "min": 17,
+   "info": "Formulario firmado y copia del documento del tutor. Permite dormitorio compartido; las camas libres pueden ser ocupadas por otras personas.",
+   "fuente": "https://www.santjordihostels.com/lisbon/",
+   "booking": "https://www.booking.com/hotel/pt/santjordi-lisbon-hostel.pt-pt.html",
+   "tipo": "Respuesta por correo, 7/11/2026"
+  },
+  {
+   "ciudad": "Oporto",
+   "pais": "Portugal",
+   "nombre": "Pousada de Juventude do Porto",
+   "edades": "17; 16 confirmar",
+   "min": 17,
+   "info": "La recepción indicó que a los 17 no exige autorización para alojarse y permite reservar directamente. Revisa por separado la documentación de viaje.",
+   "fuente": "https://www.pousadasjuventude.pt/pt/pousadas/pousada-do-porto/",
+   "booking": "",
+   "tipo": "Respuesta por correo, 7/11/2026"
+  },
+  {
+   "ciudad": "Ámsterdam",
+   "pais": "Países Bajos",
+   "nombre": "Stayokay Amsterdam Vondelpark",
+   "edades": "16 y 17",
+   "min": 16,
+   "info": "Habitación privada, formulario de autorización y copia del documento del progenitor o tutor. No compartir con desconocidos.",
+   "fuente": "https://www.stayokay.com/en/hostel/amsterdam-vondelpark",
+   "booking": "https://www.booking.com/hotel/nl/stayokayamdamvond.nl.html",
+   "tipo": "Respuesta por correo, 7/11/2026"
+  },
+  {
+   "ciudad": "Rotterdam",
+   "pais": "Países Bajos",
+   "nombre": "Stayokay Rotterdam",
+   "edades": "17; 16 confirmar",
+   "min": 17,
+   "info": "Habitación privada, formulario y copias de los pasaportes de los padres. Confirmó que los jóvenes pueden reservar incluso por Booking.",
+   "fuente": "https://www.stayokay.com/en/contact/hostels",
+   "booking": "https://www.booking.com/hotel/nl/stayokay-rotterdam.en-gb.html",
+   "tipo": "Respuesta por correo, 7/11/2026"
+  },
+  {
+   "ciudad": "Utrecht",
+   "pais": "Países Bajos",
+   "nombre": "Stayokay Utrecht Centrum",
+   "edades": "17; 16 confirmar",
+   "min": 17,
+   "info": "Habitación privada y formulario con copia de identidad del tutor. Indicó que el menor puede reservar en su web especificando su edad.",
+   "fuente": "https://www.stayokay.com/en/hostel/utrecht-centrum",
+   "booking": "https://www.booking.com/hotel/nl/stayokay-utrecht-centrum.nl.html",
+   "tipo": "Respuesta por correo, 7/11/2026"
+  },
+  {
+   "ciudad": "La Haya",
+   "pais": "Países Bajos",
+   "nombre": "Stayokay Den Haag",
+   "edades": "16 y 17",
+   "min": 16,
+   "info": "Solo habitación privada; formulario firmado y copia de identidad del firmante. Consultar cómo informar correctamente las edades durante la reserva.",
+   "fuente": "https://www.stayokay.com/en/terms-conditions",
+   "booking": "",
+   "tipo": "Respuesta por correo, 7/11/2026"
+  },
+  {
+   "ciudad": "Echternach",
+   "pais": "Luxemburgo",
+   "nombre": "Youth Hostel Echternach",
+   "edades": "17; 16 según norma general",
+   "min": 16,
+   "info": "Autorización y documento físico. A los 17 confirmó la reserva por correo; juntos si hay disponibilidad, o dormitorio compartido.",
+   "fuente": "https://youthhostels.lu/en/faq/",
+   "booking": "",
+   "tipo": "Correo 7/11/2026; 16 según norma general"
+  },
+  {
+   "ciudad": "Vianden",
+   "pais": "Luxemburgo",
+   "nombre": "Youth Hostel Vianden",
+   "edades": "17; 16 según norma general",
+   "min": 16,
+   "info": "Formulario por persona. Confirmó que se puede reservar por Booking; habitación para el grupo sujeta a disponibilidad.",
+   "fuente": "https://youthhostels.lu/en/faq/",
+   "booking": "https://www.booking.com/hotel/lu/youth-hostel-vianden.es.html",
+   "tipo": "Correo 7/11/2026; 16 según norma general"
+  },
+  {
+   "ciudad": "Esch-sur-Alzette",
+   "pais": "Luxemburgo",
+   "nombre": "Youth Hostel Esch",
+   "edades": "17; 16 según norma general",
+   "min": 16,
+   "info": "Autorización y documento físico. Su correo dice “mayores de 16”; la FAQ de la red incluye 16, por lo que conviene confirmar.",
+   "fuente": "https://youthhostels.lu/en/faq/",
+   "booking": "",
+   "tipo": "Correo 8/11/2026; 16 según norma general"
+  },
+  {
+   "ciudad": "Luxemburgo",
+   "pais": "Luxemburgo",
+   "nombre": "Youth Hostel Luxembourg City",
+   "edades": "16 y 17, según norma de la red",
+   "min": 16,
+   "info": "La red indica 16–17 con autorización parental; confirma reserva y habitación con el establecimiento.",
+   "fuente": "https://youthhostels.lu/en/hostels/luxembourg/",
+   "booking": "",
+   "tipo": "Política pública de la red"
+  },
+  {
+   "ciudad": "Marsella",
+   "pais": "Francia",
+   "nombre": "HI Marseille Bois-Luzy",
+   "edades": "17 años; 16 sin confirmar",
+   "min": 17,
+   "info": "El alojamiento confirmó por correo que jóvenes españoles de 17 años pueden viajar sin adulto con habitación privada exclusiva del grupo, autorización individual firmada por un representante legal y copia de su documento. Indicó que pueden reservar directamente o por Booking. Abre de marzo a octubre; consulta disponibilidad.",
+   "fuente": "https://www.hifrance.org/en/youth-hostels/marseille-chateau-de-bois-luzy/",
+   "booking": "",
+   "tipo": "Respuesta del alojamiento por correo, 9/11/2026"
+  },
+  {
+   "ciudad": "Niza",
+   "pais": "Francia",
+   "nombre": "HI Nice Les Camélias",
+   "edades": "17; 16 confirmar",
+   "min": 17,
+   "info": "Autorización parental; el alojamiento menciona dormitorios no mixtos, pero la central exige habitación privada. Hay contradicción: confirmar antes de reservar.",
+   "fuente": "https://www.hifrance.org/auberges-de-jeunesse/nice-les-camelias/",
+   "booking": "",
+   "tipo": "Respuesta por correo, 8/11/2026; condiciones en conflicto"
+  },
+  {
+   "ciudad": "Berlín",
+   "pais": "Alemania",
+   "nombre": "a&o Berlin Mitte",
+   "edades": "16 y 17, según norma de la cadena",
+   "min": 16,
+   "info": "La cadena indica autorización de padres, copia de identidad y habitación privada para menores no acompañados. Confirmar con el alojamiento.",
+   "fuente": "https://www.aohostels.com/en/services/faq/",
+   "booking": "",
+   "tipo": "Política pública de la cadena"
+  },
+  {
+   "ciudad": "París",
+   "pais": "Francia",
+   "nombre": "HI Paris Yves Robert",
+   "edades": "16 y 17, política comunicada por la central",
+   "min": 16,
+   "info": "La central de HI France indicó que jóvenes de 16 y 17 años pueden alojarse sin adulto con habitación privada, autorización parental y copia del documento de un progenitor. Yves Robert pertenece a la red; confirma las condiciones y quién puede reservar directamente con el alojamiento. No se confirmó la reserva por Booking.",
+   "fuente": "https://www.hifrance.org/auberges-de-jeunesse/paris-yves-robert/",
+   "booking": "",
+   "tipo": "Política de la central HI France por correo, 9/11/2026"
+  },
+  {
+   "ciudad": "Turín",
+   "pais": "Italia",
+   "nombre": "Combo Torino",
+   "edades": "Menores acompañados por una persona adulta en cada habitación",
+   "min": 18,
+   "reglaCombo": true,
+   "info": "El alojamiento indicó por correo que no admite menores sin acompañante. Acepta la estancia si hay al menos una persona mayor de edad en cada habitación (padre, madre, tutor o amigo responsable), junto con un documento de responsabilidad firmado por al menos un progenitor por cada menor. La distribución por habitación debe verificarse.",
+   "fuente": "https://www.thisiscombo.com/en/destinations/torino",
+   "booking": "https://www.booking.com/hotel/it/combo-torino.html",
+   "tipo": "Respuesta del alojamiento por correo, 10/11/2026",
+   "fecha": "10/11/2026"
+  }
+ ],
+ "plans": [
+  {
+   "ciudad": "Sevilla",
+   "pais": "España",
+   "nombre": "Real Alcázar",
+   "c": [
+    -5.9901,
+    37.3839
+   ],
+   "tag": "historia",
+   "url": "https://visitasevilla.es/real-alcazar-de-sevilla/",
+   "regla": "Revisa con el lugar si permite la visita de menores sin adulto; horarios y entradas pueden variar."
+  },
+  {
+   "ciudad": "Marbella",
+   "pais": "España",
+   "nombre": "Parque de la Alameda",
+   "c": [
+    -4.8843,
+    36.5088
+   ],
+   "tag": "historia",
+   "url": "https://turismo.marbella.es/vive/cultura/patrimonio-historico/casco-historico/parque-de-la-alameda.html",
+   "regla": "Revisa con el lugar si permite la visita de menores sin adulto; horarios y entradas pueden variar."
+  },
+  {
+   "ciudad": "Huelva",
+   "pais": "España",
+   "nombre": "Muelle del Río Tinto",
+   "c": [
+    -6.9585,
+    37.2519
+   ],
+   "tag": "historia",
+   "url": "https://turismo.huelva.es/rutas-y-monumentos/ruta-legado-britanico/muelle-de-la-compania-de-rio-tinto/",
+   "regla": "Revisa con el lugar si permite la visita de menores sin adulto; horarios y entradas pueden variar."
+  },
+  {
+   "ciudad": "Jerez de la Frontera",
+   "pais": "España",
+   "nombre": "Alcázar de Jerez",
+   "c": [
+    -6.1387,
+    36.6809
+   ],
+   "tag": "historia",
+   "url": "https://www.turismojerez.com/conoce-jerez/monumental/edificios-singulares",
+   "regla": "Revisa con el lugar si permite la visita de menores sin adulto; horarios y entradas pueden variar."
+  },
+  {
+   "ciudad": "Córdoba",
+   "pais": "España",
+   "nombre": "Mezquita-Catedral",
+   "c": [
+    -4.7794,
+    37.8789
+   ],
+   "tag": "historia",
+   "url": "https://mezquita-catedraldecordoba.es/",
+   "regla": "Revisa con el lugar si permite la visita de menores sin adulto; horarios y entradas pueden variar."
+  },
+  {
+   "ciudad": "Turín",
+   "pais": "Italia",
+   "nombre": "Museo Egipcio",
+   "c": [
+    7.6847,
+    45.0685
+   ],
+   "tag": "museos",
+   "url": "https://api.museoegizio.it/wp-content/uploads/2025/03/regolamento_ME_2025-EN.pdf",
+   "regla": "El reglamento exige acompañante a menores de 14 años; comprueba las reglas de actividades y grupos."
+  },
+  {
+   "ciudad": "Turín",
+   "pais": "Italia",
+   "nombre": "Museo Nacional del Cine",
+   "c": [
+    7.693,
+    45.0692
+   ],
+   "tag": "museos",
+   "url": "https://www.museocinema.it/en/plan-your-visit/useful-info",
+   "regla": "Revisa con el lugar si permite la visita de menores sin adulto; horarios y entradas pueden variar."
+  },
+  {
+   "ciudad": "Turín",
+   "pais": "Italia",
+   "nombre": "Parque del Valentino",
+   "c": [
+    7.6853,
+    45.0524
+   ],
+   "tag": "historia",
+   "url": "https://turismotorino.org/en/visit/things-to-do-and-things-to-see/outdoor/parco-del-valentino",
+   "regla": "Revisa con el lugar si permite la visita de menores sin adulto; horarios y entradas pueden variar."
+  },
+  {
+   "ciudad": "Roma",
+   "pais": "Italia",
+   "nombre": "Fontana di Trevi",
+   "c": [
+    12.483238,
+    41.900765
+   ],
+   "tag": "historia",
+   "url": "https://www.turismoroma.it/it/node/1286",
+   "regla": "Revisa con el lugar si permite la visita de menores sin adulto; horarios y entradas pueden variar."
+  },
+  {
+   "ciudad": "Roma",
+   "pais": "Italia",
+   "nombre": "Coliseo",
+   "c": [
+    12.4924,
+    41.8902
+   ],
+   "tag": "historia",
+   "url": "https://www.turismoroma.it/it/node/1155",
+   "regla": "Revisa con el lugar si permite la visita de menores sin adulto; horarios y entradas pueden variar."
+  },
+  {
+   "ciudad": "Florencia",
+   "pais": "Italia",
+   "nombre": "Ponte Vecchio",
+   "c": [
+    11.2531,
+    43.7687
+   ],
+   "tag": "historia",
+   "url": "https://www.visittuscany.com/en/itineraries/florence-urban-itinerary/",
+   "regla": "Revisa con el lugar si permite la visita de menores sin adulto; horarios y entradas pueden variar."
+  },
+  {
+   "ciudad": "Como",
+   "pais": "Italia",
+   "nombre": "Catedral de Como",
+   "c": [
+    9.0852,
+    45.8126
+   ],
+   "tag": "historia",
+   "url": "https://www.visitcomo.eu/en/",
+   "regla": "Revisa con el lugar si permite la visita de menores sin adulto; horarios y entradas pueden variar."
+  },
+  {
+   "ciudad": "Nápoles",
+   "pais": "Italia",
+   "nombre": "Museo Arqueológico Nacional",
+   "c": [
+    14.2507,
+    40.8536
+   ],
+   "tag": "museos",
+   "url": "https://mann-napoli.it/en/",
+   "regla": "Revisa con el lugar si permite la visita de menores sin adulto; horarios y entradas pueden variar."
+  },
+  {
+   "ciudad": "Lisboa",
+   "pais": "Portugal",
+   "nombre": "Monasterio de los Jerónimos",
+   "c": [
+    -9.2066,
+    38.6979
+   ],
+   "tag": "historia",
+   "url": "https://www.visitlisboa.com/en/places/jeronimos-monastery",
+   "regla": "Revisa con el lugar si permite la visita de menores sin adulto; horarios y entradas pueden variar."
+  },
+  {
+   "ciudad": "Oporto",
+   "pais": "Portugal",
+   "nombre": "Livraria Lello",
+   "c": [
+    -8.6148,
+    41.1467
+   ],
+   "tag": "historia",
+   "url": "https://visitporto.travel/en-GB/poi/621629fd8e037700019c3258",
+   "regla": "Revisa con el lugar si permite la visita de menores sin adulto; horarios y entradas pueden variar."
+  },
+  {
+   "ciudad": "Oporto",
+   "pais": "Portugal",
+   "nombre": "Torre dos Clérigos",
+   "c": [
+    -8.6139,
+    41.1457
+   ],
+   "tag": "historia",
+   "url": "https://visitporto.travel/pt-PT/poi/5cd04b4bf979e00001939091",
+   "regla": "Revisa con el lugar si permite la visita de menores sin adulto; horarios y entradas pueden variar."
+  },
+  {
+   "ciudad": "París",
+   "pais": "Francia",
+   "nombre": "Museo de Orsay",
+   "c": [
+    2.3266,
+    48.86
+   ],
+   "tag": "museos",
+   "url": "https://www.musee-orsay.fr/sites/default/files/2025-12/2brochure%20Re%CC%80glement%20visite%20O-O%202021%20AN.pdf",
+   "regla": "El reglamento exige acompañante a menores de 13 años; confirma condiciones de grupos y eventos."
+  },
+  {
+   "ciudad": "París",
+   "pais": "Francia",
+   "nombre": "Museo del Louvre",
+   "c": [
+    2.3376,
+    48.8606
+   ],
+   "tag": "museos",
+   "url": "https://api-www.louvre.fr/sites/default/files/2025-08/2025-07-07_Visitor_Regulations.pdf",
+   "regla": "El reglamento prohíbe dejar sin acompañar a menores de 12 años; confirma condiciones de grupos y eventos."
+  },
+  {
+   "ciudad": "Marsella",
+   "pais": "Francia",
+   "nombre": "MuCEM",
+   "c": [
+    5.361,
+    43.2967
+   ],
+   "tag": "museos",
+   "url": "https://www.mucem.org/en",
+   "regla": "Revisa con el lugar si permite la visita de menores sin adulto; horarios y entradas pueden variar."
+  },
+  {
+   "ciudad": "Niza",
+   "pais": "Francia",
+   "nombre": "Promenade des Anglais",
+   "c": [
+    7.2608,
+    43.6955
+   ],
+   "tag": "playa",
+   "url": "https://www.explorenicecotedazur.com/en/culture/promenade-des-anglais/",
+   "regla": "Revisa con el lugar si permite la visita de menores sin adulto; horarios y entradas pueden variar."
+  },
+  {
+   "ciudad": "Berlín",
+   "pais": "Alemania",
+   "nombre": "East Side Gallery",
+   "c": [
+    13.4396,
+    52.505
+   ],
+   "tag": "historia",
+   "url": "https://www.visitberlin.de/en/east-side-gallery",
+   "regla": "Revisa con el lugar si permite la visita de menores sin adulto; horarios y entradas pueden variar."
+  },
+  {
+   "ciudad": "Berlín",
+   "pais": "Alemania",
+   "nombre": "Puerta de Brandeburgo",
+   "c": [
+    13.3777,
+    52.5163
+   ],
+   "tag": "historia",
+   "url": "https://www.visitberlin.de/en/brandenburg-gate",
+   "regla": "Revisa con el lugar si permite la visita de menores sin adulto; horarios y entradas pueden variar."
+  },
+  {
+   "ciudad": "Londres",
+   "pais": "Reino Unido",
+   "nombre": "British Museum",
+   "c": [
+    -0.127,
+    51.5194
+   ],
+   "tag": "museos",
+   "url": "https://www.visitlondon.com/things-to-do/place/285709-british-museum",
+   "regla": "Revisa con el lugar si permite la visita de menores sin adulto; horarios y entradas pueden variar."
+  },
+  {
+   "ciudad": "Ámsterdam",
+   "pais": "Países Bajos",
+   "nombre": "Rijksmuseum",
+   "c": [
+    4.8852,
+    52.36
+   ],
+   "tag": "museos",
+   "url": "https://www.rijksmuseum.nl/en/families-and-children",
+   "regla": "Revisa con el lugar si permite la visita de menores sin adulto; horarios y entradas pueden variar."
+  },
+  {
+   "ciudad": "Rotterdam",
+   "pais": "Países Bajos",
+   "nombre": "Casas Cubo",
+   "c": [
+    4.4903,
+    51.92
+   ],
+   "tag": "historia",
+   "url": "https://www.rotterdam.info/nl/visit/finder-locations/kubuswoningen-kijk-kubus-museumwoning",
+   "regla": "Revisa con el lugar si permite la visita de menores sin adulto; horarios y entradas pueden variar."
+  },
+  {
+   "ciudad": "Utrecht",
+   "pais": "Países Bajos",
+   "nombre": "Torre Dom",
+   "c": [
+    5.1213,
+    52.0908
+   ],
+   "tag": "historia",
+   "url": "https://www.domtoren.nl/en/",
+   "regla": "Revisa con el lugar si permite la visita de menores sin adulto; horarios y entradas pueden variar."
+  },
+  {
+   "ciudad": "La Haya",
+   "pais": "Países Bajos",
+   "nombre": "Museo Mauritshuis",
+   "c": [
+    4.3142,
+    52.0802
+   ],
+   "tag": "museos",
+   "url": "https://www.mauritshuis.nl/en/",
+   "regla": "Revisa con el lugar si permite la visita de menores sin adulto; horarios y entradas pueden variar."
+  },
+  {
+   "ciudad": "Luxemburgo",
+   "pais": "Luxemburgo",
+   "nombre": "Lëtzebuerg City Museum",
+   "c": [
+    6.1332,
+    49.6106
+   ],
+   "tag": "museos",
+   "url": "https://www.visitluxembourg.com/fr/tour/une-balade-artistique-a-travers-les-sept-musees-de-luxembourg-ville",
+   "regla": "Revisa con el lugar si permite la visita de menores sin adulto; horarios y entradas pueden variar."
+  },
+  {
+   "ciudad": "Echternach",
+   "pais": "Luxemburgo",
+   "nombre": "Lago de Echternach",
+   "c": [
+    6.412,
+    49.8025
+   ],
+   "tag": "historia",
+   "url": "https://www.visitluxembourg.com/place/echternach-lake",
+   "regla": "Revisa con el lugar si permite la visita de menores sin adulto; horarios y entradas pueden variar."
+  },
+  {
+   "ciudad": "Vianden",
+   "pais": "Luxemburgo",
+   "nombre": "Castillo de Vianden",
+   "c": [
+    6.2029,
+    49.9355
+   ],
+   "tag": "historia",
+   "url": "https://www.visitluxembourg.com/place/vianden-castle",
+   "regla": "Revisa con el lugar si permite la visita de menores sin adulto; horarios y entradas pueden variar."
+  },
+  {
+   "ciudad": "Esch-sur-Alzette",
+   "pais": "Luxemburgo",
+   "nombre": "Altos hornos de Belval",
+   "c": [
+    5.9473,
+    49.5018
+   ],
+   "tag": "historia",
+   "url": "https://www.visitluxembourg.com/place/blast-furnace-belval",
+   "regla": "La página turística indica que menores de 12 años deben ir acompañados; confirma la modalidad de visita y grupos."
+  }
+ ]
+}

@@ -38,3 +38,9 @@ Cada decisión dice quién la tomó, con qué evidencia y qué la haría cambiar
 
 - **Decisión:** Oporto, Ámsterdam y Dublín pasan a ser viables con sus condiciones; Praga sigue pendiente (Q-22 y Q-25). Las reglas salen de `70 Prototipo/data/destinos-nuevos.json` (fuentes en [[Destinos nuevos - normas para 16-17]]). Lo que depende de cada local o no está confirmado sale «sin confirmar». Los vuelos dependen de la ciudad de salida. Precios de ejemplo.
 - **Nota:** el archivo que llegó como «demo del compañero con más destinos» era idéntico al nuestro, así que estos destinos los ha verificado el equipo de investigación de la sesión.
+
+## D-16. Se integra la demo avanzada del compañero con nuestro criterio de prudencia (11/11/2026)
+
+- **Decisión:** entran sus 19 destinos, los 25 albergues consultados por correo, 31 planes, 22 fotos con crédito y el buscador de ciudad de salida (solo España). Ver [[Demo avanzada del compañero (ProyectoMinor)]].
+- **Ajustes:** «16 por confirmar» → pendiente; ante dos normas distintas, la más prudente (Pousada do Porto: 17); España en bus y sin permiso de viaje; Luxemburgo pendiente por la entrada; vuelos de los destinos nuevos marcados como rutas de ejemplo.
+- **Por qué:** sus correos con albergues son la mejor prueba primaria que tiene el equipo; la regla de no dar por permitido lo dudoso se mantiene.

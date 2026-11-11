@@ -1,0 +1,134 @@
+{
+ "florencia": {
+  "pos": "center center",
+  "by": "Giorgio Galeotti",
+  "lic": "CC BY 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Firenze_-_Piazzale_Michelangelo%2C_Firenze%2C_Italy_-_April_6%2C_2015_02.jpg"
+ },
+ "turin": {
+  "pos": "center center",
+  "by": "Zairon",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Torino_Piazza_Castello_11.jpg"
+ },
+ "sevilla": {
+  "pos": "center center",
+  "by": "Ingo Mehling",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Sevilla_Cathedral_-_Southeast.jpg"
+ },
+ "como": {
+  "pos": "center center",
+  "by": "Pxhere",
+  "lic": "CC0",
+  "page": "https://commons.wikimedia.org/wiki/File:Como_and_its_lake.jpg"
+ },
+ "napoles": {
+  "pos": "center center",
+  "by": "Richard Nevell",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Napoli_-_Maschio_Angioino_-_202209302342_3.jpg"
+ },
+ "oporto": {
+  "pos": "center center",
+  "by": "Diego Delso",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Puente_Don_Luis_I%2C_Oporto%2C_Portugal%2C_2012-05-09%2C_DD_13.JPG"
+ },
+ "rotterdam": {
+  "pos": "center center",
+  "by": "Rob Oo",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:A_view_of_Rotterdam%2C_taken_from_the_roof_of_the_Maassilo%2C_Rotterdam%2C_The_Netherlands.jpg"
+ },
+ "utrecht": {
+  "pos": "center center",
+  "by": "Sebastiaan ter Burg from Utrecht, The Netherlands",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Utrecht_(16295236803).jpg"
+ },
+ "lahaya": {
+  "pos": "center center",
+  "by": "Zairon",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Den_Haag_Skyline_1.jpg"
+ },
+ "luxemburgo": {
+  "pos": "center center",
+  "by": "Benh LIEU SONG",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Luxembourg_City_Night_Wikimedia_Commons.jpg"
+ },
+ "amsterdam": {
+  "pos": "center center",
+  "by": "Andrés Barrios",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Imagen_de_los_canales_conc%C3%A9ntricos_en_%C3%81msterdam.png"
+ },
+ "praga": {
+  "pos": "center center",
+  "by": "Moyan Brenn from Italy",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Prague_(6365119737).jpg"
+ },
+ "dublin": {
+  "pos": "center center",
+  "by": "瑞丽江的河水",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Dublin_-_aerial_-_2025-07-07_01.jpg"
+ },
+ "marbella": {
+  "pos": "center center",
+  "by": "Milan Trninic (www.wedesignmarbella.com)",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Captivating_Views_of_Old_Town_Marbella.jpg"
+ },
+ "huelva": {
+  "pos": "center center",
+  "by": "Jose A.",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Huelva_(Spain)_(41302627111)_(cropped).jpg"
+ },
+ "jerez": {
+  "pos": "center center",
+  "by": "Annie and Andrew",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:(Jerez_de_la_Frontera)_DSC_0560_(6271831479)_(cropped).jpg"
+ },
+ "cordoba": {
+  "pos": "center center",
+  "by": "kallerna",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:C%C3%B3rdoba_aerial_2.jpg"
+ },
+ "echternach": {
+  "pos": "center center",
+  "by": "David Edgar",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:EchternachFromAboveLookingEast.jpg"
+ },
+ "vianden": {
+  "pos": "center center",
+  "by": "Wikitestaccountlogin",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Vianden_17Jan2021.jpg"
+ },
+ "esch": {
+  "pos": "center center",
+  "by": "Zinneke",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:View_of_Esch-sur-Alzette_2025-04_--2_(cropped).jpg"
+ },
+ "marsella": {
+  "pos": "center center",
+  "by": "Earth777",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Notre-Dame_de_la_Garde_aerial_view_2020.jpeg"
+ },
+ "niza": {
+  "pos": "center center",
+  "by": "Alexander Migl",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Promenade_des_Anglais_Nice_IMG_1255.jpg"
+ }
+}

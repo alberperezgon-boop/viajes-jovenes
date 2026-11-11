@@ -382,6 +382,8 @@ dialog.sheet { overflow-x: hidden; }
 .cal-d span { font-size: 0.66rem; color: var(--muted); font-weight: 700; } .cal-d b { font-family: var(--f-mono); font-size: 0.86rem; } .cal-d i { font-style: normal; font-size: 0.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; }
 .cal-d.bajo i { color: var(--ok); } .cal-d.alto i { color: var(--no); } .cal-d.típico i { color: var(--muted); }
 .cal-d.bajo { background: var(--ok-soft); } .cal-d.on { border-color: var(--pop); box-shadow: inset 0 -3px 0 var(--pop); }
+.card-ph .credit { position: absolute; z-index: 2; top: 6px; right: 6px; font-size: 0.6rem; max-width: 75%; background: rgb(0 0 0 / 0.6); color: #fff; padding: 2px 6px; border-radius: 5px; text-decoration: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mk.stopmk.pending .dot { background: #CC4D00; }
 .newtag { position: absolute; left: 12px; top: 10px; z-index: 1; background: var(--pop); color: var(--pop-ink); font-family: var(--f-mono); font-size: 0.62rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 6px; padding: 2px 7px; }
 .pot { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
 .pot label { display: grid; gap: 3px; font-weight: 700; }
@@ -411,7 +413,7 @@ dialog.sheet { overflow-x: hidden; }
       <div class="row" id="slots" aria-live="polite"></div>
     </div>
     <div class="grid2">
-      <div class="field"><label for="origin">Salís de</label><select class="input" id="origin"></select></div>
+      <div class="field"><label for="origin-city">Salís de</label><input class="input" id="origin-city" list="cities-dl" autocomplete="off" placeholder="Tu ciudad o pueblo"><datalist id="cities-dl"></datalist><span class="small muted" id="origin-air"></span></div>
       <div class="field"><label for="days">Días</label><input class="input" id="days" type="number" min="2" max="7" value="4"></div>
     </div>
     <div class="field"><label for="date">¿Cuándo os vais?</label><input class="input" id="date" type="date" min="2026-11-09" value="2027-03-25"></div>
@@ -466,6 +468,18 @@ dialog.sheet { overflow-x: hidden; }
   const PHOTOS = /*__PHOTOS__*/{};
   const LEGAL = /*__LEGAL__*/{ "actualizado": null, "items": [] };
   const DESTNEW = /*__DESTNEW__*/{ "destinos": [] };
+  const TEAM = /*__TEAM__*/{ "dest": {}, "stays": [], "plans": [] };
+  const UBIC = /*__UBIC__*/{};
+  const CRED = /*__CRED__*/{};
+  const CITIES_ES = /*__CITIES__*/[];
+  function originName() { return state.city ? state.city.name : ORIGINS[state.origin]["name"]; }
+  function originCoords() { return state.city ? state.city.c : ORIGINS[state.origin].c; }
+  function nearestAir(c) { return Object.entries(ORIGINS).map(([k, o]) => [k, km(c, o.c)]).sort((x, y) => x[1] - y[1])[0][0]; }
+  function findCity(text) {
+    const q = norm(String(text || "").trim()); if (q.length < 2) return null;
+    const hit = CITIES_ES.find(c => norm(c[0]) === q) || CITIES_ES.find(c => norm(c[0]).startsWith(q));
+    return hit ? { name: hit[0], c: [hit[2], hit[1]] } : null;
+  }
 
   /* =========================================================
      FUENTES (misma convención que la bóveda)
@@ -520,6 +534,7 @@ dialog.sheet { overflow-x: hidden; }
     prefettura: EQ("Prefettura: vademécum de espectáculos (PDF)", "https://prefettura.interno.gov.it/sites/default/files/70/2023-10/vademecum_commissione_provinciale_di_vigilanza.pdf"),
     alc_it: EQ("Ley 125/2001 (Italia), PDF", "https://antidroga.interno.gov.it/wp-content/uploads/2019/05/L.-30-marzo-2001-n.-125-.pdf"),
     alc_uk: EQ("GOV.UK: alcohol y menores", "https://www.gov.uk/alcohol-young-people-law"),
+    es_dni: S("Policía Nacional: permiso de viaje (solo para salir de España)", "https://sede.policia.gob.es/portalCiudadano/_es/tramites_ciudadania_documentacionviajar.php", "VERIFICADO", MIA),
     flixbus: S("FlixBus: viajar con niños", "https://support.flixbus.com/global/en/travelling-with-children", "VERIFICADO", MIA),
     none: S("Sin fuente verificada", null, "SIN VERIFICAR", MIA)
   };
@@ -554,7 +569,7 @@ dialog.sheet { overflow-x: hidden; }
     airbnb: { name: "Apartamento (Airbnb)", cat: "dormir", tipo: "contratacion", src: "airbnb", rule: (m, g) => m.age >= 18 ? R("ok", "Mayor de edad: puede reservar.") : adultOf(g, m) ? R("req", "Los menores no reservan: la reserva va a nombre de " + quien(adultOf(g, m)) + ", que viaja con el grupo.", [G("Reserva a nombre de " + quien(adultOf(g, m)))]) : R("no", "Menores de 18 no reservan ni se alojan sin un adulto.") },
     accor: { name: "Hotel (Accor)", cat: "dormir", tipo: "checkin", src: "accor", rule: (m, g) => m.age >= 18 ? R("ok", OK18) : adultOf(g, m) ? R("req", "Todo menor con un adulto; confirmad con el hotel.", [G("Viajar " + con(adultOf(g, m)))]) : R("no", "Todo menor debe ir con un adulto.") },
     pousadas: { name: "Pousadas de Juventude", cat: "dormir", tipo: "estancia", src: "pousadas", rule: m => m.age >= 16 ? R("ok", "Desde 16, sin condiciones por edad.") : R("req", "Menores de 16, con autorización para la estancia.", [F("Autorización para la estancia")]) },
-    hifrance: { name: "Albergues HI France", cat: "dormir", tipo: "checkin", src: "hifrance", rule: m => m.age >= 18 ? R("ok", OK18) : m.age >= 16 ? R("req", "Desde 16, con autorización de los padres y copia de su documento.", [F("Autorización para el albergue")]) : R("no", "Con menos de 16, solo con monitores o un adulto.") },
+    hifrance: { name: "Albergues HI France", cat: "dormir", tipo: "checkin", src: "hifrance", rule: m => m.age >= 18 ? R("ok", OK18) : m.age >= 16 ? R("req", "Con 16 o 17, solo habitación privada, autorización de los padres y copia del documento de uno de ellos (central de HI France).", [G("Habitación privada"), F("Autorización y copia del documento de un progenitor")]) : R("no", "Con menos de 16, solo con monitores o un adulto.") },
     aig: { name: "Albergues AIG", cat: "dormir", tipo: "checkin", src: "aig", rule: m => m.age >= 18 ? R("ok", OK18) : R("unk", "Solo hay política de un albergue fuera de Roma.") },
     djh: { name: "Albergues DJH", cat: "dormir", tipo: "checkin", src: "djh", rule: m => m.age >= 18 ? R("ok", OK18) : R("unk", "Solo hay política de asociaciones fuera de Berlín.") },
     yha: { name: "Albergues YHA", cat: "dormir", tipo: "estancia", src: "yha", rule: (m, g) => m.age >= 18 ? R("ok", OK18) : m.age >= 16 ? R("req", "Con 16 o 17, habitación privada en albergues seleccionados.", [G("Habitación privada"), F("Formulario de los padres 2 días antes")]) : adultOf(g, m) ? R("req", "Menores de 16, con un adulto.", [G("Ir " + con(adultOf(g, m)))]) : R("no", "Menores de 16, siempre con un adulto.") },
@@ -570,6 +585,7 @@ dialog.sheet { overflow-x: hidden; }
     smb: { name: "Isla de los Museos", cat: "hacer", tipo: "acceso", src: "smb", rule: () => R("ok", "Gratis hasta los 18 con documento.") },
     fiestas_ber: { name: "Fiesta en Kreuzberg", cat: "hacer", tipo: "acceso", src: "juschg", rule: (m, g) => m.age >= 18 ? R("ok", OK18) : m.age >= 16 ? R("req", "Con 16 o 17, sin adulto hasta las 24:00.", [G("Salir antes de las 24:00")]) : adultOf(g, m) ? R("req", "Menores de 16, con un adulto responsable.", [G("Ir " + con(adultOf(g, m)))]) : R("no", "Menores de 16, no sin un adulto.") },
     bm: { name: "British Museum", cat: "hacer", tipo: "acceso", src: "bm", rule: () => R("ok", "Colección permanente gratis.") },
+    flixbus_nac: { name: "FlixBus (nacional)", cat: "moverse", tipo: "comercial", src: "flixbus", rule: m => m.age >= 15 ? R("ok", "Desde 15 viajas sin restricciones.") : m.age >= 10 ? R("req", "De 10 a 14: consentimiento al reservar, sin transbordos y de 6 a 22 h.", [F("Consentimiento de los padres al reservar")]) : R("no", "Menores de 10, con un adulto.") },
     flixbus: { name: "FlixBus", cat: "moverse", tipo: "comercial", src: "flixbus", rule: m => m.age >= 15 ? R("ok", "Desde 15 viajas sin restricciones.") : m.age >= 10 ? R("no", "De 10 a 14 solo trayectos nacionales; este bus es internacional.") : R("no", "Menores de 10, con un adulto.") },
     alc_pt: { name: "Alcohol", cat: "hacer", tipo: "legal", src: "alc_pt", rule: m => m.age >= 18 ? R("ok", "Mayor de edad.") : R("no", "Nada de alcohol hasta los 18, tampoco cerveza.") },
     bares_fr: { name: "Bares sin un adulto", cat: "hacer", tipo: "legal", src: "legi", rule: (m, g) => m.age >= 16 ? R("ok", "Desde 16 puedes entrar sin un adulto (sin alcohol si eres menor).") : adultOf(g, m) ? R("req", "Menores de 16, con un adulto responsable.", [G("Ir " + con(adultOf(g, m)))]) : R("no", "Menores de 16, solo con padres o un adulto responsable.") },
@@ -586,11 +602,12 @@ dialog.sheet { overflow-x: hidden; }
   const NEWENTRY = {};
   function countryDocs(m, c) {
     const out = []; const minor = m.age < 18;
-    if (minor) {
+    if (minor && c !== "ES") {
       if (m.nat === "ES") out.push({ s: "req", t: "Declaración de permiso de viaje", d: "La firma uno de los padres ante Policía, Guardia Civil, notario o alcalde. Vale 90 días.", src: "interior" });
       else out.push({ s: "unk", t: "Permiso según su nacionalidad", d: "Los menores extranjeros siguen la ley de su país.", src: "interior" });
     }
-    if (c === "UK") {
+    if (c === "ES") out.push({ s: "ok", t: "DNI en vigor", d: "Dentro de España no necesitáis permiso de viaje de vuestros padres. El DNI es obligatorio desde los 14.", src: "es_dni" });
+    else if (c === "UK") {
       out.push({ s: "req", t: "Pasaporte y ETA (20 £)", d: "El DNI no vale. Cada persona su ETA.", src: "uk_eta" });
       if (minor) out.push({ s: "req", t: "Consentimiento escrito de los padres", d: "Con sus datos y los de quien os aloja.", src: "uk_minor" });
     } else if (["PT", "FR", "IT", "DE"].includes(c)) out.push({ s: "ok", t: c === "DE" ? "DNI físico o pasaporte" : "DNI o pasaporte", d: "En vigor.", src: { PT: "ext_pt", FR: "ext_fr", IT: "ext_it", DE: "ext_de" }[c] });
@@ -654,7 +671,7 @@ dialog.sheet { overflow-x: hidden; }
   const state = {
     cart: { k: null, fl: null, st: null }, checks: new Set(), pot: {}, flSort: "precio", flDirect: false, co: { step: 1, checks: new Set() },
     group: [me, ...[2, 3, 4].map(i => ({ id: i, name: "Persona " + i, age: 17, nat: "ES", likes: new Set(["playa", "joven"]) }))],
-    origin: "SVQ", days: 4, date: "2027-03-25", budget: 250, sel: null, tab: "todo", compare: new Set(), mapMode: "osm", nextId: 5, parsed: null, legalFilter: { quien: "todos", cuando: "todos", dest: "auto" }
+    origin: "SVQ", city: null, days: 4, date: "2027-03-25", budget: 250, sel: null, tab: "todo", compare: new Set(), mapMode: "osm", nextId: 5, parsed: null, legalFilter: { quien: "todos", cuando: "todos", dest: "auto" }
   };
 
   /* =========================================================
@@ -681,6 +698,11 @@ dialog.sheet { overflow-x: hidden; }
   }
   /* Buses de ejemplo (ida y vuelta por persona, minutos por trayecto): no son precios ni horarios reales */
   const BUSES = { lisboa: { SVQ: [["flixbus", 52, 455]], MAD: [["flixbus", 48, 560]] }, paris: { MAD: [["flixbus", 95, 1050]], BCN: [["flixbus", 79, 930]] } };
+  function busesFor(k) { // España: bus nacional desde la ciudad real (precio y horas de ejemplo); fuera: buses de ejemplo por aeropuerto
+    const d = DEST[k];
+    if (d.country === "ES") { const dist = km(originCoords(), d.c); if (dist < 25) return []; return [["flixbus_nac", 2 * Math.round(8 + dist * 0.055), Math.round(20 + dist / 72 * 60)]]; }
+    return (BUSES[k] || {})[state.origin] || [];
+  }
   function evalFlight(air, direct, group = state.group, self = false) {
     const e = evalItem(air, group);
     if (self && group.some(m => m.age < 18)) return { ...e, s: "no", per: e.per.map(x => x.m.age < 18 ? { m: x.m, r: R("no", "Transbordo por cuenta propia (billetes separados): con menores no lo enseñamos. Si perdéis la conexión, nadie os recoloca.") } : x) };
@@ -694,6 +716,7 @@ dialog.sheet { overflow-x: hidden; }
      ========================================================= */
   function analyse(k, group = state.group) {
     const d = DEST[k]; const n = group.length; const nights = Math.max(1, state.days - 1);
+    if (d.country === "ES" && km(originCoords(), d.c) < 25) return { k, d, status: "home", score: null, sat: [], pref: 0, reason: "Es vuestra ciudad." };
     // «Noche» solo cuenta si la edad de esa persona le permite algún plan nocturno del destino
     const nightOk = m => !OCIO[k] || OCIO[k].some(([key, , when]) => when === "noche" && key && visible(ITEMS[key].rule(m, group).s));
     const tagsFor = m => d.tags.filter(t => t !== "noche" || nightOk(m));
@@ -701,13 +724,13 @@ dialog.sheet { overflow-x: hidden; }
     const avg = sat.reduce((a, x) => a + x.v, 0) / n; const min = Math.min(...sat.map(x => x.v));
     const pref = 0.6 * avg + 0.4 * min;
     if (!d.verified) return { k, d, status: "unk", score: null, sat, pref, reason: d.isNew ? "Falta confirmar qué piden en la frontera a menores de la UE que llegan sin adultos, y el albergue con permiso de 16-17 es norma general de la cadena. Mientras, sale como pendiente." : "No tenemos verificadas las normas de entrada, alojamientos ni actividades para menores. Pendiente, no permitido." };
-    const flights = (d.byOrigin ? d.byOrigin[state.origin] || [] : d.flights).map(([a, p, dir, self]) => ({ a, p: p * (d.byOrigin ? 1 : ORIGINS[state.origin].k), dir, self: self === "self", mode: "air", e: evalFlight(a, dir, group, self === "self") })).concat(((BUSES[k] || {})[state.origin] || []).map(([a, p, min]) => ({ a, p, dir: true, mode: "bus", min, e: evalItem(a, group) }))).sort((x, y) => RANK[x.e.s] - RANK[y.e.s] || x.p - y.p);
+    const flights = (d.byOrigin ? d.byOrigin[state.origin] || [] : d.flights).map(([a, p, dir, self]) => ({ a, p: p * (d.byOrigin ? 1 : ORIGINS[state.origin].k), dir, self: self === "self", mode: "air", e: evalFlight(a, dir, group, self === "self") })).concat(busesFor(k).map(([a, p, min]) => ({ a, p, dir: true, mode: "bus", min, e: evalItem(a, group) }))).sort((x, y) => RANK[x.e.s] - RANK[y.e.s] || x.p - y.p);
     const stays = d.stays.map(([s, p]) => ({ s, p, e: evalItem(s, group) })).sort((x, y) => RANK[x.e.s] - RANK[y.e.s] || x.p - y.p);
     const docs = group.map(m => ({ m, docs: countryDocs(m, d.country) }));
     const fOk = flights.filter(x => visible(x.e.s)), sOk = stays.filter(x => visible(x.e.s));
     const docUnk = docs.some(x => x.docs.some(y => y.s === "unk"));
     if (!fOk.length || !sOk.length) {
-      const why = !sOk.length ? `Ningún alojamiento verificado acepta a vuestro grupo (${stays.map(x => ITEMS[x.s].name + ": " + STATUS[x.e.s][2].toLowerCase()).join("; ")}).` : (flights.length ? "Ninguna aerolínea de la lista acepta a vuestro grupo." : `Desde ${ORIGINS[state.origin].name} no tenemos vuelos directos confirmados a ${d.city}. Probad otra ciudad de salida.`);
+      const why = !sOk.length ? `Ningún alojamiento verificado acepta a vuestro grupo (${stays.map(x => ITEMS[x.s].name + ": " + STATUS[x.e.s][2].toLowerCase()).join("; ")}).` : (flights.length ? "Ninguna aerolínea de la lista acepta a vuestro grupo." : `Desde ${originName()} no tenemos vuelos directos confirmados a ${d.city}. Probad otra ciudad de salida.`);
       return { k, d, status: !flights.length || (!sOk.length && stays.some(x => x.e.s === "unk")) ? "unk" : "no", score: null, sat, pref, reason: why, flights, stays, docs };
     }
     const fl = fOk[0], st = sOk[0];
@@ -731,7 +754,7 @@ dialog.sheet { overflow-x: hidden; }
   function rankAll() {
     const all = Object.keys(DEST).map(k => analyse(k));
     const viable = all.filter(a => a.score != null).sort((a, b) => b.score - a.score);
-    const rest = all.filter(a => a.score == null).sort((a, b) => RANK[a.status] - RANK[b.status]);
+    const rest = all.filter(a => a.score == null && a.status !== "home").sort((a, b) => RANK[a.status] - RANK[b.status]);
     return { viable, rest, all };
   }
 
@@ -855,7 +878,7 @@ Reglas de extracción:
   }
 
   /* ---------- Pantalla de entrada: primero edades y qué buscáis ---------- */
-  const wz = { n: 4, ages: [17, 17, 17, 17], origin: "SVQ", days: 4, date: "2027-03-25", budget: 250, likes: new Set(["playa", "joven"]), msg: "" };
+  const wz = { n: 4, ages: [17, 17, 17, 17], origin: "SVQ", city: null, days: 4, date: "2027-03-25", budget: 250, likes: new Set(["playa", "joven"]), msg: "" };
   function renderWelcome() {
     const ageSel = i => `<div class="field"><label for="wz-age-${i}">${i === 0 ? "Tú" : "Persona " + (i + 1)}</label><select class="input" id="wz-age-${i}" data-wzage="${i}">${[15, 16, 17, 18, 19].map(a => `<option value="${a}"${a === wz.ages[i] ? " selected" : ""}>${a} años</option>`).join("")}</select></div>`;
     $("#wz").innerHTML = `<div class="sheet-head"><div><p class="eyebrow">Lo primero</p><h2 id="wz-title">¿Quiénes os vais y qué os mola?</h2><p class="small muted">Vuestra edad decide qué vuelos, sitios para dormir y planes os salen. No te pedimos nombres.</p></div></div>
@@ -864,7 +887,7 @@ Reglas de extracción:
         <div class="wz-ages">${Array.from({ length: wz.n }, (_, i) => ageSel(i)).join("")}</div></div>
       <div class="wz-step"><span class="label"><span class="wz-num">2</span>¿Qué buscáis en el viaje?</span>
         <div class="row" role="group" aria-label="Qué buscáis">${LIKES.map(([k, l]) => `<button type="button" class="chip" data-wzlike="${k}" aria-pressed="${wz.likes.has(k)}">${l}</button>`).join("")}</div>
-        <div class="grid2"><div class="field"><label for="wz-origin">Salís de</label><select class="input" id="wz-origin">${Object.entries(ORIGINS).map(([k, o]) => `<option value="${k}"${k === wz.origin ? " selected" : ""}>${o.name}</option>`).join("")}</select></div>
+        <div class="grid2"><div class="field"><label for="wz-city">Salís de</label><input class="input" id="wz-city" list="cities-dl" autocomplete="off" placeholder="Tu ciudad o pueblo" value="${esc(wz.city ? wz.city.name : ORIGINS[wz.origin]["name"])}"></div>
           <div class="field"><label for="wz-days">Días</label><input class="input" id="wz-days" type="number" min="2" max="7" value="${wz.days}"></div></div>
         <div class="field"><label for="wz-date">¿Cuándo os vais?</label><input class="input" id="wz-date" type="date" min="2026-11-09" value="${wz.date}"></div>
         <div class="field"><label for="wz-budget">Pasta por persona: <span id="wz-budget-v">${eur(wz.budget)}</span></label><input id="wz-budget" type="range" min="100" max="700" step="10" value="${wz.budget}"></div></div>
@@ -872,7 +895,7 @@ Reglas de extracción:
         <div class="row"><button type="button" class="btn ghost sm" id="wz-rules">Rellenar</button>${sampleFn ? '<button type="button" class="btn sm" id="wz-ai">Rellenar con IA ✨</button>' : ""}<span class="small" id="wz-status" aria-live="polite"></span></div></div></details>
       <div class="row between"><button type="button" class="btn ghost" id="wz-example">Ver un ejemplo</button><button type="button" class="btn pop" id="wz-go">¡Vamos! Ver qué nos sale</button></div>`;
   }
-  function openWelcome() { wz.n = state.group.length; wz.ages = state.group.map(m => m.age); wz.origin = state.origin; wz.days = state.days; wz.date = state.date; wz.budget = state.budget; wz.likes = new Set(me.likes); renderWelcome(); const d = $("#welcome"); if (!d.open) d.showModal(); }
+  function openWelcome() { wz.n = state.group.length; wz.ages = state.group.map(m => m.age); wz.origin = state.origin; wz.city = state.city; wz.days = state.days; wz.date = state.date; wz.budget = state.budget; wz.likes = new Set(me.likes); renderWelcome(); const d = $("#welcome"); if (!d.open) d.showModal(); }
   function wzFrom(p) { // rellena el formulario con lo que entendió el intérprete (sin aplicarlo aún)
     if (p.people) wz.n = p.people;
     const ages = p.ages && p.ages.length ? p.ages : p.age ? [p.age] : null;
@@ -886,12 +909,12 @@ Reglas de extracción:
   }
   function wzApply() {
     const p = { people: wz.n, ages: wz.ages.slice(0, wz.n), age: wz.ages[0], origin: wz.origin, days: wz.days, budget: wz.budget, likes: [...wz.likes], miss: [], via: "formulario" };
-    $("#nl").value = `Somos ${wz.n === 1 ? "uno" : wz.n}, de ${[...new Set(p.ages)].join(" y ")} años, salimos de ${ORIGINS[wz.origin].name}, ${wz.budget} € por persona y ${wz.days} días. Buscamos: ${p.likes.map(l => LIKES.find(x => x[0] === l)[1].toLowerCase()).join(", ") || "de todo"}.`;
-    state.date = wz.date; applyParsed(p); $("#welcome").close(); update(true); flyEurope();
+    $("#nl").value = `Somos ${wz.n === 1 ? "uno" : wz.n}, de ${[...new Set(p.ages)].join(" y ")} años, salimos de ${wz.city ? wz.city.name : ORIGINS[wz.origin]["name"]}, ${wz.budget} € por persona y ${wz.days} días. Buscamos: ${p.likes.map(l => LIKES.find(x => x[0] === l)[1].toLowerCase()).join(", ") || "de todo"}.`;
+    state.date = wz.date; applyParsed(p); state.city = wz.city || null; if (state.city) state.origin = nearestAir(state.city.c); $("#welcome").close(); update(true); flyEurope();
   }
 
   function applyParsed(p) {
-    if (p.origin) state.origin = p.origin;
+    if (p.origin) { state.origin = p.origin; state.city = null; }
     if (p.budget) state.budget = p.budget;
     if (p.days) state.days = p.days;
     const age = p.age || me.age; const n = p.people || state.group.length; const likes = p.likes.length ? p.likes : ["joven"];
@@ -952,7 +975,7 @@ Reglas de extracción:
     return pts;
   }
   function overlayData() {
-    const res = rankAll(); const o = ORIGINS[state.origin].c;
+    const res = rankAll(); const o = originCoords();
     const arcs = res.viable.map(a => ({ type: "Feature", properties: { k: a.k, sel: state.sel === a.k ? 1 : 0 }, geometry: { type: "LineString", coordinates: gc(o, a.d.c) } }));
     let route = [];
     /* sin rutas: solo se marcan los sitios */
@@ -982,10 +1005,11 @@ Reglas de extracción:
     if (!map || !map.getSource("arcs")) return;
     map.getSource("arcs").setData(data.arcs); map.getSource("route").setData(data.route);
     markers.forEach(m => m.remove()); markers = [];
-    const o = ORIGINS[state.origin];
+    const o = { name: originName(), c: originCoords() };
     markers.push(new maplibregl.Marker({ element: mkEl(o.name, "origin", "●", 22, null) }).setLngLat(o.c).addTo(map));
     const showStops = state.sel && DEST[state.sel].verified && analyse(state.sel).score != null;
     data.res.all.forEach(a => {
+      if (a.status === "home") return;
       if (showStops && a.k === state.sel) return;
       const st = a.status;
       const size = a.score != null ? 26 + Math.round(a.score / 6) : 24;
@@ -995,7 +1019,7 @@ Reglas de extracción:
     stopMarkers.forEach(m => m.remove()); stopMarkers = [];
     if (state.sel && DEST[state.sel].verified) {
       const a = analyse(state.sel);
-      if (a.score != null) places(a).forEach(p => { const el = document.createElement("div"); el.className = "mk stopmk" + (p.ok ? "" : " skip"); el.innerHTML = `<span class="dot" title="${esc(p.name)}: ${p.why}">${p.ok ? p.icon : "×"}</span><span class="lbl">${esc(p.name)}</span>`; stopMarkers.push(new maplibregl.Marker({ element: el }).setLngLat(p.c).addTo(map)); });
+      if (a.score != null) places(a).forEach(p => { const el = document.createElement("div"); el.className = "mk stopmk" + (p.ok ? "" : p.pending ? " pending" : " skip"); el.innerHTML = `<span class="dot" title="${esc(p.name)}: ${p.why}">${p.ok || p.pending ? p.icon : "×"}</span><span class="lbl">${esc(p.name)}</span>`; stopMarkers.push(new maplibregl.Marker({ element: el }).setLngLat(p.c).addTo(map)); });
     }
   }
   function mkEl(label, cls, inner, size, st, k) {
@@ -1022,7 +1046,7 @@ Reglas de extracción:
      RENDER: panel izquierdo
      ========================================================= */
   function renderLeft() {
-    $("#origin").innerHTML = Object.entries(ORIGINS).map(([k, o]) => `<option value="${k}"${k === state.origin ? " selected" : ""}>${o.name} (${k})</option>`).join("");
+    $("#origin-city").value = originName(); $("#origin-air").textContent = state.city ? `Aeropuerto más cercano: ${ORIGINS[state.origin]["name"]} (${state.origin}), a ${Math.round(km(state.city.c, ORIGINS[state.origin].c))} km` : `Aeropuerto: ${state.origin}`;
     $("#days").value = state.days; $("#date").value = state.date; $("#budget").value = state.budget; $("#budget-v").textContent = eur(state.budget);
     // Resumen del grupo (sin editar persona a persona: eso se hace en la bienvenida)
     const byAge = {}; state.group.forEach(m => { byAge[m.age] = (byAge[m.age] || 0) + 1; });
@@ -1077,12 +1101,12 @@ Reglas de extracción:
     const { viable, rest } = rankAll();
     const unk = rest.filter(r => r.status === "unk").length, no = rest.filter(r => r.status === "no").length;
     $("#results").innerHTML = `<div class="section" style="display:grid;gap:12px">
-      <div><p class="eyebrow">Vuestros viajes</p><h2>Para ${pl(state.group.length, "persona", "personas")} de ${[...new Set(state.group.map(m => m.age))].join(" y ")} años desde ${ORIGINS[state.origin].name}</h2></div>
+      <div><p class="eyebrow">Vuestros viajes</p><h2>Para ${pl(state.group.length, "persona", "personas")} de ${[...new Set(state.group.map(m => m.age))].join(" y ")} años desde ${originName()}</h2></div>
       <div class="summary"><div><b>${viable.length}</b><span>os salen</span></div><div><b>${no}</b><span>no os dejan</span></div><div><b>${unk}</b><span>sin confirmar</span></div></div>
       <p class="sr" role="status">${viable.length} destinos viables, ${no} no permitidos y ${unk} pendientes de verificar.</p>
       ${state.compare.size >= 2 ? `<button type="button" class="btn pop block" data-open="compare">Comparar ${state.compare.size} destinos</button>` : `<p class="small muted">Marca «Comparar» en 2 o 3 destinos y los ves cara a cara.</p>`}
       <div class="cards">${viable.map((a, i) => `<article class="card${animate ? " rise" : ""}" style="--i:${i}">
-        <div ${phStyle(a.k)}><span class="mono">${a.d.iata}</span>${a.d.isNew ? '<span class="newtag">Nuevo</span>' : ""}<span class="score" title="Cuánto os pega, de 0 a 100">${a.score}</span></div>
+        <div ${phStyle(a.k)}>${PHOTO[a.k] ? `<a class="credit" href="${PHOTO[a.k].page}" target="_blank" rel="noopener">Foto: ${esc(PHOTO[a.k].by)} · ${esc(PHOTO[a.k].lic)}</a>` : ""}<span class="mono">${a.d.iata}</span>${a.d.isNew ? '<span class="newtag">Nuevo</span>' : ""}<span class="score" title="Cuánto os pega, de 0 a 100">${a.score}</span></div>
         <div class="card-body">
           <div class="card-title"><strong>${esc(a.d.city)}</strong>${pill(a.status)}</div>
           <div class="row" style="gap:4px">${memberChips(a)}</div>
@@ -1118,12 +1142,12 @@ Reglas de extracción:
     const out = [];
     const stayStop = a.d.stops.find(x => a.st && x[1] === a.st.s);
     if (stayStop && a.st && a.st.s === stayStop[1]) out.push({ name: stayStop[0], c: stayStop[2], icon: "🛏", ok: true, why: esc(ITEMS[a.st.s].name) });
-    ocioEval(a.k).forEach(x => { if (x.c) out.push({ name: x.name, c: x.c, icon: x.when === "noche" ? "☾" : "☀", ok: visible(x.e.s), why: groupWhy(x.e) }); });
+    ocioEval(a.k).forEach(x => { if (x.c) out.push({ name: x.name, c: x.c, icon: x.when === "noche" ? "☾" : "☀", ok: visible(x.e.s), pending: x.e.s === "unk", why: x.e.s === "unk" ? "Acceso para menores sin adulto por confirmar." : groupWhy(x.e) }); });
     return out;
   }
   function allTab(a) {
     const oc = ocioEval(a.k);
-    const fl = a.flights.filter(x => visible(x.e.s)), st = a.stays.filter(x => visible(x.e.s)), ok = oc.filter(x => visible(x.e.s));
+    const fl = a.flights.filter(x => visible(x.e.s)), st = a.stays.filter(x => visible(x.e.s)), ok = oc.filter(x => visible(x.e.s) || x.e.s === "unk");
     const hidden = (a.flights.length - fl.length) + (a.stays.length - st.length) + (oc.length - ok.length);
     const row = (icon, title, sub, badge, price) => `<div class="mini"><span class="mini-ic" aria-hidden="true">${icon}</span><span><strong>${title}</strong><br><span class="small muted">${sub}</span></span><span class="mini-r">${price ? `<span class="price">${price}</span>` : ""}${badge}</span></div>`;
     const block = (title, tab, rows) => `<div class="box cat ${{ vuelos: "cat-fly", dormir: "cat-stay", ocio: "cat-fun" }[tab]}"><div class="cat-h"><h3>${title}</h3><button type="button" class="btn sm" data-tab="${tab}">Ver detalle</button></div><div class="cat-b">${rows || '<p class="small bad">Con vuestra edad aquí no sale nada.</p>'}</div></div>`;
@@ -1131,7 +1155,7 @@ Reglas de extracción:
       <p class="small">Todo lo que <strong>os sale con vuestra edad</strong> en ${esc(a.d.city)}. Lo que no os dejan hacer por edad no aparece aquí.</p>
       ${block("✈ Vuelos que podéis coger", "vuelos", fl.map(x => row("✈", esc(ITEMS[x.a].name), (x.dir ? "Directo" : "Con escala") + " · " + state.origin + " → " + a.d.iata, pill(x.e.s), eur(x.p))).join(""))}
       ${block("🛏 Dónde podéis dormir", "dormir", st.map(x => row("🛏", esc(ITEMS[x.s].name), groupWhy(x.e), pill(x.e.s), eur(x.p) + "/noche")).join("") + (st.length ? bookingBox(a, true) : ""))}
-      ${block("🎟 Planes para vuestra edad", "ocio", ok.map(x => row(x.when === "noche" ? "☾" : "☀", esc(x.name), groupWhy(x.e), x.key ? pill(x.e.s) : pill("ok", "Libre"))).join(""))}
+      ${block("🎟 Planes para vuestra edad", "ocio", ok.map(x => row(x.when === "noche" ? "☾" : "☀", esc(x.name), groupWhy(x.e), x.key ? pill(x.e.s, x.e.s === "unk" ? "Ojo, por confirmar" : undefined) : pill("ok", "Libre"))).join(""))}
       ${hidden ? `<p class="small muted">${hidden} cosas no os salen por la edad o están sin confirmar: las tienes en cada pestaña, con el motivo.</p>` : ""}`;
   }
   /* ---------- Booking.com: abre la búsqueda real (sin API ni scraping) ----------
@@ -1144,7 +1168,7 @@ Reglas de extracción:
     const p = new URLSearchParams({ ss: a.d.city, checkin: state.date, checkout: addDays(state.date, Math.max(1, state.days - 1)), group_adults: String(state.group.length), no_rooms: "1", group_children: "0", order: "price", nflt: "ht_id=" + KIND[kind].id });
     return "https://www.booking.com/searchresults.es.html?" + p.toString();
   }
-  function bkLink(a, stayKey) { const k = STAY_KIND[stayKey]; return k ? `<a class="cta-bk" href="${bookingUrl(a, k)}" target="_blank" rel="noopener">${KIND[k].icon} Ver ${KIND[k].label.toLowerCase()} reales en Booking.com ↗</a>` : ""; }
+  function bkLink(a, stayKey) { if (ITEMS[stayKey] && ITEMS[stayKey].link) return `<a class="cta-bk" href="${esc(ITEMS[stayKey].link)}" target="_blank" rel="noopener">🛏 Ver el albergue ↗</a>`; const k = STAY_KIND[stayKey]; return k ? `<a class="cta-bk" href="${bookingUrl(a, k)}" target="_blank" rel="noopener">${KIND[k].icon} Ver ${KIND[k].label.toLowerCase()} reales en Booking.com ↗</a>` : ""; }
   function bookingBox(a, compact) {
     const kinds = [...new Set(a.stays.filter(x => visible(x.e.s)).map(x => STAY_KIND[x.s]).filter(Boolean))];
     if (!kinds.length) return compact ? "" : `<div class="bk-box"><p class="small"><strong>Booking.com:</strong> con vuestra edad, y sin un adulto en el grupo, ningún tipo de alojamiento verificado os acepta aquí, así que no os mandamos a buscar.</p></div>`;
@@ -1162,7 +1186,7 @@ Reglas de extracción:
   function reqList(e) { const seen = new Map(); e.per.forEach(x => x.r.reqs.forEach(q => seen.set(q.t, q.who))); return seen.size ? `<ul class="why">${[...seen].map(([t, who]) => `<li>${esc(t)} <span class="pill who">${who}</span></li>`).join("")}</ul>` : ""; }
   function srcLine(key) { const x = SRC[key]; return `<p class="small">${x.url ? `<a href="${x.url}" target="_blank" rel="noopener">${esc(x.label)}</a>` : esc(x.label)} <span class="tipo" title="${esc(x.tag)}">${esc(tagTxt(x.tag))} · ${esc(x.date)}</span></p>`; }
   function offer({ title, sub, price, e, link, pick }) {
-    return `<div class="offer${visible(e.s) ? "" : " dim"}"><div class="row between"><strong>${title}</strong>${e.it ? pill(e.s) : pill("ok", "Libre")}</div>
+    return `<div class="offer${visible(e.s) ? "" : " dim"}"><div class="row between"><strong>${title}</strong>${e.it ? pill(e.s, e.s === "unk" ? "Ojo, por confirmar" : undefined) : pill("ok", "Libre")}</div>
       ${sub || price ? `<div class="row between small"><span class="muted">${sub || ""}</span>${price ? `<span class="price">${price}</span>` : ""}</div>` : ""}
       <p class="small">${groupWhy(e)}</p>${personChips(e)}${reqList(e)}${e.it ? `<span class="tipo">${TIPOS[e.it.tipo]}</span>${srcLine(e.it.src)}` : ""}${pick && visible(e.s) ? pick : ""}${link && visible(e.s) ? link : ""}</div>`;
   }
@@ -1210,7 +1234,8 @@ Reglas de extracción:
     ita: { solo: 15, note: "De 15 a 17 vuelas solo" },
     lufthansa: { solo: 12, note: "De 12 a 17, acompañamiento opcional" },
     ba: { solo: 16, cond: 14, condTxt: "Con 14 o 15: formulario de los padres", under: "Menos de 14: no vuelan sin acompañamiento" },
-    flixbus: { solo: 15, cond: 10, condTxt: "De 10 a 14: solo trayectos nacionales, sin transbordos y de 6 a 22 h", note: "Bus internacional" }
+    flixbus: { solo: 15, cond: 10, condTxt: "De 10 a 14: solo trayectos nacionales, sin transbordos y de 6 a 22 h", note: "Bus internacional" },
+    flixbus_nac: { solo: 15, cond: 10, condTxt: "De 10 a 14: con consentimiento al reservar, sin transbordos y de 6 a 22 h", note: "Bus nacional" }
   };
   const SCALE = [10, 19]; // edades que se dibujan
   const pct = age => ((Math.min(SCALE[1], Math.max(SCALE[0], age)) - SCALE[0]) / (SCALE[1] - SCALE[0]) * 100).toFixed(1) + "%";
@@ -1232,10 +1257,10 @@ Reglas de extracción:
     return `<div class="box acomp"><div class="row between"><h3>Quién os deja viajar con vuestra edad</h3><span class="small muted">Normativa de cada una</span></div>
       <div class="alegend"><span><i class="sg ok"></i>Vuelas solo</span><span><i class="sg req"></i>Con condiciones</span><span><i class="sg no"></i>No sin un adulto</span><span><b class="adot sm">17</b>Vuestras edades</span></div>
       ${rows.map((e, i) => { const p = AIR_POLICY[e.key] || {}; const ok = visible(e.s); return `<div class="arow rise" style="--i:${i}">
-        <div class="arow-h"><span class="f-logo" aria-hidden="true">${e.key === "flixbus" ? "🚌" : AIR_CODE[e.key]}</span><strong>${esc(e.it.name)}</strong>${pill(e.s)}</div>
+        <div class="arow-h"><span class="f-logo" aria-hidden="true">${e.key.startsWith("flixbus") ? "🚌" : AIR_CODE[e.key]}</span><strong>${esc(e.it.name)}</strong>${pill(e.s)}</div>
         ${ageScale(e.key)}
         <p class="small">${[p.solo != null ? "Solo desde los " + p.solo + " años." : "", p.condTxt, p.under, p.note].filter(Boolean).map(esc).join(" · ")}</p>
-        <div class="row between"><span class="small">${SRC[e.it.src].url ? `<a href="${SRC[e.it.src].url}" target="_blank" rel="noopener">Normas de ${esc(e.it.name)}</a>` : ""} <span class="tipo">${esc(tagTxt(SRC[e.it.src].tag))} · ${esc(SRC[e.it.src].date)}</span></span>${ok ? (e.key === "flixbus" ? `<a class="cta-bk sm" href="https://www.flixbus.es/" target="_blank" rel="noopener">Buses reales ↗</a>` : `<a class="cta-bk sm" href="${kayakUrl(a, e.key)}" target="_blank" rel="noopener">Vuelos reales ↗</a>`) : ""}</div></div>`; }).join("")}</div>`;
+        <div class="row between"><span class="small">${SRC[e.it.src].url ? `<a href="${SRC[e.it.src].url}" target="_blank" rel="noopener">Normas de ${esc(e.it.name)}</a>` : ""} <span class="tipo">${esc(tagTxt(SRC[e.it.src].tag))} · ${esc(SRC[e.it.src].date)}</span></span>${ok ? (e.key.startsWith("flixbus") ? `<a class="cta-bk sm" href="https://www.flixbus.es/" target="_blank" rel="noopener">Buses reales ↗</a>` : `<a class="cta-bk sm" href="${kayakUrl(a, e.key)}" target="_blank" rel="noopener">Vuelos reales ↗</a>`) : ""}</div></div>`; }).join("")}</div>`;
   }
   function realFlightsBox(a) {
     const airs = [...new Set(a.flights.filter(x => visible(x.e.s) && x.mode !== "bus").map(x => x.a))];
@@ -1263,7 +1288,7 @@ Reglas de extracción:
         <circle cx="30" cy="72" r="5" fill="#fff"/><circle cx="290" cy="72" r="5" fill="var(--pop)"/>
         <g><text font-size="16" text-anchor="middle" dominant-baseline="central" fill="#fff">✈</text>${anim ? `<animateMotion dur="6s" repeatCount="indefinite" rotate="auto" keyPoints="0;1" keyTimes="0;1" calcMode="spline" keySplines="0.45 0 0.55 1"><mpath href="#arc-${a.k}"/></animateMotion>` : `<animateMotion dur="0.01s" fill="freeze" keyPoints="0.55;0.55" keyTimes="0;1" rotate="auto"><mpath href="#arc-${a.k}"/></animateMotion>`}</g></svg>
       <div class="fhero-codes"><b>${state.origin}</b><b>${a.d.iata}</b></div>
-      <div class="fhero-cap">${esc(ORIGINS[state.origin].name)} → ${esc(a.d.city)} · ${dmy(state.date)} – ${dmy(back)} · ${pl(state.group.length, "viajero", "viajeros")} de ${[...new Set(state.group.map(m => m.age))].join(" y ")} años</div></div>`;
+      <div class="fhero-cap">${esc(originName())} → ${esc(a.d.city)} · ${dmy(state.date)} – ${dmy(back)} · ${pl(state.group.length, "viajero", "viajeros")} de ${[...new Set(state.group.map(m => m.age))].join(" y ")} años</div></div>`;
   }
   function flightCard(a, x, i = 0) {
     const sc = schedule(a, x), n = state.group.length, chosen = cartSel(a).fl === x, ok = visible(x.e.s);
@@ -1288,6 +1313,7 @@ Reglas de extracción:
       <h3 style="margin-top:4px">Vuelos de ejemplo para reservar (simulado)</h3>
       <div class="sorttabs">${tab("precio", "Más barato", cheap && eur(cheap.p))}${tab("rapido", "Más rápido", fast && durTxt(schedule(a, fast).dur))}</div>
       <div class="row"><label class="small row" style="gap:6px"><input type="checkbox" id="fl-direct"${state.flDirect ? " checked" : ""}> Solo directos</label>${state.group.some(m => m.age < 18) ? `<span class="lock" title="Con billetes separados, si perdéis la conexión nadie os recoloca y las maletas y controles corren de vuestra cuenta.">🔒 Sin transbordos por vuestra cuenta (siempre, con menores)</span>` : ""}</div>
+      ${a.d.team && a.d.country !== "ES" ? `<p class="warn">Rutas de ejemplo: no sabemos si hay vuelo directo desde ${esc(originName())}. Comprobadlo en Kayak.</p>` : ""}
       <p class="small"><strong>${ok.length} de ${list.length}</strong> aerolíneas os dejan volar con vuestra edad. <span class="muted">Horarios y precios de ejemplo; la reserva es simulada.</span></p>
       ${ok.length ? ok.map((x, i) => flightCard(a, x, i)).join("") : `<div class="box"><p class="bad">Ninguna aerolínea de la lista os deja volar así.</p><p class="small muted">Quitad «Solo directos» o probad a meter a alguien de 18.</p></div>`}
       ${hid.length ? `<details class="hid"><summary>${hid.length} aerolíneas que no os dejan o sin confirmar</summary><div style="display:grid;gap:8px;margin-top:8px">${hid.map(x => flightCard(a, x)).join("")}</div></details>` : ""}
@@ -1352,11 +1378,14 @@ Reglas de extracción:
   }
   function ocioTab(a) {
     const list = ocioEval(a.k).map(x => ({ e: x.e, title: esc(x.name), sub: x.when === "noche" ? "🌙 De noche" : "☀ De día", night: x.when === "noche", price: "" }));
-    const c = counts(list);
-    const nightOk = list.some(x => x.night && visible(x.e.s));
-    return `<p class="small"><strong>${c.ok}</strong> planes que podéis hacer sin problema, <strong>${c.req}</strong> con condiciones y <strong>${c.no}</strong> que no son para vuestra edad o dependen del sitio.</p>
-      ${nightOk ? `<div class="box"><span class="tipo">Consejo GoLiveIt · no es una norma</span><p class="small">De noche: id y volved juntos, con el móvil cargado y la ubicación compartida con casa. Llevad el DNI, que os lo pueden pedir.</p></div>` : ""}
-      ${splitList(list, offer, "planes que no son para vuestra edad o sin confirmar")}${legalTips(["dif-alcohol-ocio", "dif-de-horarios-juschg", "dif-fr-toques-queda", "dif-patinetes-alquiler"], a.d.country)}`;
+    const okL = list.filter(x => visible(x.e.s)), pend = list.filter(x => x.e.s === "unk"), noL = list.filter(x => x.e.s === "no");
+    return `<p class="small"><strong>${okL.length}</strong> planes que podéis hacer, <strong>${pend.length}</strong> por confirmar y <strong>${noL.length}</strong> que no son para vuestra edad.</p>
+      ${okL.some(x => x.night) ? `<div class="box"><span class="tipo">Consejo GoLiveIt · no es una norma</span><p class="small">De noche: id y volved juntos, con el móvil cargado y la ubicación compartida con casa. Llevad el DNI, que os lo pueden pedir.</p></div>` : ""}
+      ${okL.map(offer).join("")}
+      ${pend.length ? `<h3>Ojo, por confirmar</h3><p class="small muted">Todavía no sabemos si dejan entrar a menores sin un adulto. Preguntad antes de ir.</p>${pend.map(offer).join("")}` : ""}
+      ${!okL.length && !pend.length ? '<div class="box"><p class="small muted">No tenemos planes con información de acceso para este destino.</p></div>' : ""}
+      ${noL.length ? `<details class="hid"><summary>${noL.length} planes que no son para vuestra edad</summary><div style="display:grid;gap:8px;margin-top:8px">${noL.map(offer).join("")}</div></details>` : ""}
+      ${legalTips(["dif-alcohol-ocio", "dif-de-horarios-juschg", "dif-fr-toques-queda", "dif-patinetes-alquiler"], a.d.country)}`;
   }
   function eligTable(a) {
     const rows = [...(a.flights || []).map(f => ({ name: ITEMS[f.a].name + (f.dir ? " · directo" : " · con escala"), e: f.e })), ...(a.stays || []).map(s => ({ name: ITEMS[s.s].name, e: s.e }))];
@@ -1432,7 +1461,7 @@ Reglas de extracción:
   function renderModes() {
     $("#mapmode").innerHTML = MODES.map(([k, l]) => `<button type="button" data-mode="${k}" aria-pressed="${state.mapMode === k}">${l}</button>`).join("");
     $("#attrib").innerHTML = ATTRIB[state.mapMode];
-    $("#maplegend").innerHTML = `<strong class="small">Qué os sale</strong><div class="row" style="gap:4px">${pill("ok", "Os sale")}${pill("req", "Sí, pero ojo")}${pill("no", "No os dejan")}${pill("unk", "Sin confirmar")}</div><span class="small muted">El número es cuánto os pega (0-100). Líneas: vuelos posibles desde ${esc(ORIGINS[state.origin].name)}.</span>`;
+    $("#maplegend").innerHTML = `<strong class="small">Qué os sale</strong><div class="row" style="gap:4px">${pill("ok", "Os sale")}${pill("req", "Sí, pero ojo")}${pill("no", "No os dejan")}${pill("unk", "Sin confirmar")}</div><span class="small muted">El número es cuánto os pega (0-100). Líneas: vuelos posibles desde ${esc(originName())}.</span>`;
   }
 
   /* =========================================================
@@ -1442,14 +1471,14 @@ Reglas de extracción:
   const STORE = "goliveit-planner-v1";
   function save() {
     if (!state.touched) return;
-    try { localStorage.setItem(STORE, JSON.stringify({ v: 1, group: state.group.map(m => ({ id: m.id, name: m.name, age: m.age, nat: m.nat, likes: [...m.likes], me: !!m.me })), origin: state.origin, days: state.days, date: state.date, budget: state.budget, cart: state.cart, checks: [...state.checks], pot: state.pot })); } catch (e) { /* sin almacenamiento */ }
+    try { localStorage.setItem(STORE, JSON.stringify({ v: 1, group: state.group.map(m => ({ id: m.id, name: m.name, age: m.age, nat: m.nat, likes: [...m.likes], me: !!m.me })), origin: state.origin, city: state.city, days: state.days, date: state.date, budget: state.budget, cart: state.cart, checks: [...state.checks], pot: state.pot })); } catch (e) { /* sin almacenamiento */ }
   }
   function load() {
     try {
       const j = JSON.parse(localStorage.getItem(STORE) || "null"); if (!j || j.v !== 1 || !Array.isArray(j.group) || !j.group.length) return false;
       const g0 = j.group.find(m => m.me) || j.group[0]; me.age = +g0.age || 17; me.likes = new Set(g0.likes || []);
       state.group = [me, ...j.group.filter(m => m !== g0).map((m, i) => ({ id: i + 2, name: "Persona " + (i + 2), age: +m.age || 17, nat: "ES", likes: new Set(m.likes || []) }))];
-      if (ORIGINS[j.origin]) state.origin = j.origin; state.days = Math.max(2, Math.min(7, +j.days || 4)); if (/^\d{4}-\d{2}-\d{2}$/.test(j.date || "")) state.date = j.date;
+      if (ORIGINS[j.origin]) state.origin = j.origin; state.city = j.city && Array.isArray(j.city.c) ? j.city : null; state.days = Math.max(2, Math.min(7, +j.days || 4)); if (/^\d{4}-\d{2}-\d{2}$/.test(j.date || "")) state.date = j.date;
       state.budget = Math.max(100, Math.min(700, +j.budget || 250)); if (j.cart && DEST[j.cart.k]) state.cart = { k: j.cart.k, fl: j.cart.fl || null, st: j.cart.st || null };
       state.checks = new Set(Array.isArray(j.checks) ? j.checks : []); state.pot = j.pot && typeof j.pot === "object" ? j.pot : {}; state.nextId = state.group.length + 1; state.parsed = null; return true;
     } catch (e) { return false; }
@@ -1587,14 +1616,14 @@ Reglas de extracción:
     if (el.dataset.ck) { el.checked ? state.checks.add(el.dataset.ck) : state.checks.delete(el.dataset.ck); save(); openMyTrip(); renderTripBadge(); return; }
     if (el.dataset.cmp) { el.checked ? state.compare.add(el.dataset.cmp) : state.compare.delete(el.dataset.cmp); if (state.compare.size > 3) { state.compare.delete(el.dataset.cmp); el.checked = false; toast("Compara como mucho tres destinos."); } renderResults(); return; }
     if (el.dataset.m) { const m = state.group.find(x => String(x.id) === el.dataset.m); if (!m) return; if (el.dataset.f === "age") m.age = +el.value; if (el.dataset.f === "name") m.name = el.value.trim() || "Sin nombre"; update(); return; }
-    if (el.id === "origin") { state.origin = el.value; update(); }
+    if (el.id === "origin-city") { const c = findCity(el.value); if (c) { state.city = c; state.origin = nearestAir(c.c); update(); flyEurope(); } else { toast("No encuentro esa ciudad o pueblo de España. Elige uno de la lista."); renderLeft(); } }
     if (el.dataset.co) { el.checked ? state.co.checks.add(el.dataset.co) : state.co.checks.delete(el.dataset.co); openCheckout(); return; }
     if (el.id === "fl-direct") { state.flDirect = el.checked; renderResults(); return; }
     if (el.id === "date") { if (el.value) state.date = el.value; update(); return; }
     if (el.id === "days") { state.days = Math.max(2, Math.min(7, +el.value || 4)); update(); }
     if (el.id === "wz-n") { wz.n = +el.value; wz.ages = Array.from({ length: wz.n }, (_, i) => wz.ages[i] ?? wz.ages[0] ?? 17); wz.msg = ($("#wz-msg") || {}).value || wz.msg; renderWelcome(); return; }
     if (el.dataset.wzage) { wz.ages[+el.dataset.wzage] = +el.value; return; }
-    if (el.id === "wz-origin") { wz.origin = el.value; return; }
+    if (el.id === "wz-city") { const c = findCity(el.value); if (c) { wz.city = c; wz.origin = nearestAir(c.c); } else { el.value = wz.city ? wz.city.name : ORIGINS[wz.origin]["name"]; toast("Elige una ciudad o pueblo de la lista."); } return; }
     if (el.id === "wz-date") { if (el.value) wz.date = el.value; return; }
     if (el.id === "wz-days") { wz.days = Math.max(2, Math.min(7, +el.value || 4)); el.value = wz.days; return; }
     if (el.id === "lf-dest") { state.legalFilter.dest = el.value; openPapeles(); }
@@ -1659,6 +1688,56 @@ Reglas de extracción:
       DEST[k] = { city: n.city, country: n.country, cname: n.cname, iata: n.iata, c: n.coords, verified: n.entrada.estado !== "unk", tags: TAGS[k] || ["joven"], daily: PRICE[k][1], byOrigin, flights: [], stays, stops, isNew: true, note: n.notas };
     });
   })();
+  /* ===== Datos de la demo avanzada del compañero (ProyectoMinor, 07-10/11/2026) =====
+     Albergues consultados por correo (etiqueta EQUIPO), planes con su web y fotos de Wikimedia con crédito.
+     Criterio GoLiveIt: si dice «16 por confirmar», con 16 sale pendiente; España va en bus; Luxemburgo queda pendiente (entrada sin verificar). */
+  (function addTeamData() {
+    const nd = t => norm(String(t || ""));
+    const KNOWN = ["ES", "PT", "FR", "IT", "DE", "UK", "NL", "IE"];
+    const PRICE = { ES: [22, 26], IT: [32, 34], NL: [40, 42], LU: [34, 38], FR: [30, 36], PT: [24, 28], DE: [30, 32], UK: [40, 48] };
+    const TAGS = { ES: ["comida", "historia"], IT: ["historia", "comida", "museos"], NL: ["joven", "museos"], LU: ["historia"], FR: ["playa", "comida"] };
+    const MADRID = [-3.704, 40.417];
+    Object.entries(CRED).forEach(([k, v]) => { if (!PHOTO[k] && PHOTOS[k]) PHOTO[k] = { pos: v.pos || "center center", by: v.by, lic: v.lic, page: v.page }; });
+    Object.entries(TEAM.dest || {}).forEach(([k, t]) => {
+      if (DEST[k]) return;
+      const pr = PRICE[t.country] || [30, 34], base = Math.round(28 + km(MADRID, t.c) * 0.034);
+      DEST[k] = { city: t.city, country: t.country, cname: t.cname, iata: t.iata && t.iata !== "—" ? t.iata : (t.country === "LU" ? "LUX" : "—"), c: t.c, verified: KNOWN.includes(t.country), tags: [...new Set([...(t.tags || []), ...(TAGS[t.country] || [])])], daily: pr[1], stays: [], stops: [], team: true,
+        flights: t.country === "ES" ? [] : [["ryanair", base, true], ["vueling", base + 18, true], ["iberia", base + 62, false]] };
+      if (t.country === "LU" && !NEWENTRY.LU) { SRC.lu_pend = S("Sin fuente verificada para Luxemburgo", null, "PENDIENTE", "11/11/2026"); NEWENTRY.LU = { s: "unk", d: "No hemos verificado qué pide Luxemburgo a menores de la UE que llegan sin adultos.", cname: "Luxemburgo", src: "lu_pend" }; }
+    });
+    (TEAM.stays || []).forEach((h, i) => {
+      const entry = Object.entries(DEST).find(([, d]) => nd(d.city) === nd(h.ciudad)); if (!entry) return; const [k, d] = entry;
+      const id = "eq_" + i, pend16 = /16[^0-9]*(pendiente|confirmar|sin confirmar|según norma general)/i.test(h.edades || "");
+      SRC[id] = S(h.tipo || "Consulta del equipo", h.fuente || null, "EQUIPO", (h.tipo || "").match(/\d{1,2}\/11\/2026/) ? (h.tipo.match(/\d{1,2}\/11\/2026/)[0]) : "07/11/2026");
+      const info = String(h.info || "").length > 150 ? h.info.slice(0, 147) + "…" : (h.info || "");
+      ITEMS[id] = { name: h.nombre, cat: "dormir", tipo: "checkin", src: id, link: h.booking || h.fuente || null, rule: (m, g) => {
+        if (h.reglaCombo) return adultOf(g, m) || m.age >= 18 ? R("req", "Con menores, un adulto en cada habitación y documento firmado por un progenitor.", [G("Un adulto en cada habitación con menores"), F("Documento firmado por un progenitor")]) : R("no", "No acepta menores sin una persona adulta.");
+        if (m.age >= 18) return R("ok", OK18);
+        if (m.age >= h.min) return R("req", (h.edades + ". " + info).trim(), [F("Autorización de los padres para el albergue (confirmadla con ellos)")]);
+        if (m.age === 16 && pend16) return R("unk", "Con 16, sin confirmar: " + h.edades + ".");
+        return adultOf(g, m) ? R("req", "Con menos de " + h.min + ", con un adulto.", [G("Ir " + con(adultOf(g, m)))]) : R("no", "Hace falta tener " + h.min + " años (" + h.edades + ").");
+      } };
+      STAY_KIND[id] = "hostel";
+      // Si ya teníamos ese albergue, se queda la regla más prudente (la edad mínima más alta)
+      const dup = (d.stays || []).findIndex(([sk]) => ITEMS[sk] && nd(ITEMS[sk].name).split(" ").slice(0, 4).join(" ") === nd(h.nombre).split(" ").slice(0, 4).join(" "));
+      const price = (PRICE[d.country] || [30])[0];
+      if (dup >= 0) { const old = d.stays[dup][0], oldMin = (DESTNEW.destinos.flatMap(x => x.alojamientos || []).find(x => "n_" + k + "_" + x.key === old) || {}).edadMinSinAdulto; if (oldMin == null || h.min > oldMin) d.stays[dup] = [id, d.stays[dup][1]]; }
+      else d.stays.unshift([id, price]);
+      if (UBIC[h.nombre]) d.stops.push([h.nombre + " (ubicación aproximada)", id, UBIC[h.nombre]]);
+    });
+    (TEAM.plans || []).forEach((p, i) => {
+      const entry = Object.entries(DEST).find(([, d]) => nd(d.city) === nd(p.ciudad)); if (!entry) return; const [k, d] = entry;
+      OCIO[k] = OCIO[k] || [];
+      const pn = nd(p.nombre).replace(/^(museo|monasterio) (del?|de los|nacional) /, "");
+      if (OCIO[k].some(x => nd(x[1]).includes(pn) || pn.includes(nd(x[1])))) return;
+      const id = "eqp_" + i, th = String(p.regla || "").match(/menores de (\d+)/i), minA = th ? +th[1] : null;
+      SRC[id] = S("Información del lugar", p.url || null, "EQUIPO", "09/11/2026");
+      ITEMS[id] = { name: p.nombre, cat: "hacer", tipo: "acceso", src: id, rule: m => m.age >= 18 ? R("ok", "Mayor de edad.") : minA != null && m.age >= minA ? R("ok", "Según su reglamento, desde los " + minA + " años podéis ir sin un adulto.") : R("unk", p.regla) };
+      OCIO[k].push([id, p.nombre, "dia", p.c || null]);
+      if (p.tag && !d.tags.includes(p.tag)) d.tags.push(p.tag);
+    });
+  })();
+  $("#cities-dl").innerHTML = CITIES_ES.map(c => `<option value="${esc(c[0])}"></option>`).join("");
   const hadSaved = load();
   if (!hadSaved) { state.parsed = parseQuery($("#nl").value); state.parsed.via = "reglas"; }
   initMap();
