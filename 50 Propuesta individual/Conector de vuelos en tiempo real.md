@@ -33,3 +33,10 @@ relacionado: "[[Integración de proveedores]], [[Buscadores y empresas de viaje 
 5. Abrir el HTML desde el PC y pulsar «Buscar precios reales».
 
 Con el token de test, Duffel devuelve su aerolínea de prueba; para precios de verdad hace falta el token *live* (y cumplir sus condiciones).
+
+## Prueba con el token de test de Alberto (11/11/2026)
+
+- **Funciona:** 12 ofertas para SVQ → PAR y MAD → LIS con 4 personas de 17, y la demo las cruza con nuestras reglas por aerolínea (una por aerolínea, con «y N horarios más»).
+- **Hallazgo: Duffel exige al menos un pasajero adulto en la búsqueda.** Un grupo solo de menores no puede ni buscar. Solución para el **precio**: desde 16 se busca como adulto, que es la tarifa que cobran Ryanair, Vueling o easyJet desde esa edad. La norma de edad para viajar sin adultos la sigue aplicando GoLiveIt. Para **reservar** de verdad hará falta un adulto (familia), como ya prevé D-13.
+- **En modo test, Duffel simula las ofertas:** salen aerolíneas reales (Iberia, British Airways, TAP) y «Duffel Airways» (ficticia), pero precios y horarios inventados. La demo lo dice en el recuadro.
+- El token no se guardó en ningún archivo: solo vivió en la memoria del conector durante la prueba.

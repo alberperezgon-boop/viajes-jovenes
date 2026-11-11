@@ -31,7 +31,9 @@ function simplify(offer) {
 async function duffel(q) {
   const body = { data: {
     slices: [{ origin: q.from, destination: q.to, departure_date: q.out }, ...(q.back ? [{ origin: q.to, destination: q.from, departure_date: q.back }] : [])],
-    passengers: q.ages.map(age => ({ age })), // edades reales: cada aerolínea aplica su norma
+    // Duffel exige al menos un adulto. Para el PRECIO, desde 16 se busca como adulto (tarifa de adulto en Ryanair, Vueling o easyJet);
+    // por debajo, con su edad. La norma de edad para viajar sin adultos la aplica GoLiveIt, no esta búsqueda.
+    passengers: q.ages.map(age => age >= 16 ? { type: "adult" } : { age }),
     cabin_class: "economy", max_connections: q.direct ? 0 : 1,
     include_split_ticket: false // nunca billetes separados (transbordo por cuenta propia) con menores
   } };

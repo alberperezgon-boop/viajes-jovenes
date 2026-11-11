@@ -115,3 +115,5 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 
 - **Hecho:** conector de vuelos con Duffel (D-19), probado en modo prueba (sin clave) y con el conector apagado; «Salís de» con el aeropuerto real y sin bus desde las islas; barrido de ocio nocturno (D-20) con 11 normas regionales y 13 locales. Recorridos los 38 destinos y sus pestañas sin errores.
 - **Pendiente:** que Alberto cree la cuenta de Duffel si quiere precios reales (pasos en [[Conector de vuelos en tiempo real]]); Q-29 a Q-31.
+
+- **Prueba con Duffel (test):** el conector funciona de punta a punta. Hallazgo: Duffel no deja buscar sin un adulto; para el precio, 16-17 se buscan como adulto (tarifa low cost). Ver [[Conector de vuelos en tiempo real]].
