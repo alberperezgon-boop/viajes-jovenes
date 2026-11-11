@@ -722,7 +722,7 @@ dialog.sheet { overflow-x: hidden; }
   const BUSES = { lisboa: { SVQ: [["flixbus", 52, 455]], MAD: [["flixbus", 48, 560]] }, paris: { MAD: [["flixbus", 95, 1050]], BCN: [["flixbus", 79, 930]] } };
   function busesFor(k) { // España: bus nacional desde la ciudad real (precio y horas de ejemplo); fuera: buses de ejemplo por aeropuerto
     const d = DEST[k];
-    if (d.country === "ES") { const dist = km(originCoords(), d.c); if (dist < 25) return []; return [["flixbus_nac", 2 * Math.round(8 + dist * 0.055), Math.round(20 + dist / 72 * 60)]]; }
+    if (d.country === "ES") { if (offPeninsula()) return []; const dist = km(originCoords(), d.c); if (dist < 25) return []; return [["flixbus_nac", 2 * Math.round(8 + dist * 0.055), Math.round(20 + dist / 72 * 60)]]; }
     return (BUSES[k] || {})[state.origin] || [];
   }
   function evalFlight(air, direct, group = state.group, self = false) {
@@ -746,7 +746,7 @@ dialog.sheet { overflow-x: hidden; }
     const avg = sat.reduce((a, x) => a + x.v, 0) / n; const min = Math.min(...sat.map(x => x.v));
     const pref = 0.6 * avg + 0.4 * min;
     if (!d.verified) return { k, d, status: "unk", score: null, sat, pref, reason: d.isNew ? "Falta confirmar qué piden en la frontera a menores de la UE que llegan sin adultos, y el albergue con permiso de 16-17 es norma general de la cadena. Mientras, sale como pendiente." : "No tenemos verificadas las normas de entrada, alojamientos ni actividades para menores. Pendiente, no permitido." };
-    const flights = (d.byOrigin ? d.byOrigin[state.origin] || [] : d.flights).map(([a, p, dir, self]) => ({ a, p: p * (d.byOrigin ? 1 : ORIGINS[state.origin].k), dir, self: self === "self", mode: "air", e: evalFlight(a, dir, group, self === "self") })).concat(busesFor(k).map(([a, p, min]) => ({ a, p, dir: true, mode: "bus", min, e: evalItem(a, group) }))).sort((x, y) => RANK[x.e.s] - RANK[y.e.s] || x.p - y.p);
+    const flights = (d.byOrigin ? d.byOrigin[state.origin] || [] : d.country === "ES" && offPeninsula() ? islandFlights(d) : d.flights).map(([a, p, dir, self]) => ({ a, p: p * (d.byOrigin ? 1 : ORIGINS[state.origin].k), dir, self: self === "self", mode: "air", e: evalFlight(a, dir, group, self === "self") })).concat(busesFor(k).map(([a, p, min]) => ({ a, p, dir: true, mode: "bus", min, e: evalItem(a, group) }))).sort((x, y) => RANK[x.e.s] - RANK[y.e.s] || x.p - y.p);
     const stays = d.stays.map(([s, p]) => ({ s, p, e: evalItem(s, group) })).sort((x, y) => RANK[x.e.s] - RANK[y.e.s] || x.p - y.p);
     const docs = group.map(m => ({ m, docs: countryDocs(m, d.country) }));
     const fOk = flights.filter(x => visible(x.e.s)), sOk = stays.filter(x => visible(x.e.s));
@@ -1070,7 +1070,7 @@ Reglas de extracción:
      RENDER: panel izquierdo
      ========================================================= */
   function renderLeft() {
-    $("#origin-city").value = originName(); $("#origin-air").textContent = state.city ? `Aeropuerto más cercano: ${ORIGINS[state.origin]["name"]} (${state.origin}), a ${Math.round(km(state.city.c, ORIGINS[state.origin].c))} km` : `Aeropuerto: ${state.origin}`;
+    $("#origin-city").value = originName(); $("#origin-air").textContent = originNote();
     $("#days").value = state.days; $("#date").value = state.date; $("#budget").value = state.budget; $("#budget-v").textContent = eur(state.budget);
     // Resumen del grupo (sin editar persona a persona: eso se hace en la bienvenida)
     const byAge = {}; state.group.forEach(m => { byAge[m.age] = (byAge[m.age] || 0) + 1; });
@@ -1274,11 +1274,69 @@ Reglas de extracción:
     flixbus: { solo: 15, cond: 10, condTxt: "De 10 a 14: solo trayectos nacionales, sin transbordos y de 6 a 22 h", note: "Bus internacional" },
     flixbus_nac: { solo: 15, cond: 10, condTxt: "De 10 a 14: con consentimiento al reservar, sin transbordos y de 6 a 22 h", note: "Bus nacional" }
   };
+  /* ===== Salidas: aeropuertos reales de España (coordenadas aproximadas) e islas, Ceuta y Melilla ===== */
+  const ES_AIR = [["LCG", "A Coruña", -8.377, 43.302], ["SCQ", "Santiago", -8.415, 42.896], ["VGO", "Vigo", -8.627, 42.232], ["OVD", "Asturias", -6.035, 43.563], ["SDR", "Santander", -3.82, 43.427], ["BIO", "Bilbao", -2.911, 43.301],
+    ["EAS", "San Sebastián", -1.791, 43.356], ["VIT", "Vitoria", -2.724, 42.883], ["PNA", "Pamplona", -1.646, 42.77], ["ZAZ", "Zaragoza", -1.041, 41.666], ["LEN", "León", -5.655, 42.589], ["VLL", "Valladolid", -4.852, 41.706],
+    ["MAD", "Madrid", -3.567, 40.472], ["BCN", "Barcelona", 2.078, 41.297], ["GRO", "Girona", 2.76, 41.901], ["REU", "Reus", 1.167, 41.147], ["VLC", "Valencia", -0.481, 39.489], ["ALC", "Alicante", -0.558, 38.282],
+    ["RMU", "Murcia", -1.125, 37.803], ["LEI", "Almería", -2.37, 36.844], ["GRX", "Granada", -3.776, 37.189], ["AGP", "Málaga", -4.499, 36.675], ["SVQ", "Sevilla", -5.893, 37.418], ["XRY", "Jerez", -6.06, 36.744],
+    ["BJZ", "Badajoz", -6.821, 38.891], ["PMI", "Palma", 2.739, 39.552], ["IBZ", "Ibiza", 1.373, 38.873], ["MAH", "Menorca", 4.219, 39.863], ["TFN", "Tenerife Norte", -16.341, 28.483], ["TFS", "Tenerife Sur", -16.573, 28.044],
+    ["LPA", "Gran Canaria", -15.387, 27.932], ["ACE", "Lanzarote", -13.606, 28.946], ["FUE", "Fuerteventura", -13.864, 28.453], ["SPC", "La Palma", -17.755, 28.626], ["MLN", "Melilla", -2.956, 35.28]];
+  function airInfo(c) { return ES_AIR.map(([iata, name, lon, lat]) => ({ iata, name, km: km(c, [lon, lat]) })).sort((x, y) => x.km - y.km); }
+  function regionOf(c) { const [lon, lat] = c; if (lat < 29.5) return "Canarias"; if (lon > 1.1 && lat < 40.1) return "Baleares"; if (lat < 35.95) return lon < -4 ? "Ceuta" : "Melilla"; return null; }
+  const offPeninsula = () => state.city ? regionOf(state.city.c) : null;
+  const destAir = d => /^[A-Z]{3}$/.test(d.iata || "") ? d.iata : airInfo(d.c)[0].iata; // destinos sin aeropuerto propio (Marbella, Jerez...)
+  function realAir() { return state.city ? airInfo(state.city.c)[0].iata : state.origin; } // para buscadores reales y el conector
+  function islandFlights(d) { const base = Math.round(32 + km(state.city.c, d.c) * 0.03); return [["vueling", base, true], ["iberia", base + 35, true], ["ryanair", Math.max(19, base - 8), true]]; }
+  function originNote() {
+    if (!state.city) return `Aeropuerto: ${ORIGINS[state.origin].name} (${state.origin})`;
+    const a = airInfo(state.city.c)[0], reg = regionOf(state.city.c), dk = Math.round(km(state.city.c, ORIGINS[state.origin].c));
+    const first = a.km < 15 ? `Tenéis aeropuerto: ${a.name} (${a.iata}).` : `Aeropuerto más cercano: ${a.name} (${a.iata}), a unos ${Math.round(a.km)} km.`;
+    const demo = a.iata === state.origin ? "" : ` Los vuelos de ejemplo salen de ${ORIGINS[state.origin].name} (${state.origin}${dk >= 15 ? ", a " + dk + " km" : ""}); los enlaces a buscadores reales usan ${a.iata}.`;
+    const isl = reg ? ` Desde ${reg} no hay bus a la península: dentro de España, avión de ejemplo (o barco, que no está en la demo).` : "";
+    return first + demo + isl;
+  }
+  /* ===== Precios reales ahora: conector local de Duffel (70 Prototipo/conector-vuelos.mjs) ===== */
+  const LIVE_URL = "http://localhost:8787";
+  const IATA_KEY = Object.fromEntries(Object.entries(AIR_CODE).map(([k, c]) => [c, k]));
+  function liveBox(a) {
+    const L = state.live && state.live.k === a.k ? state.live : null;
+    const hm2 = iso => String(iso || "").slice(11, 16);
+    let body = "";
+    if (L && L.loading) body = '<p class="small">Buscando precios reales…</p>';
+    else if (L && L.err) body = `<p class="warn">${esc(L.err)}</p><details class="hid"><summary>Cómo encender el conector</summary><ol class="small"><li>Abre una terminal en la carpeta de la bóveda.</li><li>Para probar sin clave: <code>node "70 Prototipo/conector-vuelos.mjs" --prueba</code> (datos inventados, marcados como PRUEBA).</li><li>Con precios reales: crea una cuenta en Duffel (en modo test no se paga nada), copia tu clave de acceso y guárdala solo en tu PC en la variable <code>DUFFEL_TOKEN</code>; luego ejecuta <code>node "70 Prototipo/conector-vuelos.mjs"</code>.</li><li>Abre este HTML desde tu PC y vuelve a pulsar «Buscar precios reales».</li></ol><p class="small muted">La clave nunca va dentro de la página: se queda en el conector.</p></details>`;
+    else if (L && L.data) {
+      const offers = L.data.offers.map(o => { const key = IATA_KEY[o.iata]; const direct = o.slices.every(s => s.stops === 0); const e = key ? evalFlight(key, direct) : null; return { o, key, e, ok: e ? visible(e.s) : false }; }).sort((x, y) => (y.ok - x.ok) || (x.o.total - y.o.total));
+      const tag = L.data.modo === "prueba" ? '<span class="bk-badge" style="background:var(--no)">PRUEBA · datos inventados</span>' : L.data.modo === "test" ? '<span class="bk-badge">Duffel · modo test</span>' : '<span class="bk-badge" style="background:var(--ok)">Duffel · en directo</span>';
+      body = `<div class="row between"><span>${tag}</span><span class="small muted">Consultado a las ${new Date(L.data.hora).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" })}</span></div>
+        ${offers.length ? offers.map(({ o, key, e, ok }) => `<div class="offer${ok ? "" : " dim"}"><div class="row between"><strong>${esc(o.airline)} (${esc(o.iata)})</strong>${e ? pill(e.s) : pill("unk", "Norma de edad sin verificar")}</div>
+          <div class="row between small"><span>${o.slices.map(s => `${s.from} ${hm2(s.dep)} → ${s.to} ${hm2(s.arr)} · ${s.stops ? s.stops + " escala" + (s.stops > 1 ? "s" : "") : "directo"}`).join("<br>")}</span><span class="price">${eur(Math.round(o.perPerson))}/persona${o.currency !== "EUR" ? " (" + esc(o.currency) + ")" : ""}</span></div>
+          ${e ? `<p class="small">${groupWhy(e)}</p>` : '<p class="small muted">Aún no tenemos verificada su norma para menores: sale como pendiente, nunca como permitida.</p>'}
+          ${ok && AIR_SITE[key] ? `<a class="cta-bk sm" href="${AIR_SITE[key]}" target="_blank" rel="noopener">Reservar directo con ${esc(ITEMS[key].name)} ↗</a><span class="direct">Sin intermediario</span>` : ""}</div>`).join("") : '<p class="small">No hay vuelos para esas fechas con estos filtros.</p>'}
+        <p class="small muted">Búsqueda con las edades reales del grupo, sin billetes separados${state.flDirect ? " y solo directos" : ""}. Los precios cambian deprisa; al reservar, mirad el precio final.</p>`;
+    } else body = '<p class="small">Consulta precios de verdad para vuestras fechas y edades, si tienes el conector encendido en tu PC.</p>';
+    return `<div class="bk-box" id="live-box"><div class="bk-head"><span class="bk-badge">Tiempo real · beta</span><strong>Precios reales ahora</strong></div>
+      <p class="small">${realAir()} → ${destAir(a.d)} · ${dmy(state.date)} – ${dmy(addDays(state.date, Math.max(1, state.days - 1)))} · edades ${state.group.map(m => m.age).join(", ")}</p>
+      ${body}<button type="button" class="btn sm" id="live-go"${L && L.loading ? " disabled" : ""}>${L && L.data ? "Volver a buscar" : "Buscar precios reales"}</button></div>`;
+  }
+  async function liveSearch() {
+    const a = analyse(state.sel); if (!a) return;
+    state.live = { k: a.k, loading: true }; renderResults();
+    try {
+      const ping = await fetch(LIVE_URL + "/estado", { cache: "no-store" }).then(r => r.json());
+      if (!ping || !ping.ok) throw new Error("off");
+      const r = await fetch(LIVE_URL + "/vuelos", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ from: realAir(), to: destAir(a.d), out: state.date, back: addDays(state.date, Math.max(1, state.days - 1)), ages: state.group.map(m => m.age), direct: !!state.flDirect }) });
+      const j = await r.json(); if (!r.ok) throw new Error(j.error || "Error del conector");
+      state.live = { k: a.k, data: j };
+    } catch (e) {
+      state.live = { k: a.k, err: e.message === "off" || /fetch|network|Failed/i.test(String(e.message)) ? "El conector de vuelos no está encendido en este PC (o la página no puede llegar a él)." : "El conector respondió con un error: " + e.message };
+    }
+    if (state.sel === a.k) renderResults();
+  }
   const SCALE = [10, 19]; // edades que se dibujan
   const pct = age => ((Math.min(SCALE[1], Math.max(SCALE[0], age)) - SCALE[0]) / (SCALE[1] - SCALE[0]) * 100).toFixed(1) + "%";
   function kayakUrl(a, air) {
     const n = state.group.length, back = addDays(state.date, Math.max(1, state.days - 1));
-    return `https://www.kayak.es/flights/${state.origin}-${a.d.iata}/${state.date}/${back}${n > 1 ? "/" + n + "adults" : ""}?fs=airlines=${AIR_CODE[air]}&sort=price_a`;
+    return `https://www.kayak.es/flights/${realAir()}-${destAir(a.d)}/${state.date}/${back}${n > 1 ? "/" + n + "adults" : ""}?fs=airlines=${AIR_CODE[air]}&sort=price_a`;
   }
   function ageScale(air) {
     const p = AIR_POLICY[air] || {}; const ages = {}; state.group.forEach(m => { ages[m.age] = (ages[m.age] || 0) + 1; });
@@ -1303,7 +1361,7 @@ Reglas de extracción:
     const airs = [...new Set(a.flights.filter(x => visible(x.e.s) && x.mode !== "bus").map(x => x.a))];
     if (!airs.length) return "";
     return `<div class="bk-box"><div class="bk-head"><span class="bk-badge">Vuelos reales</span><strong>Buscar en Kayak, solo aerolíneas que os dejan</strong></div>
-      <p class="small">${state.origin} → ${a.d.iata} · ${dmy(state.date)} – ${dmy(addDays(state.date, Math.max(1, state.days - 1)))} · ${pl(state.group.length, "viajero", "viajeros")} · de más barato a más caro</p>
+      <p class="small">${realAir()} → ${destAir(a.d)} · ${dmy(state.date)} – ${dmy(addDays(state.date, Math.max(1, state.days - 1)))} · ${pl(state.group.length, "viajero", "viajeros")} · de más barato a más caro</p>
       <div class="bk-links">${airs.map(k => `<a class="cta-bk" href="${kayakUrl(a, k)}" target="_blank" rel="noopener">${AIR_CODE[k]} · ${esc(ITEMS[k].name)} ↗</a>`).join("")}</div>
       <p class="small"><strong>Para pagar, directo con la aerolínea</strong> (sin intermediarios ni comisiones de agencia): ${airs.filter(k => AIR_SITE[k]).map(k => `<a href="${AIR_SITE[k]}" target="_blank" rel="noopener">${esc(ITEMS[k].name)} ↗</a>`).join(" · ")}<span class="direct">Reserva directa</span></p>
       <p class="small muted">El buscador cuenta a todos como adultos; al reservar, poned las edades reales. Mirad si el vuelo es directo: con escala, algunas aerolíneas ponen condiciones a menores. <strong>Consejo GoLiveIt:</strong> evitad los «transbordos por cuenta propia» (billetes separados): si perdéis la conexión, nadie os recoloca.</p></div>`;
@@ -1325,7 +1383,7 @@ Reglas de extracción:
       <svg viewBox="0 0 320 90" class="fhero-arc" aria-hidden="true"><path id="arc-${a.k}" d="M30,72 Q160,-6 290,72" fill="none" stroke="rgb(255 255 255 / 0.85)" stroke-width="2" stroke-dasharray="5 6" class="arc-dash"/>
         <circle cx="30" cy="72" r="5" fill="#fff"/><circle cx="290" cy="72" r="5" fill="var(--pop)"/>
         <g><text font-size="16" text-anchor="middle" dominant-baseline="central" fill="#fff">✈</text>${anim ? `<animateMotion dur="6s" repeatCount="indefinite" rotate="auto" keyPoints="0;1" keyTimes="0;1" calcMode="spline" keySplines="0.45 0 0.55 1"><mpath href="#arc-${a.k}"/></animateMotion>` : `<animateMotion dur="0.01s" fill="freeze" keyPoints="0.55;0.55" keyTimes="0;1" rotate="auto"><mpath href="#arc-${a.k}"/></animateMotion>`}</g></svg>
-      <div class="fhero-codes"><b>${state.origin}</b><b>${a.d.iata}</b></div>
+      <div class="fhero-codes"><b>${realAir()}</b><b>${destAir(a.d)}</b></div>
       <div class="fhero-cap">${esc(originName())} → ${esc(a.d.city)} · ${dmy(state.date)} – ${dmy(back)} · ${pl(state.group.length, "viajero", "viajeros")} de ${[...new Set(state.group.map(m => m.age))].join(" y ")} años</div></div>`;
   }
   function flightCard(a, x, i = 0) {
@@ -1340,7 +1398,7 @@ Reglas de extracción:
     </article>`;
   }
   function flightsTab(a) {
-    const n = state.group.length, o = state.origin, back = addDays(state.date, Math.max(1, state.days - 1));
+    const n = state.group.length, o = realAir(), back = addDays(state.date, Math.max(1, state.days - 1));
     let list = a.flights.slice(); if (state.flDirect) list = list.filter(x => x.dir);
     const by = { precio: (x, y) => x.p - y.p, rapido: (x, y) => schedule(a, x).dur - schedule(a, y).dur };
     const ok = list.filter(x => visible(x.e.s)).sort(by[state.flSort]), hid = list.filter(x => !visible(x.e.s));
@@ -1351,11 +1409,12 @@ Reglas de extracción:
       <h3 style="margin-top:4px">Vuelos de ejemplo para reservar (simulado)</h3>
       <div class="sorttabs">${tab("precio", "Más barato", cheap && eur(cheap.p))}${tab("rapido", "Más rápido", fast && durTxt(schedule(a, fast).dur))}</div>
       <div class="row"><label class="small row" style="gap:6px"><input type="checkbox" id="fl-direct"${state.flDirect ? " checked" : ""}> Solo directos</label>${state.group.some(m => m.age < 18) ? `<span class="lock" title="Con billetes separados, si perdéis la conexión nadie os recoloca y las maletas y controles corren de vuestra cuenta.">🔒 Sin transbordos por vuestra cuenta (siempre, con menores)</span>` : ""}</div>
+      ${a.d.country === "ES" && offPeninsula() ? `<p class="warn">Desde ${offPeninsula()} a la península: vuelos de ejemplo (o barco, que no está en la demo). Comprobad las rutas reales en Kayak.</p>` : ""}
       ${a.d.team && a.d.country !== "ES" ? `<p class="warn">Rutas de ejemplo: no sabemos si hay vuelo directo desde ${esc(originName())}. Comprobadlo en Kayak.</p>` : ""}
       <p class="small"><strong>${ok.length} de ${list.length}</strong> aerolíneas os dejan volar con vuestra edad. <span class="muted">Horarios y precios de ejemplo; la reserva es simulada.</span></p>
       ${ok.length ? ok.map((x, i) => flightCard(a, x, i)).join("") : `<div class="box"><p class="bad">Ninguna aerolínea de la lista os deja volar así.</p><p class="small muted">Quitad «Solo directos» o probad a meter a alguien de 18.</p></div>`}
       ${hid.length ? `<details class="hid"><summary>${hid.length} aerolíneas que no os dejan o sin confirmar</summary><div style="display:grid;gap:8px;margin-top:8px">${hid.map(x => flightCard(a, x)).join("")}</div></details>` : ""}
-      ${realFlightsBox(a)}
+      ${realFlightsBox(a)}${a.flights.some(x => x.mode !== "bus") ? liveBox(a) : ""}
       <p class="small muted">También: <a href="https://www.google.com/travel/flights?hl=es&q=${encodeURIComponent(`Vuelos de ${o} a ${a.d.iata}`)}" target="_blank" rel="noopener">Google Flights ↗</a> · <a href="https://www.skyscanner.es/transporte/vuelos/${o.toLowerCase()}/${SKY[a.k]}/?adultsv2=${n}&rtn=1" target="_blank" rel="noopener">Skyscanner ↗</a></p>
       ${legalTips(["dif-aerolinea-mostrador", "eme-rechazo-embarque"], a.d.country)}`;
   }
@@ -1606,7 +1665,7 @@ Reglas de extracción:
       ${pend.length ? `<h3>Ojo, por confirmar</h3><p class="small muted">Todavía no sabemos si dejan entrar a menores sin un adulto. Preguntad antes de ir.</p>${pend.map(offer).join("")}` : ""}
       ${!okL.length && !pend.length ? '<div class="box"><p class="small muted">No tenemos planes con información de acceso para este destino.</p></div>' : ""}
       ${noL.length ? `<details class="hid"><summary>${noL.length} planes que no son para vuestra edad</summary><div style="display:grid;gap:8px;margin-top:8px">${noL.map(offer).join("")}</div></details>` : ""}
-      ${ocioLawBox(a)}${legalTips(["dif-alcohol-ocio", "dif-de-horarios-juschg", "dif-fr-toques-queda", "dif-patinetes-alquiler"], a.d.country)}`;
+      ${nightBox(a)}${ocioLawBox(a)}${legalTips(["dif-alcohol-ocio", "dif-de-horarios-juschg", "dif-fr-toques-queda", "dif-patinetes-alquiler"], a.d.country)}`;
   }
   function eligTable(a) {
     const rows = [...(a.flights || []).map(f => ({ name: ITEMS[f.a].name + (f.dir ? " · directo" : " · con escala"), e: f.e })), ...(a.stays || []).map(s => ({ name: ITEMS[s.s].name, e: s.e }))];
@@ -1800,6 +1859,7 @@ Reglas de extracción:
     else if (d.pickSt) { state.cart = { ...state.cart, k: state.sel, st: state.cart.st === d.pickSt ? null : d.pickSt }; renderResults(); }
     else if (d.date && t.classList.contains("cal-d")) { state.date = d.date; update(); }
     else if (d.flsort) { state.flSort = d.flsort; renderResults(); }
+    else if (t.id === "live-go") liveSearch();
     else if (d.open === "family") openFamily();
     else if (t.id === "fam-ok") { state.famOk = true; openFamily(); }
     else if (t.id === "fam-print-btn") printFamily();
@@ -1850,7 +1910,7 @@ Reglas de extracción:
     if (el.dataset.co) { el.checked ? state.co.checks.add(el.dataset.co) : state.co.checks.delete(el.dataset.co); openCheckout(); return; }
     if (el.dataset.extra) { state.extras[el.dataset.extra] = el.checked; renderResults(); return; }
     if (el.id === "fl-direct") { state.flDirect = el.checked; renderResults(); return; }
-    if (el.id === "date") { if (el.value) state.date = el.value; update(); return; }
+    if (el.id === "date") { if (el.value) state.date = el.value; state.live = null; update(); return; }
     if (el.id === "days") { state.days = Math.max(2, Math.min(7, +el.value || 4)); update(); }
     if (el.id === "wz-n") { wz.n = +el.value; wz.ages = Array.from({ length: wz.n }, (_, i) => wz.ages[i] ?? wz.ages[0] ?? 17); wz.msg = ($("#wz-msg") || {}).value || wz.msg; renderWelcome(); return; }
     if (el.dataset.wzage) { wz.ages[+el.dataset.wzage] = +el.value; return; }
@@ -2046,6 +2106,46 @@ Reglas de extracción:
     });
     Object.values(DEST).forEach(d => { if (d.team && !d.verified && known(d.country)) d.verified = true; });
   })();
+  /* ===== Ocio nocturno (barrido del 11/11/2026): norma de la región y edad de cada local ===== */
+  const NIGHT_DATA = /*__NIGHT__*/{};
+  const NIGHT = { rule: {}, venues: {} };
+  (function addNight() {
+    const nd = t => norm(String(t || ""));
+    const date = (NIGHT_DATA.actualizado || "2026-11-11").split("-").reverse().join("/");
+    (NIGHT_DATA.reglas || []).forEach((r, i) => {
+      const id = "nocr_" + i; SRC[id] = S(r.fuente, r.url || null, r.etiqueta || "PENDIENTE", date);
+      const ex = r.excepcion;
+      ITEMS[id] = { name: r.titulo, cat: "hacer", tipo: "legal", src: id, rule: m => {
+        if (m.age >= 18) return R("ok", OK18);
+        if (r.edadMin != null && m.age >= r.edadMin) return R("unk", "Por ley podéis entrar, pero con " + m.age + " decide cada local (muchos piden 18). " + r.texto);
+        if (ex && ex.desde != null && m.age >= ex.desde) return R("req", ex.texto + ". " + r.texto, [G(ex.texto)]);
+        if (r.edadMin == null) return R("unk", r.texto);
+        return R("no", r.texto);
+      } };
+      (r.ciudades || []).forEach(c => { NIGHT.rule[nd(c)] = id; });
+    });
+    (NIGHT_DATA.locales || []).forEach((v, i) => {
+      const id = "noc_" + i; SRC[id] = S(v.url ? "Normas de " + v.nombre : "Sin fuente publicada", v.url || null, v.etiqueta || "PENDIENTE", date);
+      ITEMS[id] = { name: v.nombre, cat: "hacer", tipo: "acceso", src: id, link: v.url || null, rule: m => {
+        if (v.edadMin == null) return R("unk", v.texto);
+        if (v.edadMax != null && m.age > v.edadMax) return R("no", "Es solo para " + v.edadMin + "-" + v.edadMax + " años. " + v.texto);
+        if (m.age < v.edadMin) return R("no", v.texto);
+        return v.condicion ? R("req", v.texto, [G(v.condicion)]) : R("ok", v.texto);
+      } };
+      const k = nd(v.ciudad); (NIGHT.venues[k] = NIGHT.venues[k] || []).push(id);
+    });
+  })();
+  function nightBox(a) {
+    const k = norm(String(a.d.city || "")), rid = NIGHT.rule[k], vids = NIGHT.venues[k] || [];
+    if (!rid && !vids.length) return "";
+    const LBL = { ok: "Os dejan", req: "Con condiciones", unk: "Sin confirmar", no: "No con vuestra edad" };
+    const row = id => { const e = evalItem(id); return `<div class="fam-row">${pill(e.s, LBL[e.s])}<div><strong>${esc(ITEMS[id].name)}</strong><p class="small">${groupWhy(e)}</p>${reqList(e)}${srcLine(ITEMS[id].src)}</div></div>`; };
+    const order = ids => ids.map(id => ({ id, s: evalItem(id).s })).sort((x, y) => RANK[x.s] - RANK[y.s]).map(x => x.id);
+    return `<div class="box"><h3>🌙 Noche en ${esc(a.d.city)}: qué os dejan</h3>
+      <p class="small muted">Barrido del ${(NIGHT_DATA.actualizado || "").split("-").reverse().join("/")}. Si un local no publica su edad, sale pendiente, nunca permitido. Las normas cambian según el evento: mirad la página de cada noche.</p>
+      ${rid ? row(rid) : ""}${vids.length ? `<h4 class="ck-h">Locales</h4>${order(vids).map(row).join("")}` : ""}</div>`;
+  }
+  $("#origin-city").addEventListener("focus", ev => { try { ev.target.select(); } catch (e) { /* nada */ } });
   $("#cities-dl").innerHTML = CITIES_ES.map(c => `<option value="${esc(c[0])}"></option>`).join("");
   const famP = readFamilyHash();
   const hadSaved = famP ? false : load();

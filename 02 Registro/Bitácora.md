@@ -110,3 +110,8 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 
 - **Hecho:** modo padres en el Planner (D-18), probado con el enlace de la familia y en un navegador limpio sin errores. Revisado el correo: **no hay respuestas nuevas** de albergues (siguen 11 de 24; la última, Ostello Tasso a las 18:18).
 - **Pendiente:** validar el modo padres con familias; revisión programada de respuestas el 13/11 a las 18:00.
+
+## 2026-11-11 (noche). Vuelos en tiempo real, salidas y ocio nocturno
+
+- **Hecho:** conector de vuelos con Duffel (D-19), probado en modo prueba (sin clave) y con el conector apagado; «Salís de» con el aeropuerto real y sin bus desde las islas; barrido de ocio nocturno (D-20) con 11 normas regionales y 13 locales. Recorridos los 38 destinos y sus pestañas sin errores.
+- **Pendiente:** que Alberto cree la cuenta de Duffel si quiere precios reales (pasos en [[Conector de vuelos en tiempo real]]); Q-29 a Q-31.

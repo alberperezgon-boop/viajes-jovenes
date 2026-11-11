@@ -59,3 +59,14 @@ Cada decisión dice quién la tomó, con qué evidencia y qué la haría cambiar
 - **Enlace para la familia:** `#familia=` con edades, fechas, destino y elecciones; **nunca nombres**. Abre directamente la vista y no pisa el plan guardado en ese navegador. Dentro del artefacto de claude.ai no se genera enlace (la página va en un marco); funcionará cuando el HTML esté en una web.
 - **Por qué:** los padres pagan, firman y deciden (D-13); las grietas de la competencia muestran que nadie se dirige a ellos ([[fixes|Grietas de la competencia]], punto 6). Sigue en la línea del proyecto: viajar sin adultos, con la familia informada.
 - **Pendiente:** validarlo con padres (encuesta F o entrevistas) antes de darle más peso.
+
+## D-19. Vuelos en tiempo real con un conector local, y salidas desde el aeropuerto real (11/11/2026)
+
+- **Decisión:** precios reales con **Duffel** (única API de vuelos con alta autoservicio en noviembre de 2026: Amadeus Self-Service cerró el 17/07/2026; Kiwi y Travelpayouts piden aprobación) mediante `70 Prototipo/conector-vuelos.mjs`, que guarda la clave y busca con las **edades reales**, sin billetes separados. La demo cruza cada oferta con nuestras reglas por aerolínea y manda a reservar directo. Ver [[Conector de vuelos en tiempo real]].
+- **Salidas («Salís de»):** se muestra el **aeropuerto real** más cercano entre 35 aeropuertos españoles (coordenadas aproximadas) y se usa en Kayak, Skyscanner, Google Flights y el conector. Los vuelos de ejemplo siguen saliendo de los 5 aeropuertos de la demo, y se dice. Desde **Canarias, Baleares, Ceuta y Melilla** ya no se ofrece bus a la península: vuelos de ejemplo marcados como tales. Se quita el «a 0 km» y el campo selecciona el texto al entrar.
+- **Por qué:** era un fallo real (de Bilbao se buscaba desde Madrid; de Las Palmas, bus por carretera) y los precios en directo son el núcleo de «un Skyscanner para jóvenes».
+
+## D-20. Ocio nocturno por región y por local (11/11/2026)
+
+- **Decisión:** la pestaña Planes tiene el bloque «🌙 Noche: qué os dejan», con la norma de la región (Madrid, Andalucía, Cataluña, Comunitat Valenciana, Alemania, Países Bajos, Reino Unido, Francia, Italia, Portugal e Irlanda) y 14 normas de 13 locales con su edad publicada. Lo que no publica edad sale pendiente. Ver [[Ocio nocturno - edad por local]].
+- **Hallazgo:** con 16-17, las discotecas de las ciudades grandes son casi siempre de 18; lo abierto son conciertos, sesiones sin alcohol (Madrid, desde 14) y fiestas para adolescentes.

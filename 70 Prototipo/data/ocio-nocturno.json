@@ -1,0 +1,330 @@
+{
+ "actualizado": "2026-11-11",
+ "nota": "Barrido del 11/11/2026. Regla del proyecto: si el local no publica su edad, queda pendiente, nunca permitido. Las normas de la casa pueden cambiar por evento: hay que mirar la página de cada noche.",
+ "reglas": [
+  {
+   "ambito": "ES-MD",
+   "ciudades": [
+    "Madrid"
+   ],
+   "titulo": "Discotecas en la Comunidad de Madrid",
+   "edadMin": 18,
+   "excepcion": {
+    "desde": 14,
+    "texto": "Sesiones especiales para mayores de 14, sin alcohol y con horario distinto"
+   },
+   "texto": "Menores de 18, prohibido en salas de fiesta y discotecas con alcohol, salvo conciertos (los menores de 16, con sus padres) y sesiones especiales sin alcohol desde los 14.",
+   "fuente": "Comunidad de Madrid, Consumo: Espectáculos",
+   "url": "https://www.comunidad.madrid/servicios/consumo/informacion-completa-espectaculos",
+   "etiqueta": "VERIFICADO"
+  },
+  {
+   "ambito": "ES-AN",
+   "ciudades": [
+    "Sevilla",
+    "Málaga",
+    "Granada",
+    "Marbella",
+    "Huelva",
+    "Jerez de la Frontera",
+    "Córdoba"
+   ],
+   "titulo": "Discotecas en Andalucía",
+   "edadMin": 16,
+   "excepcion": {
+    "desde": 14,
+    "texto": "Locales de ocio para menores (de 14 a 17), sin alcohol"
+   },
+   "texto": "La norma andaluza prohíbe la entrada a menores de 16 en los establecimientos de esparcimiento; con 16 y 17 decide cada local (muchos piden 18) y nunca alcohol. Hay locales solo para menores de 14 a 17, sin alcohol.",
+   "fuente": "Junta de Andalucía: Plan de inspección de espectáculos 2024 (Decreto 155/2018)",
+   "url": "https://cdn.juntadeandalucia.es/sites/default/files/inline-files/2024/11/Plan_Inspeccion_EEPP_Actividades_Recreativas_Campa%C3%B1a_Vigilancia_2024.pdf",
+   "etiqueta": "OFICIAL-INDIRECTO"
+  },
+  {
+   "ambito": "ES-CT",
+   "ciudades": [
+    "Barcelona"
+   ],
+   "titulo": "Discotecas en Cataluña",
+   "edadMin": 16,
+   "excepcion": {
+    "desde": null,
+    "texto": "Discotecas de juventud"
+   },
+   "texto": "Los menores de 16 no pueden entrar en locales con licencia musical, salvo discotecas de juventud o un concierto con sus padres. Con 16 y 17 decide cada local por derecho de admisión, y sin alcohol de más de 23 grados.",
+   "fuente": "Ley 11/2009 de espectáculos de Cataluña (texto consolidado, BOE) y prensa sobre inspecciones",
+   "url": "https://www.boe.es/eli/es-ct/l/2009/07/06/11/con",
+   "etiqueta": "SECUNDARIA"
+  },
+  {
+   "ambito": "ES-VC",
+   "ciudades": [
+    "Valencia"
+   ],
+   "titulo": "Conciertos y sesiones para menores en la Comunitat Valenciana",
+   "edadMin": null,
+   "excepcion": {
+    "desde": 14,
+    "texto": "Sesiones para menores, que acaban como tarde a las 22:00 (orden de horarios de 2021)"
+   },
+   "texto": "Los menores de 16 pueden ir a conciertos con autorización de sus padres y deben irse al acabar; a ningún menor se le puede servir alcohol. Las sesiones para menores acababan a las 22:00 según la orden de 2021 (cada año sale una nueva). La edad para discotecas con 16 y 17 no está confirmada.",
+   "fuente": "Ley 14/2010 (modificada por la Ley 6/2018), según Valencia Plaza, y orden de horarios de 2021",
+   "url": "https://valenciaplaza.com/musica-opera-valencia-comunitat-valenciana/aprobada-la-ley-que-permite-a-los-menores-entrar-a-salas-de-conciertos",
+   "etiqueta": "SECUNDARIA"
+  },
+  {
+   "ambito": "DE",
+   "ciudades": [
+    "Berlín",
+    "Múnich"
+   ],
+   "titulo": "Fiestas y conciertos en Alemania",
+   "edadMin": null,
+   "excepcion": {
+    "desde": 16,
+    "texto": "Con 16 y 17, en eventos de baile hasta las 24:00 sin adulto (con DNI)"
+   },
+   "texto": "Por ley, con 16 y 17 se puede estar en eventos de baile hasta medianoche sin adulto. Muchos clubs ponen 18 en sus normas; hay fiestas «Ü16» pensadas para 16 y 17.",
+   "fuente": "Jugendschutzgesetz §5 (ver guía legal) y FAQ de Huxley's Neue Welt",
+   "url": "https://huxleysneuewelt.de/en/faq/",
+   "etiqueta": "OFICIAL-INDIRECTO"
+  },
+  {
+   "ambito": "NL",
+   "ciudades": [
+    "Ámsterdam",
+    "Rotterdam",
+    "Utrecht",
+    "La Haya"
+   ],
+   "titulo": "Clubs en Países Bajos",
+   "edadMin": 18,
+   "excepcion": {
+    "desde": null,
+    "texto": "Conciertos: la edad depende de cada evento"
+   },
+   "texto": "Las noches de club suelen ser de 18 (o 21) por norma de la casa; los conciertos dependen del evento. Alcohol, solo desde 18.",
+   "fuente": "Normas de la casa de Paradiso y Melkweg",
+   "url": "https://www.paradiso.nl/en/info/about-us/huisregels",
+   "etiqueta": "OFICIAL-INDIRECTO"
+  },
+  {
+   "ambito": "UK",
+   "ciudades": [
+    "Londres"
+   ],
+   "titulo": "Clubs en Reino Unido",
+   "edadMin": 18,
+   "excepcion": {
+    "desde": 14,
+    "texto": "Algunos conciertos son desde 14 (14 y 15, con un adulto)"
+   },
+   "texto": "Las noches de club en Londres son de 18 por norma de los locales; hay conciertos desde 14 o 16 según la sala.",
+   "fuente": "Ministry of Sound y Electric Ballroom (normas publicadas)",
+   "url": "https://ministryofsound.com/faq/",
+   "etiqueta": "OFICIAL-INDIRECTO"
+  },
+  {
+   "ambito": "FR",
+   "ciudades": [
+    "París",
+    "Marsella",
+    "Niza"
+   ],
+   "titulo": "Discotecas en Francia",
+   "edadMin": null,
+   "excepcion": {
+    "desde": 13,
+    "texto": "Fiestas para adolescentes (13-17) sin alcohol"
+   },
+   "texto": "Las discotecas son legalmente locales de bebidas: los menores de 16 sin un adulto no deberían estar, y no se sirve alcohol a menores. La edad de cada club con 16 y 17 no está publicada: pendiente. Existen fiestas solo para 13-17 sin alcohol.",
+   "fuente": "Respuestas parlamentarias (Assemblée nationale) y guía Familin'Paris",
+   "url": "https://www.familinparis.fr/boite-de-nuit-ado",
+   "etiqueta": "SECUNDARIA"
+  },
+  {
+   "ambito": "IT",
+   "ciudades": [
+    "Roma",
+    "Florencia",
+    "Milán",
+    "Nápoles",
+    "Como",
+    "Turín",
+    "Venecia"
+   ],
+   "titulo": "Discotecas en Italia",
+   "edadMin": null,
+   "excepcion": null,
+   "texto": "No hay una edad nacional clara para entrar: las fuentes se contradicen (16 con adulto o 18). Cada local decide; alcohol prohibido a menores. Pendiente.",
+   "fuente": "Búsqueda del 11/11/2026 (fuentes divulgativas, sin norma clara)",
+   "url": null,
+   "etiqueta": "PENDIENTE"
+  },
+  {
+   "ambito": "PT",
+   "ciudades": [
+    "Lisboa",
+    "Oporto"
+   ],
+   "titulo": "Discotecas en Portugal",
+   "edadMin": 16,
+   "excepcion": null,
+   "texto": "Según la ASAE, los menores de 16 no pueden frecuentar bares y discotecas; con 16 y 17 decide cada local (las guías hablan de 18 en la mayoría) y alcohol nada hasta los 18. Llevad documento.",
+   "fuente": "ASAE: menores de 16 (revisado por el equipo el 07/11/2026)",
+   "url": "https://www.asae.gov.pt/perguntas-frequentes1/area-economica/bares/bares-frequencia-por-menores-de-16-anos.aspx",
+   "etiqueta": "EQUIPO"
+  },
+  {
+   "ambito": "IE",
+   "ciudades": [
+    "Dublín"
+   ],
+   "titulo": "Discotecas en Irlanda",
+   "edadMin": 18,
+   "excepcion": {
+    "desde": null,
+    "texto": "Discotecas para adolescentes sin alcohol"
+   },
+   "texto": "Los menores no pueden estar en locales con licencia de alcohol por la noche, salvo discotecas para adolescentes sin alcohol. Los clubs normales, 18.",
+   "fuente": "Prensa irlandesa sobre la ley de licencias y las discotecas juveniles",
+   "url": "https://www.irishtimes.com/news/mcdowell-gives-teen-discos-the-all-clear-1.989700",
+   "etiqueta": "SECUNDARIA"
+  }
+ ],
+ "locales": [
+  {
+   "ciudad": "Berlín",
+   "nombre": "Huxley's Neue Welt (conciertos)",
+   "tipo": "sala",
+   "edadMin": 16,
+   "condicion": "Hasta las 24:00 y con DNI con foto; los eventos marcados 18+ no",
+   "texto": "De 16 a 18, conciertos hasta medianoche sin adulto con DNI; de 6 a 15, con padre, madre o tutor.",
+   "url": "https://huxleysneuewelt.de/en/faq/",
+   "etiqueta": "OFICIAL-INDIRECTO"
+  },
+  {
+   "ciudad": "Berlín",
+   "nombre": "Weekend Club",
+   "tipo": "club",
+   "edadMin": 18,
+   "texto": "Entrada estrictamente 18+, con documento físico.",
+   "url": "https://www.weekendclub.berlin/faqs",
+   "etiqueta": "OFICIAL-INDIRECTO"
+  },
+  {
+   "ciudad": "Berlín",
+   "nombre": "Berghain",
+   "tipo": "club",
+   "edadMin": null,
+   "texto": "No publica edad mínima; la puerta es muy selectiva. Pendiente.",
+   "url": null,
+   "etiqueta": "PENDIENTE"
+  },
+  {
+   "ciudad": "Ámsterdam",
+   "nombre": "Paradiso",
+   "tipo": "sala",
+   "edadMin": null,
+   "condicion": "Mirad la edad de cada evento",
+   "texto": "La edad depende del evento (piden DNI si hay mínimo); alcohol solo a mayores de 18.",
+   "url": "https://www.paradiso.nl/en/info/about-us/huisregels",
+   "etiqueta": "OFICIAL-INDIRECTO",
+   "porEvento": true
+  },
+  {
+   "ciudad": "Ámsterdam",
+   "nombre": "Melkweg (noches de club)",
+   "tipo": "club",
+   "edadMin": 18,
+   "texto": "Sus normas fijan 18 para las noches de club; la edad de cada noche sale en su web.",
+   "url": "https://assets.melkweg.nl/nova-media-library-docs/HUISREGELS%20EN.pdf",
+   "etiqueta": "OFICIAL-INDIRECTO"
+  },
+  {
+   "ciudad": "Ámsterdam",
+   "nombre": "Shelter",
+   "tipo": "club",
+   "edadMin": 21,
+   "texto": "Según guías, 21 (algunos eventos 18).",
+   "url": "https://dutchreview.com/culture/best-clubs-in-amsterdam/",
+   "etiqueta": "SECUNDARIA"
+  },
+  {
+   "ciudad": "Londres",
+   "nombre": "Ministry of Sound",
+   "tipo": "club",
+   "edadMin": 18,
+   "texto": "Edad mínima 18 salvo que se indique otra; documento físico obligatorio.",
+   "url": "https://ministryofsound.com/faq/",
+   "etiqueta": "OFICIAL-INDIRECTO"
+  },
+  {
+   "ciudad": "Londres",
+   "nombre": "Electric Ballroom (conciertos)",
+   "tipo": "sala",
+   "edadMin": 16,
+   "condicion": "Con 14 y 15, con un adulto; las noches de club son 18+",
+   "texto": "Conciertos: desde 14; de 14 y 15, con un adulto; desde 16, solos.",
+   "url": "https://electricballroom.co.uk/faq/",
+   "etiqueta": "OFICIAL-INDIRECTO"
+  },
+  {
+   "ciudad": "Londres",
+   "nombre": "Electric Ballroom (noches de club)",
+   "tipo": "club",
+   "edadMin": 18,
+   "texto": "Noches de club estrictamente 18+, con documento con foto.",
+   "url": "https://electricballroom.co.uk/faq/",
+   "etiqueta": "OFICIAL-INDIRECTO"
+  },
+  {
+   "ciudad": "París",
+   "nombre": "Teens Party (fiestas 13-17)",
+   "tipo": "fiesta",
+   "edadMin": 13,
+   "edadMax": 17,
+   "condicion": "Sin alcohol; control de DNI en la puerta",
+   "texto": "Fiestas solo para 13-17 sin alcohol, con control de identidad.",
+   "url": "https://www.familinparis.fr/boite-de-nuit-ado",
+   "etiqueta": "SECUNDARIA"
+  },
+  {
+   "ciudad": "París",
+   "nombre": "Rex Club",
+   "tipo": "club",
+   "edadMin": null,
+   "texto": "No publica edad mínima. Pendiente.",
+   "url": null,
+   "etiqueta": "PENDIENTE"
+  },
+  {
+   "ciudad": "Lisboa",
+   "nombre": "Lisboa Rio",
+   "tipo": "club",
+   "edadMin": 16,
+   "condicion": "Solo los martes (el resto de días, 18)",
+   "texto": "Según una comunidad de ocio (2024): 16+ los martes y 18+ de miércoles a domingo.",
+   "url": "https://wikinight.eu/community/what-is-the-minimum-age-to-enter-lisboa-rio-nightclub",
+   "etiqueta": "SECUNDARIA"
+  },
+  {
+   "ciudad": "Lisboa",
+   "nombre": "Lux Frágil",
+   "tipo": "club",
+   "edadMin": null,
+   "texto": "No publica edad mínima; puerta selectiva. Pendiente.",
+   "url": null,
+   "etiqueta": "PENDIENTE"
+  },
+  {
+   "ciudad": "Dublín",
+   "nombre": "Old Wesley (discoteca juvenil)",
+   "tipo": "fiesta",
+   "edadMin": null,
+   "texto": "Discoteca para adolescentes sin alcohol; no hemos confirmado sus franjas de edad. Pendiente.",
+   "url": "https://alcoholireland.ie/drunk-tank-for-children-turning-up-intoxicated-at-youth-disco/",
+   "etiqueta": "PENDIENTE"
+  }
+ ]
+}
