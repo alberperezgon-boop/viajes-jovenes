@@ -1,0 +1,319 @@
+[
+ {
+  "ciudad": "Barcelona",
+  "pais": "España",
+  "nombre": "Alberg Pere Tarrés",
+  "web": "https://www.peretarres.org/es/hostel-barcelona",
+  "fuente": "Consulta por correo enviada el 11/11/2026",
+  "url": "https://www.peretarres.org/es/hostel-barcelona",
+  "consultado": "11/11/2026",
+  "unk": true,
+  "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
+  "etiqueta": "PENDIENTE"
+ },
+ {
+  "ciudad": "Barcelona",
+  "pais": "España",
+  "nombre": "Alberg Barcelona Xanascat",
+  "web": "https://xanascat.gencat.cat/ca/albergs/albergs/Barcelona-Xanascat",
+  "fuente": "Consulta por correo enviada el 11/11/2026",
+  "url": "https://xanascat.gencat.cat/ca/albergs/albergs/Barcelona-Xanascat",
+  "consultado": "11/11/2026",
+  "unk": true,
+  "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
+  "etiqueta": "PENDIENTE"
+ },
+ {
+  "ciudad": "Madrid",
+  "pais": "España",
+  "nombre": "Albergue Juvenil San Fermín",
+  "web": "https://www.san-fermin.org/albergue-juvenil",
+  "fuente": "Consulta por correo enviada el 11/11/2026",
+  "url": "https://www.san-fermin.org/albergue-juvenil",
+  "consultado": "11/11/2026",
+  "unk": true,
+  "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
+  "etiqueta": "PENDIENTE"
+ },
+ {
+  "ciudad": "Valencia",
+  "pais": "España",
+  "nombre": "Urban Youth Hostel",
+  "web": "https://www.urbanyouthhostel.com/",
+  "fuente": "Consulta por correo enviada el 11/11/2026",
+  "url": "https://www.urbanyouthhostel.com/",
+  "consultado": "11/11/2026",
+  "unk": true,
+  "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
+  "etiqueta": "PENDIENTE"
+ },
+ {
+  "ciudad": "Granada",
+  "pais": "España",
+  "nombre": "El Granado Hostel",
+  "web": "https://www.elgranado.com/",
+  "fuente": "Consulta por correo enviada el 11/11/2026",
+  "url": "https://www.elgranado.com/",
+  "consultado": "11/11/2026",
+  "unk": true,
+  "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
+  "etiqueta": "PENDIENTE"
+ },
+ {
+  "ciudad": "Málaga",
+  "pais": "España",
+  "nombre": "Feel Hostels City Center",
+  "web": "http://www.feelhostels.com/",
+  "fuente": "Consulta por correo enviada el 11/11/2026",
+  "url": "http://www.feelhostels.com/",
+  "consultado": "11/11/2026",
+  "unk": true,
+  "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
+  "etiqueta": "PENDIENTE"
+ },
+ {
+  "ciudad": "Lisboa",
+  "pais": "Portugal",
+  "nombre": "Lisb'On Hostel",
+  "web": "https://www.lisb-onhostel.com/",
+  "fuente": "Consulta por correo enviada el 11/11/2026",
+  "url": "https://www.lisb-onhostel.com/",
+  "consultado": "11/11/2026",
+  "unk": true,
+  "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
+  "etiqueta": "PENDIENTE"
+ },
+ {
+  "ciudad": "Lisboa",
+  "pais": "Portugal",
+  "nombre": "Home Lisbon Hostel",
+  "web": "https://www.homelisbonhostel.com/",
+  "fuente": "Consulta por correo enviada el 11/11/2026",
+  "url": "https://www.homelisbonhostel.com/",
+  "consultado": "11/11/2026",
+  "unk": true,
+  "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
+  "etiqueta": "PENDIENTE"
+ },
+ {
+  "ciudad": "Oporto",
+  "pais": "Portugal",
+  "nombre": "Gallery Hostel",
+  "web": "https://www.gallery-hostel.com/",
+  "fuente": "Consulta por correo enviada el 11/11/2026",
+  "url": "https://www.gallery-hostel.com/",
+  "consultado": "11/11/2026",
+  "unk": true,
+  "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
+  "etiqueta": "PENDIENTE"
+ },
+ {
+  "ciudad": "París",
+  "pais": "Francia",
+  "nombre": "BVJ Paris",
+  "web": "https://www.bvjhostelparis.com/",
+  "fuente": "Consulta por correo enviada el 11/11/2026",
+  "url": "https://www.bvjhostelparis.com/",
+  "consultado": "11/11/2026",
+  "unk": true,
+  "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
+  "etiqueta": "PENDIENTE"
+ },
+ {
+  "ciudad": "París",
+  "pais": "Francia",
+  "nombre": "MIJE Marais",
+  "web": "https://www.mije.com/",
+  "fuente": "Web de MIJE Marais",
+  "url": "https://www.mije.com/auberge-jeunesse-paris/cgv-indivs-paris",
+  "consultado": "11/11/2026",
+  "minSolo": 17,
+  "reqs": [
+   "Autorización firmada de los padres y copia del DNI de uno de ellos"
+  ],
+  "conAdulto": true,
+  "adultoReqs": [
+   "Habitación privada"
+  ],
+  "texto": "Con 17, sin adulto con autorización firmada y copia del DNI de un progenitor; con menos de 17, con una persona mayor de edad y en habitación privada.",
+  "etiqueta": "OFICIAL-INDIRECTO"
+ },
+ {
+  "ciudad": "Roma",
+  "pais": "Italia",
+  "nombre": "The RomeHello",
+  "web": "https://www.theromehello.com/",
+  "fuente": "Consulta por correo enviada el 11/11/2026",
+  "url": "https://www.theromehello.com/",
+  "consultado": "11/11/2026",
+  "unk": true,
+  "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
+  "etiqueta": "PENDIENTE"
+ },
+ {
+  "ciudad": "Roma",
+  "pais": "Italia",
+  "nombre": "Alessandro Palace & Bar",
+  "web": "https://hostelsalessandro.com/",
+  "fuente": "Web de Alessandro Palace & Bar",
+  "url": "https://hostelsalessandro.com/contacts-group-reservations-2/",
+  "consultado": "11/11/2026",
+  "unk": true,
+  "texto": "Sin norma escrita: su formulario de grupos cuenta como «adultos» a los mayores de 16. Preguntado por correo el 11/11/2026.",
+  "etiqueta": "OFICIAL-INDIRECTO"
+ },
+ {
+  "ciudad": "Florencia",
+  "pais": "Italia",
+  "nombre": "Hostel Archi Rossi",
+  "web": "https://www.hostelarchirossi.com/",
+  "fuente": "Consulta por correo enviada el 11/11/2026",
+  "url": "https://www.hostelarchirossi.com/",
+  "consultado": "11/11/2026",
+  "unk": true,
+  "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
+  "etiqueta": "PENDIENTE"
+ },
+ {
+  "ciudad": "Florencia",
+  "pais": "Italia",
+  "nombre": "Ostello Tasso",
+  "web": "https://ostellotasso.it/",
+  "fuente": "Consulta por correo enviada el 11/11/2026",
+  "url": "https://ostellotasso.it/",
+  "consultado": "11/11/2026",
+  "unk": true,
+  "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
+  "etiqueta": "PENDIENTE"
+ },
+ {
+  "ciudad": "Milán",
+  "pais": "Italia",
+  "nombre": "Babila Hostel & Bistrot",
+  "web": "https://www.babilahostel.it/",
+  "fuente": "Consulta por correo enviada el 11/11/2026",
+  "url": "https://www.babilahostel.it/",
+  "consultado": "11/11/2026",
+  "unk": true,
+  "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
+  "etiqueta": "PENDIENTE"
+ },
+ {
+  "ciudad": "Berlín",
+  "pais": "Alemania",
+  "nombre": "Pfefferbett Hostel",
+  "web": "https://pfefferbett.de/",
+  "fuente": "Web de Pfefferbett Hostel",
+  "url": "https://pfefferbett.de/wir-ueber-uns/faq/",
+  "consultado": "11/11/2026",
+  "minSolo": 16,
+  "reqs": [
+   "Autorización de los padres (formulario del albergue)"
+  ],
+  "conAdulto": null,
+  "texto": "«Kein Problem, aber bitte nur mit Einverständnis der Eltern!»: menores con permiso de los padres (formulario).",
+  "etiqueta": "OFICIAL-INDIRECTO"
+ },
+ {
+  "ciudad": "Berlín",
+  "pais": "Alemania",
+  "nombre": "Jugendherberge Berlin International",
+  "web": "https://www.jugendherberge.de/en/youth-hostels/berlin-international/",
+  "fuente": "Web de Jugendherberge Berlin International",
+  "url": "https://www.jugendherberge.de/en/you-have-got-questions-on-youth-hostels-we-give-you-the-answers/",
+  "consultado": "11/11/2026",
+  "minSolo": 14,
+  "reqs": [
+   "Permiso de los padres"
+  ],
+  "conAdulto": true,
+  "texto": "Red DJH: desde 14 se puede viajar solo; hasta los 18, con permiso de los padres.",
+  "etiqueta": "OFICIAL-INDIRECTO"
+ },
+ {
+  "ciudad": "Múnich",
+  "pais": "Alemania",
+  "nombre": "Jugendherberge München City",
+  "web": "https://www.jugendherberge.de/jugendherbergen/muenchen-city/",
+  "fuente": "Web de Jugendherberge München City",
+  "url": "https://www.jugendherberge.de/en/you-have-got-questions-on-youth-hostels-we-give-you-the-answers/",
+  "consultado": "11/11/2026",
+  "minSolo": 14,
+  "reqs": [
+   "Permiso de los padres",
+   "Habitaciones separadas por sexo"
+  ],
+  "conAdulto": true,
+  "texto": "Red DJH: desde 14 con permiso de los padres; en Baviera, alojamiento limitado y habitaciones separadas por sexo.",
+  "etiqueta": "OFICIAL-INDIRECTO"
+ },
+ {
+  "ciudad": "Viena",
+  "pais": "Austria",
+  "nombre": "Hostel Ruthensteiner",
+  "web": "https://www.hostelruthensteiner.com/",
+  "fuente": "Web de Hostel Ruthensteiner",
+  "url": "https://hostelruthensteiner.com/faq-frequently-asked-questions/",
+  "consultado": "11/11/2026",
+  "unk": true,
+  "texto": "«Children» no pueden dormir en dormitorios compartidos, pero no dice hasta qué edad ni si aceptan menores sin padres.",
+  "etiqueta": "OFICIAL-INDIRECTO"
+ },
+ {
+  "ciudad": "Praga",
+  "pais": "República Checa",
+  "nombre": "Sir Toby's Hostel",
+  "web": "https://sirtobys.com/",
+  "fuente": "Web de Sir Toby's Hostel",
+  "url": "https://sirtobys.com/st-hostel/faqs/",
+  "consultado": "11/11/2026",
+  "minSolo": 0,
+  "reqs": [
+   "Habitación privada (los dormitorios compartidos son solo de 18 a 39 años)"
+  ],
+  "conAdulto": true,
+  "texto": "Sin límite de edad, pero los menores de 18 solo en habitación privada. No dice si piden permiso de los padres.",
+  "etiqueta": "OFICIAL-INDIRECTO"
+ },
+ {
+  "ciudad": "Budapest",
+  "pais": "Hungría",
+  "nombre": "Maverick Central Market",
+  "web": "https://mavericklodges.com/",
+  "fuente": "Consulta por correo enviada el 11/11/2026",
+  "url": "https://mavericklodges.com/",
+  "consultado": "11/11/2026",
+  "unk": true,
+  "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
+  "etiqueta": "PENDIENTE"
+ },
+ {
+  "ciudad": "Atenas",
+  "pais": "Grecia",
+  "nombre": "Athens Studios",
+  "web": "https://www.athensstudios.gr/",
+  "fuente": "Consulta por correo enviada el 11/11/2026",
+  "url": "https://www.athensstudios.gr/",
+  "consultado": "11/11/2026",
+  "unk": true,
+  "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
+  "etiqueta": "PENDIENTE"
+ },
+ {
+  "ciudad": "Cracovia",
+  "pais": "Polonia",
+  "nombre": "Hostel Atlantis",
+  "web": "https://www.atlantishostel.pl/",
+  "fuente": "Web de Hostel Atlantis",
+  "url": "https://www.atlantishostel.pl/regulamin",
+  "consultado": "11/11/2026",
+  "minSolo": 0,
+  "reqs": [
+   "Consentimiento de los padres o tutores",
+   "Habitación privada (cambio de reserva con recargo)"
+  ],
+  "conAdulto": true,
+  "texto": "Los menores que viajan sin su tutor legal necesitan consentimiento de los padres y deben pasar a habitación privada con recargo.",
+  "etiqueta": "OFICIAL-INDIRECTO"
+ }
+]

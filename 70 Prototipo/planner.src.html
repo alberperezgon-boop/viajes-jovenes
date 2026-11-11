@@ -472,6 +472,8 @@ dialog.sheet { overflow-x: hidden; }
   const UBIC = /*__UBIC__*/{};
   const CRED = /*__CRED__*/{};
   const CITIES_ES = /*__CITIES__*/[];
+  const CONSULT = /*__CONSULT__*/[];
+  const INV = /*__INV__*/{};
   function originName() { return state.city ? state.city.name : ORIGINS[state.origin]["name"]; }
   function originCoords() { return state.city ? state.city.c : ORIGINS[state.origin].c; }
   function nearestAir(c) { return Object.entries(ORIGINS).map(([k, o]) => [k, km(c, o.c)]).sort((x, y) => x[1] - y[1])[0][0]; }
@@ -612,7 +614,7 @@ dialog.sheet { overflow-x: hidden; }
       if (minor) out.push({ s: "req", t: "Consentimiento escrito de los padres", d: "Con sus datos y los de quien os aloja.", src: "uk_minor" });
     } else if (["PT", "FR", "IT", "DE"].includes(c)) out.push({ s: "ok", t: c === "DE" ? "DNI físico o pasaporte" : "DNI o pasaporte", d: "En vigor.", src: { PT: "ext_pt", FR: "ext_fr", IT: "ext_it", DE: "ext_de" }[c] });
     else out.push({ s: "unk", t: "Documentos de entrada sin verificar", d: "No tenemos las normas de este país todavía.", src: "none" });
-    if (NEWENTRY[c]) { out.pop(); out.push({ s: "ok", t: "DNI o pasaporte en vigor", d: "Cada persona con su propio documento.", src: NEWENTRY[c].src }); if (minor) out.push({ s: NEWENTRY[c].s, t: "Carta de consentimiento de los padres (" + NEWENTRY[c].cname + ")", d: NEWENTRY[c].d, src: NEWENTRY[c].src }); }
+    if (NEWENTRY[c]) { out.pop(); out.push({ s: "ok", t: "DNI o pasaporte en vigor", d: "Cada persona con su propio documento.", src: NEWENTRY[c].src }); if (minor && NEWENTRY[c].s !== "ok") out.push({ s: NEWENTRY[c].s, t: "Carta de consentimiento de los padres (" + NEWENTRY[c].cname + ")", d: NEWENTRY[c].d, src: NEWENTRY[c].src }); }
     if (minor && c === "PT") out.push({ s: "req", t: "Carta de autorización de los padres (Portugal)", d: "La ley no la exige a ciudadanos de la UE, pero gov.pt la pide y pueden negar la entrada. Llevadla en portugués o inglés (Q-20).", src: "gov_pt" });
     if (minor && c === "DE") out.push({ s: "req", t: "Carta de consentimiento", d: "La recomienda la Policía Federal.", src: "bpol" });
     return out;
@@ -1736,6 +1738,82 @@ Reglas de extracción:
       OCIO[k].push([id, p.nombre, "dia", p.c || null]);
       if (p.tag && !d.tags.includes(p.tag)) d.tags.push(p.tag);
     });
+  })();
+  /* ===== Lo investigado el 11/11/2026: albergues consultados, ciudades nuevas, entrada, ocio, aerolíneas y albergues que exigen adulto ===== */
+  (function addResearch() {
+    const nd = t => norm(String(t || ""));
+    const CC = { "España": "ES", "Portugal": "PT", "Francia": "FR", "Italia": "IT", "Alemania": "DE", "Austria": "AT", "República Checa": "CZ", "Chequia": "CZ", "Hungría": "HU", "Grecia": "GR", "Polonia": "PL", "Reino Unido": "UK", "Países Bajos": "NL", "Irlanda": "IE" };
+    const CNAME = { AT: "Austria", HU: "Hungría", GR: "Grecia", PL: "Polonia", CZ: "Chequia", LU: "Luxemburgo" };
+    const NEWC = {
+      barcelona: ["Barcelona", "ES", "BCN", [2.169, 41.387], ["playa", "joven", "noche", "museos"]], madrid: ["Madrid", "ES", "MAD", [-3.704, 40.417], ["museos", "joven", "noche", "compras"]],
+      valencia: ["Valencia", "ES", "VLC", [-0.376, 39.47], ["playa", "comida", "joven"]], granada: ["Granada", "ES", "GRX", [-3.598, 37.177], ["historia", "joven", "comida"]],
+      malaga: ["Málaga", "ES", "AGP", [-4.421, 36.721], ["playa", "museos", "joven"]], milan: ["Milán", "IT", "MIL", [9.19, 45.464], ["compras", "museos", "joven"]],
+      venecia: ["Venecia", "IT", "VCE", [12.336, 45.44], ["historia", "museos"]], munich: ["Múnich", "DE", "MUC", [11.576, 48.137], ["historia", "museos", "joven"]],
+      viena: ["Viena", "AT", "VIE", [16.373, 48.208], ["museos", "historia"]], budapest: ["Budapest", "HU", "BUD", [19.04, 47.498], ["historia", "noche", "joven"]],
+      atenas: ["Atenas", "GR", "ATH", [23.727, 37.984], ["historia", "playa", "museos"]], cracovia: ["Cracovia", "PL", "KRK", [19.945, 50.065], ["historia", "joven", "comida"]]
+    };
+    const PRICE = { ES: [24, 28], IT: [32, 34], DE: [30, 32], AT: [34, 40], HU: [20, 26], GR: [24, 30], PL: [18, 24], CZ: [20, 28], FR: [32, 38], PT: [24, 28], UK: [40, 48], NL: [40, 42], IE: [40, 44] };
+    const MADRID = [-3.704, 40.417];
+    const date = (INV.actualizado || "2026-11-11").split("-").reverse().join("/");
+    // Entrada por país (Exteriores y policía de cada país)
+    (INV.entrada || []).forEach((e, i) => { if (!e.pais) return; const id = "inv_ent_" + e.pais; SRC[id] = S(e.fuente || "Fuente", e.url || null, (e.etiqueta || "PENDIENTE").split(" ")[0], date); NEWENTRY[e.pais] = { s: e.estado === "ok" ? "ok" : e.estado === "req" ? "req" : "unk", d: e.texto, cname: e.cname || CNAME[e.pais] || e.pais, src: id }; });
+    const known = c => ["ES", "PT", "FR", "IT", "DE", "UK", "NL", "IE"].includes(c) || (NEWENTRY[c] && NEWENTRY[c].s !== "unk");
+    Object.keys(CNAME).forEach(c => { if (!NEWENTRY[c]) { SRC["pend_" + c] = S("Sin fuente verificada para " + CNAME[c], null, "PENDIENTE", date); NEWENTRY[c] = { s: "unk", d: "No hemos verificado qué pide " + CNAME[c] + " a menores de la UE que llegan sin adultos.", cname: CNAME[c], src: "pend_" + c }; } });
+    // Ciudades nuevas
+    const ensure = (name, country) => {
+      const hit = Object.entries(DEST).find(([, d]) => nd(d.city) === nd(name)); if (hit) return hit[0];
+      const key = Object.keys(NEWC).find(k => nd(NEWC[k][0]) === nd(name)); if (!key) return null;
+      const [city, cc, iata, c, tags] = NEWC[key], pr = PRICE[cc] || [30, 34], base = Math.round(28 + km(MADRID, c) * 0.034);
+      DEST[key] = { city, country: cc, cname: { ES: "España", IT: "Italia", DE: "Alemania", AT: "Austria", HU: "Hungría", GR: "Grecia", PL: "Polonia" }[cc] || cc, iata, c, verified: known(cc), tags, daily: pr[1] + (["barcelona", "madrid"].includes(key) ? 6 : 0), stays: [], stops: [], team: true, flights: cc === "ES" ? [] : [["ryanair", base, true], ["vueling", base + 18, true], ["iberia", base + 62, false]] };
+      return key;
+    };
+    // Albergues consultados el 11/11/2026 (con su norma publicada o «preguntado, sin respuesta»)
+    CONSULT.forEach((h, i) => {
+      const k = ensure(h.ciudad, CC[h.pais]); if (!k) return; const d = DEST[k], id = "con_" + i;
+      SRC[id] = S(h.fuente, h.url || h.web || null, h.etiqueta || "PENDIENTE", h.consultado || date);
+      ITEMS[id] = { name: h.nombre, cat: "dormir", tipo: "checkin", src: id, link: h.web || null, rule: (m, g) => {
+        if (m.age >= 18) return R("ok", OK18);
+        if (h.unk) return R("unk", h.texto);
+        if (m.age >= h.minSolo) return R("req", h.texto, (h.reqs || []).map(t => /habitaci|separad/i.test(t) ? G(t) : F(t)));
+        const ad = adultOf(g, m);
+        if (ad && h.conAdulto) return R("req", "Con menos de " + h.minSolo + ", con un adulto. " + h.texto, [G("Ir " + con(ad)), ...(h.adultoReqs || []).map(t => G(t))]);
+        if (h.conAdulto == null) return R("unk", "Para tu edad no lo dicen. " + h.texto);
+        return R("no", h.texto);
+      } };
+      STAY_KIND[id] = "hostel"; d.stays = d.stays || []; d.stays.push([id, (PRICE[d.country] || [30])[0] + (h.unk ? 2 : 0)]);
+    });
+    // Albergues que exigen un adulto (con su fuente)
+    (INV.albergues || []).forEach((h, i) => {
+      const k = ensure(h.ciudad, CC[h.pais]); if (!k) return; const d = DEST[k], id = "adl_" + i;
+      SRC[id] = S("Web de " + h.nombre, h.url || null, (h.etiqueta || "OFICIAL-INDIRECTO").split(" ")[0], date);
+      const extra = [h.privada ? "Habitación privada" : null, h.autorizacion ? "Autorización firmada de los padres" : null].filter(Boolean);
+      ITEMS[id] = { name: h.nombre, cat: "dormir", tipo: "checkin", src: id, link: h.url || null, rule: (m, g) => {
+        if (m.age >= 18) return R("ok", OK18);
+        if (h.admite1617SinAdulto === true && m.age >= 16) return R("req", h.texto, extra.map(t => /Habitaci/.test(t) ? G(t) : F(t)));
+        const ad = adultOf(g, m);
+        if (ad && h.admiteConAmigo18 === true) return R("req", "Vale si va con vosotros alguien de 18 (no hace falta que sea padre). " + h.texto, [G("Ir " + con(ad)), ...extra.map(t => /Habitaci/.test(t) ? G(t) : F(t))]);
+        if (ad && h.admiteConAmigo18 == null) return R("unk", "No dicen si vale un amigo de 18. " + h.texto);
+        return R("no", ad ? "Solo con padre, madre o tutor. " + h.texto : "Exige un adulto. " + h.texto);
+      } };
+      STAY_KIND[id] = "hostel"; d.stays = d.stays || []; d.stays.push([id, (PRICE[d.country] || [30])[0] + 4]);
+    });
+    // Ocio por país (alcohol, bares y horarios) para los destinos de ese país que aún no tienen esa norma
+    (INV.ocio || []).forEach((o, i) => {
+      const id = "inv_oc_" + i, unsure = o.edadMin == null && /decide|pendiente|cada local|municipio|no consta/i.test(o.texto || "");
+      SRC[id] = S(o.fuente || "Fuente", o.url || null, (o.etiqueta || "PENDIENTE").split(" ")[0], date);
+      const txt = String(o.texto || "").length > 160 ? o.texto.slice(0, 157) + "…" : o.texto;
+      ITEMS[id] = { name: o.nombre, cat: "hacer", tipo: "legal", src: id, rule: m => unsure ? R("unk", txt) : o.edadMin == null || m.age >= o.edadMin ? R("ok", txt) : R("no", txt) };
+      Object.entries(DEST).filter(([, d]) => d.country === o.pais).forEach(([k]) => { OCIO[k] = OCIO[k] || []; if (!OCIO[k].some(x => nd(x[1]) === nd(o.nombre))) OCIO[k].push([id, o.nombre, "noche", null]); });
+    });
+    // Aerolíneas: cerrar las dudas con lo verificado
+    (INV.aerolineas || []).forEach(a => {
+      if (!a.key || !ITEMS[a.key] || a.soloDesde == null) return;
+      const id = "inv_air_" + a.key; SRC[id] = S(a.fuente || "Web de la aerolínea", a.url || null, (a.etiqueta || "OFICIAL-INDIRECTO").split(" ")[0], date);
+      const old = ITEMS[a.key].rule;
+      ITEMS[a.key] = { ...ITEMS[a.key], src: id, rule: (m, g) => m.age >= a.soloDesde ? R("ok", "Desde " + a.soloDesde + " vuelas solo.") : old(m, g) };
+      AIR_POLICY[a.key] = { ...(AIR_POLICY[a.key] || {}), solo: a.soloDesde, note: String(a.texto || "").slice(0, 140) };
+    });
+    Object.values(DEST).forEach(d => { if (d.team && !d.verified && known(d.country)) d.verified = true; });
   })();
   $("#cities-dl").innerHTML = CITIES_ES.map(c => `<option value="${esc(c[0])}"></option>`).join("");
   const hadSaved = load();
