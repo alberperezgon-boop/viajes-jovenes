@@ -1,0 +1,9 @@
+id,feature,original,priority,size,skill,evidence
+F-01,Kit de papeles: autorización de los padres generada según lo que pide cada albergue,no,must,M,replica-build,10 de 11 albergues la piden (correos 11/11/2026); reseña Hostelworld 10/07/2026
+F-02,Correo de confirmación al albergue en su idioma antes de pagar,no,must,S,replica-build,Hostelworld edad y cancelaciones; 11 respuestas el 11/11/2026
+F-03,Precio total por persona con extras y etiqueta de reserva directa,no,must,S,replica-build,Engaño 352 y precio 77 reseñas (App Store)
+F-04,Plan B por viaje: cancelaciones y check-in rechazado con alternativas que aceptan la edad,no,should,M,replica-build,Reembolsos 380 y soporte 223 reseñas
+F-05,Pack del viaje imprimible y sin conexión,no,should,S,replica-build,Sin conexión 30 reseñas
+F-06,Modo padres de solo lectura,no,should,M,replica-build+replica-backend,Hueco padres (sin reseñas; validar con entrevistas)
+F-07,Aviso de asientos separados y su precio por aerolínea,no,could,S,replica-build,Grupo 13 reseñas (fino)
+F-08,Avisos opt-in cuando se confirme algo pendiente,no,could,M,replica-backend,Spam 81 y alertas 19 reseñas

@@ -1,0 +1,956 @@
+{
+ "reviews": 3528,
+ "ranked": [
+  {
+   "id": "reembolso",
+   "label": "Cancelaciones y reembolsos",
+   "kind": "complaint",
+   "score": 304.6,
+   "count": 380,
+   "share": 10.8,
+   "avg": 1.28,
+   "sources": [
+    "app-store:booking",
+    "app-store:edreams",
+    "app-store:flixbus",
+    "app-store:hostelworld",
+    "app-store:kayak",
+    "app-store:kiwi",
+    "app-store:omio",
+    "app-store:rail-planner",
+    "app-store:skyscanner",
+    "hacker-news:hn:Booking.com fees",
+    "hacker-news:hn:teenager travel alone"
+   ],
+   "platforms": [
+    "app-store",
+    "hacker-news"
+   ],
+   "thin": false,
+   "quotes": [
+    {
+     "quote": "Refund.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=4/id=657843853/sortBy=mostRecent/json",
+     "source": "app-store:kiwi",
+     "rating": 1
+    },
+    {
+     "quote": "Refund!.",
+     "url": "https://itunes.apple.com/es/rss/customerreviews/page=2/id=657843853/sortBy=mostRecent/json",
+     "source": "app-store:kiwi",
+     "rating": 1
+    },
+    {
+     "quote": "Refunds.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=2/id=657843853/sortBy=mostRecent/json",
+     "source": "app-store:kiwi",
+     "rating": 1
+    },
+    {
+     "quote": "Cancelación.",
+     "url": "https://itunes.apple.com/es/rss/customerreviews/page=1/id=348890820/sortBy=mostRecent/json",
+     "source": "app-store:hostelworld",
+     "rating": 1
+    }
+   ]
+  },
+  {
+   "id": "fiabilidad",
+   "label": "Engaño o poca fiabilidad (estafa, intermediarios dudosos)",
+   "kind": "complaint",
+   "score": 284,
+   "count": 352,
+   "share": 10,
+   "avg": 1.18,
+   "sources": [
+    "app-store:booking",
+    "app-store:edreams",
+    "app-store:flixbus",
+    "app-store:hostelworld",
+    "app-store:kayak",
+    "app-store:kiwi",
+    "app-store:omio",
+    "app-store:rail-planner",
+    "app-store:skyscanner",
+    "hacker-news:hn:Booking.com fees",
+    "hacker-news:hn:Hostelworld",
+    "hacker-news:hn:Kayak flights",
+    "hacker-news:hn:Skyscanner",
+    "hacker-news:hn:hostel under 18",
+    "hacker-news:hn:teenager travel alone"
+   ],
+   "platforms": [
+    "app-store",
+    "hacker-news"
+   ],
+   "thin": false,
+   "quotes": [
+    {
+     "quote": "SCAM",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=1/id=885372509/sortBy=mostRecent/json",
+     "source": "app-store:omio",
+     "rating": 1
+    },
+    {
+     "quote": "Scam",
+     "url": "https://itunes.apple.com/es/rss/customerreviews/page=2/id=657843853/sortBy=mostRecent/json",
+     "source": "app-store:kiwi",
+     "rating": 1
+    },
+    {
+     "quote": "Fake.",
+     "url": "https://itunes.apple.com/es/rss/customerreviews/page=4/id=415458524/sortBy=mostRecent/json",
+     "source": "app-store:skyscanner",
+     "rating": 1
+    },
+    {
+     "quote": "Scam.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=1/id=348890820/sortBy=mostRecent/json",
+     "source": "app-store:hostelworld",
+     "rating": 1
+    }
+   ]
+  },
+  {
+   "id": "soporte",
+   "label": "Atención al cliente que no responde",
+   "kind": "complaint",
+   "score": 181.7,
+   "count": 223,
+   "share": 6.3,
+   "avg": 1.19,
+   "sources": [
+    "app-store:booking",
+    "app-store:edreams",
+    "app-store:flixbus",
+    "app-store:hostelworld",
+    "app-store:kayak",
+    "app-store:kiwi",
+    "app-store:omio",
+    "app-store:rail-planner",
+    "app-store:skyscanner",
+    "hacker-news:hn:Booking.com fees"
+   ],
+   "platforms": [
+    "app-store",
+    "hacker-news"
+   ],
+   "thin": false,
+   "quotes": [
+    {
+     "quote": "Customer service.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=1/id=885372509/sortBy=mostRecent/json",
+     "source": "app-store:omio",
+     "rating": 1
+    },
+    {
+     "quote": "Atencion al cliente.",
+     "url": "https://itunes.apple.com/es/rss/customerreviews/page=4/id=885372509/sortBy=mostRecent/json",
+     "source": "app-store:omio",
+     "rating": 1
+    },
+    {
+     "quote": "No customer service.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=1/id=885372509/sortBy=mostRecent/json",
+     "source": "app-store:omio",
+     "rating": 1
+    },
+    {
+     "quote": "No Customer Service.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=1/id=885372509/sortBy=mostRecent/json",
+     "source": "app-store:omio",
+     "rating": 1
+    }
+   ]
+  },
+  {
+   "id": "bugs",
+   "label": "Fallos y cuelgues de la app",
+   "kind": "complaint",
+   "score": 126.3,
+   "count": 204,
+   "share": 5.8,
+   "avg": 1.69,
+   "sources": [
+    "app-store:booking",
+    "app-store:edreams",
+    "app-store:flixbus",
+    "app-store:hostelworld",
+    "app-store:kayak",
+    "app-store:kiwi",
+    "app-store:omio",
+    "app-store:rail-planner",
+    "app-store:skyscanner",
+    "hacker-news:hn:Booking.com fees",
+    "hacker-news:hn:Kayak flights",
+    "hacker-news:hn:Skyscanner",
+    "hacker-news:hn:hostel under 18",
+    "hacker-news:hn:teenager travel alone",
+    "hacker-news:hn:travel minors hotel age"
+   ],
+   "platforms": [
+    "app-store",
+    "hacker-news"
+   ],
+   "thin": false,
+   "quotes": [
+    {
+     "quote": "Broken.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=1/id=415458524/sortBy=mostRecent/json",
+     "source": "app-store:skyscanner",
+     "rating": 1
+    },
+    {
+     "quote": "glitchy.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=1/id=415458524/sortBy=mostRecent/json",
+     "source": "app-store:skyscanner",
+     "rating": 1
+    },
+    {
+     "quote": "Freezers.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=3/id=415458524/sortBy=mostRecent/json",
+     "source": "app-store:skyscanner",
+     "rating": 1
+    },
+    {
+     "quote": "No carga.",
+     "url": "https://itunes.apple.com/es/rss/customerreviews/page=2/id=657843853/sortBy=mostRecent/json",
+     "source": "app-store:kiwi",
+     "rating": 1
+    }
+   ]
+  },
+  {
+   "id": "spam",
+   "label": "Notificaciones, anuncios y correos de más",
+   "kind": "complaint",
+   "score": 55,
+   "count": 81,
+   "share": 2.3,
+   "avg": 1.77,
+   "sources": [
+    "app-store:booking",
+    "app-store:edreams",
+    "app-store:flixbus",
+    "app-store:hostelworld",
+    "app-store:kayak",
+    "app-store:kiwi",
+    "app-store:omio",
+    "app-store:rail-planner",
+    "app-store:skyscanner",
+    "hacker-news:hn:Booking.com fees",
+    "hacker-news:hn:Hostelworld",
+    "hacker-news:hn:Kayak flights",
+    "hacker-news:hn:hostel under 18",
+    "hacker-news:hn:teenager travel alone"
+   ],
+   "platforms": [
+    "app-store",
+    "hacker-news"
+   ],
+   "thin": false,
+   "quotes": [
+    {
+     "quote": "Too spammy.",
+     "url": "https://itunes.apple.com/es/rss/customerreviews/page=4/id=415458524/sortBy=mostRecent/json",
+     "source": "app-store:skyscanner",
+     "rating": 1
+    },
+    {
+     "quote": "Publicidad.",
+     "url": "https://itunes.apple.com/es/rss/customerreviews/page=2/id=885372509/sortBy=mostRecent/json",
+     "source": "app-store:omio",
+     "rating": 1
+    },
+    {
+     "quote": "Fake advertisement.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=4/id=579547877/sortBy=mostRecent/json",
+     "source": "app-store:rail-planner",
+     "rating": 1
+    },
+    {
+     "quote": "Demasiada publicidad.",
+     "url": "https://itunes.apple.com/es/rss/customerreviews/page=4/id=885372509/sortBy=mostRecent/json",
+     "source": "app-store:omio",
+     "rating": 1
+    }
+   ]
+  },
+  {
+   "id": "uso",
+   "label": "Confusa, filtros que no sirven",
+   "kind": "complaint",
+   "score": 52.1,
+   "count": 98,
+   "share": 2.8,
+   "avg": 2.15,
+   "sources": [
+    "app-store:booking",
+    "app-store:edreams",
+    "app-store:flixbus",
+    "app-store:hostelworld",
+    "app-store:kayak",
+    "app-store:kiwi",
+    "app-store:omio",
+    "app-store:rail-planner",
+    "app-store:skyscanner",
+    "hacker-news:hn:Booking.com fees",
+    "hacker-news:hn:Hostelworld",
+    "hacker-news:hn:Kayak flights",
+    "hacker-news:hn:Skyscanner",
+    "hacker-news:hn:teenager travel alone"
+   ],
+   "platforms": [
+    "app-store",
+    "hacker-news"
+   ],
+   "thin": false,
+   "quotes": [
+    {
+     "quote": "Confusing.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=4/id=579547877/sortBy=mostRecent/json",
+     "source": "app-store:rail-planner",
+     "rating": 1
+    },
+    {
+     "quote": "Hard to use.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=1/id=348890820/sortBy=mostRecent/json",
+     "source": "app-store:hostelworld",
+     "rating": 1
+    },
+    {
+     "quote": "Clunky website.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=1/id=367003839/sortBy=mostRecent/json",
+     "source": "app-store:booking",
+     "rating": 1
+    },
+    {
+     "quote": "Confused Drivers.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=3/id=885372509/sortBy=mostRecent/json",
+     "source": "app-store:omio",
+     "rating": 1
+    }
+   ]
+  },
+  {
+   "id": "precio",
+   "label": "Precio final distinto, comisiones y tasas ocultas",
+   "kind": "complaint",
+   "score": 50.2,
+   "count": 77,
+   "share": 2.2,
+   "avg": 1.69,
+   "sources": [
+    "app-store:booking",
+    "app-store:edreams",
+    "app-store:flixbus",
+    "app-store:hostelworld",
+    "app-store:kayak",
+    "app-store:kiwi",
+    "app-store:omio",
+    "app-store:rail-planner",
+    "app-store:skyscanner",
+    "hacker-news:hn:Booking.com fees",
+    "hacker-news:hn:Hostelworld",
+    "hacker-news:hn:Kayak flights",
+    "hacker-news:hn:travel minors hotel age"
+   ],
+   "platforms": [
+    "app-store",
+    "hacker-news"
+   ],
+   "thin": false,
+   "quotes": [
+    {
+     "quote": "Hidden charges.",
+     "url": "https://itunes.apple.com/es/rss/customerreviews/page=1/id=657843853/sortBy=mostRecent/json",
+     "source": "app-store:kiwi",
+     "rating": 1
+    },
+    {
+     "quote": "Full of hidden costs.",
+     "url": "https://itunes.apple.com/es/rss/customerreviews/page=1/id=415458524/sortBy=mostRecent/json",
+     "source": "app-store:skyscanner",
+     "rating": 1
+    },
+    {
+     "quote": "600£ hidden charges!!.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=3/id=551367321/sortBy=mostRecent/json",
+     "source": "app-store:edreams",
+     "rating": 1
+    },
+    {
+     "quote": "El buscador más caro !.",
+     "url": "https://itunes.apple.com/es/rss/customerreviews/page=3/id=415458524/sortBy=mostRecent/json",
+     "source": "app-store:skyscanner",
+     "rating": 1
+    }
+   ]
+  },
+  {
+   "id": "update",
+   "label": "Una actualización la empeoró",
+   "kind": "complaint",
+   "score": 37.2,
+   "count": 77,
+   "share": 2.2,
+   "avg": 2.03,
+   "sources": [
+    "app-store:booking",
+    "app-store:flixbus",
+    "app-store:hostelworld",
+    "app-store:kayak",
+    "app-store:kiwi",
+    "app-store:omio",
+    "app-store:rail-planner",
+    "app-store:skyscanner",
+    "hacker-news:hn:Booking.com fees",
+    "hacker-news:hn:Hostelworld",
+    "hacker-news:hn:Interrail",
+    "hacker-news:hn:Kayak flights",
+    "hacker-news:hn:Skyscanner",
+    "hacker-news:hn:hostel under 18",
+    "hacker-news:hn:teenager travel alone"
+   ],
+   "platforms": [
+    "app-store",
+    "hacker-news"
+   ],
+   "thin": false,
+   "quotes": [
+    {
+     "quote": "Used to be better.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=3/id=415458524/sortBy=mostRecent/json",
+     "source": "app-store:skyscanner",
+     "rating": 1
+    },
+    {
+     "quote": "Used to be amazing.",
+     "url": "https://itunes.apple.com/es/rss/customerreviews/page=4/id=415458524/sortBy=mostRecent/json",
+     "source": "app-store:skyscanner",
+     "rating": 1
+    },
+    {
+     "quote": "Recent update fail.",
+     "url": "https://itunes.apple.com/es/rss/customerreviews/page=2/id=348890820/sortBy=mostRecent/json",
+     "source": "app-store:hostelworld",
+     "rating": 1
+    },
+    {
+     "quote": "Nueva actualización.",
+     "url": "https://itunes.apple.com/es/rss/customerreviews/page=3/id=415458524/sortBy=mostRecent/json",
+     "source": "app-store:skyscanner",
+     "rating": 1
+    }
+   ]
+  },
+  {
+   "id": "mapa",
+   "label": "Mapa, ubicación y cómo llegar",
+   "kind": "request",
+   "score": 34.6,
+   "count": 92,
+   "share": 2.6,
+   "avg": 3.38,
+   "sources": [
+    "app-store:booking",
+    "app-store:edreams",
+    "app-store:flixbus",
+    "app-store:hostelworld",
+    "app-store:kayak",
+    "app-store:kiwi",
+    "app-store:omio",
+    "app-store:rail-planner",
+    "hacker-news:hn:Booking.com fees",
+    "hacker-news:hn:Hostelworld",
+    "hacker-news:hn:Kayak flights",
+    "hacker-news:hn:Kiwi.com",
+    "hacker-news:hn:Skyscanner",
+    "hacker-news:hn:hostel under 18",
+    "hacker-news:hn:teenager travel alone"
+   ],
+   "platforms": [
+    "app-store",
+    "hacker-news"
+   ],
+   "thin": false,
+   "quotes": [
+    {
+     "quote": "Mapa de Explore Issue.",
+     "url": "https://itunes.apple.com/es/rss/customerreviews/page=1/id=305204535/sortBy=mostRecent/json",
+     "source": "app-store:kayak",
+     "rating": 1
+    },
+    {
+     "quote": "Also unable to “search this area” on map.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=3/id=348890820/sortBy=mostRecent/json",
+     "source": "app-store:hostelworld",
+     "rating": 1
+    },
+    {
+     "quote": "Unreliable about the time and the boarding location.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=1/id=778437357/sortBy=mostRecent/json",
+     "source": "app-store:flixbus",
+     "rating": 1
+    },
+    {
+     "quote": "Can’t open the map and address details often don’t work.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=3/id=348890820/sortBy=mostRecent/json",
+     "source": "app-store:hostelworld",
+     "rating": 1
+    }
+   ]
+  },
+  {
+   "id": "lento",
+   "label": "Lenta o pesada",
+   "kind": "complaint",
+   "score": 31.4,
+   "count": 45,
+   "share": 1.3,
+   "avg": 1.57,
+   "sources": [
+    "app-store:edreams",
+    "app-store:flixbus",
+    "app-store:hostelworld",
+    "app-store:kayak",
+    "app-store:kiwi",
+    "app-store:omio",
+    "app-store:rail-planner",
+    "app-store:skyscanner",
+    "hacker-news:hn:Booking.com fees",
+    "hacker-news:hn:Skyscanner",
+    "hacker-news:hn:teenager travel alone"
+   ],
+   "platforms": [
+    "app-store",
+    "hacker-news"
+   ],
+   "thin": false,
+   "quotes": [
+    {
+     "quote": "Slow.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=1/id=778437357/sortBy=mostRecent/json",
+     "source": "app-store:flixbus",
+     "rating": 1
+    },
+    {
+     "quote": "Very Slow.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=3/id=778437357/sortBy=mostRecent/json",
+     "source": "app-store:flixbus",
+     "rating": 1
+    },
+    {
+     "quote": "Vaya app lenta.",
+     "url": "https://itunes.apple.com/es/rss/customerreviews/page=1/id=415458524/sortBy=mostRecent/json",
+     "source": "app-store:skyscanner",
+     "rating": 1
+    },
+    {
+     "quote": "Rubbish slow app.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=2/id=885372509/sortBy=mostRecent/json",
+     "source": "app-store:omio",
+     "rating": 1
+    }
+   ]
+  },
+  {
+   "id": "cuenta",
+   "label": "Login y cuenta",
+   "kind": "complaint",
+   "score": 28.7,
+   "count": 42,
+   "share": 1.2,
+   "avg": 1.11,
+   "sources": [
+    "app-store:edreams",
+    "app-store:hostelworld",
+    "app-store:kayak",
+    "app-store:kiwi",
+    "app-store:rail-planner",
+    "app-store:skyscanner",
+    "hacker-news:hn:Hostelworld",
+    "hacker-news:hn:hostel under 18"
+   ],
+   "platforms": [
+    "app-store",
+    "hacker-news"
+   ],
+   "thin": false,
+   "quotes": [
+    {
+     "quote": "Log In loop.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=2/id=348890820/sortBy=mostRecent/json",
+     "source": "app-store:hostelworld",
+     "rating": 1
+    },
+    {
+     "quote": "Unable to login.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=3/id=657843853/sortBy=mostRecent/json",
+     "source": "app-store:kiwi",
+     "rating": 1
+    },
+    {
+     "quote": "Impossible to login",
+     "url": "https://itunes.apple.com/es/rss/customerreviews/page=3/id=657843853/sortBy=mostRecent/json",
+     "source": "app-store:kiwi",
+     "rating": 1
+    },
+    {
+     "quote": "Can’t log in glitch.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=2/id=348890820/sortBy=mostRecent/json",
+     "source": "app-store:hostelworld",
+     "rating": 1
+    }
+   ]
+  },
+  {
+   "id": "edad",
+   "label": "Edad, menores y documentos (menores de 18, DNI, pasaporte)",
+   "kind": "complaint",
+   "score": 13.9,
+   "count": 39,
+   "share": 1.1,
+   "avg": 3,
+   "sources": [
+    "app-store:kayak",
+    "app-store:kiwi",
+    "app-store:rail-planner",
+    "hacker-news:hn:hostel under 18",
+    "hacker-news:hn:teenager travel alone",
+    "hacker-news:hn:travel minors hotel age"
+   ],
+   "platforms": [
+    "app-store",
+    "hacker-news"
+   ],
+   "thin": false,
+   "quotes": [
+    {
+     "quote": "We booked a round-trip journey for four people, including a 16-year-old minor, through Kiwi.com as a single itinerary.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=2/id=657843853/sortBy=mostRecent/json",
+     "source": "app-store:kiwi",
+     "rating": 1
+    },
+    {
+     "quote": "Contacted customer service and they referring me to their stupid policy that they can’t change it because it’s a minor change blah blah blah..",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=1/id=657843853/sortBy=mostRecent/json",
+     "source": "app-store:kiwi",
+     "rating": 1
+    },
+    {
+     "quote": "Maybe a teenager author wrote it?",
+     "url": "https://news.ycombinator.com/item?id=29695863",
+     "source": "hacker-news:hn:teenager travel alone",
+     "rating": null
+    },
+    {
+     "quote": "Me and my brother were teenagers at the time.",
+     "url": "https://news.ycombinator.com/item?id=46686561",
+     "source": "hacker-news:hn:teenager travel alone",
+     "rating": null
+    }
+   ]
+  },
+  {
+   "id": "offline",
+   "label": "Billetes y reservas sin conexión",
+   "kind": "request",
+   "score": 12,
+   "count": 30,
+   "share": 0.9,
+   "avg": 2.96,
+   "sources": [
+    "app-store:booking",
+    "app-store:flixbus",
+    "app-store:hostelworld",
+    "app-store:kayak",
+    "app-store:kiwi",
+    "app-store:omio",
+    "app-store:rail-planner",
+    "hacker-news:hn:Hostelworld",
+    "hacker-news:hn:Skyscanner",
+    "hacker-news:hn:travel minors hotel age"
+   ],
+   "platforms": [
+    "app-store",
+    "hacker-news"
+   ],
+   "thin": false,
+   "quotes": [
+    {
+     "quote": "doesn’t work offline.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=4/id=579547877/sortBy=mostRecent/json",
+     "source": "app-store:rail-planner",
+     "rating": 1
+    },
+    {
+     "quote": "You can’t add anything to a wallet.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=3/id=657843853/sortBy=mostRecent/json",
+     "source": "app-store:kiwi",
+     "rating": 1
+    },
+    {
+     "quote": "Han quitado el soporte para Apple Wallet",
+     "url": "https://itunes.apple.com/es/rss/customerreviews/page=2/id=778437357/sortBy=mostRecent/json",
+     "source": "app-store:flixbus",
+     "rating": 1
+    },
+    {
+     "quote": "Especially troublesome if you’re on a train without internet.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=2/id=579547877/sortBy=mostRecent/json",
+     "source": "app-store:rail-planner",
+     "rating": 1
+    }
+   ]
+  },
+  {
+   "id": "combinar",
+   "label": "Combinar transporte y alojamiento en un solo sitio",
+   "kind": "request",
+   "score": 7.7,
+   "count": 22,
+   "share": 0.6,
+   "avg": 3.53,
+   "sources": [
+    "app-store:booking",
+    "app-store:flixbus",
+    "app-store:kayak",
+    "app-store:kiwi",
+    "app-store:omio",
+    "app-store:rail-planner",
+    "app-store:skyscanner",
+    "hacker-news:hn:Hostelworld",
+    "hacker-news:hn:teenager travel alone"
+   ],
+   "platforms": [
+    "app-store",
+    "hacker-news"
+   ],
+   "thin": false,
+   "quotes": [
+    {
+     "quote": "Es más Fácil encontrar todo en una búsqueda en Internet* (",
+     "url": "https://itunes.apple.com/es/rss/customerreviews/page=4/id=415458524/sortBy=mostRecent/json",
+     "source": "app-store:skyscanner",
+     "rating": 1
+    },
+    {
+     "quote": "This lack of transparency, combined with unacceptable staff behaviour, has left me with no hope on FlixBus.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=1/id=778437357/sortBy=mostRecent/json",
+     "source": "app-store:flixbus",
+     "rating": 1
+    },
+    {
+     "quote": "The platform allows me to compare flights, hotels, and car rentals from multiple providers in one place, helping me find the best deals quickly.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=2/id=415458524/sortBy=mostRecent/json",
+     "source": "app-store:skyscanner",
+     "rating": 1
+    },
+    {
+     "quote": "Searched for business class flights then when trying to combine this with hotel, it keeps reverting back to coach seating assignments making you think it’s a great deal!!!",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=3/id=305204535/sortBy=mostRecent/json",
+     "source": "app-store:kayak",
+     "rating": 1
+    }
+   ]
+  },
+  {
+   "id": "alertas",
+   "label": "Alertas y seguimiento de precio",
+   "kind": "request",
+   "score": 7.3,
+   "count": 19,
+   "share": 0.5,
+   "avg": 3.17,
+   "sources": [
+    "app-store:edreams",
+    "app-store:hostelworld",
+    "app-store:kayak",
+    "app-store:kiwi",
+    "app-store:omio",
+    "app-store:skyscanner",
+    "hacker-news:hn:Kayak flights"
+   ],
+   "platforms": [
+    "app-store",
+    "hacker-news"
+   ],
+   "thin": false,
+   "quotes": [
+    {
+     "quote": "scam alert!",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=1/id=305204535/sortBy=mostRecent/json",
+     "source": "app-store:kayak",
+     "rating": 1
+    },
+    {
+     "quote": "Scam alert!.",
+     "url": "https://itunes.apple.com/es/rss/customerreviews/page=1/id=348890820/sortBy=mostRecent/json",
+     "source": "app-store:hostelworld",
+     "rating": 1
+    },
+    {
+     "quote": "*SCAM ALERT*.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=2/id=551367321/sortBy=mostRecent/json",
+     "source": "app-store:edreams",
+     "rating": 1
+    },
+    {
+     "quote": "Fix the price alert on push notifications!.",
+     "url": "https://itunes.apple.com/es/rss/customerreviews/page=1/id=305204535/sortBy=mostRecent/json",
+     "source": "app-store:kayak",
+     "rating": 1
+    }
+   ]
+  },
+  {
+   "id": "grupo",
+   "label": "Viajar en grupo: reservar para varios, dividir pagos, compartir",
+   "kind": "request",
+   "score": 6.8,
+   "count": 13,
+   "share": 0.4,
+   "avg": 2.5,
+   "sources": [
+    "app-store:edreams",
+    "app-store:flixbus",
+    "app-store:hostelworld",
+    "app-store:kiwi",
+    "app-store:omio",
+    "app-store:rail-planner",
+    "hacker-news:hn:Hostelworld",
+    "hacker-news:hn:Kayak flights",
+    "hacker-news:hn:Kiwi.com",
+    "hacker-news:hn:teenager travel alone"
+   ],
+   "platforms": [
+    "app-store",
+    "hacker-news"
+   ],
+   "thin": false,
+   "quotes": [
+    {
+     "quote": "Incluso supuestos ‘perks’ como el check in automático es una manera de asignarte el peor asiento con todo el grupo separado, para que pagues cantidades ridículas si queréis sentaros juntos.",
+     "url": "https://itunes.apple.com/es/rss/customerreviews/page=1/id=657843853/sortBy=mostRecent/json",
+     "source": "app-store:kiwi",
+     "rating": 1
+    },
+    {
+     "quote": "There was a group of 5 workers stood outside and I showed them my ticket and said I couldn’t find which number door I needed to go to because my bus wasn’t on the screen that my ticket said.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=1/id=885372509/sortBy=mostRecent/json",
+     "source": "app-store:omio",
+     "rating": 1
+    },
+    {
+     "quote": "...email at 3am in the MORNING telling me that my return seats have changed only to find out it had done this to multiple people on the coach meaning 3 people had the same seat leading to a mix up and ppl sitting in others...",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=4/id=778437357/sortBy=mostRecent/json",
+     "source": "app-store:flixbus",
+     "rating": 1
+    },
+    {
+     "quote": "...heck the app for details, wasn’t updating and marked my bus as departed being nowhere near, causing panic for multiple passengers....",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=1/id=778437357/sortBy=mostRecent/json",
+     "source": "app-store:flixbus",
+     "rating": 2
+    }
+   ]
+  },
+  {
+   "id": "reserva-falla",
+   "label": "La reserva no vale al llegar (overbooking, no la encuentran, cambian)",
+   "kind": "complaint",
+   "score": 5.5,
+   "count": 6,
+   "share": 0.2,
+   "avg": 1,
+   "sources": [
+    "app-store:booking",
+    "app-store:edreams",
+    "app-store:flixbus",
+    "app-store:kiwi"
+   ],
+   "platforms": [
+    "app-store"
+   ],
+   "thin": false,
+   "quotes": [
+    {
+     "quote": "Overbooking.",
+     "url": "https://itunes.apple.com/es/rss/customerreviews/page=3/id=778437357/sortBy=mostRecent/json",
+     "source": "app-store:flixbus",
+     "rating": 1
+    },
+    {
+     "quote": "Then the booking was cancelled fully less than a week before the stay!",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=1/id=367003839/sortBy=mostRecent/json",
+     "source": "app-store:booking",
+     "rating": 1
+    },
+    {
+     "quote": "Com cancelled our hotel reservation 2 weeks before arrival due to overbooking.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=3/id=367003839/sortBy=mostRecent/json",
+     "source": "app-store:booking",
+     "rating": 1
+    },
+    {
+     "quote": "I did a charge back with my credit card provider, but they are disputing it claiming I didn’t tell them I was denied boarding.",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=1/id=657843853/sortBy=mostRecent/json",
+     "source": "app-store:kiwi",
+     "rating": 1
+    }
+   ]
+  },
+  {
+   "id": "pago",
+   "label": "Problemas al pagar (tarjeta rechazada, cobros dobles)",
+   "kind": "complaint",
+   "score": 4.7,
+   "count": 12,
+   "share": 0.3,
+   "avg": 3.18,
+   "sources": [
+    "app-store:flixbus",
+    "app-store:hostelworld",
+    "app-store:kayak",
+    "app-store:omio",
+    "app-store:rail-planner",
+    "app-store:skyscanner",
+    "hacker-news:hn:Booking.com fees"
+   ],
+   "platforms": [
+    "app-store",
+    "hacker-news"
+   ],
+   "thin": false,
+   "quotes": [
+    {
+     "quote": "You guys neither provide service of iPAY or PayPal and cant protect bank details",
+     "url": "https://itunes.apple.com/gb/rss/customerreviews/page=3/id=348890820/sortBy=mostRecent/json",
+     "source": "app-store:hostelworld",
+     "rating": 1
+    },
+    {
+     "quote": "Me senti estafado, me cobraron dos veces x una falla de ellos q dijo “no se hizo la reserva”, la volvi a hacer y luego me cobraron 2 veces.",
+     "url": "https://itunes.apple.com/es/rss/customerreviews/page=1/id=348890820/sortBy=mostRecent/json",
+     "source": "app-store:hostelworld",
+     "rating": 1
+    },
+    {
+     "quote": "...o el mayor problema es que en la pasarela de pago me da error en cualquier método, probé tarjeta, apple pay y paypal y fue rechazando uno por uno hasta dejarme sin opciones de continuar la reserva....",
+     "url": "https://itunes.apple.com/es/rss/customerreviews/page=4/id=885372509/sortBy=mostRecent/json",
+     "source": "app-store:omio",
+     "rating": 1
+    },
+    {
+     "quote": "es una estafa necesito volver de donostia para volver a casa y no me deja pagar porque pone que no tengo puesta una tarjeta de descuento que no siquiera he puesto para pagar y no me deja comprar nada sin ella a precios n...",
+     "url": "https://itunes.apple.com/es/rss/customerreviews/page=3/id=885372509/sortBy=mostRecent/json",
+     "source": "app-store:omio",
+     "rating": 1
+    }
+   ]
+  }
+ ],
+ "requests": 106,
+ "unthemed": 689
+}

@@ -13,3 +13,6 @@
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Reseñas descargadas (texto de terceros): solo en local
+20 Benchmark/replica/reviews-*.csv
