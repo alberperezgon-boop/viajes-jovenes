@@ -84,6 +84,10 @@ Precios y suscripciones (eDreams Prime y similares) → a `/replica-launch` cuan
 
 Se recomienda el **1** (es lo único que nadie hace) usando el **2** como argumento de apoyo. No se cita a ninguna marca de la competencia en la web ni en anuncios; una comparativa con nombres sería una consulta legal.
 
+## Estado (11/11/2026)
+
+**Hechas en el Planner: 1, 2 y 3** (D-17). Siguiente: validar el 6 (modo padres) con padres antes de construirlo.
+
 ## Siguiente paso
 
 Construir 1, 2 y 3 (son los más baratos con más evidencia) y validar el 6 con padres. Después: `/replica-brand` si se quiere revisar nombre y tono.

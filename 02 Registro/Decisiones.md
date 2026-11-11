@@ -44,3 +44,11 @@ Cada decisión dice quién la tomó, con qué evidencia y qué la haría cambiar
 - **Decisión:** entran sus 19 destinos, los 25 albergues consultados por correo, 31 planes, 22 fotos con crédito y el buscador de ciudad de salida (solo España). Ver [[Demo avanzada del compañero (ProyectoMinor)]].
 - **Ajustes:** «16 por confirmar» → pendiente; ante dos normas distintas, la más prudente (Pousada do Porto: 17); España en bus y sin permiso de viaje; Luxemburgo pendiente por la entrada; vuelos de los destinos nuevos marcados como rutas de ejemplo.
 - **Por qué:** sus correos con albergues son la mejor prueba primaria que tiene el equipo; la regla de no dar por permitido lo dudoso se mantiene.
+
+## D-17. Papeles, confirmación por escrito y precio total, sin salirnos del núcleo (11/11/2026)
+
+- **Decisión:** el Planner añade tres funciones del plan de [[fixes|grietas de la competencia]]: (1) **carta de autorización de los padres** por albergue, rellena con fechas, albergue y grupo, en español e inglés, para imprimir (los datos de documentos se escriben a mano; aquí no se meten); (2) **«Pedir que lo confirmen»**: correo listo en el idioma del albergue (es, pt, fr, it, de; inglés en el resto) que se abre en el correo del usuario; GoLiveIt no envía nada; (3) **precio total honesto**: extras que suben al pagar (maleta de cabina y sentarse juntos, de ejemplo y solo si se marcan), tasa turística como pendiente y enlaces de **reserva directa** con la aerolínea o el albergue.
+- **Entra la investigación del 11/11** ([[Investigación 11-11 - entrada, ocio y aerolíneas]]): Austria, Polonia (inferencia nuestra, etiqueta OFICIAL-INDIRECTO) y Luxemburgo pasan a «con carta de los padres»; Hungría, Grecia y Chequia siguen pendientes. Air France, desde 15 (etiqueta SECUNDARIA: solo extractos del buscador).
+- **Normas de alcohol y horarios del país:** van en un recuadro aparte de la pestaña Planes («no son planes»), con lenguaje neutro. No se presentan como algo que hacer.
+- **No se escribe a las aerolíneas por ahora:** la investigación ya resuelve las dudas de edad (Ryanair, Transavia, easyJet, Wizz Air) y Alberto pidió no salirnos de la línea del proyecto.
+- **Por qué:** 10 de los 11 albergues que respondieron piden autorización de los padres, y la queja más repetida de la competencia es el engaño en el precio y los intermediarios (352 reseñas).

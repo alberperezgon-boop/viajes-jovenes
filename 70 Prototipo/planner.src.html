@@ -388,6 +388,13 @@ dialog.sheet { overflow-x: hidden; }
 .pot { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
 .pot label { display: grid; gap: 3px; font-weight: 700; }
 #wz-go { font-size: 1rem; padding: 12px 18px; box-shadow: 0 10px 22px -10px var(--pop); }
+/* Mejoras F-01..F-03 */
+.direct { display: inline-block; margin-left: 6px; font-size: 0.72rem; font-weight: 800; padding: 2px 8px; border-radius: 999px; background: var(--ok-soft); color: var(--ok); vertical-align: middle; }
+.extras { display: grid; gap: 6px; padding: 10px 12px; border-radius: 12px; background: var(--surface-2); margin-top: 6px; }
+.letter { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin: 0 0 10px; font-size: 0.9rem; line-height: 1.55; }
+.letter h3 { font-size: 0.95rem; margin: 10px 0 4px; } .letter h3:first-child { margin-top: 0; }
+.letter .blank { display: inline-block; min-width: 140px; border-bottom: 1px solid var(--muted); }
+.mailbody { white-space: pre-wrap; font: inherit; font-size: 0.86rem; background: var(--surface-2); border-radius: 10px; padding: 10px 12px; margin: 6px 0 0; max-height: 300px; overflow: auto; }
 </style>
 
 <div class="app">
@@ -657,6 +664,11 @@ dialog.sheet { overflow-x: hidden; }
   };
   const SKY = { lisboa: "lis", paris: "pari", roma: "rome", berlin: "ber", londres: "lond" };
   const PUBLIC = () => ({ s: "ok", per: state.group.map(m => ({ m, r: R("ok", "Sitio público: sin límite de edad.") })), it: null });
+  const OCIO_LAW = {}; // normas de ocio por país (investigación 11/11/2026)
+  function ocioLawBox(a) {
+    const ids = OCIO_LAW[a.d.country] || []; if (!ids.length) return "";
+    return `<div class="box"><h3>Normas de ${esc(a.d.cname)} para vuestra edad</h3><p class="small muted">No son planes: es lo que dice la ley del país sobre alcohol, horarios y locales.</p>${ids.map(id => { const e = evalItem(id); return `<div class="row between"><strong class="small">${esc(ITEMS[id].name)}</strong>${pill(e.s, e.s === "ok" ? "La ley lo permite" : e.s === "no" ? "Prohibido con vuestra edad" : "Sin confirmar")}</div><p class="small">${groupWhy(e)}</p>${srcLine(ITEMS[id].src)}`; }).join("")}</div>`;
+  }
   function ocioEval(k) { return (OCIO[k] || []).map(([key, name, when, c]) => ({ key, name, when, c, e: key ? evalItem(key) : PUBLIC() })).sort((x, y) => RANK[x.e.s] - RANK[y.e.s]); }
   const PHOTO = {
     lisboa: { pos: "62% 40%", by: "Paul Arps", lic: "CC BY 2.0", page: "https://commons.wikimedia.org/wiki/File:Tram_28_in_Alfama_(Lissabon_2016)_(26029557541).jpg" },
@@ -671,7 +683,7 @@ dialog.sheet { overflow-x: hidden; }
      ========================================================= */
   const me = { id: 1, name: "Tú", age: 17, nat: "ES", likes: new Set(["playa", "joven"]), me: true };
   const state = {
-    cart: { k: null, fl: null, st: null }, checks: new Set(), pot: {}, flSort: "precio", flDirect: false, co: { step: 1, checks: new Set() },
+    cart: { k: null, fl: null, st: null }, checks: new Set(), pot: {}, extras: { bag: false, seats: false }, flSort: "precio", flDirect: false, co: { step: 1, checks: new Set() },
     group: [me, ...[2, 3, 4].map(i => ({ id: i, name: "Persona " + i, age: 17, nat: "ES", likes: new Set(["playa", "joven"]) }))],
     origin: "SVQ", city: null, days: 4, date: "2027-03-25", budget: 250, sel: null, tab: "todo", compare: new Set(), mapMode: "osm", nextId: 5, parsed: null, legalFilter: { quien: "todos", cuando: "todos", dest: "auto" }
   };
@@ -1068,8 +1080,15 @@ Reglas de extracción:
   function money(a) {
     const sel = cartSel(a), nights = Math.max(1, state.days - 1), n = state.group.length;
     const fl = sel.fl || a.fl, st = sel.st || a.st;
-    const v = fl.p, d = st.p * nights, g = a.d.daily * state.days, total = v + d + g;
-    return { fl, st, flPicked: !!sel.fl, stPicked: !!sel.st, nights, n, v, d, g, total, left: state.budget - total };
+    const v = fl.p, d = st.p * nights, g = a.d.daily * state.days, x = extrasFor(fl), total = v + d + g + x.total;
+    return { fl, st, flPicked: !!sel.fl, stPicked: !!sel.st, nights, n, v, d, g, x, total, left: state.budget - total };
+  }
+  /* Extras que suben el precio al pagar (precios de ejemplo; solo si los marcáis) */
+  const LOWCOST = ["ryanair", "easyjet", "wizz", "vueling"];
+  const EXTRA = { bag: 25, seats: 8 }; // por persona y trayecto · ejemplo
+  function extrasFor(fl) {
+    const air = fl.mode !== "bus", bag = air && state.extras.bag && LOWCOST.includes(fl.a) ? EXTRA.bag * 2 : 0, seats = air && state.extras.seats && state.group.length > 1 ? EXTRA.seats * 2 : 0;
+    return { bag, seats, total: bag + seats, air, low: LOWCOST.includes(fl.a) };
   }
   function moneyBar(m) {
     const max = Math.max(m.total, state.budget), w = x => (x / max * 100).toFixed(1) + "%";
@@ -1085,6 +1104,11 @@ Reglas de extracción:
       ${row(m.fl.mode === "bus" ? "🚌" : "✈", "var(--brand)", m.fl.mode === "bus" ? "Bus de ida y vuelta" : "Vuelo de ida y vuelta", `${esc(ITEMS[m.fl.a].name)} · ${m.flPicked ? "el que habéis elegido" : "el más barato que os deja ir"}`, eur(m.v), "vuelos")}
       ${row("🛏", "var(--pop)", `Dormir ${pl(m.nights, "noche", "noches")}`, `${esc(ITEMS[m.st.s].name)} · ${eur(m.st.p)} la noche · ${m.stPicked ? "el que habéis elegido" : "el más barato que os acepta"}`, eur(m.d), "dormir")}
       ${row("🍕", "var(--ok)", `Gastos de ${pl(state.days, "día", "días")}`, `Comer, moverse y planes · unos ${eur(a.d.daily)} al día`, eur(m.g))}
+      ${m.x.air ? `<div class="extras"><strong class="small">Lo que suele subir al pagar</strong>
+        <label class="small row" style="gap:6px"><input type="checkbox" data-extra="bag"${state.extras.bag ? " checked" : ""}> Maleta de cabina grande ${m.x.low ? `<span class="muted">· unos ${eur(EXTRA.bag)} por trayecto (ejemplo)</span>` : '<span class="muted">· incluida en esta aerolínea (ejemplo)</span>'}</label>
+        ${m.n > 1 ? `<label class="small row" style="gap:6px"><input type="checkbox" data-extra="seats"${state.extras.seats ? " checked" : ""}> Sentaros juntos <span class="muted">· unos ${eur(EXTRA.seats)} por trayecto (ejemplo). Con la asignación gratis os pueden separar.</span></label>` : ""}
+        ${m.x.total ? `<div class="row between small"><span>Extras por persona</span><b>${eur(m.x.total)}</b></div>` : ""}
+        <p class="small muted">Tasa turística: se paga en el alojamiento y en algunas ciudades los menores no la pagan; <b>pendiente de verificar</b> para ${esc(a.d.city)}. Reservando directo en la web de la aerolínea o del albergue no pagáis comisión de intermediario.</p></div>` : ""}
       <div class="money-foot"><span>Para los ${m.n}: <b>${eur(m.total * m.n)}</b></span><span class="small muted">Precios de ejemplo, no reales.</span></div></div>`;
   }
   function budgetBar(a) {
@@ -1172,7 +1196,7 @@ Reglas de extracción:
     const p = new URLSearchParams({ ss: a.d.city, checkin: state.date, checkout: addDays(state.date, Math.max(1, state.days - 1)), group_adults: String(state.group.length), no_rooms: "1", group_children: "0", order: "price", nflt: "ht_id=" + KIND[kind].id });
     return "https://www.booking.com/searchresults.es.html?" + p.toString();
   }
-  function bkLink(a, stayKey) { if (ITEMS[stayKey] && ITEMS[stayKey].link) return `<a class="cta-bk" href="${esc(ITEMS[stayKey].link)}" target="_blank" rel="noopener">🛏 Ver el albergue ↗</a>`; const k = STAY_KIND[stayKey]; return k ? `<a class="cta-bk" href="${bookingUrl(a, k)}" target="_blank" rel="noopener">${KIND[k].icon} Ver ${KIND[k].label.toLowerCase()} reales en Booking.com ↗</a>` : ""; }
+  function bkLink(a, stayKey) { if (ITEMS[stayKey] && ITEMS[stayKey].link) return `<a class="cta-bk" href="${esc(ITEMS[stayKey].link)}" target="_blank" rel="noopener">🛏 Reservar directo en su web ↗</a><span class="direct">Sin intermediario</span>`; const k = STAY_KIND[stayKey]; return k ? `<a class="cta-bk" href="${bookingUrl(a, k)}" target="_blank" rel="noopener">${KIND[k].icon} Ver ${KIND[k].label.toLowerCase()} reales en Booking.com ↗</a>` : ""; }
   function bookingBox(a, compact) {
     const kinds = [...new Set(a.stays.filter(x => visible(x.e.s)).map(x => STAY_KIND[x.s]).filter(Boolean))];
     if (!kinds.length) return compact ? "" : `<div class="bk-box"><p class="small"><strong>Booking.com:</strong> con vuestra edad, y sin un adulto en el grupo, ningún tipo de alojamiento verificado os acepta aquí, así que no os mandamos a buscar.</p></div>`;
@@ -1209,6 +1233,7 @@ Reglas de extracción:
   /* ---------- RESERVA SIMULADA: como un comparador de vuelos, pero filtrado por vuestra edad ----------
      No se reserva ni se cobra nada. No se piden datos de pago ni de documentos.
      Horarios y precios de ejemplo (deterministas), nunca presentados como actuales. */
+  const AIR_SITE = { ryanair: "https://www.ryanair.com/es/es", vueling: "https://www.vueling.com/es", easyjet: "https://www.easyjet.com/es", wizz: "https://wizzair.com/es-es", iberia: "https://www.iberia.com/es/", tap: "https://www.flytap.com/es-es/", airfrance: "https://wwws.airfrance.es/", ita: "https://www.ita-airways.com/es_es", lufthansa: "https://www.lufthansa.com/es/es/homepage", ba: "https://www.britishairways.com/", flixbus: "https://www.flixbus.es/", flixbus_nac: "https://www.flixbus.es/" };
   const AIR_CODE = { ryanair: "FR", vueling: "VY", easyjet: "U2", wizz: "W6", iberia: "IB", tap: "TP", airfrance: "AF", ita: "AZ", lufthansa: "LH", ba: "BA" };
   const km = (p, q) => { const r = Math.PI / 180, dLat = (q[1] - p[1]) * r, dLon = (q[0] - p[0]) * r; const h = Math.sin(dLat / 2) ** 2 + Math.cos(p[1] * r) * Math.cos(q[1] * r) * Math.sin(dLon / 2) ** 2; return 6371 * 2 * Math.asin(Math.sqrt(h)); };
   const hsh = t => [...t].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
@@ -1272,6 +1297,7 @@ Reglas de extracción:
     return `<div class="bk-box"><div class="bk-head"><span class="bk-badge">Vuelos reales</span><strong>Buscar en Kayak, solo aerolíneas que os dejan</strong></div>
       <p class="small">${state.origin} → ${a.d.iata} · ${dmy(state.date)} – ${dmy(addDays(state.date, Math.max(1, state.days - 1)))} · ${pl(state.group.length, "viajero", "viajeros")} · de más barato a más caro</p>
       <div class="bk-links">${airs.map(k => `<a class="cta-bk" href="${kayakUrl(a, k)}" target="_blank" rel="noopener">${AIR_CODE[k]} · ${esc(ITEMS[k].name)} ↗</a>`).join("")}</div>
+      <p class="small"><strong>Para pagar, directo con la aerolínea</strong> (sin intermediarios ni comisiones de agencia): ${airs.filter(k => AIR_SITE[k]).map(k => `<a href="${AIR_SITE[k]}" target="_blank" rel="noopener">${esc(ITEMS[k].name)} ↗</a>`).join(" · ")}<span class="direct">Reserva directa</span></p>
       <p class="small muted">El buscador cuenta a todos como adultos; al reservar, poned las edades reales. Mirad si el vuelo es directo: con escala, algunas aerolíneas ponen condiciones a menores. <strong>Consejo GoLiveIt:</strong> evitad los «transbordos por cuenta propia» (billetes separados): si perdéis la conexión, nadie os recoloca.</p></div>`;
   }
   function dateStrip(a) {
@@ -1328,11 +1354,93 @@ Reglas de extracción:
   function staysTab(a) {
     const nights = Math.max(1, state.days - 1), n = state.group.length, chosen = cartSel(a).st;
     const list = a.stays.map(x => ({ e: x.e, title: `${(KIND[STAY_KIND[x.s]] || {}).icon || "🛏"} ${esc(ITEMS[x.s].name)}`, sub: `${nights} noches · ${pl(n, "persona", "personas")}`, price: `${eur(x.p)} la noche por persona · ${eur(x.p * nights)} las ${nights} noches`, link: bkLink(a, x.s),
-      pick: `<button type="button" class="btn ${chosen === x ? "" : "pop"} sm" data-pick-st="${x.s}" style="justify-self:start">${chosen === x ? "Elegido ✓" : "Elegir este"}</button>` }));
+      pick: `<div class="row" style="gap:6px"><button type="button" class="btn ${chosen === x ? "" : "pop"} sm" data-pick-st="${x.s}">${chosen === x ? "Elegido ✓" : "Elegir este"}</button>${state.group.some(m => m.age < 18) ? `<button type="button" class="btn sm" data-kit="${x.s}">📄 Papeles de los padres</button><button type="button" class="btn sm" data-ask="${x.s}">✉ Pedir que lo confirmen</button>` : ""}</div>` }));
     const c = counts(list);
     return `<div class="searchbar"><b>${esc(a.d.city)}</b><span>${dmy(state.date)} – ${dmy(addDays(state.date, nights))}</span><span>${pl(nights, "noche", "noches")} · ${pl(n, "persona", "personas")}</span></div>
       <p class="small"><strong>${c.vis} de ${list.length}</strong> sitios para dormir os aceptan.${c.vis === 0 ? " Dormir es lo más difícil con vuestra edad." : ""} <span class="muted">Precios de ejemplo; la reserva es simulada.</span></p>
       ${splitList(list, offer, "sitios que no os aceptan o sin confirmar")}${bookingBox(a)}${legalTips(["dif-checkin-alojamiento", "dif-pago-tarjeta"], a.d.country)}`;
+  }
+  /* ---------- F-01 · Kit de papeles: carta de autorización de los padres según lo que pide cada sitio ---------- */
+  function stayCtx(id) {
+    const a = analyse(state.sel), x = a.stays.find(y => y.s === id); if (!x) return null;
+    const it = ITEMS[id], nights = Math.max(1, state.days - 1), d1 = state.date, d2 = addDays(state.date, nights);
+    const reqs = new Map(); x.e.per.forEach(p => p.r.reqs.forEach(q => reqs.set(q.t, q.who)));
+    return { a, x, it, nights, d1, d2, reqs: [...reqs], minors: state.group.filter(m => m.age < 18), adults: state.group.filter(m => m.age >= 18) };
+  }
+  const placeholder = n => /^(Tú|Persona \d+|Amigo \d+|Sin nombre)$/i.test(String(n || "").trim());
+  function letterHtml(c, m) {
+    const rest = state.group.filter(p => p !== m), ph = rest.every(p => placeholder(p.name)), ag = [...new Set(rest.map(p => p.age))];
+    const others = !rest.length ? "—" : ph ? rest.length + " amigos (" + ag.join(" y ") + " años)" : rest.map(p => esc(p.name) + " (" + p.age + ")").join(", ");
+    const othersEn = !rest.length ? "—" : ph ? rest.length + " friends (aged " + ag.join(" and ") + ")" : others;
+    const who = placeholder(m.name) ? '<span class="blank">&nbsp;</span>' : "<b>" + esc(m.name) + "</b>";
+    const copy = c.reqs.some(([t]) => /DNI|documento|copia/i.test(t));
+    const line = '<span class="blank">&nbsp;</span>';
+    return `<article class="letter">
+      <h3>Autorización de los padres o tutores</h3>
+      <p>Yo, ${line} (nombre y apellidos), con DNI o pasaporte nº ${line}, padre / madre / tutor legal de ${who} (${m.age} años), le autorizo a alojarse en <b>${esc(c.it.name)}</b> (${esc(c.a.d.city)}, ${esc(c.a.d.cname)}) del <b>${dmy(c.d1)}</b> al <b>${dmy(c.d2)}</b>, sin la compañía de sus padres, junto a: ${others}.</p>
+      <p>Me hago responsable de su estancia y acepto las normas del alojamiento. Teléfono de contacto durante el viaje: ${line}</p>
+      <p>Lugar y fecha: ${line} &nbsp; Firma: ${line}</p>
+      ${copy ? "<p><i>Adjunto: copia de mi DNI o pasaporte.</i></p>" : ""}
+      <h3 lang="en">Parental consent</h3>
+      <p lang="en">I, ${line} (full name), ID/passport no. ${line}, parent / legal guardian of ${who} (aged ${m.age}), authorise them to stay at <b>${esc(c.it.name)}</b> (${esc(c.a.d.city)}) from <b>${dmy(c.d1)}</b> to <b>${dmy(c.d2)}</b> without their parents, together with: ${othersEn}. I take responsibility for their stay and accept the house rules. Contact phone during the trip: ${line}</p>
+      <p lang="en">Place and date: ${line} &nbsp; Signature: ${line}${copy ? "<br><i>Enclosed: copy of my ID or passport.</i>" : ""}</p></article>`;
+  }
+  function openKit(id) {
+    const c = stayCtx(id); if (!c) return;
+    const fam = c.reqs.filter(([, w]) => w === "familia"), grp = c.reqs.filter(([, w]) => w !== "familia");
+    $("#sheet-in").innerHTML = `<div class="sheet-head"><div><p class="eyebrow">Kit de papeles · ${esc(c.a.d.city)}</p><h2 id="sheet-title">${esc(c.it.name)}</h2></div><button type="button" class="icon-btn" data-close aria-label="Cerrar">×</button></div>
+      <div class="box"><h3>Lo que pide este sitio con vuestra edad</h3>
+        ${c.reqs.length ? `<ul class="why">${c.reqs.map(([t, w]) => `<li>${esc(t)} <span class="pill who">${w}</span></li>`).join("")}</ul>` : '<p class="small">No pide papeles extra para vuestra edad.</p>'}
+        ${c.it.form ? `<p class="warn">${esc(c.it.form)}. Si os lo dan, usad el suyo; esta carta sirve de respaldo.</p>` : ""}
+        ${srcLine(c.it.src)}
+        <p class="small muted">Para salir de España y entrar en el país mirad también «Papeleo»: allí va el permiso de viaje y lo que pide cada país.</p></div>
+      <p class="small"><strong>${pl(c.minors.length, "carta", "cartas")}</strong>, una por cada menor, ya rellenas con el albergue y las fechas. Lo que está en blanco lo escriben los padres a mano (aquí no se meten datos de documentos).</p>
+      <div id="letters">${c.minors.map(m => letterHtml(c, m)).join("")}</div>
+      <div class="row" style="gap:8px"><button type="button" class="btn pop" id="kit-print">🖨 Imprimir las cartas</button><button type="button" class="btn" data-ask="${id}">✉ Pedir que lo confirmen</button></div>
+      <p class="small muted">Modelo orientativo, no es asesoramiento legal. ${fam.length ? "Firma la familia; " : ""}${grp.length ? "lo de habitación o grupo lo resolvéis al reservar." : ""}</p>`;
+    const dlg = $("#sheet"); if (!dlg.open) dlg.showModal();
+  }
+  function printLetters() {
+    const html = ($("#letters") || {}).innerHTML; if (!html) return;
+    const fr = document.createElement("iframe"); fr.style.cssText = "position:fixed;width:0;height:0;border:0;right:0;bottom:0"; document.body.appendChild(fr);
+    const doc = fr.contentDocument; doc.open(); doc.write(`<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Autorizaciones</title><style>body{font:14px/1.6 system-ui,sans-serif;color:#000;margin:24px}.letter{page-break-after:always;max-width:680px}.letter:last-child{page-break-after:auto}h3{font-size:16px;margin:18px 0 6px}.blank{display:inline-block;min-width:160px;border-bottom:1px solid #000}</style></head><body>${html}</body></html>`); doc.close();
+    setTimeout(() => { try { fr.contentWindow.focus(); fr.contentWindow.print(); } catch (e) { toast("No se pudo abrir la impresión. Copiad el texto a mano."); } setTimeout(() => fr.remove(), 1500); }, 200);
+  }
+  /* ---------- F-02 · Pedir confirmación por escrito, en el idioma del alojamiento ---------- */
+  const ASK_LANG = { ES: "es", PT: "pt", FR: "fr", IT: "it", DE: "de", AT: "de", LU: "fr" };
+  const ASK = {
+    es: { and: "y", sub: (c, w) => `Duda antes de reservar: ${w.n} amigos de ${w.ages} años (${dmy(c.d1)}-${dmy(c.d2)})`, who: w => `Somos ${w.n} amigos (${w.grp}) y vamos sin padres`, ageM: (k, ages) => `${k} de ${ages} años`, ageA: k => `${k} de 18 o más`,
+      body: (c, w) => `¡Hola! Estamos mirando alojarnos en ${c.it.name} del ${dmy(c.d1)} al ${dmy(c.d2)} (${c.nights} noches). ${w.who}. Antes de pagar, ¿nos podríais confirmar por escrito estas cosas?\n\n- ¿Podemos alojarnos sin que venga ningún padre ni tutor?\n- ${w.adult ? "¿Es suficiente con que venga uno de 18, aunque no sea padre ni tutor?" : "En caso de que no, ¿sería suficiente con que viniera un amigo de 18?"}\n- ¿Tendríamos que reservar una habitación privada o podríamos estar en una compartida?\n- ¿Hace falta una autorización de los padres? Si tenéis algún formulario, ¿nos lo podríais enviar?\n- ¿Quién tendría que hacer la reserva y el pago?\n\n¡Muchas gracias!\n${w.sign}` },
+    pt: { and: "e", sub: (c, w) => `Dúvida antes de reservar: ${w.n} amigos de ${w.ages} anos (${dmy(c.d1)}-${dmy(c.d2)})`, who: w => `Somos ${w.n} amigos (${w.grp}) e vamos sem os pais`, ageM: (k, ages) => `${k} com ${ages} anos`, ageA: k => `${k} com 18 ou mais`,
+      body: (c, w) => `Olá! Estamos a pensar ficar convosco (${c.it.name}) de ${dmy(c.d1)} a ${dmy(c.d2)} (${c.nights} noites). ${w.who}. Antes de pagar, podiam confirmar-nos por escrito estas coisas?\n\n- Podemos ficar sem nenhum pai ou tutor?\n- ${w.adult ? "Chega que venha um de 18, mesmo não sendo pai nem tutor?" : "Se não, chegava que viesse um amigo de 18?"}\n- Teríamos de reservar um quarto privado ou podíamos ficar num partilhado?\n- É preciso alguma autorização dos pais? Se tiverem algum formulário, podiam enviar-no-lo?\n- Quem teria de fazer a reserva e o pagamento?\n\nMuito obrigado!\n${w.sign}\n\nDesculpem se houver algum erro, escrevi com ajuda do tradutor.` },
+    fr: { and: "et", sub: (c, w) => `Question avant de réserver : ${w.n} amis de ${w.ages} ans (${dmy(c.d1)}-${dmy(c.d2)})`, who: w => `On est ${w.n} amis (${w.grp}) et on voyage sans nos parents`, ageM: (k, ages) => `${k} de ${ages} ans`, ageA: k => `${k} de 18 ans ou plus`,
+      body: (c, w) => `Bonjour ! On aimerait loger chez vous (${c.it.name}) du ${dmy(c.d1)} au ${dmy(c.d2)} (${c.nights} nuits). ${w.who}. Avant de payer, est-ce que vous pourriez nous confirmer par écrit ces points ?\n\n- Est-ce qu'on peut loger chez vous sans parent ni tuteur ?\n- ${w.adult ? "Est-ce que ça suffit qu'une personne de 18 ans vienne, même si ce n'est pas un parent ?" : "Sinon, est-ce que ça suffirait qu'un ami de 18 ans vienne ?"}\n- Est-ce qu'il faudrait réserver une chambre privée ou on pourrait être dans une chambre partagée ?\n- Est-ce qu'il faut une autorisation des parents ? Si vous avez un formulaire, vous pourriez nous l'envoyer ?\n- Qui devrait faire la réservation et le paiement ?\n\nMerci beaucoup !\n${w.sign}\n\nDésolé s'il y a des fautes, j'ai utilisé un traducteur.` },
+    it: { and: "e", sub: (c, w) => `Domanda prima di prenotare: ${w.n} amici di ${w.ages} anni (${dmy(c.d1)}-${dmy(c.d2)})`, who: w => `Siamo ${w.n} amici (${w.grp}) e viaggiamo senza genitori`, ageM: (k, ages) => `${k} di ${ages} anni`, ageA: k => `${k} di 18 anni o più`,
+      body: (c, w) => `Ciao! Vorremmo alloggiare da voi (${c.it.name}) dal ${dmy(c.d1)} al ${dmy(c.d2)} (${c.nights} notti). ${w.who}. Prima di pagare, potreste confermarci per iscritto queste cose?\n\n- Possiamo alloggiare senza nessun genitore o tutore?\n- ${w.adult ? "Basta che venga uno di 18 anni, anche se non è un genitore?" : "Se no, basterebbe che venisse un amico di 18 anni?"}\n- Dovremmo prenotare una camera privata o potremmo stare in una camera condivisa?\n- Serve un'autorizzazione dei genitori? Se avete un modulo, ce lo potreste mandare?\n- Chi dovrebbe fare la prenotazione e il pagamento?\n\nGrazie mille!\n${w.sign}\n\nScusate se ci sono errori, ho usato il traduttore.` },
+    de: { and: "und", sub: (c, w) => `Frage vor der Buchung: ${w.n} Freunde, ${w.ages} Jahre (${dmy(c.d1)}-${dmy(c.d2)})`, who: w => `Wir sind ${w.n} Freunde (${w.grp}) und reisen ohne Eltern`, ageM: (k, ages) => `${k} mit ${ages} Jahren`, ageA: k => `${k} mit 18 oder älter`,
+      body: (c, w) => `Hallo! Wir möchten vom ${dmy(c.d1)} bis ${dmy(c.d2)} (${c.nights} Nächte) bei euch übernachten (${c.it.name}). ${w.who}. Bevor wir zahlen, könntet ihr uns bitte schriftlich bestätigen:\n\n- Können wir ohne Eltern oder Erziehungsberechtigte bei euch übernachten?\n- ${w.adult ? "Reicht es, wenn jemand mit 18 dabei ist, auch wenn es kein Elternteil ist?" : "Falls nicht, würde es reichen, wenn ein Freund mit 18 mitkommt?"}\n- Müssten wir ein privates Zimmer buchen oder könnten wir in einem Mehrbettzimmer schlafen?\n- Braucht ihr eine Erlaubnis der Eltern? Wenn ihr ein Formular habt, könntet ihr es uns schicken?\n- Wer müsste die Buchung und die Zahlung machen?\n\nVielen Dank!\n${w.sign}\n\nSorry für eventuelle Fehler, ich habe einen Übersetzer benutzt.` },
+    en: { and: "and", sub: (c, w) => `Question before booking: ${w.n} friends aged ${w.ages} (${dmy(c.d1)}-${dmy(c.d2)})`, who: w => `We're ${w.n} friends (${w.grp}) travelling without our parents`, ageM: (k, ages) => `${k} aged ${ages}`, ageA: k => `${k} aged 18+`,
+      body: (c, w) => `Hi! We'd like to stay at ${c.it.name} from ${dmy(c.d1)} to ${dmy(c.d2)} (${c.nights} nights). ${w.who}. Before we pay, could you please confirm in writing:\n\n- Can we stay without a parent or guardian?\n- ${w.adult ? "Is it enough if one of us is 18, even if they're not a parent?" : "If not, would it be enough if a friend aged 18 came with us?"}\n- Would we need a private room, or could we stay in a shared dorm?\n- Do you need a parental consent form? If you have one, could you send it to us?\n- Who would have to make the booking and the payment?\n\nThanks a lot!\n${w.sign}` }
+  };
+  function askText(c) {
+    const lang = ASK_LANG[c.a.d.country] || "en", L = ASK[lang];
+    const ages = [...new Set(c.minors.map(m => m.age))].sort().join(" " + L.and + " ");
+    const grp = [c.minors.length ? L.ageM(c.minors.length, ages) : "", c.adults.length ? L.ageA(c.adults.length) : ""].filter(Boolean).join(" " + L.and + " ");
+    const sign = me.name && me.name !== "Tú" ? me.name : "[tu nombre]";
+    const w = { n: state.group.length, ages: ages || "18", grp, adult: c.adults.length > 0, sign }; w.who = L.who(w);
+    return { lang, subject: L.sub(c, w), body: L.body(c, w) };
+  }
+  const LANG_NAME = { es: "español", pt: "portugués", fr: "francés", it: "italiano", de: "alemán", en: "inglés" };
+  function openAsk(id) {
+    const c = stayCtx(id); if (!c) return; const t = askText(c);
+    const mail = `mailto:${c.it.email || ""}?subject=${encodeURIComponent(t.subject)}&body=${encodeURIComponent(t.body)}`;
+    $("#sheet-in").innerHTML = `<div class="sheet-head"><div><p class="eyebrow">Pedir confirmación por escrito</p><h2 id="sheet-title">${esc(c.it.name)}</h2></div><button type="button" class="icon-btn" data-close aria-label="Cerrar">×</button></div>
+      <p class="small">Antes de pagar, que os lo confirmen <b>por escrito</b> y llevad esa respuesta impresa o en el móvil. Así no os pueden rechazar en la entrada por la edad. Va en <b>${LANG_NAME[t.lang]}</b>${t.lang === "en" && c.a.d.country !== "UK" && c.a.d.country !== "IE" ? " (en este país suelen contestar en inglés)" : ""}.</p>
+      <div class="box"><p class="small"><b>Para:</b> ${c.it.email ? esc(c.it.email) : '<span class="muted">no tenemos su correo: buscadlo en su web</span>'}</p><p class="small"><b>Asunto:</b> ${esc(t.subject)}</p><pre class="mailbody" id="ask-body">${esc(t.body)}</pre></div>
+      <div class="row" style="gap:8px"><a class="btn pop" href="${mail}">✉ Abrir en mi correo</a><button type="button" class="btn" id="ask-copy">Copiar el texto</button>${c.it.link ? `<a class="btn" href="${esc(c.it.link)}" target="_blank" rel="noopener">Su web ↗</a>` : ""}</div>
+      <p class="small muted" id="ask-msg">Nada se envía desde GoLiveIt: se abre tu correo con el texto listo y lo mandas tú.</p>`;
+    $("#sheet-in").dataset.ask = id;
+    const dlg = $("#sheet"); if (!dlg.open) dlg.showModal();
   }
   function cartBar(a) {
     const { fl, st } = cartSel(a), n = state.group.length, nights = Math.max(1, state.days - 1);
@@ -1350,7 +1458,7 @@ Reglas de extracción:
   function openCheckout() {
     const a = analyse(state.sel); const { fl, st } = cartSel(a); if (!fl || !st) return;
     const n = state.group.length, nights = Math.max(1, state.days - 1), sc = schedule(a, fl), back = addDays(state.date, nights);
-    const total = fl.p * n + st.p * nights * n, conds = coConditions(a, fl, st), co = state.co;
+    const xt = extrasFor(fl), total = fl.p * n + st.p * nights * n + xt.total * n, conds = coConditions(a, fl, st), co = state.co;
     const code = "GLI-DEMO-" + (hsh(a.k + flKey(fl) + st.s + state.date + n).toString(36).toUpperCase().slice(0, 5));
     const trip = `<div class="pass"><div class="pass-top"><div><span class="eyebrow">Ida · ${dmy(state.date)}</span><b>${state.origin} ${hm(sc.out)}</b></div><span class="pass-plane">✈</span><div class="r"><span class="eyebrow">${esc(ITEMS[fl.a].name)} · ${fl.dir ? "directo" : "1 escala"}</span><b>${a.d.iata} ${hm(plus(sc.out, sc.dur))}</b></div></div>
       <div class="pass-top"><div><span class="eyebrow">Vuelta · ${dmy(back)}</span><b>${a.d.iata} ${hm(sc.back)}</b></div><span class="pass-plane">✈</span><div class="r"><span class="eyebrow">${durTxt(sc.dur)}</span><b>${state.origin} ${hm(plus(sc.back, sc.dur))}</b></div></div>
@@ -1359,7 +1467,7 @@ Reglas de extracción:
     if (co.step === 1) {
       const allChecked = conds.every(c => co.checks.has(c.id));
       body = `${trip}
-        <table class="rt"><tr><th></th><th>Por persona</th><th>Los ${n}</th></tr><tr><td>Vuelo ida y vuelta</td><td>${eur(fl.p)}</td><td>${eur(fl.p * n)}</td></tr><tr><td>Dormir ${nights} noches</td><td>${eur(st.p * nights)}</td><td>${eur(st.p * nights * n)}</td></tr><tr><th>Total (precios de ejemplo)</th><th>${eur(fl.p + st.p * nights)}</th><th>${eur(total)}</th></tr></table>
+        <table class="rt"><tr><th></th><th>Por persona</th><th>Los ${n}</th></tr><tr><td>Vuelo ida y vuelta</td><td>${eur(fl.p)}</td><td>${eur(fl.p * n)}</td></tr><tr><td>Dormir ${nights} noches</td><td>${eur(st.p * nights)}</td><td>${eur(st.p * nights * n)}</td></tr>${xt.total ? `<tr><td>Extras (maleta, asientos)</td><td>${eur(xt.total)}</td><td>${eur(xt.total * n)}</td></tr>` : ""}<tr><th>Total (precios de ejemplo)</th><th>${eur(fl.p + st.p * nights + xt.total)}</th><th>${eur(total)}</th></tr></table>
         <div class="box"><h3>Antes de pagar, confirmad esto</h3><p class="small muted">Sale de las normas de la aerolínea, el alojamiento y el país para vuestra edad.</p>
           ${conds.length ? conds.map(c => `<label class="co-check"><input type="checkbox" data-co="${c.id}"${co.checks.has(c.id) ? " checked" : ""}> <span>${esc(c.t)} <span class="pill who">${c.who}</span></span></label>`).join("") : '<p class="small">Con vuestra edad no hay condiciones extra.</p>'}</div>
         <div class="box"><h3>¿Quién paga?</h3><p class="small">${state.group.some(p => p.age >= 18) ? `En el grupo va alguien de 18 o más (${state.group.filter(p => p.age >= 18).map(p => esc(p.name)).join(", ")}): puede reservar y pagar esa persona, o vuestras familias. Los menores no pueden contratar.` : "Con menos de 18 no podéis contratar ni pagar vosotros: aerolíneas y alojamientos piden que reserve y pague una persona adulta. La reserva se manda a tu familia para que la revise y la pague."}</p></div>
@@ -1389,7 +1497,7 @@ Reglas de extracción:
       ${pend.length ? `<h3>Ojo, por confirmar</h3><p class="small muted">Todavía no sabemos si dejan entrar a menores sin un adulto. Preguntad antes de ir.</p>${pend.map(offer).join("")}` : ""}
       ${!okL.length && !pend.length ? '<div class="box"><p class="small muted">No tenemos planes con información de acceso para este destino.</p></div>' : ""}
       ${noL.length ? `<details class="hid"><summary>${noL.length} planes que no son para vuestra edad</summary><div style="display:grid;gap:8px;margin-top:8px">${noL.map(offer).join("")}</div></details>` : ""}
-      ${legalTips(["dif-alcohol-ocio", "dif-de-horarios-juschg", "dif-fr-toques-queda", "dif-patinetes-alquiler"], a.d.country)}`;
+      ${ocioLawBox(a)}${legalTips(["dif-alcohol-ocio", "dif-de-horarios-juschg", "dif-fr-toques-queda", "dif-patinetes-alquiler"], a.d.country)}`;
   }
   function eligTable(a) {
     const rows = [...(a.flights || []).map(f => ({ name: ITEMS[f.a].name + (f.dir ? " · directo" : " · con escala"), e: f.e })), ...(a.stays || []).map(s => ({ name: ITEMS[s.s].name, e: s.e }))];
@@ -1583,6 +1691,10 @@ Reglas de extracción:
     else if (d.pickSt) { state.cart = { ...state.cart, k: state.sel, st: state.cart.st === d.pickSt ? null : d.pickSt }; renderResults(); }
     else if (d.date && t.classList.contains("cal-d")) { state.date = d.date; update(); }
     else if (d.flsort) { state.flSort = d.flsort; renderResults(); }
+    else if (d.kit) openKit(d.kit);
+    else if (d.ask) openAsk(d.ask);
+    else if (t.id === "kit-print") printLetters();
+    else if (t.id === "ask-copy") { const id = $("#sheet-in").dataset.ask, c = id && stayCtx(id); if (!c) return; const x = askText(c), msg = m => { const el = $("#ask-msg"); if (el) el.textContent = m; }; try { navigator.clipboard.writeText(x.subject + "\n\n" + x.body).then(() => msg("Copiado: asunto y texto."), () => msg("No se pudo copiar.")); } catch (e) { msg("No se pudo copiar."); } }
     else if (t.id === "checkout") { state.co = { step: 1, checks: new Set() }; openCheckout(); }
     else if (t.id === "co-send") { state.co.step = 2; openCheckout(); }
     else if (t.id === "co-approve") { state.co.step = 3; openCheckout(); }
@@ -1622,6 +1734,7 @@ Reglas de extracción:
     if (el.dataset.m) { const m = state.group.find(x => String(x.id) === el.dataset.m); if (!m) return; if (el.dataset.f === "age") m.age = +el.value; if (el.dataset.f === "name") m.name = el.value.trim() || "Sin nombre"; update(); return; }
     if (el.id === "origin-city") { const c = findCity(el.value); if (c) { state.city = c; state.origin = nearestAir(c.c); update(); flyEurope(); } else { toast("No encuentro esa ciudad o pueblo de España. Elige uno de la lista."); renderLeft(); } }
     if (el.dataset.co) { el.checked ? state.co.checks.add(el.dataset.co) : state.co.checks.delete(el.dataset.co); openCheckout(); return; }
+    if (el.dataset.extra) { state.extras[el.dataset.extra] = el.checked; renderResults(); return; }
     if (el.id === "fl-direct") { state.flDirect = el.checked; renderResults(); return; }
     if (el.id === "date") { if (el.value) state.date = el.value; update(); return; }
     if (el.id === "days") { state.days = Math.max(2, Math.min(7, +el.value || 4)); update(); }
@@ -1783,6 +1896,7 @@ Reglas de extracción:
         if (h.conAdulto == null) return R("unk", "Para tu edad no lo dicen. " + h.texto);
         return R("no", h.texto);
       } };
+      ITEMS[id].email = h.email || null; ITEMS[id].form = h.formulario || null;
       STAY_KIND[id] = "hostel"; d.stays = d.stays || []; d.stays.push([id, (PRICE[d.country] || [30])[0] + (h.unk ? 2 : 0)]);
     });
     // Albergues que exigen un adulto (con su fuente)
@@ -1806,7 +1920,7 @@ Reglas de extracción:
       SRC[id] = S(o.fuente || "Fuente", o.url || null, (o.etiqueta || "PENDIENTE").split(" ")[0], date);
       const txt = String(o.texto || "").length > 160 ? o.texto.slice(0, 157) + "…" : o.texto;
       ITEMS[id] = { name: o.nombre, cat: "hacer", tipo: "legal", src: id, rule: m => unsure ? R("unk", txt) : o.edadMin == null || m.age >= o.edadMin ? R("ok", txt) : R("no", txt) };
-      Object.entries(DEST).filter(([, d]) => d.country === o.pais).forEach(([k]) => { OCIO[k] = OCIO[k] || []; if (!OCIO[k].some(x => nd(x[1]) === nd(o.nombre))) OCIO[k].push([id, o.nombre, "noche", null]); });
+      (OCIO_LAW[o.pais] = OCIO_LAW[o.pais] || []).push(id);
     });
     // Aerolíneas: cerrar las dudas con lo verificado
     (INV.aerolineas || []).forEach(a => {

@@ -99,3 +99,9 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 - **Hecho:** 24 correos enviados desde la cuenta personal de Alberto, como interesado en ir y cada uno en el idioma del lugar, a albergues de 18 ciudades (España, Portugal, Francia, Italia, Alemania, Austria, Chequia, Hungría, Grecia y Polonia). Ver [[Consultas a albergues - 11-11-2026]]. Sin rebotes al enviarlos.
 - **Aprendido:** en Londres, Ámsterdam, Dublín y Venecia no se encontró ningún albergue que no exija un adulto. MIJE (París), Pfefferbett y DJH (Berlín, Múnich) y Atlantis (Cracovia) ya publican normas para 16-17 años con permiso de los padres.
 - **Pendiente:** registrar las respuestas y, si cambian, actualizar las reglas del Planner; segundo intento con TOC, Shelter, Plus Florence y LATROUPE (opción del amigo de 18).
+
+## 2026-11-11. Respuestas de albergues, grietas de la competencia y tres mejoras
+
+- **Hecho:** 11 de 24 albergues respondieron el mismo día; sus normas están en el Planner con la etiqueta EQUIPO ([[Consultas a albergues - 11-11-2026]]). Análisis de 3.528 reseñas de la competencia con la skill replica-entrepreneur ([[fixes|Grietas de la competencia]]): nadie atiende a menores; lo que más odian es el engaño en el precio y los reembolsos. Construidas las mejoras F-01 a F-03 (D-17) e integrada la investigación de entrada, ocio y aerolíneas: **26 destinos posibles** para 4 personas de 17 desde Sevilla.
+- **Arreglado:** el mapa fallaba al abrir un destino sin puntos (Granada, Múnich).
+- **Pendiente:** 13 albergues sin respuesta (revisión programada el 13/11 a las 18:00); entrada a Hungría, Grecia y Chequia; tasa turística por ciudad.

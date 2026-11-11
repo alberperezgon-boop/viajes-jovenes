@@ -17,7 +17,8 @@
   ],
   "conAdulto": true,
   "minSolo": 18,
-  "respuesta": "11/11/2026"
+  "respuesta": "11/11/2026",
+  "email": "alberg@peretarres.org"
  },
  {
   "ciudad": "Barcelona",
@@ -29,7 +30,8 @@
   "consultado": "11/11/2026",
   "unk": true,
   "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
-  "etiqueta": "PENDIENTE"
+  "etiqueta": "PENDIENTE",
+  "email": "barcelona.xanascat@gencat.cat"
  },
  {
   "ciudad": "Madrid",
@@ -41,7 +43,8 @@
   "consultado": "11/11/2026",
   "unk": true,
   "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
-  "etiqueta": "PENDIENTE"
+  "etiqueta": "PENDIENTE",
+  "email": "albergue@san-fermin.org"
  },
  {
   "ciudad": "Valencia",
@@ -58,7 +61,8 @@
   "adultoReqs": [],
   "conAdulto": false,
   "minSolo": 18,
-  "respuesta": "11/11/2026"
+  "respuesta": "11/11/2026",
+  "email": "info@urbanyouthhostel.com"
  },
  {
   "ciudad": "Granada",
@@ -77,7 +81,8 @@
   "adultoReqs": [],
   "conAdulto": true,
   "minSolo": 16,
-  "respuesta": "11/11/2026"
+  "respuesta": "11/11/2026",
+  "email": "info@elgranado.com"
  },
  {
   "ciudad": "Málaga",
@@ -94,7 +99,8 @@
   "adultoReqs": [],
   "conAdulto": false,
   "minSolo": 18,
-  "respuesta": "11/11/2026"
+  "respuesta": "11/11/2026",
+  "email": "citycenter@feelhostels.com"
  },
  {
   "ciudad": "Lisboa",
@@ -106,7 +112,8 @@
   "consultado": "11/11/2026",
   "unk": true,
   "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
-  "etiqueta": "PENDIENTE"
+  "etiqueta": "PENDIENTE",
+  "email": "reservations@lisb-onhostel.com"
  },
  {
   "ciudad": "Lisboa",
@@ -118,7 +125,8 @@
   "consultado": "11/11/2026",
   "unk": true,
   "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
-  "etiqueta": "PENDIENTE"
+  "etiqueta": "PENDIENTE",
+  "email": "info@homelisbonhostel.com"
  },
  {
   "ciudad": "Oporto",
@@ -130,7 +138,8 @@
   "consultado": "11/11/2026",
   "unk": true,
   "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
-  "etiqueta": "PENDIENTE"
+  "etiqueta": "PENDIENTE",
+  "email": "reservations@gallery-hostel.com"
  },
  {
   "ciudad": "París",
@@ -142,7 +151,8 @@
   "consultado": "11/11/2026",
   "unk": true,
   "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
-  "etiqueta": "PENDIENTE"
+  "etiqueta": "PENDIENTE",
+  "email": "bvj@orange.fr"
  },
  {
   "ciudad": "París",
@@ -163,7 +173,8 @@
   "texto": "Por correo: con 17, sin adulto, con autorización de los padres y copia del DNI de uno. Con 16, hace falta alguien de 18 o más y habitación privada con él. Sin hora de vuelta (abierto 24 h).",
   "etiqueta": "EQUIPO",
   "unk": null,
-  "respuesta": "11/11/2026"
+  "respuesta": "11/11/2026",
+  "email": "accueil@mije.com"
  },
  {
   "ciudad": "Roma",
@@ -175,7 +186,8 @@
   "consultado": "11/11/2026",
   "unk": true,
   "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
-  "etiqueta": "PENDIENTE"
+  "etiqueta": "PENDIENTE",
+  "email": "groups@theromehello.com"
  },
  {
   "ciudad": "Roma",
@@ -194,7 +206,8 @@
   ],
   "conAdulto": true,
   "minSolo": 18,
-  "respuesta": "11/11/2026"
+  "respuesta": "11/11/2026",
+  "email": "palace@hostelsalessandro.com"
  },
  {
   "ciudad": "Florencia",
@@ -206,7 +219,8 @@
   "consultado": "11/11/2026",
   "unk": true,
   "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
-  "etiqueta": "PENDIENTE"
+  "etiqueta": "PENDIENTE",
+  "email": "ostelloarchirossi@hotmail.com"
  },
  {
   "ciudad": "Florencia",
@@ -225,7 +239,8 @@
   "adultoReqs": [],
   "conAdulto": true,
   "minSolo": 16,
-  "respuesta": "11/11/2026"
+  "respuesta": "11/11/2026",
+  "email": "info@ostellotasso.com"
  },
  {
   "ciudad": "Milán",
@@ -237,7 +252,8 @@
   "consultado": "11/11/2026",
   "unk": true,
   "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
-  "etiqueta": "PENDIENTE"
+  "etiqueta": "PENDIENTE",
+  "email": "info@babilahostel.it"
  },
  {
   "ciudad": "Berlín",
@@ -253,7 +269,9 @@
   ],
   "conAdulto": null,
   "texto": "«Kein Problem, aber bitte nur mit Einverständnis der Eltern!»: menores con permiso de los padres (formulario).",
-  "etiqueta": "OFICIAL-INDIRECTO"
+  "etiqueta": "OFICIAL-INDIRECTO",
+  "email": "info@pfefferbett.de",
+  "formulario": "Formulario propio enlazado en su web"
  },
  {
   "ciudad": "Berlín",
@@ -272,7 +290,9 @@
   "etiqueta": "EQUIPO",
   "unk": null,
   "adultoReqs": [],
-  "respuesta": "11/11/2026"
+  "respuesta": "11/11/2026",
+  "email": "jh-berlin@jugendherberge.de",
+  "formulario": "Formulario DJH (os lo mandan por correo)"
  },
  {
   "ciudad": "Múnich",
@@ -289,7 +309,8 @@
   ],
   "conAdulto": true,
   "texto": "Red DJH: desde 14 con permiso de los padres; en Baviera, alojamiento limitado y habitaciones separadas por sexo.",
-  "etiqueta": "OFICIAL-INDIRECTO"
+  "etiqueta": "OFICIAL-INDIRECTO",
+  "email": "jh-berlin@jugendherberge.de"
  },
  {
   "ciudad": "Viena",
@@ -309,7 +330,9 @@
   "adultoReqs": [],
   "conAdulto": true,
   "minSolo": 16,
-  "respuesta": "11/11/2026"
+  "respuesta": "11/11/2026",
+  "email": "info@hostelruthensteiner.com",
+  "formulario": "Formulario propio (os lo mandan por correo)"
  },
  {
   "ciudad": "Praga",
@@ -325,7 +348,8 @@
   ],
   "conAdulto": true,
   "texto": "Sin límite de edad, pero los menores de 18 solo en habitación privada. No dice si piden permiso de los padres.",
-  "etiqueta": "OFICIAL-INDIRECTO"
+  "etiqueta": "OFICIAL-INDIRECTO",
+  "email": "info@sirtobys.com"
  },
  {
   "ciudad": "Budapest",
@@ -344,7 +368,9 @@
   "adultoReqs": [],
   "conAdulto": true,
   "minSolo": 16,
-  "respuesta": "11/11/2026"
+  "respuesta": "11/11/2026",
+  "email": "centralmarket@mavericklodges.com",
+  "formulario": "Formulario propio; hay que enviarlo antes de llegar"
  },
  {
   "ciudad": "Atenas",
@@ -356,7 +382,8 @@
   "consultado": "11/11/2026",
   "unk": true,
   "texto": "Su web no dice nada sobre menores. Preguntado por correo el 11/11/2026; esperando respuesta.",
-  "etiqueta": "PENDIENTE"
+  "etiqueta": "PENDIENTE",
+  "email": "info@athensstudios.gr"
  },
  {
   "ciudad": "Cracovia",
@@ -376,6 +403,8 @@
   "etiqueta": "EQUIPO",
   "unk": null,
   "adultoReqs": [],
-  "respuesta": "11/11/2026"
+  "respuesta": "11/11/2026",
+  "email": "atlantis@atlantishostel.pl",
+  "formulario": "Formulario propio (os lo mandan por correo)"
  }
 ]
