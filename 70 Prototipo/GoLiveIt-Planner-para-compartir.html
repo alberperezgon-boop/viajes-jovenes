@@ -423,6 +423,8 @@ dialog.sheet { overflow-x: hidden; }
 .letter .blank { display: inline-block; min-width: 140px; border-bottom: 1px solid var(--muted); }
 .mailbody { white-space: pre-wrap; font: inherit; font-size: 0.86rem; background: var(--surface-2); border-radius: 10px; padding: 10px 12px; margin: 6px 0 0; max-height: 300px; overflow: auto; }
 /* Estética 17/11/2026 */
+.lv { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: start; padding: 10px 12px; border: 1.5px solid var(--line); border-radius: 12px; margin: 6px 0; cursor: pointer; }
+.lv.on { border-color: var(--pop); background: color-mix(in srgb, var(--pop) 10%, transparent); }
 .cart { grid-template-columns: minmax(150px, 1.2fr) auto auto; }
 .ci { white-space: normal; line-height: 1.25; padding: 4px 8px; }
 .field { align-content: start; }
@@ -1209,7 +1211,7 @@ Reglas de extracción:
     else if (state.tab === "papeles") body = docsBlock(a) + legalList(a.d.country);
     else body = budgetBox(a) + piggyBox(a) + perksBox() + `<div class="box"><h3>¿Cómo se calcula?</h3><p class="small">Es <strong>por persona</strong>: el vuelo de ida y vuelta, las noches de alojamiento y unos gastos al día para comer, moverse y hacer planes. Si elegís un vuelo o un alojamiento, se usa ese; si no, el más barato que os deja vuestra edad. Para ver precios de verdad, usad los enlaces a Kayak y Booking.</p></div>`;
     $("#results").innerHTML = `<div style="display:grid;gap:12px"><button type="button" class="btn ghost sm" data-back style="justify-self:start">← Volver a los destinos</button>${head}
-      ${a.score != null ? `<div class="tabs" role="tablist">${tabs.map(([t, l]) => `<button type="button" role="tab" data-tab="${t}" aria-selected="${state.tab === t}">${l}</button>`).join("")}</div>` : ""}${a.score != null ? `<button type="button" class="btn sm fam-btn" data-open="family">👪 Modo padres: lo que verá tu familia</button>` : ""}<div style="display:grid;gap:12px">${body}</div>${a.score != null ? cartBar(a) : ""}</div>`;
+      ${a.score != null ? `<div class="tabs" role="tablist">${tabs.map(([t, l]) => `<button type="button" role="tab" data-tab="${t}" aria-selected="${state.tab === t}">${l}</button>`).join("")}</div>` : ""}${a.score != null ? `<div class="row" style="gap:6px"><button type="button" class="btn sm fam-btn" data-open="family">👪 Modo padres: lo que verá tu familia</button><button type="button" class="btn sm fam-btn" data-open="share">👥 Compartir con el grupo</button></div>` : ""}<div style="display:grid;gap:12px">${body}</div>${a.score != null ? cartBar(a) : ""}</div>`;
   }
   /* ---------- Sitios en el mapa y pestaña «Todo»: la oferta recomendada para vuestra edad ---------- */
   function places(a) {
@@ -1796,7 +1798,7 @@ Reglas de extracción:
   /* ===== Guardar el plan en este navegador (sin datos personales: solo edades y elecciones) ===== */
   const STORE = "goliveit-planner-v1";
   function save() {
-    if (!state.touched || state.family) return;
+    if (!state.touched || state.family || state.shared) return;
     try { localStorage.setItem(STORE, JSON.stringify({ v: 1, group: state.group.map(m => ({ id: m.id, name: m.name, age: m.age, nat: m.nat, likes: [...m.likes], me: !!m.me })), origin: state.origin, city: state.city, days: state.days, date: state.date, budget: state.budget, cart: state.cart, checks: [...state.checks], pot: state.pot })); } catch (e) { /* sin almacenamiento */ }
   }
   function load() {
@@ -1863,7 +1865,7 @@ Reglas de extracción:
       <div class="trip-top">${budgetBox(a)}<div style="display:grid;gap:12px;align-content:start">${piggyBox(a)}${potBox(a)}
         <div class="box"><h3>Compartir el plan</h3><p class="small muted">Con tu grupo o con tu familia. No se envía nada solo: se abre WhatsApp o tu correo con el texto.</p>
           <pre class="share-txt">${esc(txt)}</pre>
-          <div class="row"><a class="btn pop sm" href="https://wa.me/?text=${encodeURIComponent(txt)}" target="_blank" rel="noopener">WhatsApp ↗</a><a class="btn sm" href="mailto:?subject=${encodeURIComponent("Nuestro viaje a " + a.d.city)}&body=${encodeURIComponent(txt)}">Correo</a><button type="button" class="btn ghost sm" id="share-copy">Copiar</button><button type="button" class="btn sm" data-open="family">👪 Modo padres</button><span class="small muted" id="share-msg" aria-live="polite"></span></div></div></div></div>
+          <div class="row"><a class="btn pop sm" href="https://wa.me/?text=${encodeURIComponent(txt)}" target="_blank" rel="noopener">WhatsApp ↗</a><a class="btn sm" href="mailto:?subject=${encodeURIComponent("Nuestro viaje a " + a.d.city)}&body=${encodeURIComponent(txt)}">Correo</a><button type="button" class="btn ghost sm" id="share-copy">Copiar</button><button type="button" class="btn sm" data-open="family">👪 Modo padres</button><button type="button" class="btn sm" data-open="share">👥 Compartir con el grupo</button><span class="small muted" id="share-msg" aria-live="polite"></span></div></div></div></div>
       <div class="box"><div class="row between"><h3>Checklist antes de irte</h3><strong>${pr.done} de ${pr.total}</strong></div><div class="pbar"><i style="width:${pc}%"></i></div>
         ${Object.keys(GRP).map(g => { const its = list.filter(i => i.grp === g); return its.length ? `<h4 class="ck-h">${GRP[g]}</h4>${its.map(i => `<label class="co-check"><input type="checkbox" data-ck="${esc(i.id)}"${state.checks.has(i.id) ? " checked" : ""}> <span>${esc(i.t)} <span class="pill who">${i.who}</span>${i.extra ? `<br><span class="small muted">${esc(i.extra)}</span>` : ""}</span></label>`).join("")}` : ""; }).join("")}
         <p class="small muted">Lo de «familia» lo tiene que hacer tu madre, tu padre o tu tutor. Más detalle en «Papeleo y posibles líos».</p></div>
@@ -1908,6 +1910,10 @@ Reglas de extracción:
     else if (t.id === "live-go") liveSearch();
     else if (d.sort) { state.sort = d.sort; renderResults(); }
     else if (d.open === "family") openFamily();
+    else if (d.open === "share") openShare();
+    else if (t.id === "grp-preview") openGroupView();
+    else if (t.id === "grp-use") { state.shared = null; state.touched = true; try { history.replaceState(null, "", location.pathname + location.search); } catch (e) { /* nada */ } $("#sheet").close(); update(); save(); toast("Plan guardado en tu planner."); }
+    else if (t.id === "grp-copy") { const k = $("#sheet-in").dataset.grp, a = k && analyse(k); if (!a) return; const msg = x => { const el = $("#grp-msg"); if (el) el.textContent = x; }; try { navigator.clipboard.writeText(groupText(a, state.shareLv || "g")).then(() => msg("Copiado."), () => msg("No se pudo copiar.")); } catch (e) { msg("No se pudo copiar."); } }
     else if (t.id === "fam-ok") { state.famOk = true; openFamily(); }
     else if (t.id === "fam-print-btn") printFamily();
     else if (t.id === "fam-price") famPrice();
@@ -1957,6 +1963,8 @@ Reglas de extracción:
     if (el.dataset.m) { const m = state.group.find(x => String(x.id) === el.dataset.m); if (!m) return; if (el.dataset.f === "age") m.age = +el.value; if (el.dataset.f === "name") m.name = el.value.trim() || "Sin nombre"; update(); return; }
     if (el.id === "origin-city") { const c = findCity(el.value); if (c) { state.city = c; state.origin = nearestAir(c.c); update(); flyEurope(); } else { toast("No encuentro esa ciudad o pueblo de España. Elige uno de la lista."); renderLeft(); } }
     if (el.dataset.co) { el.checked ? state.co.checks.add(el.dataset.co) : state.co.checks.delete(el.dataset.co); openCheckout(); return; }
+    if (el.name === "share-lv") { state.shareLv = el.value; openShare(); return; }
+    if (el.dataset.gck) { let s0 = []; try { s0 = JSON.parse(localStorage.getItem("goliveit-grupo-checks") || "[]"); } catch (e) { /* nada */ } const set = new Set(s0); el.checked ? set.add(el.dataset.gck) : set.delete(el.dataset.gck); try { localStorage.setItem("goliveit-grupo-checks", JSON.stringify([...set])); } catch (e) { /* nada */ } return; }
     if (el.id === "only-budget") { state.onlyBudget = el.checked; renderResults(); return; }
     if (el.dataset.extra) { state.extras[el.dataset.extra] = el.checked; renderResults(); return; }
     if (el.id === "fl-direct") { state.flDirect = el.checked; renderResults(); return; }
@@ -2346,6 +2354,69 @@ Reglas de extracción:
       ${last ? `<p class="small"><b>Último tramo hasta ${esc(ITEMS[st.s].name)}:</b> desde el centro, ${last} (ubicación aproximada).</p>` : ""}
       ${night ? `<p class="warn">Llegáis sobre las ${hm(arr)} (horario de ejemplo): de noche puede no haber metro ni tren. Pactad con vuestra familia cómo ir (taxi o el primer transporte de la mañana) y avisad al alojamiento de que llegáis tarde.</p>` : ""}</div>`;
   }
+  /* ===== Viaje compartido con el grupo (17/11/2026): niveles grupo / grupo + familias; nunca público y sin nombres ===== */
+  function groupLink(a, level) {
+    const { fl, st } = cartSel(a), m = money(a);
+    const p = { v: 1, k: a.k, d: state.date, n: state.days, o: state.origin, ag: state.group.map(x => x.age), fl: flKey(fl || m.fl), st: (st || m.st).s, b: state.budget, pot: state.group.map(x => +state.pot[x.id] || 0), lv: level === "gf" ? "gf" : "g" };
+    let framed = true; try { framed = window.self !== window.top; } catch (e) { framed = true; }
+    const base = /^https?:$/.test(location.protocol) && !framed ? location.href.split("#")[0] : "";
+    return base ? base + "#grupo=" + b64u(JSON.stringify(p)) : "";
+  }
+  function readGroupHash() {
+    const mt = /#grupo=([A-Za-z0-9_-]+)/.exec(location.hash || ""); if (!mt) return null;
+    try { const p = JSON.parse(unb64u(mt[1])); return p && p.v === 1 && DEST[p.k] && Array.isArray(p.ag) && p.ag.length && p.ag.length <= 6 ? p : null; } catch (e) { return null; }
+  }
+  function applyShared(p) {
+    applyFamily(p); state.family = false; state.shared = p.lv === "gf" ? "gf" : "g";
+    state.pot = {}; (Array.isArray(p.pot) ? p.pot : []).forEach((v, i) => { const m = state.group[i]; if (m) state.pot[m.id] = Math.max(0, Math.round(+v || 0)); });
+  }
+  function groupText(a, level) {
+    const m = money(a), back = addDays(state.date, m.nights), link = groupLink(a, level);
+    return [`👥 Nuestro viaje a ${a.d.city} (GoLiveIt · demo)`, `📅 ${dmy(state.date)} – ${dmy(back)} · ${pl(state.group.length, "persona", "personas")}`,
+      `${m.fl.mode === "train" ? "🚆" : m.fl.mode === "bus" ? "🚌" : "🛫"} ${ITEMS[m.fl.a].name} · 🛏 ${ITEMS[m.st.s].name}`, `💶 Unos ${eur(m.total)} cada uno (orientativo)`,
+      link ? (level === "gf" ? "Plan del grupo (y lo que verán las familias): " : "Plan del grupo: ") + link : "Os lo enseño en GoLiveIt."].join("\n");
+  }
+  function openShare() {
+    const a = state.sel && DEST[state.sel].verified && analyse(state.sel).score != null ? analyse(state.sel) : tripDest();
+    if (!a) { toast("Elegid primero un destino que os salga."); return; }
+    const lv = state.shareLv || "g", txt = groupText(a, lv), hasLink = !!groupLink(a, lv);
+    const opt = (k, t, d) => `<label class="lv${lv === k ? " on" : ""}"><input type="radio" name="share-lv" value="${k}"${lv === k ? " checked" : ""}><span><strong>${t}</strong><br><span class="small muted">${d}</span></span></label>`;
+    $("#sheet-in").innerHTML = `<div class="sheet-head"><div><p class="eyebrow">Compartir el viaje</p><h2 id="sheet-title">${esc(a.d.city)}, ${dmy(state.date)}</h2></div><button type="button" class="icon-btn" data-close aria-label="Cerrar">×</button></div>
+      <div class="box"><h3>¿Quién lo puede ver?</h3>
+        ${opt("g", "👥 Solo el grupo", "Ven el plan, el bote común y la lista de cosas que llevar. Cada uno puede abrirlo en su propio planner.")}
+        ${opt("gf", "👥 + 👪 Grupo y familias", "Lo mismo, y además un botón para ver lo que verán vuestras familias (papeles, plan B y aprobación).")}
+        <p class="small muted">Nunca es público: solo lo ve quien tenga el enlace. Lleva edades, lo elegido y lo ahorrado en el bote, <b>nunca nombres</b>.</p></div>
+      <div class="box"><h3>Mensaje</h3><pre class="share-txt">${esc(txt)}</pre>
+        ${hasLink ? "" : '<p class="small muted">Aquí no hay enlace (la demo va dentro de claude.ai o se ha abierto como archivo): mandad el resumen. Con la web publicada, el enlace abre el plan directamente.</p>'}
+        <div class="row"><a class="btn pop sm" href="https://wa.me/?text=${encodeURIComponent(txt)}" target="_blank" rel="noopener">WhatsApp ↗</a><a class="btn sm" href="mailto:?subject=${encodeURIComponent("Nuestro viaje a " + a.d.city)}&body=${encodeURIComponent(txt)}">Correo</a><button type="button" class="btn ghost sm" id="grp-copy">Copiar</button><button type="button" class="btn sm" id="grp-preview">👀 Ver lo que verá el grupo</button><span class="small muted" id="grp-msg" aria-live="polite"></span></div></div>`;
+    $("#sheet-in").dataset.grp = a.k;
+    const dlg = $("#sheet"); if (!dlg.open) dlg.showModal();
+  }
+  function openGroupView() {
+    const a = state.sel && DEST[state.sel].verified && analyse(state.sel).score != null ? analyse(state.sel) : tripDest();
+    if (!a) return;
+    const m = money(a), back = addDays(state.date, m.nights), n = state.group.length, lv = state.shared || state.shareLv || "g";
+    const goal = m.total * n, saved = state.group.reduce((t, x) => t + (+state.pot[x.id] || 0), 0), pc = goal ? Math.min(100, Math.round(saved / goal * 100)) : 0;
+    let mine = new Set(); try { mine = new Set(JSON.parse(localStorage.getItem("goliveit-grupo-checks") || "[]")); } catch (e) { /* sin almacenamiento */ }
+    const list = checklist(a), joven = list.filter(i => i.who !== "familia"), fam = list.filter(i => i.who === "familia");
+    $("#sheet-in").innerHTML = `<div class="sheet-head"><div><p class="eyebrow">${state.shared ? "Plan compartido por vuestro grupo" : "Vista del grupo · así lo verán"}</p><h2 id="sheet-title">${esc(a.d.city)}, del ${dmy(state.date)} al ${dmy(back)}</h2></div><button type="button" class="icon-btn" data-close aria-label="Cerrar">×</button></div>
+      <p class="demo-banner">Solo lectura${state.shared ? "" : " (vista previa)"}. Es una demo: no se reserva ni se paga nada.</p>
+      <div class="fam-sum"><div><span class="eyebrow">Vais</span><b>${pl(n, "persona", "personas")}</b><span class="small">${[...new Set(state.group.map(x => x.age))].join(" y ")} años</span></div>
+        <div><span class="eyebrow">Desde</span><b>${esc(originName())}</b><span class="small">${m.fl.mode === "train" ? "en tren" : m.fl.mode === "bus" ? "en bus" : "en avión"}</span></div>
+        <div><span class="eyebrow">Cada uno</span><b>${eur(m.total)}</b><span class="small">orientativo</span></div></div>
+      <div class="box"><h3>El plan</h3>
+        <div class="fam-row">${pill(m.fl.e.s)}<div><strong>${m.fl.mode === "train" ? "🚆" : m.fl.mode === "bus" ? "🚌" : "✈"} ${esc(ITEMS[m.fl.a].name)}</strong><p class="small">${groupWhy(m.fl.e)}</p></div></div>
+        <div class="fam-row">${pill(m.st.e.s)}<div><strong>🛏 ${esc(ITEMS[m.st.s].name)}</strong><p class="small">${groupWhy(m.st.e)}</p>${reqList(m.st.e)}</div></div></div>
+      ${arrivalBox(a, true)}
+      <div class="box"><div class="row between"><h3>Bote común</h3><strong>${eur(saved)} de ${eur(goal)}</strong></div><div class="pbar"><i style="width:${pc}%"></i></div>
+        <p class="small">${state.group.map((x, i) => `Persona ${i + 1} (${x.age}): ${eur(+state.pot[x.id] || 0)}`).join(" · ")}</p><p class="small muted">Sin nombres: el orden es el del grupo.</p></div>
+      <div class="box"><h3>Lo que tiene que hacer cada uno</h3><p class="small muted">Lo que marques se queda solo en tu navegador.</p>
+        ${joven.map(i => `<label class="co-check"><input type="checkbox" data-gck="${esc(i.id)}"${mine.has(i.id) ? " checked" : ""}> <span>${esc(i.t)} <span class="pill who">${i.who}</span></span></label>`).join("") || '<p class="small">Nada especial.</p>'}
+        ${fam.length ? `<p class="small"><b>Y vuestras familias:</b> ${fam.map(i => esc(i.t)).join(" · ")}.</p>` : ""}</div>
+      <div class="row" style="gap:8px">${lv === "gf" ? '<button type="button" class="btn sm" data-open="family">👪 Ver lo que verán las familias</button>' : ""}${state.shared ? '<button type="button" class="btn pop sm" id="grp-use">Usar este plan en mi planner</button>' : ""}</div>`;
+    $("#sheet-in").dataset.grp = a.k;
+    const dlg = $("#sheet"); if (!dlg.open) dlg.showModal();
+  }
   function nightBox(a) {
     const k = norm(String(a.d.city || "")), rid = NIGHT.rule[k], vids = NIGHT.venues[k] || [];
     if (!rid && !vids.length) return "";
@@ -2358,9 +2429,10 @@ Reglas de extracción:
   }
   $("#origin-city").addEventListener("focus", ev => { try { ev.target.select(); } catch (e) { /* nada */ } });
   $("#cities-dl").innerHTML = CITIES_ES.map(c => `<option value="${esc(c[0])}"></option>`).join("");
-  const famP = readFamilyHash();
-  const hadSaved = famP ? false : load();
+  const famP = readFamilyHash(), grpP = famP ? null : readGroupHash();
+  const hadSaved = famP || grpP ? false : load();
   if (famP) applyFamily(famP);
+  if (grpP) applyShared(grpP);
   if (!hadSaved) { state.parsed = parseQuery($("#nl").value); state.parsed.via = "reglas"; }
   initMap();
   update(true);
@@ -2373,6 +2445,7 @@ Reglas de extracción:
   setTimeout(() => { try { $("#cover-go").focus({ preventScroll: true }); } catch (e) { /* nada */ } }, 50);
   animateArcs();
   if (famP) { closeCover(); setTimeout(() => { flyTo(famP.k); openFamily(); }, 300); }
+  if (grpP) { closeCover(); setTimeout(() => { flyTo(grpP.k); openGroupView(); }, 300); }
 })();
 </script>
 

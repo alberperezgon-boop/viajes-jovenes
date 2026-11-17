@@ -27,7 +27,7 @@ relacionado: "[[Buscadores y empresas de viaje - ingeniería inversa]], [[Compet
 | 2 | **Cancelación flexible** visible en cada alojamiento y vuelo («cancelación gratis hasta…») | Booking, Hostelworld | La queja número 1 de la competencia son los reembolsos (380 reseñas) | Media | Sin datos reales: de ejemplo y marcado |
 | 3 | **Avisos de precio** compartidos con el grupo y la familia | Google Flights, Skyscanner, KAYAK, Hopper | El conector de Duffel ya da precios reales | Media | Sin mensajes de urgencia ni contadores |
 | 4 | ✅ **Hecho (D-24).** **Cómo llegar del aeropuerto al albergue** (bus, metro, tiempo y precio) | Rome2Rio | Es lo que más agobia al llegar; también tranquiliza a los padres | Media | Datos por ciudad; empezar por las 5 primeras |
-| 5 | **Viaje compartido con niveles**: grupo / grupo + familias (nunca público) | Polarsteps, Wanderlog | Ya existe el enlace de familia; falta que el grupo vea lo mismo | Media | Sin ubicación en directo por defecto |
+| 5 | ✅ **Hecho (D-25).** **Viaje compartido con niveles**: grupo / grupo + familias (nunca público) | Polarsteps, Wanderlog | Ya existe el enlace de familia; falta que el grupo vea lo mismo | Media | Sin ubicación en directo por defecto |
 | 6 | **Opiniones de otros jóvenes** sobre el albergue («¿os dejaron entrar con 17?») | Hostelworld | Prueba social de lo que más miedo da: el check-in | Grande | Moderación; sin datos personales de menores |
 | 7 | **Pack sin conexión** del viaje (reservas, cartas, teléfonos) | Lambus | Ya se imprimen las cartas y el modo padres; falta juntarlo | Pequeña | No guardar copias de documentos |
 | 8 | **Versión móvil** | Todas | El público usa el móvil | Grande | Alberto pidió centrarse primero en PC |

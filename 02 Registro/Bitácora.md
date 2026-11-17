@@ -134,3 +134,5 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 - **Tren (D-23):** Renfe, Iryo, Ouigo y SNCF con su norma de edad; probado desde Sevilla, Madrid, Barcelona y Las Palmas, y en Chrome sin ventana sin errores. Ouigo queda pendiente.
 
 - **Cómo llegar (D-24):** 14 ciudades con ruta del aeropuerto al centro, último tramo y aviso de llegada nocturna; probado sin errores. Pendiente: Beauvais (Ryanair), el precio de la lanzadera de Marsella y las ciudades que faltan.
+
+- **Viaje compartido (D-25):** probado el flujo completo (compartir, cambiar nivel, vista previa, abrir el enlace como amigo, ver lo de las familias y usar el plan) sin errores.

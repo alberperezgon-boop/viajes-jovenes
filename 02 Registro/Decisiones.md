@@ -100,3 +100,16 @@ Cada decisión dice quién la tomó, con qué evidencia y qué la haría cambiar
   - Oficiales: París (14 € desde el 1/1/2026, Île-de-France Mobilités), Berlín (23 min, aeropuerto), Niza (aeropuerto) y Budapest (2.500 HUF, BKK).
   - El resto, guías marcadas como SECUNDARIA (precios orientativos que no siempre coinciden).
 - **Por qué:** propuesta 4 de [[Mejoras 17-11 - competencia y estética]] (Rome2Rio). Es lo que más agobia al llegar y tranquiliza a las familias.
+
+## D-25. Viaje compartido con el grupo, con niveles (17/11/2026)
+
+- **Decisión:** botón **«👥 Compartir con el grupo»** en cada destino y en «Mi viaje», con dos niveles:
+  - **Solo el grupo:** plan, cómo llegar, bote común y lista de cada uno.
+  - **Grupo + familias:** además, un botón a lo que verán los padres.
+  
+  Comportamiento del enlace `#grupo=`:
+  - Abre la vista directamente.
+  - **No pisa el plan guardado** de quien lo abre hasta que pulsa «Usar este plan en mi planner».
+  - Lo que cada uno marca en su lista se queda en su navegador.
+- **Privacidad:** nunca público; el enlace lleva edades, elecciones y lo ahorrado en el bote, **nunca nombres** (en el bote: «Persona 1, 2…»). Dentro del artefacto de claude.ai no hay enlace; funciona con la web publicada.
+- **Por qué:** propuesta 5 de [[Mejoras 17-11 - competencia y estética]] (Polarsteps, Wanderlog), sin ubicación en directo ni chat abierto (D-14).
