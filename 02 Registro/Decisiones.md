@@ -76,3 +76,8 @@ Cada decisión dice quién la tomó, con qué evidencia y qué la haría cambiar
 - **Decisión:** el modo padres añade (1) un **resumen de un vistazo** (comprobado, con condiciones, pendiente), (2) **precio real del vuelo** con Duffel (la oferta más barata de una aerolínea que les deja volar a su edad) y **reserva en modo test pagada por la familia**, (3) un **calendario de papeles** con fechas reales del viaje (permiso de viaje entre 90 y 7 días antes, TSE, seguro, confirmación escrita, cartas y Registro de Viajeros, con fuentes) y (4) **lo que suelen preguntar los padres**, respondido con fuentes de la guía.
 - **Prueba:** Duffel aceptó en modo test las reservas de grupos de 16-17 (y mixtos con 15) sin un adulto en el vuelo. Ver [[Conector de vuelos en tiempo real]].
 - **Límite:** desde la demo nunca se reserva de verdad; en modo real, cada aerolínea decide con la fecha de nacimiento.
+
+## D-22. Mejoras de la revisión del 17/11: ordenar, descuentos por edad y estética (17/11/2026)
+
+- **Decisión:** lista con **ordenar** (pega, precio, cercanía) y **«Solo los que entran en la pasta»**; recuadro **«Descuentos y pases para vuestra edad»** (Carné Joven, Interrail Youth, DiscoverEU) con fuentes; **«Otras formas de ir»** con BlaBlaCar como no apto para menores; arreglos estéticos (mapa sin etiquetas amontonadas, precios legibles, campos alineados, cabecera más limpia, foco visible) y del intérprete («salimos de X» no es el destino). Ver [[Mejoras 17-11 - competencia y estética]].
+- **Por qué:** Alberto pidió revisar la competencia y mejorar la estética sin salirse del núcleo; todo lo añadido sirve para decidir a dónde pueden ir con su edad y su dinero.
