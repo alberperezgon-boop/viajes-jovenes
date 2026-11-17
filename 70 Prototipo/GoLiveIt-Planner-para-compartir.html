@@ -423,6 +423,8 @@ dialog.sheet { overflow-x: hidden; }
 .letter .blank { display: inline-block; min-width: 140px; border-bottom: 1px solid var(--muted); }
 .mailbody { white-space: pre-wrap; font: inherit; font-size: 0.86rem; background: var(--surface-2); border-radius: 10px; padding: 10px 12px; margin: 6px 0 0; max-height: 300px; overflow: auto; }
 /* Estética 17/11/2026 */
+.how3 { margin: 0; padding-left: 20px; display: grid; gap: 6px; font-size: 0.9rem; }
+.legend-list { display: grid; gap: 6px; } .legend-list > div { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 .rev { border-top: 1px solid var(--line); padding-top: 8px; margin-top: 4px; }
 .rev summary { cursor: pointer; font-weight: 700; font-size: 0.86rem; }
 .rev-form { display: grid; gap: 8px; margin-top: 8px; padding: 10px 12px; border-radius: 12px; background: var(--surface-2); }
@@ -459,7 +461,7 @@ dialog.sheet { overflow-x: hidden; }
 <svg id="ic-sprite" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><symbol id="i-plane" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></symbol><symbol id="i-train" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M9 7h6M9 21l-2-4M15 21l2-4"/><circle cx="9" cy="14" r=".6"/><circle cx="15" cy="14" r=".6"/></symbol><symbol id="i-bus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M3 10h18M8 4v6M16 4v6"/><circle cx="7.5" cy="19" r="1.5"/><circle cx="16.5" cy="19" r="1.5"/></symbol><symbol id="i-bed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4v16M2 8h18a2 2 0 0 1 2 2v10M2 17h20M6 8v9"/></symbol><symbol id="i-ticket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2M13 11v2M13 17v2"/></symbol><symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol><symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol><symbol id="i-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-1.8 5.41a2 2 0 0 1-1.27 1.27L7.76 16.24l1.8-5.41a2 2 0 0 1 1.27-1.27z"/></symbol><symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol><symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol><symbol id="i-family" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M12 17.5s-3.2-1.9-3.2-3.9a1.7 1.7 0 0 1 3.2-.8 1.7 1.7 0 0 1 3.2.8c0 2-3.2 3.9-3.2 3.9z"/></symbol><symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4M16 13H8M16 17H8M10 9H8"/></symbol><symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol><symbol id="i-luggage" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="7" width="14" height="13" rx="2"/><path d="M9 7V4h6v3M9 11v5M15 11v5M8 20v1.5M16 20v1.5"/></symbol><symbol id="i-wallet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h14a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></symbol><symbol id="i-food" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></symbol><symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></symbol><symbol id="i-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol><symbol id="i-printer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol><symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></symbol><symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol><symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol><symbol id="i-trolley" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h2l2.4 12h11.2L21 7H6.2"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></symbol></defs></svg>
   <header class="top">
     <span class="wm">Go<span>Live</span>It</span>
-    <span class="tag">Busca, compara y reserva viajes para tu edad · demo</span>
+    <span class="tag">Busca, compara y reserva viajes para vuestra edad · demo</span>
     <span class="spacer"></span>
     <span class="seg" role="group" aria-label="Tipo de mapa" id="mapmode"></span>
     <button type="button" class="tbtn icon" id="pause" aria-pressed="false" aria-label="Pausar animaciones" title="Pausar animaciones">⏸</button>
@@ -506,8 +508,8 @@ dialog.sheet { overflow-x: hidden; }
   <div class="cover-txt">
     <div class="cover-wm">Go<span>Live</span>It</div>
     <h1>Tu primer viaje con amigos, <em>sin líos.</em></h1>
-    <p class="lead">Destinos, vuelos, sitios para dormir y planes que de verdad valen para tu edad, con el papeleo claro para que tu familia diga que sí.</p>
-    <div class="cover-feats"><span>✈ Vuelos según tu edad</span><span>🛏 Dónde os dejan dormir</span><span>🎟 Planes para 16-17</span><span>📄 Papeleo claro</span><span>🏡 Tu familia aprueba</span></div>
+    <p class="lead">Destinos, vuelos, sitios para dormir y planes que de verdad valen para vuestra edad, con el papeleo claro para que vuestras familias digan que sí.</p>
+    <div class="cover-feats"><span>✈ Viajes según vuestra edad</span><span>🛏 Dónde os dejan dormir</span><span>🎟 Planes para 16-17</span><span>📄 Papeleo claro</span><span>🏡 La familia aprueba</span></div>
     <div class="cover-cta"><button type="button" class="btn pop" id="cover-go">Empezar</button><button type="button" class="btn ghost2" id="cover-demo">Ver un ejemplo</button><button type="button" class="btn ghost2" id="cover-resume" hidden>Seguir con mi plan</button></div>
     <p class="cover-note">Prototipo de un proyecto de emprendimiento. Es una demo: no reserva ni cobra nada de verdad.</p>
   </div>
@@ -620,7 +622,7 @@ dialog.sheet { overflow-x: hidden; }
   const quien = x => x.me ? "tú" : x.name;
   const OK18 = "Mayor de edad: sin límite por edad.";
   const TIPOS = { legal: "Lo dice la ley", comercial: "Norma de la aerolínea o empresa", contratacion: "Quién puede reservar", checkin: "Norma al llegar al alojamiento", estancia: "Norma del alojamiento", acceso: "Norma para entrar" };
-  const TAG = { "VERIFICADO": "Fuente oficial", "OFICIAL-INDIRECTO": "Web oficial de la empresa", "EQUIPO": "Revisado por el equipo", "SECUNDARIA": "Fuente secundaria", "SIN VERIFICAR": "Sin confirmar", "PENDIENTE": "Sin confirmar" };
+  const TAG = { "VERIFICADO": "Fuente oficial", "OFICIAL-INDIRECTO": "Web de la empresa", "EQUIPO": "Lo preguntamos nosotros", "SECUNDARIA": "Otra fuente (guía o prensa)", "SIN VERIFICAR": "Sin confirmar", "PENDIENTE": "Sin confirmar" };
   const tagTxt = t => TAG[t] || t;
 
   const ITEMS = {
@@ -681,7 +683,7 @@ dialog.sheet { overflow-x: hidden; }
     } else if (["PT", "FR", "IT", "DE"].includes(c)) out.push({ s: "ok", t: c === "DE" ? "DNI físico o pasaporte" : "DNI o pasaporte", d: "En vigor.", src: { PT: "ext_pt", FR: "ext_fr", IT: "ext_it", DE: "ext_de" }[c] });
     else out.push({ s: "unk", t: "Documentos de entrada sin verificar", d: "No tenemos las normas de este país todavía.", src: "none" });
     if (NEWENTRY[c]) { out.pop(); out.push({ s: "ok", t: "DNI o pasaporte en vigor", d: "Cada persona con su propio documento.", src: NEWENTRY[c].src }); if (minor && NEWENTRY[c].s !== "ok") out.push({ s: NEWENTRY[c].s, t: "Carta de consentimiento de los padres (" + NEWENTRY[c].cname + ")", d: NEWENTRY[c].d, src: NEWENTRY[c].src }); }
-    if (minor && c === "PT") out.push({ s: "req", t: "Carta de autorización de los padres (Portugal)", d: "La ley no la exige a ciudadanos de la UE, pero gov.pt la pide y pueden negar la entrada. Llevadla en portugués o inglés (Q-20).", src: "gov_pt" });
+    if (minor && c === "PT") out.push({ s: "req", t: "Carta de autorización de los padres (Portugal)", d: "La ley no la exige a ciudadanos de la UE, pero gov.pt la pide y pueden negar la entrada. Llevadla en portugués o inglés.", src: "gov_pt" });
     if (minor && c === "DE") out.push({ s: "req", t: "Carta de consentimiento", d: "La recomienda la Policía Federal.", src: "bpol" });
     return out;
   }
@@ -796,7 +798,7 @@ dialog.sheet { overflow-x: hidden; }
     const sat = group.map(m => ({ m, v: m.likes.size ? [...m.likes].filter(t => tagsFor(m).includes(t)).length / m.likes.size : 0.5, hits: [...m.likes].filter(t => tagsFor(m).includes(t)), lostNight: m.likes.has("noche") && d.tags.includes("noche") && !nightOk(m) }));
     const avg = sat.reduce((a, x) => a + x.v, 0) / n; const min = Math.min(...sat.map(x => x.v));
     const pref = 0.6 * avg + 0.4 * min;
-    if (!d.verified) return { k, d, status: "unk", score: null, sat, pref, reason: d.isNew ? "Falta confirmar qué piden en la frontera a menores de la UE que llegan sin adultos, y el albergue con permiso de 16-17 es norma general de la cadena. Mientras, sale como pendiente." : "No tenemos verificadas las normas de entrada, alojamientos ni actividades para menores. Pendiente, no permitido." };
+    if (!d.verified) return { k, d, status: "unk", score: null, sat, pref, reason: d.isNew ? "Nos falta confirmar qué piden en la frontera a menores que llegan sin adultos, y el único albergue que conocemos solo tiene la norma general de su cadena, no la suya." : "No tenemos verificadas las normas de entrada, alojamientos ni actividades para menores. Pendiente, no permitido." };
     const flights = (d.byOrigin ? d.byOrigin[state.origin] || [] : d.country === "ES" && offPeninsula() ? islandFlights(d) : d.flights).map(([a, p, dir, self]) => ({ a, p: p * (d.byOrigin ? 1 : ORIGINS[state.origin].k), dir, self: self === "self", mode: "air", e: evalFlight(a, dir, group, self === "self") })).concat(busesFor(k).map(([a, p, min]) => ({ a, p, dir: true, mode: "bus", min, e: evalItem(a, group) }))).concat(trainsFor(k).map(([a, p, min]) => ({ a, p, dir: true, mode: "train", min, e: evalItem(a, group) }))).sort((x, y) => RANK[x.e.s] - RANK[y.e.s] || x.p - y.p);
     const stays = d.stays.map(([s, p]) => ({ s, p, e: evalItem(s, group) })).sort((x, y) => RANK[x.e.s] - RANK[y.e.s] || x.p - y.p);
     const docs = group.map(m => ({ m, docs: countryDocs(m, d.country) }));
@@ -814,12 +816,12 @@ dialog.sheet { overflow-x: hidden; }
     const reqs = fl.e.s === "req" || st.e.s === "req" || docs.some(x => x.docs.some(y => y.s === "req"));
     const why = [];
     const liked = [...new Set(sat.flatMap(x => x.hits))].map(t => LIKES.find(l => l[0] === t)[1].toLowerCase());
-    if (liked.length) why.push(`Os pega por: ${liked.join(", ")}. El grupo está contento al ${Math.round(avg * 100)} % y quien menos, al ${Math.round(min * 100)} %.`);
+    if (liked.length) why.push(`Os pega por: ${liked.length > 1 ? liked.slice(0, -1).join(", ") + " y " + liked[liked.length - 1] : liked[0]}.`);
     const lost = sat.filter(x => x.lostNight).map(x => x.m.name);
     if (lost.length) why.push(`La fiesta no cuenta para ${lost.join(", ")}: con su edad aquí no hay planes de noche permitidos.`);
     why.push(`Dormir: ${ITEMS[st.s].name} (${STATUS[st.e.s][2].toLowerCase()}). Ir: ${ITEMS[fl.a].name}${fl.mode === "bus" ? " en bus" : fl.mode === "train" ? " en tren" : fl.dir ? " directo" : " con escala"}.`);
     const warn = [];
-    if (d.country === "PT") warn.push("Portugal: llevad una carta de vuestros padres; la web oficial la pide aunque la ley no (Q-20).");
+    if (d.country === "PT") warn.push("Portugal: llevad una carta de vuestros padres; la web oficial la pide aunque la ley no.");
     if (d.country === "UK") warn.push("Reino Unido: pasaporte y ETA para todos.");
     if (docUnk) warn.push("Hay documentos sin verificar para alguna nacionalidad.");
     return { k, d, status: reqs ? "req" : "ok", score, sat, pref, avg, min, fit, cost, total, fl, st, flights, stays, docs, why, warn };
@@ -1175,9 +1177,9 @@ Reglas de extracción:
   function budgetBar(a) {
     const tot = Math.max(a.total, state.budget); const w = v => (v / tot * 100).toFixed(1) + "%";
     const left = state.budget - a.total;
-    return `<div class="budget"><div class="row between small"><span><b>Unos ${eur(a.total)} por persona</b> <span class="muted">· vuelo, dormir y gastos</span></span><span class="${left >= 0 ? "okt" : "badt"}">${left >= 0 ? "Entra ✓" : "+" + eur(-left)}</span></div>
+    return `<div class="budget"><div class="row between small"><span><b>Unos ${eur(a.total)} por persona</b> <span class="muted">· viaje, dormir y gastos</span></span><span class="${left >= 0 ? "okt" : "badt"}">${left >= 0 ? "Entra en la pasta ✓" : "Os pasáis " + eur(-left)}</span></div>
       <div class="bar" role="img" aria-label="Coste estimado ${eur(a.total)} frente a presupuesto ${eur(state.budget)}"><i style="width:${w(a.cost.vuelo)};background:var(--brand)"></i><i style="width:${w(a.cost.aloj)};background:var(--pop)"></i><i style="width:${w(a.cost.dia)};background:var(--ok)"></i><span class="cap" style="left:${w(state.budget)}"></span></div>
-      <div class="legend-b"><span><i style="background:var(--brand)"></i>Vuelo ${eur(a.cost.vuelo)}</span><span><i style="background:var(--pop)"></i>Dormir ${eur(a.cost.aloj)}</span><span><i style="background:var(--ok)"></i>Gastos ${eur(a.cost.dia)}</span><span>Tope ${eur(state.budget)}</span></div></div>`;
+      <div class="legend-b"><span><i style="background:var(--brand)"></i>Ida y vuelta ${eur(a.cost.vuelo)}</span><span><i style="background:var(--pop)"></i>Dormir ${eur(a.cost.aloj)}</span><span><i style="background:var(--ok)"></i>Gastos ${eur(a.cost.dia)}</span><span>Vuestra pasta ${eur(state.budget)}</span></div></div>`;
   }
   const phStyle = k => PHOTOS[k] ? `class="card-ph ph-${k}" style="background-position:${PHOTO[k].pos}"` : `class="card-ph"`;
   function memberChips(a) {
@@ -1195,11 +1197,11 @@ Reglas de extracción:
       <p class="sr" role="status">${viable.length} destinos viables, ${no} no permitidos y ${unk} pendientes de verificar.</p>
       ${state.compare.size >= 2 ? `<button type="button" class="btn pop block" data-open="compare">Comparar ${state.compare.size} destinos</button>` : `<p class="small muted">Marca «Comparar» en 2 o 3 destinos y los ves cara a cara.</p>`}
       ${sortBar(viable)}<div class="cards">${sortViable(viable).map((a, i) => `<article class="card${animate ? " rise" : ""}" style="--i:${i}">
-        <div ${phStyle(a.k)}>${PHOTO[a.k] ? `<a class="credit" href="${PHOTO[a.k].page}" target="_blank" rel="noopener">Foto: ${esc(PHOTO[a.k].by)} · ${esc(PHOTO[a.k].lic)}</a>` : ""}<span class="mono">${a.d.iata}</span>${a.d.isNew ? '<span class="newtag">Nuevo</span>' : ""}<span class="score" title="Cuánto os pega, de 0 a 100">${a.score}</span></div>
+        <div ${phStyle(a.k)}>${PHOTO[a.k] ? `<a class="credit" href="${PHOTO[a.k].page}" target="_blank" rel="noopener">Foto: ${esc(PHOTO[a.k].by)} · ${esc(PHOTO[a.k].lic)}</a>` : ""}${a.d.iata && a.d.iata !== "—" ? `<span class="mono">${a.d.iata}</span>` : ""}${a.d.isNew ? '<span class="newtag">Nuevo</span>' : ""}<span class="score" title="Cuánto os pega, de 0 a 100">${a.score}</span></div>
         <div class="card-body">
           <div class="card-title"><strong>${esc(a.d.city)}</strong>${pill(a.status)}</div>
           <div class="row" style="gap:4px">${memberChips(a)}</div>
-          <p class="small counts">✈ ${pl(counts(a.flights).vis, "vuelo", "vuelos")} · 🛏 ${pl(counts(a.stays).vis, "alojamiento", "alojamientos")} · 🎟 ${pl(counts(ocioEval(a.k)).vis, "plan", "planes")} <span class="muted">para vuestra edad</span></p>
+          <p class="small counts">✈ ${pl(counts(a.flights).vis, "forma de ir", "formas de ir")} · 🛏 ${pl(counts(a.stays).vis, "alojamiento", "alojamientos")} · 🎟 ${pl(counts(ocioEval(a.k)).vis, "plan", "planes")} <span class="muted">para vuestra edad</span></p>
           ${budgetBar(a)}
           <ul class="why">${a.why.slice(0, 1).map(w => `<li>${esc(w)}</li>`).join("")}</ul>
           ${a.warn.map(w => `<p class="warn">${esc(w)}</p>`).join("")}
@@ -1213,8 +1215,8 @@ Reglas de extracción:
     const head = `<div class="detail-head${PHOTOS[k] ? " ph-" + k : ""}" style="${PHOTOS[k] ? `background-position:${PHOTO[k].pos}` : ""}">${PHOTO[k] ? `<a class="credit" href="${PHOTO[k].page}" target="_blank" rel="noopener">Foto: ${esc(PHOTO[k].by)} · ${esc(PHOTO[k].lic)}</a>` : ""}<div class="cap"><h2>${esc(a.d.city)}</h2>${a.score != null ? `<span class="status s-ok" style="background:var(--surface);color:var(--ink)">Os pega ${a.score}/100</span>` : pill(a.status)}</div></div>`;
     let body = "";
     if (a.score == null) {
-      body = `<div class="box"><p class="${a.status === "no" ? "bad" : "warn"}">${esc(a.reason)}</p>${a.d.verified ? "" : `<p class="small muted">Regla del motor: lo que no está verificado queda como «pendiente», nunca como «permitido». Para activarlo hay que verificar normas de entrada de ${esc(a.d.cname)}, alojamientos y actividades.</p>`}</div>`
-        + (a.stays ? eligTable(a) : "") + legalList(a.d.country);
+      body = `<div class="box"><p class="${a.status === "no" ? "bad" : "warn"}">${esc(a.reason)}</p>${a.d.verified ? "" : `<p class="small muted">En GoLiveIt, lo que no hemos podido comprobar sale como «sin confirmar», nunca como permitido. Para confirmarlo nos falta saber qué piden en ${esc(a.d.cname)} a menores sin adultos y qué alojamientos os aceptan.</p>`}</div>`
+        + (a.stays ? eligTable(a) : "") + `<details class="hid"><summary>Papeleo general para ${esc(a.d.cname)} (por si os sirve)</summary>${legalList(a.d.country)}</details>`;
     } else if (state.tab === "todo") {
       body = allTab(a);
     } else if (state.tab === "elegibilidad") body = eligTable(a);
@@ -1404,12 +1406,12 @@ Reglas de extracción:
     const seen = new Set(), rows = [];
     a.flights.forEach(x => { if (seen.has(x.a)) return; seen.add(x.a); rows.push(evalItem(x.a)); });
     rows.sort((x, y) => RANK[x.s] - RANK[y.s] || ((AIR_POLICY[x.key] || {}).solo ?? 99) - ((AIR_POLICY[y.key] || {}).solo ?? 99));
-    return `<div class="box acomp"><div class="row between"><h3>Quién os deja viajar con vuestra edad</h3><span class="small muted">Normativa de cada una</span></div>
+    return `<div class="box acomp"><div class="row between"><h3>Quién os deja viajar con vuestra edad</h3><span class="small muted">Lo que dice cada compañía</span></div>
       <div class="alegend"><span><i class="sg ok"></i>Vuelas solo</span><span><i class="sg req"></i>Con condiciones</span><span><i class="sg no"></i>No sin un adulto</span><span><b class="adot sm">17</b>Vuestras edades</span></div>
       ${rows.map((e, i) => { const p = AIR_POLICY[e.key] || {}; const ok = visible(e.s); return `<div class="arow rise" style="--i:${i}">
         <div class="arow-h"><span class="f-logo" aria-hidden="true">${e.key.startsWith("flixbus") ? "🚌" : TRAIN_KEYS.includes(e.key) ? "🚆" : AIR_CODE[e.key]}</span><strong>${esc(e.it.name)}</strong>${pill(e.s)}</div>
         ${ageScale(e.key)}
-        <p class="small">${[p.solo != null ? "Solo desde los " + p.solo + " años." : "", p.condTxt, p.under, p.note].filter(Boolean).map(esc).join(" · ")}</p>
+        <p class="small">${[p.solo != null ? "Sin adulto desde los " + p.solo + " años." : "", p.condTxt, p.under, p.note].filter(Boolean).map(esc).join(" · ")}</p>
         <div class="row between"><span class="small">${SRC[e.it.src].url ? `<a href="${SRC[e.it.src].url}" target="_blank" rel="noopener">Normas de ${esc(e.it.name)}</a>` : ""} <span class="tipo">${esc(tagTxt(SRC[e.it.src].tag))} · ${esc(SRC[e.it.src].date)}</span></span>${ok ? (TRAIN_KEYS.includes(e.key) ? `<a class="cta-bk sm" href="${AIR_SITE[e.key]}" target="_blank" rel="noopener">Trenes reales ↗</a>` : e.key.startsWith("flixbus") ? `<a class="cta-bk sm" href="https://www.flixbus.es/" target="_blank" rel="noopener">Buses reales ↗</a>` : `<a class="cta-bk sm" href="${kayakUrl(a, e.key)}" target="_blank" rel="noopener">Vuelos reales ↗</a>`) : ""}</div></div>`; }).join("")}</div>`;
   }
   function realFlightsBox(a) {
@@ -1755,7 +1757,7 @@ Reglas de extracción:
   function legalList(country, f) {
     const items = legalItems(country, f);
     if (!(LEGAL.items || []).length) return `<div class="box"><p class="small muted">La guía legal todavía no está cargada en esta versión.</p></div>`;
-    return Object.entries(CUANDO).map(([c, l]) => { const its = items.filter(i => i.cuando === c); return its.length ? `<div class="day"><h3>${l}</h3>${its.map(i => `<div class="legal-item"><div class="row"><span class="pill e-${i.estado}">${ESTADO[i.estado] || i.estado}</span><span class="pill who">${i.quien === "ambos" ? "joven y familia" : i.quien}</span><strong>${esc(i.titulo)}</strong></div><p class="small">${esc(i.texto)}</p><p class="small"><a href="${esc(i.url)}" target="_blank" rel="noopener">${esc(i.fuente)}</a> <span class="stamp t-${esc((i.etiqueta || "").replace(/ /g, "-"))}">${esc(i.etiqueta || "")}</span></p></div>`).join("")}</div>` : ""; }).join("") || `<p class="small muted">Nada con estos filtros.</p>`;
+    return Object.entries(CUANDO).map(([c, l]) => { const its = items.filter(i => i.cuando === c); return its.length ? `<div class="day"><h3>${l}</h3>${its.map(i => `<div class="legal-item"><div class="row"><span class="pill e-${i.estado}">${ESTADO[i.estado] || i.estado}</span><span class="pill who">${i.quien === "ambos" ? "joven y familia" : i.quien}</span><strong>${esc(i.titulo)}</strong></div><p class="small">${esc(i.texto)}</p><p class="small"><a href="${esc(i.url)}" target="_blank" rel="noopener">${esc(i.fuente)}</a> <span class="stamp t-${esc((i.etiqueta || "").replace(/ /g, "-"))}">${esc(tagTxt(i.etiqueta || ""))}</span></p></div>`).join("")}</div>` : ""; }).join("") || `<p class="small muted">Nada con estos filtros.</p>`;
   }
   function openPapeles() {
     const f = state.legalFilter; const country = f.dest === "auto" ? (state.sel ? DEST[state.sel].country : null) : (f.dest === "todos" ? null : f.dest);
@@ -1771,14 +1773,19 @@ Reglas de extracción:
   }
   function openHow() {
     const tk = getToken();
-    $("#sheet-in").innerHTML = `<div class="sheet-head"><div><p class="eyebrow">Arquitectura de la demo</p><h2 id="sheet-title">¿Cómo va esto?</h2></div><button type="button" class="icon-btn" data-close aria-label="Cerrar">×</button></div>
+    $("#sheet-in").innerHTML = `<div class="sheet-head"><div><p class="eyebrow">Cómo funciona</p><h2 id="sheet-title">¿Cómo va esto?</h2></div><button type="button" class="icon-btn" data-close aria-label="Cerrar">×</button></div>
+      <div class="box"><h3>En tres pasos</h3><ol class="how3"><li><b>Contad quiénes vais</b>: edades, de dónde salís, cuánta pasta tenéis y qué os mola.</li><li><b>Os enseñamos solo lo que vale para vuestra edad</b>: transporte, sitios para dormir y planes, cada uno con su norma y de dónde la hemos sacado.</li><li><b>Vuestra familia lo revisa y lo paga</b>: con el modo padres ven el plan, los papeles y qué hacer si algo falla.</li></ol></div>
+      <div class="box"><h3>Qué significa cada etiqueta</h3>
+        <div class="legend-list"><div>${pill("ok")} <span class="small">Podéis, sin condiciones por vuestra edad.</span></div><div>${pill("req")} <span class="small">Podéis, pero con papeles o condiciones: lo pone justo debajo.</span></div><div>${pill("unk")} <span class="small">No lo hemos podido comprobar. Nunca lo damos por permitido.</span></div><div>${pill("no")} <span class="small">La norma no os deja con vuestra edad.</span></div></div></div>
+      <div class="box"><h3>Qué es real y qué es de ejemplo</h3><ul class="why"><li><b>Real:</b> las normas de edad (con su fuente y fecha) y lo que nos han contestado los albergues.</li><li><b>De ejemplo:</b> precios y horarios (salvo con el conector de vuelos encendido). La reserva es simulada: no se cobra nada ni se piden datos de pago.</li></ul></div>
+      <details class="hid"><summary>Para el equipo: cómo funciona por dentro</summary>
       <div class="pipeline"><div><b>1 Consulta</b>Texto libre o formulario</div><div><b>2 Intérprete</b>Reglas o IA (Claude) que solo extrae datos, con validador</div><div class="hard"><b>3 Filtro duro</b>Reglas de edad con fuente; lo desconocido queda pendiente</div><div><b>4 Candidatos</b>Destino × vuelo × alojamiento</div><div><b>5 Puntuación</b>Gustos 62 % + presupuesto 38 % (pasarse penaliza el triple)</div><div><b>6 Grupo</b>60 % media + 40 % la persona menos contenta</div><div><b>7 Explicación</b>Por qué sí, por qué no y qué falta</div></div>
       <table class="rt"><tr><th>Qué</th><th>Estado en esta demo</th></tr>
         <tr><td>Reglas de edad de aerolíneas, alojamientos y actividades</td><td>Reales, con fuente y fecha (mías y de la web Ruta16 del equipo)</td></tr>
-        <tr><td>Documentos por país y guía «Papeles»</td><td>Reales, con fuente y etiqueta (41 puntos). Portugal: carta recomendada (Q-20)</td></tr>
+        <tr><td>Documentos por país y guía «Papeles»</td><td>Reales, con fuente y etiqueta (41 puntos). Portugal: carta recomendada</td></tr>
         <tr><td>Precios, gasto diario y duraciones</td><td><strong>Estimaciones ilustrativas</strong>, no precios actuales</td></tr>
         <tr><td>Intérprete de la consulta</td><td>Reglas simples, o <strong>IA (Claude)</strong> en el enlace publicado: solo extrae datos a un formato cerrado y un validador comprueba tipos, rangos y listas. No decide lo permitido por edad</td></tr>
-        <tr><td>Ámsterdam, Praga y Dublín</td><td>Sin verificar: aparecen como pendientes, nunca como permitidos</td></tr>
+        <tr><td>Destinos sin normas comprobadas (por ejemplo, Praga)</td><td>Salen como «sin confirmar», nunca como permitidos</td></tr>
         <tr><td>Mapa sin conexión</td><td>Real: MapLibre + fronteras de Natural Earth, funciona en cualquier sitio</td></tr>
         <tr><td>Mapa con calles</td><td>Real: OpenFreeMap, sin clave; necesita abrir el HTML en el navegador</td></tr>
         <tr><td>Mapbox (teselas)</td><td>Implementado; necesita tu token público. Sin token no se ha podido probar</td></tr>
@@ -1788,7 +1795,7 @@ Reglas de extracción:
         <div id="bench-out">${benchTable()}</div></div>
       <div class="box"><h3>Conectar Mapbox (opcional)</h3><p class="small">Usa un token <strong>público</strong> (empieza por <code>pk.</code>) restringido a la web donde abras la demo. Se guarda solo en este navegador.</p>
         <div class="row"><input class="input" id="mb-token" type="password" autocomplete="off" placeholder="pk.…" style="max-width:340px" aria-label="Token público de Mapbox"><button type="button" class="btn sm" id="mb-save">Guardar</button>${tk ? `<button type="button" class="btn ghost sm" id="mb-clear">Borrar token</button>` : ""}</div>
-        <p class="small muted">${tk ? "Hay un token guardado en este navegador." : "No hay token guardado."} Dentro del visor de Claude Mapbox no carga (bloquea servidores externos); funciona abriendo el archivo HTML.</p></div>`;
+        <p class="small muted">${tk ? "Hay un token guardado en este navegador." : "No hay token guardado."} Dentro del visor de Claude Mapbox no carga (bloquea servidores externos); funciona abriendo el archivo HTML.</p></div></details>`;
     const dlg = $("#sheet"); if (!dlg.open) dlg.showModal();
   }
   function openCompare() {
@@ -1802,7 +1809,7 @@ Reglas de extracción:
   function renderModes() {
     $("#mapmode").innerHTML = MODES.map(([k, l]) => `<button type="button" data-mode="${k}" aria-pressed="${state.mapMode === k}">${l}</button>`).join("");
     $("#attrib").innerHTML = ATTRIB[state.mapMode];
-    $("#maplegend").innerHTML = `<strong class="small">Qué os sale</strong><div class="row" style="gap:4px">${pill("ok", "Os sale")}${pill("req", "Sí, pero ojo")}${pill("no", "No os dejan")}${pill("unk", "Sin confirmar")}</div><span class="small muted">El número es cuánto os pega (0-100). Líneas: vuelos posibles desde ${esc(originName())}.</span>`;
+    $("#maplegend").innerHTML = `<strong class="small">Qué os sale</strong><div class="row" style="gap:4px">${pill("ok")}${pill("req")}${pill("no")}${pill("unk")}</div><span class="small muted">El número es cuánto os pega (0-100). Líneas: vuelos posibles desde ${esc(originName())}.</span>`;
   }
 
   /* =========================================================
@@ -2179,7 +2186,7 @@ Reglas de extracción:
       const id = "inv_air_" + a.key; SRC[id] = S(a.fuente || "Web de la aerolínea", a.url || null, (a.etiqueta || "OFICIAL-INDIRECTO").split(" ")[0], date);
       const old = ITEMS[a.key].rule;
       ITEMS[a.key] = { ...ITEMS[a.key], src: id, rule: (m, g) => m.age >= a.soloDesde ? R("ok", "Desde " + a.soloDesde + " vuelas solo.") : old(m, g) };
-      AIR_POLICY[a.key] = { ...(AIR_POLICY[a.key] || {}), solo: a.soloDesde, note: String(a.texto || "").slice(0, 140) };
+      AIR_POLICY[a.key] = { ...(AIR_POLICY[a.key] || {}), solo: a.soloDesde };
     });
     Object.values(DEST).forEach(d => { if (d.team && !d.verified && known(d.country)) d.verified = true; });
   })();

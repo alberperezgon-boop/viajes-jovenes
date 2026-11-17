@@ -142,3 +142,5 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 - **Estética (D-27):** iconos SVG, estados unificados, tarjetas más ligeras, estados vacíos con dibujo y contraste comprobado; sin errores en el recorrido completo.
 
 - **Opiniones (D-28):** formulario con moderación automática probado (correo, teléfono y @usuario quitados), borrar y evidencia del equipo cuando no hay opiniones; sin errores en el recorrido completo.
+
+- **Revisión de claridad (D-29):** auditoría automática de 15 pantallas (palabras, botones, enlaces y jerga), 15 arreglos de lenguaje y ruido, y 10 opciones priorizadas; sin errores.

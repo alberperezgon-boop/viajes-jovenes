@@ -145,3 +145,12 @@ Cada decisión dice quién la tomó, con qué evidencia y qué la haría cambiar
 - **Moderación:** se quitan solos correos, teléfonos, @usuarios y enlaces, y se explican las normas (sin nombres, redes ni fotos). En la app real, todo se revisaría antes de publicarse.
 - **No se inventa ninguna opinión,** ni siquiera como ejemplo. Mientras no haya, se enseña la evidencia real: la respuesta del alojamiento al equipo (EQUIPO). En la demo, la opinión de cada uno se guarda solo en su navegador y se marca como pendiente de moderación.
 - **Pendiente para la app real:** servidor con moderación, verificación de que quien opina estuvo allí y política de datos de menores (RGPD; consentimiento a partir de 14 años en España).
+
+## D-29. Revisión de claridad y lenguaje (17/11/2026)
+
+- **Decisión:**
+  - **Textos fuera de la vista:** ningún código interno (Q-xx) y ninguna etiqueta en bruto; las etiquetas pasan a palabras claras («Fuente oficial», «Web de la empresa», «Lo preguntamos nosotros», «Otra fuente», «Sin confirmar»).
+  - **Destinos sin confirmar:** desaparecen «Regla del motor» y los porcentajes del motor, y el papeleo general queda plegado (de 868 a 92 palabras).
+  - **Lenguaje:** tarjetas con palabras que no confunden («Ida y vuelta», «Entra en la pasta», «formas de ir»); portada en plural; leyenda del mapa con las mismas etiquetas que el resto.
+  - **«¿Cómo va esto?»:** primero para los jóvenes; lo técnico, plegado para el equipo.
+- **Opciones siguientes** en [[Revisión 17-11 - claridad, ruido y lenguaje]]. La recomendación es acortar la lista, poner un solo sello de ejemplo, el botón «Reservar (simulación)», fuentes más discretas y explicar «Sí, pero ojo».
