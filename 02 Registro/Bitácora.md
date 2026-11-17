@@ -140,3 +140,5 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 - **Avisos de precio (D-26):** probados sin conector (aviso y simulación) y con Duffel en modo test (vigilar, comprobar, bajada y mensaje); sin errores en el recorrido completo.
 
 - **Estética (D-27):** iconos SVG, estados unificados, tarjetas más ligeras, estados vacíos con dibujo y contraste comprobado; sin errores en el recorrido completo.
+
+- **Opiniones (D-28):** formulario con moderación automática probado (correo, teléfono y @usuario quitados), borrar y evidencia del equipo cuando no hay opiniones; sin errores en el recorrido completo.

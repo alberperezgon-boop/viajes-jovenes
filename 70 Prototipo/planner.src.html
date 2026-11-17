@@ -418,6 +418,11 @@ dialog.sheet { overflow-x: hidden; }
 .letter .blank { display: inline-block; min-width: 140px; border-bottom: 1px solid var(--muted); }
 .mailbody { white-space: pre-wrap; font: inherit; font-size: 0.86rem; background: var(--surface-2); border-radius: 10px; padding: 10px 12px; margin: 6px 0 0; max-height: 300px; overflow: auto; }
 /* Estética 17/11/2026 */
+.rev { border-top: 1px solid var(--line); padding-top: 8px; margin-top: 4px; }
+.rev summary { cursor: pointer; font-weight: 700; font-size: 0.86rem; }
+.rev-form { display: grid; gap: 8px; margin-top: 8px; padding: 10px 12px; border-radius: 12px; background: var(--surface-2); }
+.rev-form label { display: grid; gap: 4px; }
+.rev-item { display: grid; gap: 4px; padding: 8px 0; border-bottom: 1px dashed var(--line); }
 .ic { width: 1.12em; height: 1.12em; vertical-align: -0.2em; flex: none; display: inline-block; }
 .mk .dot .ic { width: 58%; height: 58%; vertical-align: middle; }
 .perk-ic .ic, .mini-ic .ic, .mdot .ic, .done-ic .ic, .f-logo .ic { width: 60%; height: 60%; vertical-align: middle; }
@@ -1265,10 +1270,10 @@ Reglas de extracción:
   function groupWhy(e) { const per = e.per.filter(x => x.r.s === e.s); return [...new Set(per.map(x => x.r.why))].map(esc).join(" "); }
   function reqList(e) { const seen = new Map(); e.per.forEach(x => x.r.reqs.forEach(q => seen.set(q.t, q.who))); return seen.size ? `<ul class="why">${[...seen].map(([t, who]) => `<li>${esc(t)} <span class="pill who">${who}</span></li>`).join("")}</ul>` : ""; }
   function srcLine(key) { const x = SRC[key]; return `<p class="small">${x.url ? `<a href="${x.url}" target="_blank" rel="noopener">${esc(x.label)}</a>` : esc(x.label)} <span class="tipo" title="${esc(x.tag)}">${esc(tagTxt(x.tag))} · ${esc(x.date)}</span></p>`; }
-  function offer({ title, sub, price, e, link, pick }) {
+  function offer({ title, sub, price, e, link, pick, rev }) {
     return `<div class="offer${visible(e.s) ? "" : " dim"}"><div class="row between"><strong>${title}</strong>${e.it ? pill(e.s) : pill("ok", "Libre")}</div>
       ${sub || price ? `<div class="row between small"><span class="muted">${sub || ""}</span>${price ? `<span class="price">${price}</span>` : ""}</div>` : ""}
-      <p class="small">${groupWhy(e)}</p>${personChips(e)}${reqList(e)}${e.it ? `<span class="tipo">${TIPOS[e.it.tipo]}</span>${srcLine(e.it.src)}` : ""}${pick && visible(e.s) ? pick : ""}${link && visible(e.s) ? link : ""}</div>`;
+      <p class="small">${groupWhy(e)}</p>${personChips(e)}${reqList(e)}${e.it ? `<span class="tipo">${TIPOS[e.it.tipo]}</span>${srcLine(e.it.src)}` : ""}${pick && visible(e.s) ? pick : ""}${link && visible(e.s) ? link : ""}${rev || ""}</div>`;
   }
   function splitList(list, render, hiddenLabel) {
     const ok = list.filter(x => visible(x.e.s)), hid = list.filter(x => !visible(x.e.s));
@@ -1466,7 +1471,7 @@ Reglas de extracción:
   }
   function staysTab(a) {
     const nights = Math.max(1, state.days - 1), n = state.group.length, chosen = cartSel(a).st;
-    const list = a.stays.map(x => ({ e: x.e, title: `${(KIND[STAY_KIND[x.s]] || {}).icon || "🛏"} ${esc(ITEMS[x.s].name)}`, sub: `${nights} noches · ${pl(n, "persona", "personas")}`, price: `${eur(x.p)} la noche por persona · ${eur(x.p * nights)} las ${nights} noches`, link: bkLink(a, x.s),
+    const list = a.stays.map(x => ({ e: x.e, title: `${(KIND[STAY_KIND[x.s]] || {}).icon || "🛏"} ${esc(ITEMS[x.s].name)}`, sub: `${nights} noches · ${pl(n, "persona", "personas")}`, price: `${eur(x.p)} la noche por persona · ${eur(x.p * nights)} las ${nights} noches`, link: bkLink(a, x.s), rev: reviewsBlock(x.s),
       pick: `<div class="row" style="gap:6px"><button type="button" class="btn ${chosen === x ? "" : "pop"} sm" data-pick-st="${x.s}">${chosen === x ? "Elegido ✓" : "Elegir este"}</button>${state.group.some(m => m.age < 18) ? `<button type="button" class="btn sm" data-kit="${x.s}">📄 Papeles de los padres</button><button type="button" class="btn sm" data-ask="${x.s}">✉ Pedir que lo confirmen</button>` : ""}</div>` }));
     const c = counts(list);
     return `<div class="searchbar"><b>${esc(a.d.city)}</b><span>${dmy(state.date)} – ${dmy(addDays(state.date, nights))}</span><span>${pl(nights, "noche", "noches")} · ${pl(n, "persona", "personas")}</span></div>
@@ -1911,6 +1916,8 @@ Reglas de extracción:
     else if (d.date && t.classList.contains("cal-d")) { state.date = d.date; update(); }
     else if (d.flsort) { state.flSort = d.flsort; renderResults(); }
     else if (t.id === "live-go") liveSearch();
+    else if (d.revSend) sendReview(d.revSend);
+    else if (d.revDel) { saveRevs(loadRevs().filter(r => r.key !== d.revDel)); renderResults(); toast("Opinión borrada."); }
     else if (t.id === "watch-on") { const a = analyse(state.sel); if (a) checkWatch(a, true); }
     else if (t.id === "watch-check") { const a = analyse(state.sel); if (a) checkWatch(a, false); }
     else if (t.id === "watch-off") { const a = analyse(state.sel); if (a) { const id = watchId(a); saveWatches(loadWatches().filter(x => x.id !== id)); renderResults(); toast("Ya no vigiláis este precio."); } }
@@ -2478,6 +2485,45 @@ Reglas de extracción:
   function watchesList() {
     const l = loadWatches(); if (!l.length) return "";
     return `<div class="box"><h3>🔔 Precios que vigiláis</h3>${l.map(w => { const f = w.h[0], z = w.h[w.h.length - 1], d = Math.round(f.p) - Math.round(z.p); return `<div class="row between small"><span>${esc(w.city)} · ${dmy(w.date)}</span><span>${eur(Math.round(z.p))} por persona ${d > 0 ? `<b class="okt">↓ ${eur(d)}</b>` : d < 0 ? `<span class="badt">↑ ${eur(-d)}</span>` : "· sin cambios"}</span></div>`; }).join("")}<p class="small muted">Se guardan solo en este navegador.</p></div>`;
+  }
+  /* ===== Opiniones de otros jóvenes sobre la entrada (17/11/2026). Ninguna inventada: en la demo solo las tuyas, en tu navegador y pendientes de moderación ===== */
+  const REV_KEY = "goliveit-opiniones";
+  const loadRevs = () => { try { const j = JSON.parse(localStorage.getItem(REV_KEY) || "[]"); return Array.isArray(j) ? j : []; } catch (e) { return []; } };
+  const saveRevs = l => { try { localStorage.setItem(REV_KEY, JSON.stringify(l.slice(-100))); } catch (e) { /* sin almacenamiento */ } };
+  const REV_OK = { si: ["ok", "Nos dejaron entrar sin problema"], papeles: ["req", "Nos dejaron, con papeles o condiciones"], no: ["no", "No nos dejaron entrar"] };
+  const REV_ASK = { aut: "Autorización de los padres", dni: "Copia del DNI de los padres", priv: "Habitación privada", adulto: "Que viniera alguien de 18" };
+  function cleanRev(t) { // moderación automática: fuera correos, teléfonos, @usuarios y enlaces
+    let s0 = String(t || "").slice(0, 400), cut = false;
+    const rx = [/[\w.+-]+@[\w-]+\.[\w.]+/g, /(\+?\d[\d\s().-]{7,}\d)/g, /@[\w.]{2,}/g, /\bhttps?:\/\/\S+|\bwww\.\S+/gi];
+    rx.forEach(r => { if (r.test(s0)) { cut = true; s0 = s0.replace(r, "[quitado]"); } });
+    return { txt: s0.trim().slice(0, 200), cut };
+  }
+  function reviewsBlock(id) {
+    const openAttr = state.revOpen === id ? " open" : "";
+    const all = loadRevs().filter(r => r.id === id), it = ITEMS[id], src = SRC[it.src] || {};
+    const team = src.tag === "EQUIPO" ? `<p class="small">Lo que sí tenemos: <b>la respuesta del alojamiento cuando le preguntó el equipo</b> (${esc(src.date || "")}), arriba en la norma.</p>` : "";
+    const months = Array.from({ length: 12 }, (_, i) => { const d = new Date(); d.setDate(1); d.setMonth(d.getMonth() - i); return [d.toISOString().slice(0, 7), d.toLocaleDateString("es-ES", { month: "long", year: "numeric" })]; });
+    const list = all.map((r, i) => `<div class="rev-item"><div class="row between">${pill(REV_OK[r.ok][0], REV_OK[r.ok][1])}<span class="small muted">${r.edad} años · ${esc(r.mesTxt)}</span></div>
+        ${r.pidieron.length ? `<p class="small">Pidieron: ${r.pidieron.map(k => esc(REV_ASK[k])).join(" · ")}</p>` : ""}${r.txt ? `<p class="small">«${esc(r.txt)}»</p>` : ""}
+        <div class="row between"><span class="tipo">Tu opinión · solo en este navegador · pendiente de moderación</span><button type="button" class="linkbtn" data-rev-del="${esc(r.key)}">Borrar</button></div></div>`).join("");
+    return `<details class="rev"${openAttr}><summary>💬 Opiniones sobre la entrada${all.length ? ` (${all.length})` : ""}</summary>
+      ${list || `<p class="small muted">Todavía no hay opiniones de otros jóvenes sobre este sitio.</p>${team}`}
+      <div class="rev-form" data-rev-form="${esc(id)}"><p class="small"><b>¿Habéis dormido aquí con 16 o 17 años?</b> Contad cómo fue la entrada.</p>
+        <div class="grid2"><label class="small">¿Os dejaron entrar?<select class="input" data-rev-f="ok"><option value="si">Sí, sin problema</option><option value="papeles">Sí, con papeles o condiciones</option><option value="no">No nos dejaron</option></select></label>
+          <label class="small">Tu edad entonces<select class="input" data-rev-f="edad">${[14, 15, 16, 17, 18, 19].map(a => `<option${a === 17 ? " selected" : ""}>${a}</option>`).join("")}</select></label></div>
+        <label class="small">¿Cuándo?<select class="input" data-rev-f="mes">${months.map(([v, t]) => `<option value="${v}">${t}</option>`).join("")}</select></label>
+        <div class="small">Qué os pidieron: ${Object.entries(REV_ASK).map(([k, t]) => `<label class="row" style="gap:6px;display:inline-flex;margin-right:10px"><input type="checkbox" data-rev-ask="${k}"> ${t}</label>`).join("")}</div>
+        <label class="small">Comentario (opcional, 200 caracteres)<textarea class="input" data-rev-f="txt" maxlength="200" rows="2" placeholder="Ej.: nos pidieron la autorización en papel y una copia del DNI de un padre"></textarea></label>
+        <p class="small muted">Sin nombres, teléfonos, correos, redes ni fotos: se quitan solos y todo se revisa antes de publicarse. En esta demo tu opinión solo se guarda en tu navegador.</p>
+        <button type="button" class="btn sm" data-rev-send="${esc(id)}">Enviar opinión</button></div></details>`;
+  }
+  function sendReview(id) {
+    const f = document.querySelector(`[data-rev-form="${CSS.escape(id)}"]`); if (!f) return;
+    const v = k => (f.querySelector(`[data-rev-f="${k}"]`) || {}).value || "";
+    const mesSel = f.querySelector('[data-rev-f="mes"]'), c = cleanRev(v("txt"));
+    const r = { key: id + ":" + Date.now(), id, ok: REV_OK[v("ok")] ? v("ok") : "si", edad: Math.max(14, Math.min(19, +v("edad") || 17)), mes: v("mes"), mesTxt: mesSel ? mesSel.selectedOptions[0].textContent : "", pidieron: [...f.querySelectorAll("[data-rev-ask]:checked")].map(x => x.dataset.revAsk).filter(k => REV_ASK[k]), txt: c.txt, t: Date.now() };
+    const l = loadRevs(); l.push(r); saveRevs(l); state.revOpen = id; renderResults();
+    toast(c.cut ? "Guardada. Hemos quitado datos de contacto del comentario." : "Guardada en este navegador. En la app real se revisaría antes de publicarse.");
   }
   function nightBox(a) {
     const k = norm(String(a.d.city || "")), rid = NIGHT.rule[k], vids = NIGHT.venues[k] || [];

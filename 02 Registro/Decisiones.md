@@ -133,3 +133,15 @@ Cada decisión dice quién la tomó, con qué evidencia y qué la haría cambiar
   - **Tarjetas:** un solo motivo por tarjeta.
   - **Estados vacíos:** con dibujo.
 - **Contraste (WCAG):** naranja con texto oscuro 7,3:1; azul con blanco 8,6:1; texto secundario 5,8:1 (claro) y 7,7:1 (oscuro); estados en oscuro, de 7,9 a 9,8:1. Todo supera AA.
+
+## D-28. Opiniones de jóvenes sobre la entrada, sin inventar ninguna (17/11/2026)
+
+- **Decisión:** cada alojamiento de la pestaña Dormir tiene **«💬 Opiniones sobre la entrada»** con preguntas cerradas:
+  - ¿os dejaron entrar? (sí / con papeles / no);
+  - edad;
+  - mes;
+  - qué pidieron: autorización, copia del DNI de los padres, habitación privada o alguien de 18;
+  - un comentario de 200 caracteres.
+- **Moderación:** se quitan solos correos, teléfonos, @usuarios y enlaces, y se explican las normas (sin nombres, redes ni fotos). En la app real, todo se revisaría antes de publicarse.
+- **No se inventa ninguna opinión,** ni siquiera como ejemplo. Mientras no haya, se enseña la evidencia real: la respuesta del alojamiento al equipo (EQUIPO). En la demo, la opinión de cada uno se guarda solo en su navegador y se marca como pendiente de moderación.
+- **Pendiente para la app real:** servidor con moderación, verificación de que quien opina estuvo allí y política de datos de menores (RGPD; consentimiento a partir de 14 años en España).
