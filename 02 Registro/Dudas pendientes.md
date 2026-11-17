@@ -54,6 +54,7 @@ Prioridad: **A** = bloquea algo de esta semana · **B** = necesario para la prop
 | Q-29 | **Italia:** ¿hay edad mínima legal para entrar en discotecas con 16-17 (sin adulto)? Las fuentes se contradicen (16 con adulto o 18) | B | TULPS, ordenanzas de Roma, Florencia y Milán, o preguntar a locales | abierta |
 | Q-30 | **Comunitat Valenciana:** orden de horarios de 2026 (sesiones para menores y conciertos) | C | DOGV | abierta |
 | Q-31 | **Portugal:** volver a leer la FAQ de la ASAE sobre menores de 16 en bares y discotecas (su web falla con el certificado el 11/11) | C | asae.gov.pt | abierta |
+| Q-32 | **Ouigo:** ¿pueden viajar sin adulto los de 16-17? Sus condiciones no lo dicen | B | Atención al cliente de Ouigo | abierta |
 | Q-23 | Transavia se contradice: su ayuda dice que vuelan solos de 12 a 17 y sus condiciones de 2026, de 12 a 16 | C | Escribir a Transavia y guardar la respuesta | **cerrada 11/11**: las condiciones de octubre de 2026 dicen desde 12 en las dos versiones; además piden DNI y autorización de comisaría a menores españoles que salen solos ([[Investigación 11-11 - entrada, ocio y aerolíneas]]) |
 | Q-24 | Rutas reales desde Sevilla y Málaga a Oporto, Dublín y Praga (en el prototipo no hay vuelo desde SVQ) | C | Buscadores reales (Kayak, Google Flights) en fechas concretas | abierta |
 | Q-25 | ¿Aplica en Praga la norma general de a&o (desde 14 con permiso escrito)? | B | Escribir a a&o Prague Rhea | abierta |

@@ -130,3 +130,5 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 - **Hecho:** D-22 en el Planner, probado en Chrome sin ventana (todos los destinos y pantallas) sin errores. Propuestas priorizadas en [[Mejoras 17-11 - competencia y estética]]: tren, cancelación flexible, avisos de precio, cómo llegar al albergue, viaje compartido, opiniones de jóvenes, pack sin conexión y móvil.
 - **Corrección:** el Carné Joven en Andalucía es gratis en digital para residentes (6 €, en plástico).
 - **Pendiente:** ver el error real del artefacto en claude.ai (ya se muestra completo).
+
+- **Tren (D-23):** Renfe, Iryo, Ouigo y SNCF con su norma de edad; probado desde Sevilla, Madrid, Barcelona y Las Palmas, y en Chrome sin ventana sin errores. Ouigo queda pendiente.

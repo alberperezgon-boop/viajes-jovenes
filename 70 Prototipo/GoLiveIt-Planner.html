@@ -777,7 +777,7 @@ dialog.sheet { overflow-x: hidden; }
     const avg = sat.reduce((a, x) => a + x.v, 0) / n; const min = Math.min(...sat.map(x => x.v));
     const pref = 0.6 * avg + 0.4 * min;
     if (!d.verified) return { k, d, status: "unk", score: null, sat, pref, reason: d.isNew ? "Falta confirmar qué piden en la frontera a menores de la UE que llegan sin adultos, y el albergue con permiso de 16-17 es norma general de la cadena. Mientras, sale como pendiente." : "No tenemos verificadas las normas de entrada, alojamientos ni actividades para menores. Pendiente, no permitido." };
-    const flights = (d.byOrigin ? d.byOrigin[state.origin] || [] : d.country === "ES" && offPeninsula() ? islandFlights(d) : d.flights).map(([a, p, dir, self]) => ({ a, p: p * (d.byOrigin ? 1 : ORIGINS[state.origin].k), dir, self: self === "self", mode: "air", e: evalFlight(a, dir, group, self === "self") })).concat(busesFor(k).map(([a, p, min]) => ({ a, p, dir: true, mode: "bus", min, e: evalItem(a, group) }))).sort((x, y) => RANK[x.e.s] - RANK[y.e.s] || x.p - y.p);
+    const flights = (d.byOrigin ? d.byOrigin[state.origin] || [] : d.country === "ES" && offPeninsula() ? islandFlights(d) : d.flights).map(([a, p, dir, self]) => ({ a, p: p * (d.byOrigin ? 1 : ORIGINS[state.origin].k), dir, self: self === "self", mode: "air", e: evalFlight(a, dir, group, self === "self") })).concat(busesFor(k).map(([a, p, min]) => ({ a, p, dir: true, mode: "bus", min, e: evalItem(a, group) }))).concat(trainsFor(k).map(([a, p, min]) => ({ a, p, dir: true, mode: "train", min, e: evalItem(a, group) }))).sort((x, y) => RANK[x.e.s] - RANK[y.e.s] || x.p - y.p);
     const stays = d.stays.map(([s, p]) => ({ s, p, e: evalItem(s, group) })).sort((x, y) => RANK[x.e.s] - RANK[y.e.s] || x.p - y.p);
     const docs = group.map(m => ({ m, docs: countryDocs(m, d.country) }));
     const fOk = flights.filter(x => visible(x.e.s)), sOk = stays.filter(x => visible(x.e.s));
@@ -797,7 +797,7 @@ dialog.sheet { overflow-x: hidden; }
     if (liked.length) why.push(`Os pega por: ${liked.join(", ")}. El grupo está contento al ${Math.round(avg * 100)} % y quien menos, al ${Math.round(min * 100)} %.`);
     const lost = sat.filter(x => x.lostNight).map(x => x.m.name);
     if (lost.length) why.push(`La fiesta no cuenta para ${lost.join(", ")}: con su edad aquí no hay planes de noche permitidos.`);
-    why.push(`Dormir: ${ITEMS[st.s].name} (${STATUS[st.e.s][2].toLowerCase()}). Ir: ${ITEMS[fl.a].name}${fl.mode === "bus" ? " en bus" : fl.dir ? " directo" : " con escala"}.`);
+    why.push(`Dormir: ${ITEMS[st.s].name} (${STATUS[st.e.s][2].toLowerCase()}). Ir: ${ITEMS[fl.a].name}${fl.mode === "bus" ? " en bus" : fl.mode === "train" ? " en tren" : fl.dir ? " directo" : " con escala"}.`);
     const warn = [];
     if (d.country === "PT") warn.push("Portugal: llevad una carta de vuestros padres; la web oficial la pide aunque la ley no (Q-20).");
     if (d.country === "UK") warn.push("Reino Unido: pasaporte y ETA para todos.");
@@ -1128,7 +1128,7 @@ Reglas de extracción:
   const LOWCOST = ["ryanair", "easyjet", "wizz", "vueling"];
   const EXTRA = { bag: 25, seats: 8 }; // por persona y trayecto · ejemplo
   function extrasFor(fl) {
-    const air = fl.mode !== "bus", bag = air && state.extras.bag && LOWCOST.includes(fl.a) ? EXTRA.bag * 2 : 0, seats = air && state.extras.seats && state.group.length > 1 ? EXTRA.seats * 2 : 0;
+    const air = fl.mode === "air", bag = air && state.extras.bag && LOWCOST.includes(fl.a) ? EXTRA.bag * 2 : 0, seats = air && state.extras.seats && state.group.length > 1 ? EXTRA.seats * 2 : 0;
     return { bag, seats, total: bag + seats, air, low: LOWCOST.includes(fl.a) };
   }
   function moneyBar(m) {
@@ -1142,7 +1142,7 @@ Reglas de extracción:
       <div class="money-top"><span class="eyebrow">Presupuesto orientativo por persona</span><b class="money-tot">${eur(m.total)}</b>
         <span class="money-msg ${ok ? "ok" : "bad"}">${ok ? `Entra en vuestros ${eur(state.budget)} · os sobran ${eur(m.left)}` : `Os pasáis ${eur(-m.left)} de vuestros ${eur(state.budget)}`}</span></div>
       ${moneyBar(m)}
-      ${row(m.fl.mode === "bus" ? "🚌" : "✈", "var(--brand)", m.fl.mode === "bus" ? "Bus de ida y vuelta" : "Vuelo de ida y vuelta", `${esc(ITEMS[m.fl.a].name)} · ${m.flPicked ? "el que habéis elegido" : "el más barato que os deja ir"}`, eur(m.v), "vuelos")}
+      ${row(m.fl.mode === "bus" ? "🚌" : m.fl.mode === "train" ? "🚆" : "✈", "var(--brand)", m.fl.mode === "train" ? "Tren de ida y vuelta" : m.fl.mode === "bus" ? "Bus de ida y vuelta" : "Vuelo de ida y vuelta", `${esc(ITEMS[m.fl.a].name)} · ${m.flPicked ? "el que habéis elegido" : "el más barato que os deja ir"}`, eur(m.v), "vuelos")}
       ${row("🛏", "var(--pop)", `Dormir ${pl(m.nights, "noche", "noches")}`, `${esc(ITEMS[m.st.s].name)} · ${eur(m.st.p)} la noche · ${m.stPicked ? "el que habéis elegido" : "el más barato que os acepta"}`, eur(m.d), "dormir")}
       ${row("🍕", "var(--ok)", `Gastos de ${pl(state.days, "día", "días")}`, `Comer, moverse y planes · unos ${eur(a.d.daily)} al día`, eur(m.g))}
       ${m.x.air ? `<div class="extras"><strong class="small">Lo que suele subir al pagar</strong>
@@ -1189,7 +1189,7 @@ Reglas de extracción:
     </div>`;
   }
   function renderDetail() {
-    const a = analyse(state.sel); const k = state.sel; const tabs = [["todo", "Todo"], ["vuelos", "Vuelos"], ["dormir", "Dormir"], ["ocio", "Planes"], ["papeles", "Papeleo"], ["presupuesto", "Presupuesto"]];
+    const a = analyse(state.sel); const k = state.sel; const tabs = [["todo", "Todo"], ["vuelos", "Transporte"], ["dormir", "Dormir"], ["ocio", "Planes"], ["papeles", "Papeleo"], ["presupuesto", "Presupuesto"]];
     const head = `<div class="detail-head${PHOTOS[k] ? " ph-" + k : ""}" style="${PHOTOS[k] ? `background-position:${PHOTO[k].pos}` : ""}">${PHOTO[k] ? `<a class="credit" href="${PHOTO[k].page}" target="_blank" rel="noopener">Foto: ${esc(PHOTO[k].by)} · ${esc(PHOTO[k].lic)}</a>` : ""}<div class="cap"><h2>${esc(a.d.city)}</h2>${a.score != null ? `<span class="status s-ok" style="background:var(--surface);color:var(--ink)">Os pega ${a.score}/100</span>` : pill(a.status)}</div></div>`;
     let body = "";
     if (a.score == null) {
@@ -1283,7 +1283,7 @@ Reglas de extracción:
   const durTxt = m => `${Math.floor(m / 60)} h ${String(m % 60).padStart(2, "0")}`;
   const flKey = x => x.a + ":" + (x.dir ? 1 : 0);
   function schedule(a, x) {
-    const dur = x.mode === "bus" ? x.min : Math.round(35 + km(ORIGINS[state.origin].c, a.d.c) / 13 + (x.dir ? 0 : 95 + hsh(x.a + a.k) % 60));
+    const dur = x.mode !== "air" ? x.min : Math.round(35 + km(ORIGINS[state.origin].c, a.d.c) / 13 + (x.dir ? 0 : 95 + hsh(x.a + a.k) % 60));
     return { dur, out: [6 + hsh(x.a + a.k + state.origin) % 13, (hsh(x.a) % 4) * 15], back: [9 + hsh(a.k + x.a) % 11, (hsh(a.k + state.origin) % 4) * 15] };
   }
   function cartSel(a) { // lo elegido, solo si sigue siendo válido para la edad del grupo
@@ -1386,13 +1386,13 @@ Reglas de extracción:
     return `<div class="box acomp"><div class="row between"><h3>Quién os deja viajar con vuestra edad</h3><span class="small muted">Normativa de cada una</span></div>
       <div class="alegend"><span><i class="sg ok"></i>Vuelas solo</span><span><i class="sg req"></i>Con condiciones</span><span><i class="sg no"></i>No sin un adulto</span><span><b class="adot sm">17</b>Vuestras edades</span></div>
       ${rows.map((e, i) => { const p = AIR_POLICY[e.key] || {}; const ok = visible(e.s); return `<div class="arow rise" style="--i:${i}">
-        <div class="arow-h"><span class="f-logo" aria-hidden="true">${e.key.startsWith("flixbus") ? "🚌" : AIR_CODE[e.key]}</span><strong>${esc(e.it.name)}</strong>${pill(e.s)}</div>
+        <div class="arow-h"><span class="f-logo" aria-hidden="true">${e.key.startsWith("flixbus") ? "🚌" : TRAIN_KEYS.includes(e.key) ? "🚆" : AIR_CODE[e.key]}</span><strong>${esc(e.it.name)}</strong>${pill(e.s)}</div>
         ${ageScale(e.key)}
         <p class="small">${[p.solo != null ? "Solo desde los " + p.solo + " años." : "", p.condTxt, p.under, p.note].filter(Boolean).map(esc).join(" · ")}</p>
-        <div class="row between"><span class="small">${SRC[e.it.src].url ? `<a href="${SRC[e.it.src].url}" target="_blank" rel="noopener">Normas de ${esc(e.it.name)}</a>` : ""} <span class="tipo">${esc(tagTxt(SRC[e.it.src].tag))} · ${esc(SRC[e.it.src].date)}</span></span>${ok ? (e.key.startsWith("flixbus") ? `<a class="cta-bk sm" href="https://www.flixbus.es/" target="_blank" rel="noopener">Buses reales ↗</a>` : `<a class="cta-bk sm" href="${kayakUrl(a, e.key)}" target="_blank" rel="noopener">Vuelos reales ↗</a>`) : ""}</div></div>`; }).join("")}</div>`;
+        <div class="row between"><span class="small">${SRC[e.it.src].url ? `<a href="${SRC[e.it.src].url}" target="_blank" rel="noopener">Normas de ${esc(e.it.name)}</a>` : ""} <span class="tipo">${esc(tagTxt(SRC[e.it.src].tag))} · ${esc(SRC[e.it.src].date)}</span></span>${ok ? (TRAIN_KEYS.includes(e.key) ? `<a class="cta-bk sm" href="${AIR_SITE[e.key]}" target="_blank" rel="noopener">Trenes reales ↗</a>` : e.key.startsWith("flixbus") ? `<a class="cta-bk sm" href="https://www.flixbus.es/" target="_blank" rel="noopener">Buses reales ↗</a>` : `<a class="cta-bk sm" href="${kayakUrl(a, e.key)}" target="_blank" rel="noopener">Vuelos reales ↗</a>`) : ""}</div></div>`; }).join("")}</div>`;
   }
   function realFlightsBox(a) {
-    const airs = [...new Set(a.flights.filter(x => visible(x.e.s) && x.mode !== "bus").map(x => x.a))];
+    const airs = [...new Set(a.flights.filter(x => visible(x.e.s) && x.mode === "air").map(x => x.a))];
     if (!airs.length) return "";
     return `<div class="bk-box"><div class="bk-head"><span class="bk-badge">Vuelos reales</span><strong>Buscar en Kayak, solo aerolíneas que os dejan</strong></div>
       <p class="small">${realAir()} → ${destAir(a.d)} · ${dmy(state.date)} – ${dmy(addDays(state.date, Math.max(1, state.days - 1)))} · ${pl(state.group.length, "viajero", "viajeros")} · de más barato a más caro</p>
@@ -1422,13 +1422,13 @@ Reglas de extracción:
   }
   function flightCard(a, x, i = 0) {
     const sc = schedule(a, x), n = state.group.length, chosen = cartSel(a).fl === x, ok = visible(x.e.s);
-    const leg = (from, to, t) => `<div class="f-row"><div class="leg"><b>${hm(t)}</b><span>${from}</span></div><div class="line"><span>${durTxt(sc.dur)}</span><i></i><span class="${x.dir ? "dir" : "esc"}">${x.mode === "bus" ? "Bus directo" : x.dir ? "Directo" : x.self ? "Escala por tu cuenta" : "1 escala"}</span></div><div class="leg r"><b>${hm(plus(t, sc.dur))}</b><span>${to}</span></div></div>`;
+    const leg = (from, to, t) => `<div class="f-row"><div class="leg"><b>${hm(t)}</b><span>${from}</span></div><div class="line"><span>${durTxt(sc.dur)}</span><i></i><span class="${x.dir ? "dir" : "esc"}">${x.mode === "train" ? "Tren" : x.mode === "bus" ? "Bus directo" : x.dir ? "Directo" : x.self ? "Escala por tu cuenta" : "1 escala"}</span></div><div class="leg r"><b>${hm(plus(t, sc.dur))}</b><span>${to}</span></div></div>`;
     return `<article class="fcard rise${ok ? "" : " dim"}${chosen ? " chosen" : ""}" style="--i:${i}">
-      <div class="f-air"><span class="f-logo" aria-hidden="true">${x.mode === "bus" ? "🚌" : AIR_CODE[x.a] || "✈"}</span><strong>${esc(ITEMS[x.a].name)}</strong></div>
+      <div class="f-air"><span class="f-logo" aria-hidden="true">${x.mode === "train" ? "🚆" : x.mode === "bus" ? "🚌" : AIR_CODE[x.a] || "✈"}</span><strong>${esc(ITEMS[x.a].name)}</strong></div>
       <div class="f-legs">${leg(state.origin, a.d.iata, sc.out)}${leg(a.d.iata, state.origin, sc.back)}</div>
       <div class="f-price"><span class="price big">${eur(x.p)}</span><span class="small muted">por persona, ida y vuelta</span><span class="small muted">${eur(x.p * n)} los ${n}</span>
         ${ok ? `<button type="button" class="btn ${chosen ? "" : "pop"} sm" data-pick-fl="${flKey(x)}">${chosen ? "Elegido ✓" : "Elegir"}</button>` : pill(x.e.s)}</div>
-      <div class="f-foot">${personChips(x.e)}<details class="f-why"><summary>${ok ? (x.mode === "bus" ? "Por qué podéis ir" : "Por qué podéis volar") : "Por qué no"}</summary><p class="small">${groupWhy(x.e)}</p>${reqList(x.e)}<span class="tipo">${TIPOS[x.e.it.tipo]}</span>${srcLine(x.e.it.src)}</details></div>
+      <div class="f-foot">${personChips(x.e)}<details class="f-why"><summary>${ok ? (x.mode !== "air" ? "Por qué podéis ir" : "Por qué podéis volar") : "Por qué no"}</summary><p class="small">${groupWhy(x.e)}</p>${reqList(x.e)}<span class="tipo">${TIPOS[x.e.it.tipo]}</span>${srcLine(x.e.it.src)}</details></div>
     </article>`;
   }
   function flightsTab(a) {
@@ -1445,10 +1445,11 @@ Reglas de extracción:
       <div class="row"><label class="small row" style="gap:6px"><input type="checkbox" id="fl-direct"${state.flDirect ? " checked" : ""}> Solo directos</label>${state.group.some(m => m.age < 18) ? `<span class="lock" title="Con billetes separados, si perdéis la conexión nadie os recoloca y las maletas y controles corren de vuestra cuenta.">🔒 Sin transbordos por vuestra cuenta (siempre, con menores)</span>` : ""}</div>
       ${a.d.country === "ES" && offPeninsula() ? `<p class="warn">Desde ${offPeninsula()} a la península: vuelos de ejemplo (o barco, que no está en la demo). Comprobad las rutas reales en Kayak.</p>` : ""}
       ${a.d.team && a.d.country !== "ES" ? `<p class="warn">Rutas de ejemplo: no sabemos si hay vuelo directo desde ${esc(originName())}. Comprobadlo en Kayak.</p>` : ""}
-      <p class="small"><strong>${ok.length} de ${list.length}</strong> aerolíneas os dejan volar con vuestra edad. <span class="muted">Horarios y precios de ejemplo; la reserva es simulada.</span></p>
+      ${list.some(x => x.mode === "train") ? `<p class="small muted">🚆 Trenes desde ${esc(trainFrom() || "")}: rutas, horarios y precios de ejemplo; la norma de edad de cada operador sí está comprobada.</p>` : ""}
+      <p class="small"><strong>${ok.length} de ${list.length}</strong> opciones de transporte os dejan ir con vuestra edad. <span class="muted">Horarios y precios de ejemplo; la reserva es simulada.</span></p>
       ${ok.length ? ok.map((x, i) => flightCard(a, x, i)).join("") : `<div class="box"><p class="bad">Ninguna aerolínea de la lista os deja volar así.</p><p class="small muted">Quitad «Solo directos» o probad a meter a alguien de 18.</p></div>`}
       ${hid.length ? `<details class="hid"><summary>${hid.length} aerolíneas que no os dejan o sin confirmar</summary><div style="display:grid;gap:8px;margin-top:8px">${hid.map(x => flightCard(a, x)).join("")}</div></details>` : ""}
-      ${realFlightsBox(a)}${a.flights.some(x => x.mode !== "bus") ? liveBox(a) : ""}${otherWays()}
+      ${realFlightsBox(a)}${a.flights.some(x => x.mode === "air") ? liveBox(a) : ""}${otherWays()}
       <p class="small muted">También: <a href="https://www.google.com/travel/flights?hl=es&q=${encodeURIComponent(`Vuelos de ${o} a ${a.d.iata}`)}" target="_blank" rel="noopener">Google Flights ↗</a> · <a href="https://www.skyscanner.es/transporte/vuelos/${o.toLowerCase()}/${SKY[a.k]}/?adultsv2=${n}&rtn=1" target="_blank" rel="noopener">Skyscanner ↗</a></p>
       ${legalTips(["dif-aerolinea-mostrador", "eme-rechazo-embarque"], a.d.country)}`;
   }
@@ -1576,7 +1577,7 @@ Reglas de extracción:
     const fam = checklist(a).filter(i => i.who === "familia").map(i => "• " + i.t);
     return [`👪 Viaje a ${a.d.city} para que lo reviséis (GoLiveIt · demo)`,
       `📅 ${dmy(state.date)} – ${dmy(back)} · ${pl(state.group.length, "persona", "personas")} de ${[...new Set(state.group.map(x => x.age))].join(" y ")} años`,
-      `${m.fl.mode === "bus" ? "🚌" : "🛫"} ${ITEMS[m.fl.a].name} · 🛏 ${ITEMS[m.st.s].name}`,
+      `${m.fl.mode === "train" ? "🚆" : m.fl.mode === "bus" ? "🚌" : "🛫"} ${ITEMS[m.fl.a].name} · 🛏 ${ITEMS[m.st.s].name}`,
       `💶 Unos ${eur(m.total)} por persona (orientativo)`,
       fam.length ? "📄 Lo que tenéis que hacer vosotros:\n" + fam.join("\n") : "",
       link ? "Vedlo aquí, con las normas y sus fuentes (solo lectura): " + link : "Os lo enseño en GoLiveIt: normas de cada sitio con su fuente."].filter(Boolean).join("\n");
@@ -1604,12 +1605,12 @@ Reglas de extracción:
       ${state.famOk ? `<div class="done ok"><span class="done-ic">✅</span><div><h3>Viaje aprobado por la familia (simulado)</h3><p class="small">Lo siguiente es pagar con la cuenta de un adulto.</p></div></div>` : ""}
       <div id="fam-print" style="display:grid;gap:12px">
       <div class="fam-sum"><div><span class="eyebrow">Quién va</span><b>${pl(n, "persona", "personas")}</b><span class="small">${minors.length ? minors.length + " de " + [...new Set(minors.map(x => x.age))].join(" y ") + " años" : ""}${adults.length ? (minors.length ? " y " : "") + adults.length + " de 18 o más" : ""}</span></div>
-        <div><span class="eyebrow">Desde</span><b>${esc(originName())}</b><span class="small">${m.fl.mode === "bus" ? "en bus" : "en avión"}</span></div>
+        <div><span class="eyebrow">Desde</span><b>${esc(originName())}</b><span class="small">${m.fl.mode === "train" ? "en tren" : m.fl.mode === "bus" ? "en bus" : "en avión"}</span></div>
         <div><span class="eyebrow">Por persona</span><b>${eur(m.total)}</b><span class="small">${eur(m.total * n)} entre todos · orientativo</span></div></div>
       ${famGlance([fl.e.s, st.e.s, ...docs.map(d => d.s)])}
       ${famLiveBox(a)}
       <div class="box"><h3>Lo que hemos comprobado para su edad</h3>
-        ${famRow(fl.e, `${fl.mode === "bus" ? "🚌" : "✈"} ${esc(ITEMS[fl.a].name)} · ${fl.dir ? "directo" : "con escala"}`, fl.mode !== "bus" && minors.length ? '<p class="small muted">GoLiveIt nunca propone transbordos por cuenta propia con menores.</p>' : "")}
+        ${famRow(fl.e, `${fl.mode === "train" ? "🚆" : fl.mode === "bus" ? "🚌" : "✈"} ${esc(ITEMS[fl.a].name)} · ${fl.dir ? "directo" : "con escala"}`, fl.mode === "air" && minors.length ? '<p class="small muted">GoLiveIt nunca propone transbordos por cuenta propia con menores.</p>' : "")}
         ${famRow(st.e, `🛏 ${esc(ITEMS[st.s].name)}`, (asked ? `<p class="small"><b>El equipo de GoLiveIt lo consultó por correo</b> (mirad la fuente debajo). Aun así, que os lo confirmen por escrito para vuestras fechas.</p>` : "") + (ITEMS[st.s].link ? `<p class="small"><a href="${esc(ITEMS[st.s].link)}" target="_blank" rel="noopener">Web del alojamiento ↗</a>${ITEMS[st.s].email ? " · " + esc(ITEMS[st.s].email) : ""}</p>` : ""))}
         ${docs.map(d => `<div class="fam-row">${pill(d.s, FAM_LBL[d.s])}<div><strong>📄 ${esc(d.t)}</strong><p class="small">${esc(d.d)}</p>${SRC[d.src] ? srcLine(d.src) : ""}</div></div>`).join("")}</div>
       <div class="box"><h3>Lo que tenéis que hacer vosotros</h3>
@@ -1650,8 +1651,8 @@ Reglas de extracción:
   function cartBar(a) {
     const { fl, st } = cartSel(a), n = state.group.length, nights = Math.max(1, state.days - 1);
     const total = (fl ? fl.p * n : 0) + (st ? st.p * nights * n : 0);
-    return `<div class="cart"><div class="cart-items"><button type="button" class="ci${fl ? " on" : ""}" data-tab="vuelos">✈ ${fl ? esc(ITEMS[fl.a].name) : "Elige vuelo"}</button><button type="button" class="ci${st ? " on" : ""}" data-tab="dormir">🛏 ${st ? esc(ITEMS[st.s].name) : "Elige dónde dormir"}</button></div>
-      <div class="cart-tot">${fl || st ? `<span class="small">${fl && st ? "Vuelo + dormir" : fl ? "Vuelo" : "Dormir"}</span><strong>${eur(total / n)}<small> /persona</small></strong><span class="small muted">${eur(total)} los ${n}</span>` : `<span class="small muted">Elige vuelo y alojamiento<br>para reservar</span>`}</div><button type="button" class="btn pop" id="checkout"${fl && st ? "" : " disabled"}>Reservar</button></div>`;
+    return `<div class="cart"><div class="cart-items"><button type="button" class="ci${fl ? " on" : ""}" data-tab="vuelos">✈ ${fl ? esc(ITEMS[fl.a].name) : "Elige transporte"}</button><button type="button" class="ci${st ? " on" : ""}" data-tab="dormir">🛏 ${st ? esc(ITEMS[st.s].name) : "Elige dónde dormir"}</button></div>
+      <div class="cart-tot">${fl || st ? `<span class="small">${fl && st ? "Vuelo + dormir" : fl ? "Vuelo" : "Dormir"}</span><strong>${eur(total / n)}<small> /persona</small></strong><span class="small muted">${eur(total)} los ${n}</span>` : `<span class="small muted">Elige transporte y alojamiento<br>para reservar</span>`}</div><button type="button" class="btn pop" id="checkout"${fl && st ? "" : " disabled"}>Reservar</button></div>`;
   }
   /* Pantalla de reserva (simulada): condiciones por edad → la familia aprueba y paga */
   function coConditions(a, fl, st) {
@@ -2277,6 +2278,49 @@ Reglas de extracción:
     if (!state.group.some(m => m.age < 18)) return "";
     return `<details class="hid"><summary>Otras formas de ir</summary><div class="fam-row" style="margin-top:6px">${pill("no", "No para menores")}<div><strong>Coche compartido (BlaBlaCar)</strong><p class="small">En una reclamación pública, BlaBlaCar bloqueó la reserva y la cuenta de un chico de 16 años. No lo proponemos con menores.</p><p class="small"><a href="https://www.ocu.org/reclamar/lista-reclamaciones-publicas/problema-con-el-reembolso/79cecca1f247705fc5" target="_blank" rel="noopener">Reclamación en la OCU</a> <span class="tipo">${esc(tagTxt("SECUNDARIA"))} · 17/11/2026</span></p></div></div></details>`;
   }
+  /* ===== Tren (17/11/2026): Renfe, Iryo, Ouigo y SNCF con su norma de edad; rutas, horarios y precios de ejemplo ===== */
+  const TRAIN_KEYS = ["renfe", "iryo", "ouigo", "sncf_tgv"];
+  const STATIONS = [["MAD", "Madrid", -3.69, 40.406], ["BCN", "Barcelona", 2.14, 41.379], ["VLC", "Valencia", -0.378, 39.46], ["SVQ", "Sevilla", -5.975, 37.392], ["COR", "Córdoba", -4.79, 37.888], ["AGP", "Málaga", -4.432, 36.712], ["GRX", "Granada", -3.609, 37.184], ["ALC", "Alicante", -0.495, 38.344], ["ZAZ", "Zaragoza", -0.911, 41.659], ["VLL", "Valladolid", -4.73, 41.645], ["HUV", "Huelva", -6.944, 37.258], ["XRY", "Jerez de la Frontera", -6.13, 36.69]];
+  const FAST = ["MAD", "BCN", "ZAZ", "VLC", "ALC", "COR", "SVQ", "AGP"]; // corredores de Iryo y Ouigo (con Madrid)
+  const stC = id => { const s = STATIONS.find(x => x[0] === id); return [s[2], s[3]]; };
+  function nearSt(c, max) { const s = STATIONS.map(([id, n, lon, lat]) => ({ id, n, km: km(c, [lon, lat]) })).sort((a, b) => a.km - b.km)[0]; return s && s.km <= max ? s : null; }
+  function trainsFor(k) {
+    const d = DEST[k]; if (offPeninsula()) return [];
+    const o = nearSt(originCoords(), 70); if (!o) return [];
+    if (d.country === "ES") {
+      const t = nearSt(d.c, 30); if (!t || t.id === o.id) return [];
+      const kmS = km(stC(o.id), stC(t.id)), min = Math.round(kmS / 165 * 60 + 30);
+      const out = [["renfe", 2 * Math.round(12 + kmS * 0.07), min]];
+      if (FAST.includes(o.id) && FAST.includes(t.id) && (o.id === "MAD" || t.id === "MAD")) out.push(["iryo", 2 * Math.round(9 + kmS * 0.05), min + 5], ["ouigo", 2 * Math.round(7 + kmS * 0.045), min + 10]);
+      return out;
+    }
+    if (o.id === "BCN" && k === "paris") return [["sncf_tgv", 2 * 59, 400]];
+    if (o.id === "BCN" && k === "marsella") return [["renfe", 2 * 39, 285]];
+    return [];
+  }
+  const trainFrom = () => { const o = nearSt(originCoords(), 70); return o ? o.n + (o.km >= 15 ? ` (a ${Math.round(o.km)} km)` : "") : null; };
+  (function addTrains() {
+    const date = "17/11/2026";
+    SRC.renfe_menores = S("Renfe: menores que viajan solos", "https://www.renfe.com/es/es/viajar/informacion-util/menores-que-viajan-solos", "OFICIAL-INDIRECTO", date);
+    SRC.iryo_menores = S("Iryo: viajar con menores", "https://iryo.eu/en/travel/minors-on-board", "OFICIAL-INDIRECTO", date);
+    SRC.ouigo_cgv = S("OUIGO: condiciones generales de venta", "https://www.ouigo.com/es/condiciones-generales-de-venta-ouigo", "OFICIAL-INDIRECTO", date);
+    SRC.sncf_menores = S("SNCF Connect: niños y familias (TGV INOUI a España)", "https://www.sncf-connect.com/aide/l-offre-pour-les-enfants-et-les-familles", "OFICIAL-INDIRECTO", date);
+    ITEMS.renfe = { name: "Renfe (tren)", cat: "moverse", tipo: "comercial", src: "renfe_menores", rule: m => m.age >= 14 ? R("ok", "Renfe solo obliga a ir con un adulto a los menores de 14 (AVE, Larga Distancia y Avant).") : m.age >= 6 ? R("req", "Menores de 14: con un adulto o con su servicio de menores que viajan solos (6-13 años, Prémium o Elige Confort, pedido 48 h antes).", [F("Servicio de menores de Renfe: lo piden los padres 48 h antes")]) : R("no", "Menores de 6, siempre con un adulto.") };
+    ITEMS.iryo = { name: "Iryo (tren)", cat: "moverse", tipo: "comercial", src: "iryo_menores", rule: (m, g) => {
+      if (m.age >= 18) return R("ok", OK18);
+      if (m.age >= 14) return R("req", "De 14 a 17, con el consentimiento de tus padres; Iryo no tiene servicio para menores y recomienda ir con un adulto.", [F("Consentimiento de los padres (Iryo)")]);
+      const ad = adultOf(g, m); return ad ? R("req", "Menores de 14, siempre con un adulto de más de 18.", [G("Ir " + con(ad))]) : R("no", "Menores de 14, siempre con un adulto de más de 18.");
+    } };
+    ITEMS.ouigo = { name: "Ouigo (tren)", cat: "moverse", tipo: "comercial", src: "ouigo_cgv", rule: m => m.age >= 18 ? R("ok", OK18) : R("unk", "Ouigo no publica si los menores pueden viajar sin un adulto; en su tarifa, desde 14 años se paga como adulto y la compra la hace un mayor de edad.") };
+    ITEMS.sncf_tgv = { name: "SNCF TGV INOUI (tren)", cat: "moverse", tipo: "comercial", src: "sncf_menores", rule: m => m.age >= 12 ? R("ok", "Desde 12 puedes viajar sin un adulto en el TGV INOUI a España.") : R("no", "Menores de 12, no sin un adulto en el TGV a España.") };
+    Object.assign(AIR_POLICY, {
+      renfe: { solo: 14, cond: 6, condTxt: "De 6 a 13: con su servicio de menores", note: "Tren" },
+      iryo: { solo: 18, cond: 14, condTxt: "De 14 a 17: con consentimiento de los padres", under: "Menos de 14: con un adulto de más de 18", note: "Tren" },
+      ouigo: { solo: null, note: "No publica si los menores pueden viajar sin adulto" },
+      sncf_tgv: { solo: 12, note: "TGV INOUI a España" }
+    });
+    Object.assign(AIR_SITE, { renfe: "https://www.renfe.com/es/es", iryo: "https://iryo.eu/es/home", ouigo: "https://www.ouigo.com/es/", sncf_tgv: "https://www.sncf-connect.com/" });
+  })();
   function nightBox(a) {
     const k = norm(String(a.d.city || "")), rid = NIGHT.rule[k], vids = NIGHT.venues[k] || [];
     if (!rid && !vids.length) return "";

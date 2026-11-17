@@ -81,3 +81,9 @@ Cada decisión dice quién la tomó, con qué evidencia y qué la haría cambiar
 
 - **Decisión:** lista con **ordenar** (pega, precio, cercanía) y **«Solo los que entran en la pasta»**; recuadro **«Descuentos y pases para vuestra edad»** (Carné Joven, Interrail Youth, DiscoverEU) con fuentes; **«Otras formas de ir»** con BlaBlaCar como no apto para menores; arreglos estéticos (mapa sin etiquetas amontonadas, precios legibles, campos alineados, cabecera más limpia, foco visible) y del intérprete («salimos de X» no es el destino). Ver [[Mejoras 17-11 - competencia y estética]].
 - **Por qué:** Alberto pidió revisar la competencia y mejorar la estética sin salirse del núcleo; todo lo añadido sirve para decidir a dónde pueden ir con su edad y su dinero.
+
+## D-23. El tren entra junto a avión y bus (17/11/2026)
+
+- **Decisión:** la pestaña «Vuelos» pasa a llamarse **«Transporte»** e incluye tren con la norma de edad de cada operador: Renfe (sin condiciones desde 14), Iryo (14-17 con consentimiento de los padres), Ouigo (pendiente: no lo publica) y SNCF TGV INOUI (desde 12). Ver [[Tren - edad por operador]].
+- **Datos:** red de 12 estaciones; Iryo y Ouigo solo en corredores con Madrid; desde Barcelona, TGV a París y Renfe a Marsella. Rutas, horarios y precios **de ejemplo** (se dice en la pestaña). Desde Canarias, Baleares, Ceuta y Melilla no hay tren a la península.
+- **Por qué:** era la propuesta 1 de la revisión de competencia (Omio, Trainline, Rome2Rio) y, dentro de España, el tren es muchas veces la mejor opción para 16-17.

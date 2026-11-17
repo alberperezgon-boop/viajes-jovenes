@@ -23,7 +23,7 @@ relacionado: "[[Buscadores y empresas de viaje - ingeniería inversa]], [[Compet
 
 | # | Función | Quién la tiene | Por qué nos sirve | Tamaño | Ojo |
 |---|---|---|---|---|---|
-| 1 | **Tren junto a avión y bus**, con la edad mínima de cada operador | Omio, Trainline, Rome2Rio | Muchos trayectos para 16-17 son más fáciles en tren; Interrail Youth ya está en Presupuesto | Grande | Hay que verificar la edad de cada operador (Renfe, SNCF, DB…) |
+| 1 | ✅ **Hecho (D-23).** **Tren junto a avión y bus**, con la edad mínima de cada operador ([[Tren - edad por operador]]) | Omio, Trainline, Rome2Rio | Muchos trayectos para 16-17 son más fáciles en tren; Interrail Youth ya está en Presupuesto | Grande | Hay que verificar la edad de cada operador (Renfe, SNCF, DB…) |
 | 2 | **Cancelación flexible** visible en cada alojamiento y vuelo («cancelación gratis hasta…») | Booking, Hostelworld | La queja número 1 de la competencia son los reembolsos (380 reseñas) | Media | Sin datos reales: de ejemplo y marcado |
 | 3 | **Avisos de precio** compartidos con el grupo y la familia | Google Flights, Skyscanner, KAYAK, Hopper | El conector de Duffel ya da precios reales | Media | Sin mensajes de urgencia ni contadores |
 | 4 | **Cómo llegar del aeropuerto al albergue** (bus, metro, tiempo y precio) | Rome2Rio | Es lo que más agobia al llegar; también tranquiliza a los padres | Media | Datos por ciudad; empezar por las 5 primeras |
