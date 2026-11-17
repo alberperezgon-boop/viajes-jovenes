@@ -136,3 +136,5 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 - **Cómo llegar (D-24):** 14 ciudades con ruta del aeropuerto al centro, último tramo y aviso de llegada nocturna; probado sin errores. Pendiente: Beauvais (Ryanair), el precio de la lanzadera de Marsella y las ciudades que faltan.
 
 - **Viaje compartido (D-25):** probado el flujo completo (compartir, cambiar nivel, vista previa, abrir el enlace como amigo, ver lo de las familias y usar el plan) sin errores.
+
+- **Avisos de precio (D-26):** probados sin conector (aviso y simulación) y con Duffel en modo test (vigilar, comprobar, bajada y mensaje); sin errores en el recorrido completo.

@@ -113,3 +113,14 @@ Cada decisión dice quién la tomó, con qué evidencia y qué la haría cambiar
   - Lo que cada uno marca en su lista se queda en su navegador.
 - **Privacidad:** nunca público; el enlace lleva edades, elecciones y lo ahorrado en el bote, **nunca nombres** (en el bote: «Persona 1, 2…»). Dentro del artefacto de claude.ai no hay enlace; funciona con la web publicada.
 - **Por qué:** propuesta 5 de [[Mejoras 17-11 - competencia y estética]] (Polarsteps, Wanderlog), sin ubicación en directo ni chat abierto (D-14).
+
+## D-26. Avisos de precio sin prisas (17/11/2026)
+
+- **Decisión:** en la pestaña Transporte, **«🔔 Vigilar este precio»** guarda el precio real (Duffel) del vuelo más barato de una aerolínea que deja volar al grupo.
+  - Se vuelve a comprobar al abrir el planner (como mucho cada 30 minutos) o con «Comprobar ahora».
+  - Enseña la evolución con una gráfica pequeña.
+  - Si baja, da un aviso **sin prisas** con botones para contárselo al grupo o a la familia por WhatsApp o correo.
+  - «Mi viaje» lista los precios vigilados; todo se guarda solo en el navegador.
+- **Sin conector:** lo explica, y un ejemplo marcado como **simulación** enseña cómo es un aviso.
+- **No se copia:** cuentas atrás, «quedan pocas plazas» ni notificaciones push (D-14).
+- **Prueba:** con Duffel en modo test, el precio guardado (66 €) y la nueva comprobación (65 €) dieron el aviso correcto; el token no se guardó en ningún archivo.

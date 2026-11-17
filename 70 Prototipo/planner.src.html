@@ -418,6 +418,7 @@ dialog.sheet { overflow-x: hidden; }
 .letter .blank { display: inline-block; min-width: 140px; border-bottom: 1px solid var(--muted); }
 .mailbody { white-space: pre-wrap; font: inherit; font-size: 0.86rem; background: var(--surface-2); border-radius: 10px; padding: 10px 12px; margin: 6px 0 0; max-height: 300px; overflow: auto; }
 /* Estética 17/11/2026 */
+.spark { width: 120px; height: 32px; color: var(--ok); flex: none; }
 .lv { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: start; padding: 10px 12px; border: 1.5px solid var(--line); border-radius: 12px; margin: 6px 0; cursor: pointer; }
 .lv.on { border-color: var(--pop); background: color-mix(in srgb, var(--pop) 10%, transparent); }
 .cart { grid-template-columns: minmax(150px, 1.2fr) auto auto; }
@@ -1452,7 +1453,7 @@ Reglas de extracción:
       <p class="small"><strong>${ok.length} de ${list.length}</strong> opciones de transporte os dejan ir con vuestra edad. <span class="muted">Horarios y precios de ejemplo; la reserva es simulada.</span></p>
       ${ok.length ? ok.map((x, i) => flightCard(a, x, i)).join("") : `<div class="box"><p class="bad">Ninguna aerolínea de la lista os deja volar así.</p><p class="small muted">Quitad «Solo directos» o probad a meter a alguien de 18.</p></div>`}
       ${hid.length ? `<details class="hid"><summary>${hid.length} aerolíneas que no os dejan o sin confirmar</summary><div style="display:grid;gap:8px;margin-top:8px">${hid.map(x => flightCard(a, x)).join("")}</div></details>` : ""}
-      ${realFlightsBox(a)}${a.flights.some(x => x.mode === "air") ? liveBox(a) : ""}${otherWays()}
+      ${realFlightsBox(a)}${a.flights.some(x => x.mode === "air") ? liveBox(a) + priceWatchBox(a) : ""}${otherWays()}
       <p class="small muted">También: <a href="https://www.google.com/travel/flights?hl=es&q=${encodeURIComponent(`Vuelos de ${o} a ${a.d.iata}`)}" target="_blank" rel="noopener">Google Flights ↗</a> · <a href="https://www.skyscanner.es/transporte/vuelos/${o.toLowerCase()}/${SKY[a.k]}/?adultsv2=${n}&rtn=1" target="_blank" rel="noopener">Skyscanner ↗</a></p>
       ${arrivalBox(a)}${legalTips(["dif-aerolinea-mostrador", "eme-rechazo-embarque"], a.d.country)}`;
   }
@@ -1857,7 +1858,7 @@ Reglas de extracción:
     const GRP = { papeles: "📄 Papeles", reserva: "🎫 Condiciones de lo que habéis elegido", maleta: "🎒 Maleta" };
     const txt = shareText(a) + (Object.values(state.pot).some(v => +v > 0) ? "\n🐷 Bote: " + eur(state.group.reduce((t, m) => t + (+state.pot[m.id] || 0), 0)) + " de " + eur(money(a).total * state.group.length) : "");
     $("#sheet-in").innerHTML = `<div class="sheet-head"><div><p class="eyebrow">Mi viaje · se guarda en este navegador</p><h2 id="sheet-title">${esc(a.d.city)}, ${dmy(state.date)}</h2></div><button type="button" class="icon-btn" data-close aria-label="Cerrar">×</button></div>
-      <div class="trip-top">${budgetBox(a)}<div style="display:grid;gap:12px;align-content:start">${piggyBox(a)}${potBox(a)}
+      <div class="trip-top">${budgetBox(a)}<div style="display:grid;gap:12px;align-content:start">${piggyBox(a)}${potBox(a)}${watchesList()}
         <div class="box"><h3>Compartir el plan</h3><p class="small muted">Con tu grupo o con tu familia. No se envía nada solo: se abre WhatsApp o tu correo con el texto.</p>
           <pre class="share-txt">${esc(txt)}</pre>
           <div class="row"><a class="btn pop sm" href="https://wa.me/?text=${encodeURIComponent(txt)}" target="_blank" rel="noopener">WhatsApp ↗</a><a class="btn sm" href="mailto:?subject=${encodeURIComponent("Nuestro viaje a " + a.d.city)}&body=${encodeURIComponent(txt)}">Correo</a><button type="button" class="btn ghost sm" id="share-copy">Copiar</button><button type="button" class="btn sm" data-open="family">👪 Modo padres</button><button type="button" class="btn sm" data-open="share">👥 Compartir con el grupo</button><span class="small muted" id="share-msg" aria-live="polite"></span></div></div></div></div>
@@ -1903,6 +1904,10 @@ Reglas de extracción:
     else if (d.date && t.classList.contains("cal-d")) { state.date = d.date; update(); }
     else if (d.flsort) { state.flSort = d.flsort; renderResults(); }
     else if (t.id === "live-go") liveSearch();
+    else if (t.id === "watch-on") { const a = analyse(state.sel); if (a) checkWatch(a, true); }
+    else if (t.id === "watch-check") { const a = analyse(state.sel); if (a) checkWatch(a, false); }
+    else if (t.id === "watch-off") { const a = analyse(state.sel); if (a) { const id = watchId(a); saveWatches(loadWatches().filter(x => x.id !== id)); renderResults(); toast("Ya no vigiláis este precio."); } }
+    else if (t.id === "watch-sim") { state.watchSim = state.watchSim === state.sel ? null : state.sel; renderResults(); }
     else if (d.sort) { state.sort = d.sort; renderResults(); }
     else if (d.open === "family") openFamily();
     else if (d.open === "share") openShare();
@@ -2411,6 +2416,61 @@ Reglas de extracción:
       <div class="row" style="gap:8px">${lv === "gf" ? '<button type="button" class="btn sm" data-open="family">👪 Ver lo que verán las familias</button>' : ""}${state.shared ? '<button type="button" class="btn pop sm" id="grp-use">Usar este plan en mi planner</button>' : ""}</div>`;
     $("#sheet-in").dataset.grp = a.k;
     const dlg = $("#sheet"); if (!dlg.open) dlg.showModal();
+  }
+  /* ===== Avisos de precio (17/11/2026): vigila el precio real (conector Duffel), sin prisas ni cuentas atrás ===== */
+  const WATCH_KEY = "goliveit-avisos";
+  const loadWatches = () => { try { const j = JSON.parse(localStorage.getItem(WATCH_KEY) || "[]"); return Array.isArray(j) ? j : []; } catch (e) { return []; } };
+  const saveWatches = l => { try { localStorage.setItem(WATCH_KEY, JSON.stringify(l.slice(-20))); } catch (e) { /* sin almacenamiento */ } };
+  const watchId = a => [a.k, state.date, state.days, realAir(), state.group.map(m => m.age).join(".")].join("|");
+  function spark(h) {
+    if (h.length < 2) return "";
+    const ps = h.map(x => x.p), mn = Math.min(...ps), mx = Math.max(...ps), W = 220, H = 40, sx = W / (h.length - 1), y = p => mx === mn ? H / 2 : H - 4 - (p - mn) / (mx - mn) * (H - 8);
+    return `<svg class="spark" viewBox="0 0 ${W} ${H}" role="img" aria-label="Precio de ${eur(Math.round(ps[0]))} a ${eur(Math.round(ps[ps.length - 1]))}"><polyline fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" points="${h.map((x, i) => `${(i * sx).toFixed(1)},${y(x.p).toFixed(1)}`).join(" ")}"/></svg>`;
+  }
+  function watchText(a, w) {
+    const last = w.h[w.h.length - 1], first = w.h[0];
+    return [`🔔 Precio del viaje a ${a.d.city} (${dmy(state.date)}, ${pl(state.group.length, "persona", "personas")})`,
+      Math.round(last.p) < Math.round(first.p) ? `Ha bajado: ahora unos ${eur(Math.round(last.p))} por persona con ${last.airline} (antes ${eur(Math.round(first.p))}).` : `Sigue en unos ${eur(Math.round(last.p))} por persona con ${last.airline}.`,
+      w.modo !== "live" ? "Ojo: es el modo test de Duffel, precios simulados." : "", "Lo hablamos con calma antes de reservar (GoLiveIt · demo)."].filter(Boolean).join("\n");
+  }
+  const simNotice = () => `<div class="done ok" style="margin-top:8px"><span class="done-ic">🔔</span><div><span class="bk-badge" style="background:var(--no);color:#fff">Simulación</span><h3>Así se ve un aviso: «Ha bajado 9 € por persona»</h3><p class="small">Desde el aviso lo mandáis al grupo o a la familia por WhatsApp o correo. Este ejemplo no es un precio real.</p></div></div>`;
+  function priceWatchBox(a) {
+    const id = watchId(a), w = loadWatches().find(x => x.id === id), busy = state.watchBusy === id;
+    const err = state.watchErr && state.watchErr.id === id ? `<p class="warn">${esc(state.watchErr.msg)}</p>` : "";
+    if (!w) return `<div class="box"><div class="row between"><h3>🔔 Avisos de precio</h3><span class="bk-badge">beta</span></div>
+      <p class="small">Vigila el precio real del vuelo para vuestras fechas y edades (solo aerolíneas que os dejan volar). Se comprueba al abrir el planner, con el conector de vuelos encendido, y si baja os lo dice para que lo habléis con el grupo y la familia. Sin cuentas atrás ni prisas; lo podéis quitar cuando queráis.</p>${err}
+      <div class="row" style="gap:8px"><button type="button" class="btn pop sm" id="watch-on"${busy ? " disabled" : ""}>${busy ? "Consultando…" : "🔔 Vigilar este precio"}</button><button type="button" class="btn ghost sm" id="watch-sim">${state.watchSim === a.k ? "Ocultar el ejemplo" : "Ver cómo es un aviso (simulación)"}</button></div>${state.watchSim === a.k ? simNotice() : ""}</div>`;
+    autoCheckWatch(a, w);
+    const first = w.h[0], last = w.h[w.h.length - 1], drop = Math.round(first.p) - Math.round(last.p), txt = watchText(a, w);
+    return `<div class="box"><div class="row between"><h3>🔔 Avisos de precio</h3><span class="bk-badge">${w.modo === "live" ? "en directo" : "modo test"}</span></div>
+      <div class="row between" style="align-items:center"><span class="small">Desde el ${new Date(first.t).toLocaleDateString("es-ES")}: <b>${eur(Math.round(first.p))}</b> → ahora <b>${eur(Math.round(last.p))}</b> por persona (${esc(last.airline)})</span>${spark(w.h)}</div>
+      ${drop > 0 ? `<div class="done ok"><span class="done-ic">🔔</span><div><h3>Ha bajado ${eur(drop)} por persona</h3><p class="small">Contádselo al grupo y a vuestras familias y decidid con calma: el precio puede volver a subir o seguir bajando.</p></div></div>
+        <div class="row"><a class="btn pop sm" href="https://wa.me/?text=${encodeURIComponent(txt)}" target="_blank" rel="noopener">Avisar por WhatsApp ↗</a><a class="btn sm" href="mailto:?subject=${encodeURIComponent("Precio del viaje a " + a.d.city)}&body=${encodeURIComponent(txt)}">Avisar por correo</a></div>`
+        : drop < 0 ? `<p class="small">Ha subido ${eur(-drop)} desde que empezasteis a vigilarlo.</p>` : `<p class="small">De momento no ha cambiado.</p>`}
+      <p class="small muted">Última comprobación: ${new Date(last.t).toLocaleString("es-ES", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })} · ${pl(w.h.length, "comprobación", "comprobaciones")}.${w.modo !== "live" ? " Modo test de Duffel: precios simulados." : ""} Se guarda solo en este navegador.</p>${err}
+      <div class="row" style="gap:8px"><button type="button" class="btn sm" id="watch-check"${busy ? " disabled" : ""}>${busy ? "Consultando…" : "Comprobar ahora"}</button><button type="button" class="btn ghost sm" id="watch-off">Dejar de vigilar</button></div></div>`;
+  }
+  async function checkWatch(a, create) {
+    const id = watchId(a); state.watchBusy = id; state.watchErr = null; if (state.sel === a.k) renderResults();
+    try {
+      const ping = await fetch(LIVE_URL + "/estado", { cache: "no-store" }).then(r => r.json()); if (!ping || !ping.ok) throw new Error("off");
+      const r = await fetch(LIVE_URL + "/vuelos", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ from: realAir(), to: destAir(a.d), out: state.date, back: addDays(state.date, Math.max(1, state.days - 1)), ages: state.group.map(m => m.age), direct: false }) });
+      const j = await r.json(); if (!r.ok) throw new Error(j.error || "Error del conector");
+      const b = famBest(a, j); if (!b) throw new Error("Ninguna oferta de ahora mismo es de una aerolínea que os deje volar a vuestra edad.");
+      const l = loadWatches(); let w = l.find(x => x.id === id);
+      if (!w) { if (!create) throw new Error("No hay ningún aviso activo para este viaje."); w = { id, k: a.k, city: a.d.city, date: state.date, modo: j.modo, h: [] }; l.push(w); }
+      w.modo = j.modo; w.h.push({ t: Date.now(), p: b.o.perPerson, airline: b.o.airline }); w.h = w.h.slice(-30); saveWatches(l);
+    } catch (e) { state.watchErr = { id, msg: e.message === "off" || /fetch|network|Failed/i.test(String(e.message)) ? "Para vigilar el precio hace falta el conector de vuelos encendido en este PC (pestaña Transporte → «Precios reales ahora» → cómo encenderlo)." : e.message }; }
+    state.watchBusy = null; if (state.sel === a.k) renderResults();
+  }
+  function autoCheckWatch(a, w) {
+    const id = w.id; state.watchAuto = state.watchAuto || {};
+    if (state.watchBusy || state.watchAuto[id] || Date.now() - w.h[w.h.length - 1].t < 30 * 60 * 1000) return;
+    state.watchAuto[id] = true; setTimeout(() => checkWatch(a, false), 50);
+  }
+  function watchesList() {
+    const l = loadWatches(); if (!l.length) return "";
+    return `<div class="box"><h3>🔔 Precios que vigiláis</h3>${l.map(w => { const f = w.h[0], z = w.h[w.h.length - 1], d = Math.round(f.p) - Math.round(z.p); return `<div class="row between small"><span>${esc(w.city)} · ${dmy(w.date)}</span><span>${eur(Math.round(z.p))} por persona ${d > 0 ? `<b class="okt">↓ ${eur(d)}</b>` : d < 0 ? `<span class="badt">↑ ${eur(-d)}</span>` : "· sin cambios"}</span></div>`; }).join("")}<p class="small muted">Se guardan solo en este navegador.</p></div>`;
   }
   function nightBox(a) {
     const k = norm(String(a.d.city || "")), rid = NIGHT.rule[k], vids = NIGHT.venues[k] || [];
