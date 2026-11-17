@@ -170,3 +170,17 @@ Cada decisión dice quién la tomó, con qué evidencia y qué la haría cambiar
   - sin errores.
   
   Lo que más pesa ya en la lista son las 26 tarjetas que sí salen.
+
+## D-31. Quitar el lag y pulir la estética (17/11/2026)
+
+- **Decisión (lag):**
+  - las líneas del mapa se animan 3 s tras cada cambio en vez de para siempre (con la app quieta, de ~48 % a ~3 % de CPU);
+  - colores en caché;
+  - el deslizador de la pasta redibuja una vez por fotograma;
+  - los iconos se buscan con un filtro rápido.
+- **Decisión (estética):**
+  - en modo oscuro, mapa oscuro teñido con la paleta de la app;
+  - botones secundarios sin blanco que deslumbre;
+  - cabecera con el lema en texto normal y el distintivo «Demo»;
+  - barra de reserva más clara.
+- **Detalle y opciones siguientes** en [[Rendimiento y estética 17-11]].

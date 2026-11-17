@@ -146,3 +146,5 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 - **Revisión de claridad (D-29):** auditoría automática de 15 pantallas (palabras, botones, enlaces y jerga), 15 arreglos de lenguaje y ruido, y 10 opciones priorizadas; sin errores.
 
 - **Menos ruido (D-30):** lista plegada de destinos que no salen, sello «ejemplo», «Reservar (simulación)», fuentes en una línea con punto de confianza y leyenda de «Sí, pero ojo». Medido otra vez con la auditoría automática: sin errores y sin etiquetas en bruto.
+
+- **Lag y estética (D-31):** perfil de CPU antes y después. Con la app quieta, de 2.433 a ~170 ms cada 5 s; al cambiar de pestaña, de 22 a 0-4 tareas largas. Mapa oscuro a juego, botones y cabecera más limpios; recorrido completo sin errores. Siete opciones nuevas en «Rendimiento y estética 17-11».
