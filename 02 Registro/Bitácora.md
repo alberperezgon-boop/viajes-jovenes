@@ -144,3 +144,5 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 - **Opiniones (D-28):** formulario con moderación automática probado (correo, teléfono y @usuario quitados), borrar y evidencia del equipo cuando no hay opiniones; sin errores en el recorrido completo.
 
 - **Revisión de claridad (D-29):** auditoría automática de 15 pantallas (palabras, botones, enlaces y jerga), 15 arreglos de lenguaje y ruido, y 10 opciones priorizadas; sin errores.
+
+- **Menos ruido (D-30):** lista plegada de destinos que no salen, sello «ejemplo», «Reservar (simulación)», fuentes en una línea con punto de confianza y leyenda de «Sí, pero ojo». Medido otra vez con la auditoría automática: sin errores y sin etiquetas en bruto.

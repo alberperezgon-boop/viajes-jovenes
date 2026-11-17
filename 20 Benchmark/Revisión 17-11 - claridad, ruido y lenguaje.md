@@ -56,3 +56,17 @@ Recorrido automático por 15 pantallas en Chrome sin ventana. En cada una se cue
 | 10 | **Versión móvil** | El público usa el móvil | Grande |
 
 **Recomendación:** hacer **1, 4, 5, 6 y 7** juntas, porque son pequeñas y quitan la mayor parte del ruido. Después, **2 y 3**.
+
+## Hecho (D-30)
+
+Opciones **1, 4, 5, 6 y 7** aplicadas. Medición posterior:
+
+| Pantalla | Palabras | Etiquetas de fuente |
+|---|---|---|
+| Lista de destinos | 2.212 → 2.002 | — |
+| Transporte | 1.079 → 1.066 | 22 → 16 |
+| Modo padres | 905 → 883 | 20 |
+
+Además, la tabla de papeleo enseñaba la etiqueta en bruto («OFICIAL-INDIRECTO») y ya sale traducida.
+
+**Siguiente:** en la lista, ahora lo que más pesa son las 26 tarjetas que sí salen; se podrían enseñar 8 y «Ver más». Después vienen las opciones 2 (transporte por orden) y 3 (papeleo por pasos).

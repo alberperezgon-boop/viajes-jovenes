@@ -154,3 +154,19 @@ Cada decisión dice quién la tomó, con qué evidencia y qué la haría cambiar
   - **Lenguaje:** tarjetas con palabras que no confunden («Ida y vuelta», «Entra en la pasta», «formas de ir»); portada en plural; leyenda del mapa con las mismas etiquetas que el resto.
   - **«¿Cómo va esto?»:** primero para los jóvenes; lo técnico, plegado para el equipo.
 - **Opciones siguientes** en [[Revisión 17-11 - claridad, ruido y lenguaje]]. La recomendación es acortar la lista, poner un solo sello de ejemplo, el botón «Reservar (simulación)», fuentes más discretas y explicar «Sí, pero ojo».
+
+## D-30. Menos ruido y nada que lleve a engaño (17/11/2026)
+
+- **Decisión:** se hacen las cinco opciones pequeñas de [[Revisión 17-11 - claridad, ruido y lenguaje]]:
+  - **(1) Lista más corta:** los destinos que no salen pasan a una lista plegada («Fuera de juego por ahora: 12 destinos»), una línea por destino con su etiqueta, el motivo y «¿Por qué?».
+  - **(4) Un solo sello «ejemplo»:** sustituye a las frases repetidas («precios de ejemplo…, la reserva es simulada») en el presupuesto, los días alternativos, el transporte, los trenes, el alojamiento, el total y la hora de llegada. Al pasar el ratón explica que no es real y que la reserva es simulada.
+  - **(5) Reserva claramente simulada:** el botón dice «Reservar (simulación)», el recuadro de montar el viaje lleva «Reserva simulada» y el título del transporte pasa a «Elegid cómo ir».
+  - **(6) Fuentes discretas:** cada norma lleva una sola línea con un punto de confianza (azul oficial, ámbar web de la empresa, verde lo preguntamos nosotros, discontinuo otra fuente o sin confirmar), la etiqueta y «ver fuente»; nombre y fecha, al pasar el ratón. El tipo de norma ya no se repite en cada tarjeta; solo queda en la tabla de papeleo. Esa tabla mostraba la etiqueta en bruto y ahora sale traducida.
+  - **(7) «Sí, pero ojo» explicado:** leyenda de dos líneas bajo el resumen y explicación al pasar el ratón por cualquier etiqueta.
+- **Medido:**
+  - lista: de 2.212 a 2.002 palabras;
+  - transporte: de 22 a 16 etiquetas de fuente;
+  - ninguna etiqueta en bruto;
+  - sin errores.
+  
+  Lo que más pesa ya en la lista son las 26 tarjetas que sí salen.
