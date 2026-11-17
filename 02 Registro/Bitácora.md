@@ -119,3 +119,9 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 - **Prueba con Duffel (test):** el conector funciona de punta a punta. Hallazgo: Duffel no deja buscar sin un adulto; para el precio, 16-17 se buscan como adulto (tarifa low cost). Ver [[Conector de vuelos en tiempo real]].
 
 - **Reserva de prueba con Duffel:** aceptadas 4 órdenes de test con grupos de menores pagadas por la familia (D-21). Modo padres mejorado: resumen, precio real y reserva de prueba, calendario de papeles y dudas de padres.
+
+## 2026-11-17. Revisión de respuestas de albergues
+
+- **Hecho:** revisado el correo. **17 de 24 albergues han respondido**, 7 siguen pendientes y no hay rebotes. Nuevas: Xanascat (Barcelona), BVJ (París), Pfefferbett (Berlín), DJH München City y Sir Toby's (Praga) aceptan 16-17 sin adulto con autorización de los padres; Babila (Milán) pide un adulto sin aclarar si vale uno de 18. En total: 11 aceptan sin adulto (4 solo en privada), MIJE depende de la edad, 2 solo con alguien de 18, 1 exige padre o tutor y 1 pide mínimo 18. Ver [[Consultas a albergues - 11-11-2026]].
+- **Aprendido:** la autorización firmada + copia del documento del padre o la madre se repite en todos los que aceptan; la habitación privada es la siguiente condición más frecuente.
+- **Pendiente:** actualizar en el Planner Xanascat, BVJ, Babila, Pfefferbett, DJH München (normas y correo equivocado) y Sir Toby's; segundo correo a los 7 sin respuesta y aclaración a Babila.
