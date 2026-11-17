@@ -43,6 +43,7 @@ page = swap(page, "/*__CITIES__*/[]", safe(readJson(join(dir, "data", "ciudades-
 page = swap(page, "/*__CONSULT__*/[]", safe(readJson(join(dir, "data", "albergues-consultados.json"), [])));
 page = swap(page, "/*__INV__*/{}", safe(readJson(join(dir, "data", "investigacion-11-11.json"), {})));
 page = swap(page, "/*__NIGHT__*/{}", safe(readJson(join(dir, "data", "ocio-nocturno.json"), {})));
+page = swap(page, "/*__LLEGADAS__*/{}", safe(readJson(join(dir, "data", "llegadas.json"), {})));
 writeFileSync(join(dir, "GoLiveIt-Planner.html"), page);
 
 const body = page

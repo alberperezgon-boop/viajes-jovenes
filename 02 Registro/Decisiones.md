@@ -87,3 +87,16 @@ Cada decisión dice quién la tomó, con qué evidencia y qué la haría cambiar
 - **Decisión:** la pestaña «Vuelos» pasa a llamarse **«Transporte»** e incluye tren con la norma de edad de cada operador: Renfe (sin condiciones desde 14), Iryo (14-17 con consentimiento de los padres), Ouigo (pendiente: no lo publica) y SNCF TGV INOUI (desde 12). Ver [[Tren - edad por operador]].
 - **Datos:** red de 12 estaciones; Iryo y Ouigo solo en corredores con Madrid; desde Barcelona, TGV a París y Renfe a Marsella. Rutas, horarios y precios **de ejemplo** (se dice en la pestaña). Desde Canarias, Baleares, Ceuta y Melilla no hay tren a la península.
 - **Por qué:** era la propuesta 1 de la revisión de competencia (Omio, Trainline, Rome2Rio) y, dentro de España, el tren es muchas veces la mejor opción para 16-17.
+
+## D-24. Cómo llegar al alojamiento (17/11/2026)
+
+- **Decisión:** recuadro **«🧭 Cómo llegar al alojamiento»** en las pestañas Todo y Transporte y en el modo padres. Incluye:
+  - del aeropuerto al centro, con línea, tiempo, precio y horario, en 14 ciudades (`70 Prototipo/data/llegadas.json`);
+  - el **último tramo** hasta el alojamiento cuando tenemos su ubicación;
+  - un aviso si el vuelo de ejemplo **llega de noche**.
+  
+  Si se va en bus o tren: llegada a la estación. Sin datos de una ciudad: pendiente.
+- **Fuentes:**
+  - Oficiales: París (14 € desde el 1/1/2026, Île-de-France Mobilités), Berlín (23 min, aeropuerto), Niza (aeropuerto) y Budapest (2.500 HUF, BKK).
+  - El resto, guías marcadas como SECUNDARIA (precios orientativos que no siempre coinciden).
+- **Por qué:** propuesta 4 de [[Mejoras 17-11 - competencia y estética]] (Rome2Rio). Es lo que más agobia al llegar y tranquiliza a las familias.
