@@ -423,6 +423,12 @@ dialog.sheet { overflow-x: hidden; }
 .letter .blank { display: inline-block; min-width: 140px; border-bottom: 1px solid var(--muted); }
 .mailbody { white-space: pre-wrap; font: inherit; font-size: 0.86rem; background: var(--surface-2); border-radius: 10px; padding: 10px 12px; margin: 6px 0 0; max-height: 300px; overflow: auto; }
 /* Estética 17/11/2026 */
+.ic { width: 1.12em; height: 1.12em; vertical-align: -0.2em; flex: none; display: inline-block; }
+.mk .dot .ic { width: 58%; height: 58%; vertical-align: middle; }
+.perk-ic .ic, .mini-ic .ic, .mdot .ic, .done-ic .ic, .f-logo .ic { width: 60%; height: 60%; vertical-align: middle; }
+.done-ic .ic { width: 1.6rem; height: 1.6rem; }
+.empty { display: grid; justify-items: center; text-align: center; gap: 4px; }
+.empty-art { width: 120px; height: 90px; color: var(--muted); }
 .spark { width: 120px; height: 32px; color: var(--ok); flex: none; }
 .lv { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: start; padding: 10px 12px; border: 1.5px solid var(--line); border-radius: 12px; margin: 6px 0; cursor: pointer; }
 .lv.on { border-color: var(--pop); background: color-mix(in srgb, var(--pop) 10%, transparent); }
@@ -445,6 +451,7 @@ dialog.sheet { overflow-x: hidden; }
 </style>
 
 <div class="app">
+<svg id="ic-sprite" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><symbol id="i-plane" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></symbol><symbol id="i-train" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M9 7h6M9 21l-2-4M15 21l2-4"/><circle cx="9" cy="14" r=".6"/><circle cx="15" cy="14" r=".6"/></symbol><symbol id="i-bus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M3 10h18M8 4v6M16 4v6"/><circle cx="7.5" cy="19" r="1.5"/><circle cx="16.5" cy="19" r="1.5"/></symbol><symbol id="i-bed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4v16M2 8h18a2 2 0 0 1 2 2v10M2 17h20M6 8v9"/></symbol><symbol id="i-ticket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2M13 11v2M13 17v2"/></symbol><symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol><symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol><symbol id="i-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-1.8 5.41a2 2 0 0 1-1.27 1.27L7.76 16.24l1.8-5.41a2 2 0 0 1 1.27-1.27z"/></symbol><symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol><symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol><symbol id="i-family" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M12 17.5s-3.2-1.9-3.2-3.9a1.7 1.7 0 0 1 3.2-.8 1.7 1.7 0 0 1 3.2.8c0 2-3.2 3.9-3.2 3.9z"/></symbol><symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4M16 13H8M16 17H8M10 9H8"/></symbol><symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol><symbol id="i-luggage" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="7" width="14" height="13" rx="2"/><path d="M9 7V4h6v3M9 11v5M15 11v5M8 20v1.5M16 20v1.5"/></symbol><symbol id="i-wallet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h14a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></symbol><symbol id="i-food" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></symbol><symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></symbol><symbol id="i-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol><symbol id="i-printer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol><symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></symbol><symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol><symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol><symbol id="i-trolley" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h2l2.4 12h11.2L21 7H6.2"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></symbol></defs></svg>
   <header class="top">
     <span class="wm">Go<span>Live</span>It</span>
     <span class="tag">Busca, compara y reserva viajes para tu edad · demo</span>
@@ -1189,7 +1196,7 @@ Reglas de extracción:
           <div class="row" style="gap:4px">${memberChips(a)}</div>
           <p class="small counts">✈ ${pl(counts(a.flights).vis, "vuelo", "vuelos")} · 🛏 ${pl(counts(a.stays).vis, "alojamiento", "alojamientos")} · 🎟 ${pl(counts(ocioEval(a.k)).vis, "plan", "planes")} <span class="muted">para vuestra edad</span></p>
           ${budgetBar(a)}
-          <ul class="why">${a.why.map(w => `<li>${esc(w)}</li>`).join("")}</ul>
+          <ul class="why">${a.why.slice(0, 1).map(w => `<li>${esc(w)}</li>`).join("")}</ul>
           ${a.warn.map(w => `<p class="warn">${esc(w)}</p>`).join("")}
           <div class="row"><button type="button" class="btn sm" data-dest="${a.k}">Ver lo que os sale</button><label class="small row" style="gap:4px"><input type="checkbox" data-cmp="${a.k}"${state.compare.has(a.k) ? " checked" : ""}> Comparar</label></div>
         </div></article>`).join("") || `<div class="box"><p class="bad">Con vuestra edad y vuestra pasta no sale ningún viaje confirmado.</p><p class="small muted">Probad a meter a alguien de 18 o a cambiar de salida.</p></div>`}</div>
@@ -1232,7 +1239,7 @@ Reglas de extracción:
       <p class="small">Todo lo que <strong>os sale con vuestra edad</strong> en ${esc(a.d.city)}. Lo que no os dejan hacer por edad no aparece aquí.</p>
       ${block("🚆 ✈ Cómo podéis ir", "vuelos", fl.map(x => row(x.mode === "train" ? "🚆" : x.mode === "bus" ? "🚌" : "✈", esc(ITEMS[x.a].name), (x.mode === "air" ? (x.dir ? "Directo" : "Con escala") + " · " + realAir() + " → " + destAir(a.d) : (x.mode === "train" ? "Tren" : "Bus") + " · " + esc(originName()) + " → " + esc(a.d.city)), pill(x.e.s), eur(x.p))).join(""))}
       ${block("🛏 Dónde podéis dormir", "dormir", st.map(x => row("🛏", esc(ITEMS[x.s].name), groupWhy(x.e), pill(x.e.s), eur(x.p) + "/noche")).join("") + (st.length ? bookingBox(a, true) : ""))}
-      ${block("🎟 Planes para vuestra edad", "ocio", ok.map(x => row(x.when === "noche" ? "☾" : "☀", esc(x.name), groupWhy(x.e), x.key ? pill(x.e.s, x.e.s === "unk" ? "Ojo, por confirmar" : undefined) : pill("ok", "Libre"))).join(""))}
+      ${block("🎟 Planes para vuestra edad", "ocio", ok.map(x => row(x.when === "noche" ? "☾" : "☀", esc(x.name), groupWhy(x.e), x.key ? pill(x.e.s) : pill("ok", "Libre"))).join(""))}
       ${arrivalBox(a)}
       ${hidden ? `<p class="small muted">${hidden} cosas no os salen por la edad o están sin confirmar: las tienes en cada pestaña, con el motivo.</p>` : ""}`;
   }
@@ -1264,13 +1271,13 @@ Reglas de extracción:
   function reqList(e) { const seen = new Map(); e.per.forEach(x => x.r.reqs.forEach(q => seen.set(q.t, q.who))); return seen.size ? `<ul class="why">${[...seen].map(([t, who]) => `<li>${esc(t)} <span class="pill who">${who}</span></li>`).join("")}</ul>` : ""; }
   function srcLine(key) { const x = SRC[key]; return `<p class="small">${x.url ? `<a href="${x.url}" target="_blank" rel="noopener">${esc(x.label)}</a>` : esc(x.label)} <span class="tipo" title="${esc(x.tag)}">${esc(tagTxt(x.tag))} · ${esc(x.date)}</span></p>`; }
   function offer({ title, sub, price, e, link, pick }) {
-    return `<div class="offer${visible(e.s) ? "" : " dim"}"><div class="row between"><strong>${title}</strong>${e.it ? pill(e.s, e.s === "unk" ? "Ojo, por confirmar" : undefined) : pill("ok", "Libre")}</div>
+    return `<div class="offer${visible(e.s) ? "" : " dim"}"><div class="row between"><strong>${title}</strong>${e.it ? pill(e.s) : pill("ok", "Libre")}</div>
       ${sub || price ? `<div class="row between small"><span class="muted">${sub || ""}</span>${price ? `<span class="price">${price}</span>` : ""}</div>` : ""}
       <p class="small">${groupWhy(e)}</p>${personChips(e)}${reqList(e)}${e.it ? `<span class="tipo">${TIPOS[e.it.tipo]}</span>${srcLine(e.it.src)}` : ""}${pick && visible(e.s) ? pick : ""}${link && visible(e.s) ? link : ""}</div>`;
   }
   function splitList(list, render, hiddenLabel) {
     const ok = list.filter(x => visible(x.e.s)), hid = list.filter(x => !visible(x.e.s));
-    return (ok.length ? ok.map(render).join("") : `<div class="box"><p class="bad">Aquí no os sale nada con vuestra edad.</p><p class="small muted">Probad a meter a alguien de 18 o a cambiar de destino.</p></div>`)
+    return (ok.length ? ok.map(render).join("") : `<div class="box empty"><svg class="empty-art" viewBox="0 0 120 90" aria-hidden="true"><rect x="30" y="26" width="60" height="50" rx="10" fill="none" stroke="currentColor" stroke-width="4"/><path d="M48 26V16h24v10" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="M54 46a7 7 0 1 1 9 6.7V57" fill="none" stroke="var(--pop)" stroke-width="4" stroke-linecap="round"/><circle cx="63" cy="65" r="2.6" fill="var(--pop)"/></svg><p class="bad">Aquí no os sale nada con vuestra edad.</p><p class="small muted">Probad a meter a alguien de 18 o a cambiar de destino.</p></div>`)
       + (hid.length ? `<details class="hid"><summary>${hid.length} ${hiddenLabel}</summary><div style="display:grid;gap:8px;margin-top:8px">${hid.map(render).join("")}</div></details>` : "");
   }
   function legalTips(ids, country) {
@@ -1514,7 +1521,7 @@ Reglas de extracción:
   function printLetters() {
     const html = ($("#letters") || {}).innerHTML; if (!html) return;
     const fr = document.createElement("iframe"); fr.style.cssText = "position:fixed;width:0;height:0;border:0;right:0;bottom:0"; document.body.appendChild(fr);
-    const doc = fr.contentDocument; doc.open(); doc.write(`<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Autorizaciones</title><style>body{font:14px/1.6 system-ui,sans-serif;color:#000;margin:24px}.letter{page-break-after:always;max-width:680px}.letter:last-child{page-break-after:auto}h3{font-size:16px;margin:18px 0 6px}.blank{display:inline-block;min-width:160px;border-bottom:1px solid #000}</style></head><body>${html}</body></html>`); doc.close();
+    const doc = fr.contentDocument; doc.open(); doc.write(`<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Autorizaciones</title><style>body{font:14px/1.6 system-ui,sans-serif;color:#000;margin:24px}.letter{page-break-after:always;max-width:680px}.letter:last-child{page-break-after:auto}h3{font-size:16px;margin:18px 0 6px}.blank{display:inline-block;min-width:160px;border-bottom:1px solid #000}</style></head><body>${($("#ic-sprite") || {}).outerHTML || ""}${html}</body></html>`); doc.close();
     setTimeout(() => { try { fr.contentWindow.focus(); fr.contentWindow.print(); } catch (e) { toast("No se pudo abrir la impresión. Copiad el texto a mano."); } setTimeout(() => fr.remove(), 1500); }, 200);
   }
   /* ---------- F-02 · Pedir confirmación por escrito, en el idioma del alojamiento ---------- */
@@ -1655,7 +1662,7 @@ Reglas de extracción:
   function printFamily() {
     const html = ($("#fam-print") || {}).innerHTML; if (!html) return;
     const fr = document.createElement("iframe"); fr.style.cssText = "position:fixed;width:0;height:0;border:0;right:0;bottom:0"; document.body.appendChild(fr);
-    const doc = fr.contentDocument; doc.open(); doc.write(`<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Viaje para la familia</title><style>body{font:13px/1.5 system-ui,sans-serif;color:#000;margin:20px;max-width:760px}h3{font-size:15px;margin:14px 0 4px}.box{border:1px solid #ccc;border-radius:8px;padding:8px 12px;margin:8px 0}.fam-row{display:flex;gap:8px;margin:6px 0}.fam-sum{display:flex;gap:24px}.fam-sum>div{display:grid}.status{font-weight:700}a{color:#000}button{display:none}</style></head><body><h2>${esc($("#sheet-title").textContent)}</h2>${html}</body></html>`); doc.close();
+    const doc = fr.contentDocument; doc.open(); doc.write(`<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Viaje para la familia</title><style>body{font:13px/1.5 system-ui,sans-serif;color:#000;margin:20px;max-width:760px}h3{font-size:15px;margin:14px 0 4px}.box{border:1px solid #ccc;border-radius:8px;padding:8px 12px;margin:8px 0}.fam-row{display:flex;gap:8px;margin:6px 0}.fam-sum{display:flex;gap:24px}.fam-sum>div{display:grid}.status{font-weight:700}a{color:#000}button{display:none}</style></head><body>${($("#ic-sprite") || {}).outerHTML || ""}<h2>${esc($("#sheet-title").textContent)}</h2>${html}</body></html>`); doc.close();
     setTimeout(() => { try { fr.contentWindow.focus(); fr.contentWindow.print(); } catch (e) { toast("No se pudo abrir la impresión."); } setTimeout(() => fr.remove(), 1500); }, 200);
   }
   function cartBar(a) {
@@ -2480,13 +2487,32 @@ Reglas de extracción:
   function nightBox(a) {
     const k = norm(String(a.d.city || "")), rid = NIGHT.rule[k], vids = NIGHT.venues[k] || [];
     if (!rid && !vids.length) return "";
-    const LBL = { ok: "Os dejan", req: "Con condiciones", unk: "Sin confirmar", no: "No con vuestra edad" };
-    const row = id => { const e = evalItem(id); return `<div class="fam-row">${pill(e.s, LBL[e.s])}<div><strong>${esc(ITEMS[id].name)}</strong><p class="small">${groupWhy(e)}</p>${reqList(e)}${srcLine(ITEMS[id].src)}</div></div>`; };
+    const row = id => { const e = evalItem(id); return `<div class="fam-row">${pill(e.s)}<div><strong>${esc(ITEMS[id].name)}</strong><p class="small">${groupWhy(e)}</p>${reqList(e)}${srcLine(ITEMS[id].src)}</div></div>`; };
     const order = ids => ids.map(id => ({ id, s: evalItem(id).s })).sort((x, y) => RANK[x.s] - RANK[y.s]).map(x => x.id);
     return `<div class="box"><h3>🌙 Noche en ${esc(a.d.city)}: qué os dejan</h3>
       <p class="small muted">Barrido del ${(NIGHT_DATA.actualizado || "").split("-").reverse().join("/")}. Si un local no publica su edad, sale pendiente, nunca permitido. Las normas cambian según el evento: mirad la página de cada noche.</p>
       ${rid ? row(rid) : ""}${vids.length ? `<h4 class="ck-h">Locales</h4>${order(vids).map(row).join("")}` : ""}</div>`;
   }
+  /* ===== Iconos propios (17/11/2026): cada emoji de la interfaz se cambia por su icono SVG; los textos para WhatsApp y correo no se tocan ===== */
+  const EMOJI_IC = { "✈": "plane", "🛫": "plane", "🚆": "train", "🚌": "bus", "🛏": "bed", "🎟": "ticket", "🎫": "ticket", "☀": "sun", "☾": "moon", "🌙": "moon", "🧭": "compass", "🔔": "bell", "👥": "users", "👪": "family", "📄": "file", "✉": "mail", "📨": "mail", "🧳": "luggage", "🐷": "wallet", "🍕": "food", "✅": "check", "💬": "message", "🖨": "printer", "🎉": "star", "👀": "eye", "🔒": "lock" };
+  const EMOJI_RE = new RegExp("(" + Object.keys(EMOJI_IC).join("|") + ")\\uFE0F?", "g");
+  const SKIP_IC = "pre, textarea, script, style, option, select, title, svg, .share-txt, .mailbody";
+  function iconize(root) {
+    if (!root || root.nodeType !== 1 && root.nodeType !== 3) return;
+    const nodes = [];
+    if (root.nodeType === 3) nodes.push(root);
+    else { const tw = document.createTreeWalker(root, NodeFilter.SHOW_TEXT); let n; while ((n = tw.nextNode())) nodes.push(n); }
+    nodes.forEach(n => {
+      const t = n.nodeValue; if (!t || !EMOJI_RE.test(t)) return; EMOJI_RE.lastIndex = 0;
+      const p = n.parentElement; if (!p || p.closest(SKIP_IC)) return;
+      const frag = document.createDocumentFragment(); let last = 0;
+      t.replace(EMOJI_RE, (m, e, i) => { if (i > last) frag.appendChild(document.createTextNode(t.slice(last, i))); const sv = document.createElementNS("http://www.w3.org/2000/svg", "svg"); sv.setAttribute("class", "ic"); sv.setAttribute("aria-hidden", "true"); const u = document.createElementNS("http://www.w3.org/2000/svg", "use"); u.setAttribute("href", "#i-" + EMOJI_IC[e]); sv.appendChild(u); frag.appendChild(sv); last = i + m.length; return m; });
+      if (last < t.length) frag.appendChild(document.createTextNode(t.slice(last)));
+      n.replaceWith(frag);
+    });
+  }
+  new MutationObserver(ms => ms.forEach(m => m.addedNodes.forEach(iconize))).observe(document.body, { childList: true, subtree: true });
+  iconize(document.body);
   $("#origin-city").addEventListener("focus", ev => { try { ev.target.select(); } catch (e) { /* nada */ } });
   $("#cities-dl").innerHTML = CITIES_ES.map(c => `<option value="${esc(c[0])}"></option>`).join("");
   const famP = readFamilyHash(), grpP = famP ? null : readGroupHash();

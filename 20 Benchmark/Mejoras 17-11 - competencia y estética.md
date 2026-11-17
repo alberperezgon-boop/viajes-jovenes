@@ -49,9 +49,9 @@ relacionado: "[[Buscadores y empresas de viaje - ingeniería inversa]], [[Compet
 **Arreglado:** etiquetas del mapa amontonadas, campos desalineados, precios en fuente monoespaciada, cabecera cargada, código IATA demasiado grande en las fotos, falta de foco visible.
 
 **Propuestas siguientes:**
-1. **Iconos propios en SVG** en vez de emojis (🛏 ✈ 🎟): se ven distintos en cada ordenador y restan coherencia.
-2. **Menos texto por tarjeta:** dejar precio, «os pega» y 2 motivos; el resto, al abrir el destino.
-3. **Una sola escala de colores de estado** (verde, ámbar, gris y rojo) también en el modo padres y la noche, que hoy mezclan etiquetas («Pueden», «Os dejan», «Sí podéis»).
-4. **Estados vacíos con dibujo** («ningún alojamiento os acepta aquí»), en vez de solo texto.
+1. ✅ **Hecho (D-27).** **Iconos propios en SVG** en vez de emojis (🛏 ✈ 🎟): se ven distintos en cada ordenador y restan coherencia.
+2. ✅ **Hecho (D-27):** un solo motivo por tarjeta. **Menos texto por tarjeta:** dejar precio, «os pega» y 2 motivos; el resto, al abrir el destino.
+3. ✅ **Hecho (D-27)** en la vista de los jóvenes («Sí podéis», «Sí, pero ojo», «Sin confirmar», «No con vuestra edad»); el modo padres mantiene la tercera persona («Pueden»). **Una sola escala de colores de estado** (verde, ámbar, gris y rojo) también en el modo padres y la noche, que hoy mezclan etiquetas («Pueden», «Os dejan», «Sí podéis»).
+4. ✅ **Hecho (D-27).** **Estados vacíos con dibujo** («ningún alojamiento os acepta aquí»), en vez de solo texto.
 5. ~~Barra de reserva que recortaba «Elige dónde do…»~~: **arreglado** el 17/11.
-6. Revisar el **contraste** del naranja con texto blanco en botones pequeños.
+6. ✅ **Revisado (D-27):** todos los pares principales superan WCAG AA (mínimo 5,8:1). Revisar el **contraste** del naranja con texto blanco en botones pequeños.

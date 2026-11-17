@@ -124,3 +124,12 @@ Cada decisión dice quién la tomó, con qué evidencia y qué la haría cambiar
 - **Sin conector:** lo explica, y un ejemplo marcado como **simulación** enseña cómo es un aviso.
 - **No se copia:** cuentas atrás, «quedan pocas plazas» ni notificaciones push (D-14).
 - **Prueba:** con Duffel en modo test, el precio guardado (66 €) y la nueva comprobación (65 €) dieron el aviso correcto; el token no se guardó en ningún archivo.
+
+## D-27. Estética: iconos propios, estados unificados y contraste (17/11/2026)
+
+- **Decisión:**
+  - **Iconos:** 23 iconos SVG propios (de trazo, en el color del texto) sustituyen a los emojis de la interfaz, que se veían distintos en cada ordenador. Los textos para WhatsApp y correo conservan sus emojis, y los documentos para imprimir llevan los iconos.
+  - **Estados:** las mismas palabras en toda la vista de los jóvenes.
+  - **Tarjetas:** un solo motivo por tarjeta.
+  - **Estados vacíos:** con dibujo.
+- **Contraste (WCAG):** naranja con texto oscuro 7,3:1; azul con blanco 8,6:1; texto secundario 5,8:1 (claro) y 7,7:1 (oscuro); estados en oscuro, de 7,9 a 9,8:1. Todo supera AA.
