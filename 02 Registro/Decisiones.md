@@ -184,3 +184,16 @@ Cada decisión dice quién la tomó, con qué evidencia y qué la haría cambiar
   - cabecera con el lema en texto normal y el distintivo «Demo»;
   - barra de reserva más clara.
 - **Detalle y opciones siguientes** en [[Rendimiento y estética 17-11]].
+
+## D-32. Mapa más fluido y limpio, y bóveda lista para el Mac (23/11/2026)
+
+- **Decisión (mapa):**
+  - **Selector de mapa y pausa:** salen de la cabecera y pasan al propio mapa. «Mapbox» solo aparece si el equipo guardó su token.
+  - **Rótulos** («Vuestros viajes», «Quién va»…) en texto normal, sin mayúsculas monoespaciadas.
+  - **Etiquetas que se pisan:** la de menos prioridad se esconde y aparece al pasar el ratón.
+  - **Marcadores:** solo el origen, los 8 primeros y el destino elegido son marcadores HTML. El resto son puntos que dibuja el propio mapa, con su nombre al pasar el ratón y que se abren al pulsarlos; funcionan también en el «Mapa simple».
+  - **Medido:** al abrir un destino, de 2.358 a 581 ms de CPU; al volver a Europa, de 2.869 a 399 ms; sin tareas largas.
+- **Decisión (Mac):**
+  - las pruebas pasan a `70 Prototipo/pruebas/` y buscan Chrome en Windows o Mac;
+  - `CLAUDE.md` en la raíz con las reglas del proyecto, para que Claude Code las tenga en cualquier ordenador;
+  - los temas de Obsidian se suben para que la bóveda se vea igual.

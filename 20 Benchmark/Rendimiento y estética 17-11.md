@@ -47,3 +47,7 @@ Medido con Chrome sin ventana (perfil de CPU vía CDP). Ese Chrome dibuja el map
 | 5 | Repaso del modo claro (contraste y mapa con la paleta) | Hoy solo se ha pulido el oscuro | Medio |
 | 6 | Marcadores del mapa dibujados por el propio mapa (WebGL) en vez de 40 elementos HTML | Mover y volar por el mapa más fluido; es el lag que queda | Medio |
 | 7 | Versión móvil | El público usa el móvil | Grande |
+
+## Hecho el 23/11 (D-32)
+
+Opciones **1, 2, 3 y 6** aplicadas. Al volar por el mapa: abrir un destino, de 2.358 a 581 ms de CPU; volver a Europa, de 2.869 a 399 ms; ninguna tarea larga. Quedan la 4 (tarjetas más compactas), la 5 (modo claro) y la 7 (móvil).

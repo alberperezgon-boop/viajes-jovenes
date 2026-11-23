@@ -148,3 +148,12 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 - **Menos ruido (D-30):** lista plegada de destinos que no salen, sello «ejemplo», «Reservar (simulación)», fuentes en una línea con punto de confianza y leyenda de «Sí, pero ojo». Medido otra vez con la auditoría automática: sin errores y sin etiquetas en bruto.
 
 - **Lag y estética (D-31):** perfil de CPU antes y después. Con la app quieta, de 2.433 a ~170 ms cada 5 s; al cambiar de pestaña, de 22 a 0-4 tareas largas. Mapa oscuro a juego, botones y cabecera más limpios; recorrido completo sin errores. Siete opciones nuevas en «Rendimiento y estética 17-11».
+
+- **23/11 — Mapa y Mac (D-32):**
+  - selector de mapa dentro del mapa;
+  - rótulos en texto normal;
+  - etiquetas sin solaparse;
+  - puntos secundarios dibujados por el mapa (probado pasar el ratón y pulsar, en «Calles» y en «Mapa simple»);
+  - recorrido completo sin errores.
+
+  Las pruebas y un `CLAUDE.md` quedan en el repositorio para trabajar desde el Mac.

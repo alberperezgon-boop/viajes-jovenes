@@ -41,7 +41,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 button, a { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 .muted { color: var(--muted); }
 .small { font-size: 0.82rem; }
-.eyebrow { font-family: var(--f-mono); font-size: 0.66rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.eyebrow { font-size: 0.78rem; font-weight: 700; color: var(--muted); }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 .between { justify-content: space-between; }
@@ -419,6 +419,12 @@ dialog.sheet { overflow-x: hidden; }
 .letter .blank { display: inline-block; min-width: 140px; border-bottom: 1px solid var(--muted); }
 .mailbody { white-space: pre-wrap; font: inherit; font-size: 0.86rem; background: var(--surface-2); border-radius: 10px; padding: 10px 12px; margin: 6px 0 0; max-height: 300px; overflow: auto; }
 /* Estética 17/11/2026 */
+.mapseg { position: absolute; left: 12px; top: 12px; z-index: 3; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 6px 16px -10px rgb(0 0 0 / 0.5); }
+.mapseg button { color: var(--muted); }
+.maptools #pause { font-size: 0.8rem; }
+.mk .lbl.lbl-off { opacity: 0; pointer-events: none; transition: opacity 0.15s ease; }
+.mk:hover .lbl.lbl-off, .mk:focus-visible .lbl.lbl-off { opacity: 1; }
+.mk-tip { pointer-events: none; white-space: nowrap; font-weight: 800; font-size: 0.72rem; background: var(--surface); color: var(--ink); border: 1px solid var(--line); padding: 2px 7px; border-radius: 6px; box-shadow: 0 4px 12px rgb(0 0 0 / 0.3); }
 /* D-31: en oscuro, los botones secundarios no deslumbran; el naranja queda para la acción principal */
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn:not(.pop):not(.ghost) { background: var(--surface-2); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--line); }
   :root:not([data-theme="light"]) .btn:not(.pop):not(.ghost):hover { box-shadow: inset 0 0 0 1.5px var(--link); }
@@ -480,8 +486,6 @@ dialog.sheet { overflow-x: hidden; }
     <span class="wm">Go<span>Live</span>It</span>
     <span class="tag">Busca, compara y reserva viajes para vuestra edad <b class="demo-b">Demo</b></span>
     <span class="spacer"></span>
-    <span class="seg" role="group" aria-label="Tipo de mapa" id="mapmode"></span>
-    <button type="button" class="tbtn icon" id="pause" aria-pressed="false" aria-label="Pausar animaciones" title="Pausar animaciones">⏸</button>
     <button type="button" class="tbtn" data-open="how">¿Cómo va esto?</button>
     <button type="button" class="tbtn" id="mytrip">🧳 Mi viaje <span class="tbadge" id="mytrip-n"></span></button>
     <button type="button" class="tbtn solid" data-open="papeles">Papeleo y posibles líos</button>
@@ -510,7 +514,8 @@ dialog.sheet { overflow-x: hidden; }
 
   <section class="mapwrap" aria-label="Mapa">
     <div id="map"></div>
-    <div class="maptools"><button type="button" id="zin" aria-label="Acercar">+</button><button type="button" id="zout" aria-label="Alejar">−</button><button type="button" id="zeu" aria-label="Ver Europa">⌂</button></div>
+    <span class="seg mapseg" role="group" aria-label="Tipo de mapa" id="mapmode"></span>
+    <div class="maptools"><button type="button" id="zin" aria-label="Acercar">+</button><button type="button" id="zout" aria-label="Alejar">−</button><button type="button" id="zeu" aria-label="Ver Europa">⌂</button><button type="button" id="pause" aria-pressed="false" aria-label="Pausar animaciones" title="Pausar animaciones">⏸</button></div>
     <div class="maplegend" id="maplegend"></div>
     <div class="attrib" id="attrib"></div>
     <div class="toast" id="toast" hidden role="status"></div>
@@ -1057,6 +1062,11 @@ Reglas de extracción:
     map = new maplibregl.Map({ container: "map", style: styleFor(state.mapMode), center: [3, 46], zoom: 3.4, attributionControl: false, dragRotate: false, pitchWithRotate: false });
     map.once("load", () => { if (state.sel) flyTo(state.sel); else map.fitBounds(EU_BOUNDS, { padding: { top: 50, bottom: 90, left: 40, right: 60 }, duration: 0 }); });
     const ensureOverlays = () => { try { if (map.isStyleLoaded() && !map.getSource("arcs")) addOverlays(); } catch (e) { /* el estilo aún carga */ } };
+    let tip = null; const tipOff = () => { if (tip) { tip.remove(); tip = null; } map.getCanvas().style.cursor = ""; };
+    map.on("click", "dests", ev => { const k = ev.features && ev.features[0] && ev.features[0].properties.k; tipOff(); if (k) openDest(k); });
+    map.on("mousemove", "dests", ev => { const ft = ev.features && ev.features[0]; if (!ft) return; map.getCanvas().style.cursor = "pointer"; const el = document.createElement("div"); el.className = "mk-tip"; el.textContent = ft.properties.tip; if (tip) tip.remove(); tip = new maplibregl.Marker({ element: el, anchor: "bottom", offset: [0, -12] }).setLngLat(ft.geometry.coordinates).addTo(map); });
+    map.on("mouseleave", "dests", tipOff);
+    map.on("moveend", declutter);
     map.on("style.load", () => { styleOk = true; tuneOsm(); ensureOverlays(); }); map.on("styledata", ensureOverlays); map.on("idle", ensureOverlays);
     map.on("error", ev => {
       // Solo se cambia al mapa simple si el estilo no llegó a cargar (no por una tesela suelta que falle)
@@ -1099,6 +1109,8 @@ Reglas de extracción:
     if (!map.getSource("arcs")) {
       map.addSource("arcs", { type: "geojson", data: data.arcs });
       map.addLayer({ id: "arcs", type: "line", source: "arcs", layout: { "line-cap": "round" }, paint: { "line-color": css("--arc"), "line-width": ["case", ["==", ["get", "sel"], 1], 3, 1.6], "line-opacity": 0.85, "line-dasharray": [0, 4, 3] } });
+      map.addSource("dests", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
+      map.addLayer({ id: "dests", type: "circle", source: "dests", paint: { "circle-radius": ["get", "r"], "circle-color": ["get", "color"], "circle-stroke-width": 2.5, "circle-stroke-color": css("--surface"), "circle-opacity": 0.95 } });
       map.addSource("route", { type: "geojson", data: data.route });
       map.addLayer({ id: "route", type: "line", source: "route", layout: { "line-cap": "round", "line-join": "round" }, paint: { "line-color": css("--pop"), "line-width": 4, "line-opacity": 0.9 } });
     }
@@ -1112,20 +1124,34 @@ Reglas de extracción:
     markers.push(new maplibregl.Marker({ element: mkEl(o.name, "origin", "●", 22, null) }).setLngLat(o.c).addTo(map));
     const showStops = state.sel && DEST[state.sel].verified && analyse(state.sel).score != null;
     const top = new Set(data.res.viable.slice(0, 8).map(x => x.k));
+    const dots = [];
     data.res.all.forEach(a => {
       if (a.status === "home") return;
       if (showStops && a.k === state.sel) return;
       const st = a.status;
       const size = a.score != null ? 26 + Math.round(a.score / 6) : 24;
+      if (state.sel !== a.k && !top.has(a.k)) { dots.push({ type: "Feature", properties: { k: a.k, r: Math.round(size / 2.6), color: COLOR(st), tip: a.score != null ? `${a.d.city} · os pega ${a.score} · ${eur(a.total)}` : `${a.d.city} · ${STATUS[st][3]}` }, geometry: { type: "Point", coordinates: a.d.c } }); return; }
       const el = mkEl(a.score != null ? a.d.city + " · " + eur(a.total) : a.d.city, (state.sel === a.k ? "sel " : top.has(a.k) ? "" : "quiet "), a.score != null ? a.score : STATUS[st][1], size, st, a.k);
       markers.push(new maplibregl.Marker({ element: el }).setLngLat(a.d.c).addTo(map));
     });
+    if (map.getSource("dests")) map.getSource("dests").setData({ type: "FeatureCollection", features: dots });
     stopMarkers.forEach(m => m.remove()); stopMarkers = [];
     if (state.sel && DEST[state.sel].verified) {
       const a = analyse(state.sel);
       if (a.score != null) places(a).forEach(p => { const el = document.createElement("div"); el.className = "mk stopmk" + (p.ok ? "" : p.pending ? " pending" : " skip"); el.innerHTML = `<span class="dot" title="${esc(p.name)}: ${p.why}">${p.ok || p.pending ? p.icon : "×"}</span><span class="lbl">${esc(p.name)}</span>`; stopMarkers.push(new maplibregl.Marker({ element: el }).setLngLat(p.c).addTo(map)); });
     }
+    requestAnimationFrame(declutter);
   }
+  /* Etiquetas del mapa: si dos se pisan, se esconde la de menos prioridad (sale al pasar el ratón) */
+  function declutter() {
+    if (!map) return; const kept = [];
+    [...markers, ...stopMarkers].forEach(m => {
+      const l = m.getElement().querySelector(".lbl"); if (!l || m.getElement().classList.contains("quiet")) return;
+      l.classList.remove("lbl-off"); const r = l.getBoundingClientRect(); if (!r.width) return;
+      if (kept.some(k => r.left < k.right + 4 && r.right > k.left - 4 && r.top < k.bottom + 2 && r.bottom > k.top - 2)) l.classList.add("lbl-off"); else kept.push(r);
+    });
+  }
+  function openDest(k) { state.sel = k; state.tab = "todo"; if (state.cart.k !== k) state.cart = { k, fl: null, st: null }; update(true); flyTo(k); }
   function mkEl(label, cls, inner, size, st, k) {
     const b = document.createElement(k ? "button" : "div"); if (k) { b.type = "button"; b.dataset.dest = k; b.setAttribute("aria-label", `${label}: ${st ? STATUS[st][2] : ""}`); }
     b.className = "mk " + cls; const color = st ? COLOR(st) : "";
@@ -1836,9 +1862,9 @@ Reglas de extracción:
     const dlg = $("#sheet"); if (!dlg.open) dlg.showModal();
   }
   function renderModes() {
-    $("#mapmode").innerHTML = MODES.map(([k, l]) => `<button type="button" data-mode="${k}" aria-pressed="${state.mapMode === k}">${l}</button>`).join("");
+    $("#mapmode").innerHTML = MODES.filter(([k]) => k !== "mapbox" || getToken() || state.mapMode === "mapbox").map(([k, l]) => `<button type="button" data-mode="${k}" aria-pressed="${state.mapMode === k}">${l}</button>`).join("");
     $("#attrib").innerHTML = ATTRIB[state.mapMode];
-    $("#maplegend").innerHTML = `<strong class="small">Qué os sale</strong><div class="row" style="gap:4px">${pill("ok")}${pill("req")}${pill("no")}${pill("unk")}</div><span class="small muted">El número es cuánto os pega (0-100). Líneas: vuelos posibles desde ${esc(originName())}.</span>`;
+    $("#maplegend").innerHTML = `<strong class="small">Qué os sale</strong><div class="row" style="gap:4px">${pill("ok")}${pill("req")}${pill("no")}${pill("unk")}</div><span class="small muted">El número es cuánto os pega (0-100). Puntos pequeños: pasad el ratón para ver cuál es. Líneas: vuelos posibles desde ${esc(originName())}.</span>`;
   }
 
   /* =========================================================
@@ -1951,7 +1977,7 @@ Reglas de extracción:
       parseWithAI(wz.msg).then(wzFrom).catch(e => { const st = $("#wz-status"); if (st) st.textContent = aiFail(e); }).finally(() => { const b = $("#wz-ai"); if (b) b.disabled = false; });
     }
     else if (t.id === "bench-run") runBench();
-    else if (d.dest) { state.sel = d.dest; state.tab = "todo"; if (state.cart.k !== d.dest) state.cart = { k: d.dest, fl: null, st: null }; update(true); flyTo(d.dest); }
+    else if (d.dest) openDest(d.dest);
     else if (d.pickFl) { state.cart = { ...state.cart, k: state.sel, fl: state.cart.fl === d.pickFl ? null : d.pickFl }; renderResults(); }
     else if (d.pickSt) { state.cart = { ...state.cart, k: state.sel, st: state.cart.st === d.pickSt ? null : d.pickSt }; renderResults(); }
     else if (d.date && t.classList.contains("cal-d")) { state.date = d.date; update(); }
@@ -1996,7 +2022,7 @@ Reglas de extracción:
     else if (d.open === "compare") openCompare();
     else if (d.close !== undefined) $("#sheet").close();
     else if (d.lcuando) { state.legalFilter.cuando = d.lcuando; openPapeles(); }
-    else if (t.id === "mb-save") { const v = $("#mb-token").value.trim(); if (!/^pk\./.test(v)) { toast("Usa un token público: empieza por pk."); return; } try { localStorage.setItem("goliveit-mapbox-token", v); } catch (e) { /* sin almacenamiento */ } openHow(); toast("Token guardado en este navegador."); }
+    else if (t.id === "mb-save") { const v = $("#mb-token").value.trim(); if (!/^pk\./.test(v)) { toast("Usa un token público: empieza por pk."); return; } try { localStorage.setItem("goliveit-mapbox-token", v); } catch (e) { /* sin almacenamiento */ } renderModes(); openHow(); toast("Token guardado en este navegador."); }
     else if (t.id === "mb-clear") { try { localStorage.removeItem("goliveit-mapbox-token"); } catch (e) { /* nada */ } if (state.mapMode === "mapbox") { state.mapMode = "offline"; renderModes(); if (map) map.setStyle(styleFor("offline")); } openHow(); }
     else if (t.id === "copy-check") {
       const country = state.legalFilter.dest === "auto" ? (state.sel ? DEST[state.sel].country : null) : (state.legalFilter.dest === "todos" ? null : state.legalFilter.dest);
