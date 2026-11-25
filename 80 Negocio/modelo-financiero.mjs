@@ -210,9 +210,9 @@ const NP = [
   ["Todas las cifras de la presentación en una página. Las de arriba se recalculan solas; las tablas de abajo se calcularon con el modelo el 25/11/2026."],
   [],
   ["LO QUE PEDIMOS", "Escenario:", "=Resumen!$B$4"],
-  ["Financiación que pedimos", "=Resumen!$B$9"],
-  ["…tramo 1 (meses 0-6: inversión inicial y primeros meses)", "=-'Proyección mensual'!$X$" + (p0 + 6)],
-  ["Inversión inicial (mes 0)", "=Resumen!$B$6"],
+  ["Financiación que pedimos", "=Resumen!$B$9", "", "PUNTO MUERTO (viajeros al mes, año 2)", "='Punto muerto'!$C$15"],
+  ["…tramo 1 (meses 0-6: inversión inicial y primeros meses)", "=-'Proyección mensual'!$X$" + (p0 + 6), "", "…de ellos con Pase", "='Punto muerto'!$C$16"],
+  ["Inversión inicial (mes 0)", "=Resumen!$B$6", "", "Punto muerto alcanzado (12 meses en positivo)", "='Punto muerto'!$B$22"],
   ["Peor momento de caja", "=-Resumen!$B$7"],
   ["Primer mes con beneficio", "=Resumen!$B$11"],
   ["Mes en que se recupera la inversión", "=Resumen!$B$12"],
@@ -249,8 +249,48 @@ const NP = [
 ];
 const npEsc = NP.length + 2;
 
+/* ---------- 8. Punto muerto ---------- */
+const PM = [
+  ["Punto muerto (umbral de rentabilidad)"],
+  ["Cuántos viajeros al mes hacen falta para cubrir los costes fijos, y en qué mes se llega. Todo son fórmulas sobre Supuestos y Proyección mensual."],
+  [],
+  ["MARGEN DE CONTRIBUCIÓN POR VIAJERO", "€"],
+  ["Pase sin IVA, por viajero con Pase", "=" + sup("precio") + "*(1-" + sup("descGrupo") + ")/(1+" + sup("iva") + ")"],
+  ["…menos pasarela, avisos y soporte", "=-(" + sup("precio") + "*(1-" + sup("descGrupo") + ")*" + sup("pagoPct") + "+" + sup("pagoFijo") + "+" + sup("costeFamilia") + ")"],
+  ["…más Pack tranquilidad (media)", "=" + sup("seguroPct") + "*" + sup("seguroPrima") + "*" + sup("seguroCom") + "+" + sup("esimPct") + "*" + sup("esimPrecio") + "*" + sup("esimCom")],
+  ["Margen por viajero con Pase", "=B5+B6+B7"],
+  ["Viajeros que compran el Pase", "=" + sup("convPago")],
+  ["Afiliación por viajero (media de todos)", "=" + sup("pctEnlaces") + "*" + sup("eurReserva")],
+  ["MARGEN DE CONTRIBUCIÓN POR VIAJERO (media)", "=B8*B9+B10"],
+  [],
+  ["COSTES FIJOS AL MES", "Año 1", "Año 2", "Año 3 en adelante"],
+  ["Costes fijos (sin los que dependen de las ventas)", `='Proyección mensual'!$V$${p0 + 1}-'Proyección mensual'!$O$${p0 + 1}`, `='Proyección mensual'!$V$${p0 + 13}-'Proyección mensual'!$O$${p0 + 13}`, `='Proyección mensual'!$V$${p0 + 25}-'Proyección mensual'!$O$${p0 + 25}`],
+  ["PUNTO MUERTO: viajeros al mes", "=B14/$B$11", "=C14/$B$11", "=D14/$B$11"],
+  ["…de ellos, con Pase", "=B15*$B$9", "=C15*$B$9", "=D15*$B$9"],
+  ["…al año (viajeros)", "=B15*12", "=C15*12", "=D15*12"],
+  ["…al año (grupos de 4)", "=B17/" + sup("porGrupo"), "=C17/" + sup("porGrupo"), "=D17/" + sup("porGrupo")],
+  [],
+  ["CUÁNDO SE ALCANZA", "Mes"],
+  ["Primer mes con beneficio (temporada alta)", "=Resumen!$B$11"],
+  ["Punto muerto alcanzado (los últimos 12 meses en positivo)", "=IF(MIN($I$26:$I$85)=999,\"No en 5 años\",INDEX($B$26:$B$85,MIN($I$26:$I$85)))"],
+  ["Inversión recuperada (caja acumulada ≥ 0)", "=Resumen!$B$12"],
+  [],
+  ["Mes nº", "Mes", "Viajeros del mes", "Viajeros necesarios (punto muerto)", "Margen de contribución", "Costes fijos", "Resultado del mes", "Resultado últimos 12 meses", "Aux: punto muerto"],
+];
+const pmStart = PM.length + 1;
+for (let m = 1; m <= 60; m++) {
+  const r = pmStart + m - 1, pr = p0 + m;
+  PM.push([m, `='Proyección mensual'!$B$${pr}`, `='Proyección mensual'!$H$${pr}`,
+    `=MAX(0,(F${r}-'Proyección mensual'!$M$${pr})/$B$11)`,
+    `=C${r}*$B$11`,
+    `='Proyección mensual'!$V$${pr}-'Proyección mensual'!$O$${pr}`,
+    `='Proyección mensual'!$W$${pr}`,
+    m >= 12 ? `=SUM(G${r - 11}:G${r})` : "",
+    m >= 12 ? `=IF(H${r}>=0,A${r},999)` : 999]);
+}
+
 /* ---------- Evaluar ---------- */
-const sheets = { "Números del pitch": NP, "Resumen": Rz, "Supuestos": S, "Inversión inicial": I, "Proyección mensual": P, "Financiación": F, "Fuentes": FU };
+const sheets = { "Números del pitch": NP, "Punto muerto": PM, "Resumen": Rz, "Supuestos": S, "Inversión inicial": I, "Proyección mensual": P, "Financiación": F, "Fuentes": FU };
 const norm = a => a.map(r => r.map(v => v === undefined ? null : v));
 const hf = HyperFormula.buildFromSheets(Object.fromEntries(Object.entries(sheets).map(([k, v]) => [k, norm(v)])), { licenseKey: "gpl-v3" });
 const val = (name, r, c) => hf.getCellValue({ sheet: hf.getSheetId(name), row: r - 1, col: c });
@@ -322,7 +362,8 @@ const head = (w, r, n) => { for (let c = 1; c <= n; c++) { const x = w.getCell(r
 for (const [name, rows] of Object.entries(sheets)) rows.forEach((row, ri) => row.forEach((v, ci) => { if (typeof v === "string" && /^=('[^']+'|[A-Za-zÁ-ú]+)!\$?[A-Z]+\$?\d+$/.test(v)) { const x = ws(name).getCell(ri + 1, ci + 1); x.font = { ...(x.font || {}), name: FONT, color: { argb: "FF008000" } }; } }));
 { const w = ws("Números del pitch");
   // tablas calculadas (se rellenan más abajo, tras evaluar escenarios); aquí solo formato
-  w.getColumn(1).width = 58; for (const c of [2, 3, 4, 5, 6]) w.getColumn(c).width = 16;
+  w.getColumn(1).width = 58; for (const c of [2, 3, 4, 5, 6]) w.getColumn(c).width = 16; w.getColumn(4).width = 44;
+  for (const r of [5, 6]) w.getCell(r, 5).numFmt = NUM; for (const r of [5, 6, 7]) { w.getCell(r, 4).font = { name: FONT, size: 10, bold: r === 5 }; w.getCell(r, 5).font = { name: FONT, size: r === 5 ? 12 : 10, bold: true }; } w.getCell("E5").fill = YELLOW;
   for (const r of [4, 13, 21, 32, 32 + INV.length + 4]) { const c = w.getCell(r, 1); c.font = { name: FONT, size: 10, bold: true, color: { argb: "FF5B3DF5" } }; }
   head(w, 21, 6); head(w, 32, 2); head(w, 32 + INV.length + 4, 3);
   for (const r of [5, 6, 7, 8]) w.getCell(r, 2).numFmt = EUR;
@@ -333,6 +374,17 @@ for (const [name, rows] of Object.entries(sheets)) rows.forEach((row, ri) => row
   for (let r = 33; r <= 33 + INV.length + 1; r++) w.getCell(r, 2).numFmt = EUR;
   for (let r = 33 + INV.length + 5; r <= 33 + INV.length + 11; r++) w.getCell(r, 2).numFmt = EUR;
   w.getColumn(1).alignment = { wrapText: true, vertical: "top" }; }
+{ const w = ws("Punto muerto"); w.getColumn(1).width = 56; for (let c = 2; c <= 9; c++) w.getColumn(c).width = 16;
+  for (const r of [4, 13, 20]) w.getCell(r, 1).font = { name: FONT, size: 10, bold: true, color: { argb: "FF5B3DF5" } };
+  head(w, 13, 4); head(w, 25, 9); w.getRow(25).height = 32; w.getColumn(9).hidden = true;
+  for (let r = 5; r <= 11; r++) w.getCell(r, 2).numFmt = r === 9 ? PCT : EUR2;
+  w.getCell("A11").font = { name: FONT, size: 11, bold: true }; w.getCell("B11").font = { name: FONT, size: 11, bold: true }; w.getCell("B11").fill = YELLOW;
+  for (let c = 2; c <= 4; c++) { w.getCell(14, c).numFmt = EUR; for (const r of [15, 16, 17, 18]) w.getCell(r, c).numFmt = NUM; w.getCell(15, c).font = { name: FONT, size: 11, bold: true }; w.getCell(15, c).fill = YELLOW; }
+  w.getCell("A15").font = { name: FONT, size: 11, bold: true };
+  for (const r of [21, 22, 23]) { w.getCell(r, 2).font = { name: FONT, size: 10, bold: true }; }
+  w.getCell("B22").fill = YELLOW;
+  for (let r = pmStart; r < pmStart + 60; r++) { for (const c of [3, 4]) w.getCell(r, c).numFmt = NUM; for (const c of [5, 6, 7, 8]) w.getCell(r, c).numFmt = EUR; }
+  w.views = [{ state: "frozen", ySplit: 25 }]; }
 await wb.xlsx.writeFile(OUT);
 
 /* ---------- Informe ---------- */
@@ -367,6 +419,10 @@ console.log(JSON.stringify({ errors, ...out }, null, 1));
   for (const f of sens) { put(r, [Math.round(f.conv * 100) + " %", ...[14.99, 19.99, 24.99, 29.99].map(p => (typeof f[p][0] === "number" ? f[p][0] + " meses" : f[p][0]) + " / " + String(f[p][1]).replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €")]); r++; }
   r++; put(r, ["Para recalcular estas dos tablas con otros supuestos, cambia la hoja Supuestos y vuelve a generar el archivo (80 Negocio/modelo-financiero.mjs)."]); w.getCell(r, 1).font = { name: FONT, size: 9, italic: true, color: { argb: "FF555C7B" } };
   await wb2.xlsx.writeFile(OUT); }
+{ hf.setCellContents({ sheet: hf.getSheetId("Supuestos"), row: 2, col: 1 }, [[2]]);
+  const pm = { margen: val("Punto muerto", 11, 1), cf: [1, 2, 3].map(c => val("Punto muerto", 14, c)), viaj: [1, 2, 3].map(c => val("Punto muerto", 15, c)), pases: [1, 2, 3].map(c => val("Punto muerto", 16, c)), alcanzado: val("Punto muerto", 22, 1), viajeros: [], necesarios: [], r12: [] };
+  for (let m = 1; m <= 60; m++) { const r = pmStart + m - 1; pm.viajeros.push(val("Punto muerto", r, 2)); pm.necesarios.push(val("Punto muerto", r, 3)); pm.r12.push(val("Punto muerto", r, 7)); }
+  (await import("node:fs")).writeFileSync(OUT.replace(/\.xlsx$/, "-pm.json"), JSON.stringify(pm)); }
 // curva de caja (base) para la presentación
 hf.setCellContents({ sheet: hf.getSheetId("Supuestos"), row: 2, col: 1 }, [[2]]);
 const curva = []; for (let r = p0; r <= pEnd; r++) curva.push(Math.round(val("Proyección mensual", r, 23)));

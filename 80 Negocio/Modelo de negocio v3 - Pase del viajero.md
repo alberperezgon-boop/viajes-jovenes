@@ -51,6 +51,12 @@ Una familia que no paga no tiene nada de su hijo, así que el incentivo para com
 | Primer mes con beneficio | julio de 2027 | julio de 2027 | — |
 | **Recuperación** | **agosto de 2030 (44 meses)** | marzo de 2029 (27 meses) | 32 meses |
 
+**Punto muerto** (hoja «Punto muerto» del Excel):
+- **margen medio por viajero:** 6,63 €, contando el Pase sin IVA ni costes variables, el Pack tranquilidad y la afiliación;
+- **costes fijos:** unos 840 € al mes el año 1, 864 € el año 2 y 1.275 € desde el año 3, cuando empiezan los sueldos;
+- **punto muerto:** unos **130 viajeros al mes** (unos 39 con Pase, unos 32 grupos de 4), o 1.560 al año; desde 2029, 192 al mes;
+- **cuándo se alcanza:** en **agosto de 2028**, cuando los últimos 12 meses ya dan beneficio. Por la temporada, el verano lo supera de sobra y el invierno no.
+
 **Sensibilidad:** meses hasta recuperar y financiación a pedir; escenario base, solo B2C.
 
 | Viajeros con Pase | 14,99 € | **19,99 €** | 24,99 € | 29,99 € |
