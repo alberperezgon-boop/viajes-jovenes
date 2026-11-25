@@ -290,8 +290,39 @@ for (let m = 1; m <= 60; m++) {
     m >= 12 ? `=IF(H${r}>=0,A${r},999)` : 999]);
 }
 
+/* ---------- 9. Previsión hasta 6 meses después del punto muerto ---------- */
+const PV = [
+  ["Previsión de ingresos y beneficios hasta 6 meses después del punto muerto"],
+  ["Mes a mes desde el lanzamiento. Se recalcula sola: si cambia el punto muerto, la tabla se alarga o se acorta. Importes sin IVA."],
+  [],
+  ["Escenario", "=Supuestos!$C$3"],
+  ["Mes del punto muerto (los últimos 12 meses en positivo)", "='Punto muerto'!$B$22"],
+  ["…mes nº", "=IF(MIN('Punto muerto'!$I$" + pmStart + ":$I$" + (pmStart + 59) + ")=999,60,MIN('Punto muerto'!$I$" + pmStart + ":$I$" + (pmStart + 59) + "))"],
+  ["La tabla llega hasta (punto muerto + 6 meses)", "=INDEX('Proyección mensual'!$B$" + (p0 + 1) + ":$B$" + (p0 + 60) + ",MIN(60,B6+6))"],
+  [],
+  ["Mes nº", "Mes", "Fase", "Viajeros", "Viajeros con Pase", "Ingreso Pase (sin IVA)", "Pack tranquilidad y enlaces", "Ingresos totales", "Costes totales", "Beneficio del mes", "Beneficio acumulado", "Caja acumulada (con la inversión)"],
+];
+const pvStart = PV.length + 1;
+for (let m = 1; m <= 30; m++) {
+  const r = pvStart + m - 1, pr = p0 + m, on = `$A${r}<=$B$6+6`;
+  const g = c => `=IF(${on},'Proyección mensual'!$${c}$${pr},"")`;
+  PV.push([
+    `=IF(${m}<=$B$6+6,${m},"")`,
+    g("B"),
+    `=IF(${on},IF($A${r}<$B$6,"Antes del punto muerto",IF($A${r}=$B$6,"PUNTO MUERTO",IF($A${r}-$B$6=1,"+1 mes","+"&($A${r}-$B$6)&" meses"))),"")`,
+    g("H"), g("I"), g("J"), g("K"), g("N"), g("V"), g("W"),
+    `=IF(${on},SUM($J$${pvStart}:J${r}),"")`,
+    g("X"),
+  ]);
+}
+const pvEnd = pvStart + 29;
+PV.push([]);
+PV.push(["TOTAL hasta punto muerto + 6", "", "", `=SUM(D${pvStart}:D${pvEnd})`, `=SUM(E${pvStart}:E${pvEnd})`, `=SUM(F${pvStart}:F${pvEnd})`, `=SUM(G${pvStart}:G${pvEnd})`, `=SUM(H${pvStart}:H${pvEnd})`, `=SUM(I${pvStart}:I${pvEnd})`, `=SUM(J${pvStart}:J${pvEnd})`]);
+const pvTot = PV.length;
+PV.push(["…de ello, los 6 meses después del punto muerto", "", "", `=SUMIF($A$${pvStart}:$A$${pvEnd},">"&$B$6,D${pvStart}:D${pvEnd})`, `=SUMIF($A$${pvStart}:$A$${pvEnd},">"&$B$6,E${pvStart}:E${pvEnd})`, `=SUMIF($A$${pvStart}:$A$${pvEnd},">"&$B$6,F${pvStart}:F${pvEnd})`, `=SUMIF($A$${pvStart}:$A$${pvEnd},">"&$B$6,G${pvStart}:G${pvEnd})`, `=SUMIF($A$${pvStart}:$A$${pvEnd},">"&$B$6,H${pvStart}:H${pvEnd})`, `=SUMIF($A$${pvStart}:$A$${pvEnd},">"&$B$6,I${pvStart}:I${pvEnd})`, `=SUMIF($A$${pvStart}:$A$${pvEnd},">"&$B$6,J${pvStart}:J${pvEnd})`]);
+
 /* ---------- Evaluar ---------- */
-const sheets = { "Números del pitch": NP, "Punto muerto": PM, "Resumen": Rz, "Supuestos": S, "Inversión inicial": I, "Proyección mensual": P, "Financiación": F, "Fuentes": FU };
+const sheets = { "Números del pitch": NP, "Previsión hasta PM + 6": PV, "Punto muerto": PM, "Resumen": Rz, "Supuestos": S, "Inversión inicial": I, "Proyección mensual": P, "Financiación": F, "Fuentes": FU };
 const norm = a => a.map(r => r.map(v => v === undefined ? null : v));
 const hf = HyperFormula.buildFromSheets(Object.fromEntries(Object.entries(sheets).map(([k, v]) => [k, norm(v)])), { licenseKey: "gpl-v3" });
 const val = (name, r, c) => hf.getCellValue({ sheet: hf.getSheetId(name), row: r - 1, col: c });
@@ -386,6 +417,14 @@ for (const [name, rows] of Object.entries(sheets)) rows.forEach((row, ri) => row
   w.getCell("B22").fill = YELLOW;
   for (let r = pmStart; r < pmStart + 60; r++) { for (const c of [3, 4]) w.getCell(r, c).numFmt = NUM; for (const c of [5, 6, 7, 8]) w.getCell(r, c).numFmt = EUR; }
   w.views = [{ state: "frozen", ySplit: 25 }]; }
+{ const w = ws("Previsión hasta PM + 6"); w.getColumn(1).width = 46; w.getColumn(2).width = 12; w.getColumn(3).width = 22; for (let c = 4; c <= 12; c++) w.getColumn(c).width = 15;
+  head(w, 9, 12); w.getRow(9).height = 34;
+  for (const r of [4, 5, 6, 7]) { w.getCell(r, 1).font = { name: FONT, size: 10, bold: true }; w.getCell(r, 2).font = { name: FONT, size: 11, bold: true }; }
+  w.getCell("B5").fill = YELLOW;
+  for (let r = pvStart; r <= pvTot + 1; r++) { for (const c of [4, 5]) w.getCell(r, c).numFmt = NUM; for (let c = 6; c <= 12; c++) w.getCell(r, c).numFmt = EUR; }
+  for (const r of [pvTot, pvTot + 1]) for (let c = 1; c <= 12; c++) w.getCell(r, c).font = { name: FONT, size: 10, bold: true };
+  w.addConditionalFormatting({ ref: `A${pvStart}:L${pvEnd}`, rules: [{ type: "expression", formulae: [`$C${pvStart}="PUNTO MUERTO"`], style: { fill: { type: "pattern", pattern: "solid", bgColor: { argb: "FFFFFF00" } }, font: { bold: true } } }] });
+  w.views = [{ state: "frozen", ySplit: 9, xSplit: 2 }]; }
 await wb.xlsx.writeFile(OUT);
 
 /* ---------- Informe ---------- */
@@ -424,6 +463,11 @@ console.log(JSON.stringify({ errors, ...out }, null, 1));
   const pm = { margen: val("Punto muerto", 11, 1), cf: [1, 2, 3].map(c => val("Punto muerto", 14, c)), viaj: [1, 2, 3].map(c => val("Punto muerto", 15, c)), pases: [1, 2, 3].map(c => val("Punto muerto", 16, c)), alcanzado: val("Punto muerto", 22, 1), viajeros: [], necesarios: [], r12: [] };
   for (let m = 1; m <= 60; m++) { const r = pmStart + m - 1; pm.viajeros.push(val("Punto muerto", r, 2)); pm.necesarios.push(val("Punto muerto", r, 3)); pm.r12.push(val("Punto muerto", r, 7)); }
   (await import("node:fs")).writeFileSync(OUT.replace(/\.xlsx$/, "-pm.json"), JSON.stringify(pm)); }
+{ hf.setCellContents({ sheet: hf.getSheetId("Supuestos"), row: 2, col: 1 }, [[3]]);
+  const pv = { pm: val("Previsión hasta PM + 6", 5, 1), pmN: val("Previsión hasta PM + 6", 6, 1), hasta: val("Previsión hasta PM + 6", 7, 1), filas: [] };
+  for (let r = pvStart; r <= pvEnd; r++) { const a = val("Previsión hasta PM + 6", r, 0); if (a === "" || a == null) continue; pv.filas.push([2, 4, 7, 8, 9, 10, 11].map(c => val("Previsión hasta PM + 6", r, c))); }
+  pv.tot = [3, 5, 6, 7, 8, 9].map(c => val("Previsión hasta PM + 6", pvTot, c)); pv.tot6 = [3, 5, 6, 7, 8, 9].map(c => val("Previsión hasta PM + 6", pvTot + 1, c));
+  (await import("node:fs")).writeFileSync(OUT.replace(/\.xlsx$/, "-pv.json"), JSON.stringify(pv)); }
 // curva de caja (base) para la presentación
 hf.setCellContents({ sheet: hf.getSheetId("Supuestos"), row: 2, col: 1 }, [[3]]);
 const curva = []; for (let r = p0; r <= pEnd; r++) curva.push(Math.round(val("Proyección mensual", r, 23)));

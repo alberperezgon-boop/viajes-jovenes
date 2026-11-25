@@ -176,3 +176,5 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 - **25/11 — D-35:** mercado nacional, solo particulares y financiación de 12.000 € (recuperación en 21 meses en el escenario objetivo). Excel, pitch (Slides, Figma, HTML y PowerPoint) y prompt de ChatGPT actualizados.
 
 - **25/11 — D-36:** el pitch, el Excel y el prompt pasan al modelo del compañero (Pase a 19,99 €) en tono positivo: 12.000 €, punto muerto en diciembre de 2027 y recuperación en diciembre de 2028.
+
+- **25/11:** el Excel tiene una hoja nueva, «Previsión hasta PM + 6», con los ingresos y beneficios mes a mes desde enero de 2027 hasta 6 meses después del punto muerto (junio de 2028). Copia en Descargas.
