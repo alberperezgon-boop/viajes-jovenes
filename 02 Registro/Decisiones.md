@@ -251,3 +251,26 @@ Cada decisión dice quién la tomó, con qué evidencia y qué la haría cambiar
 
 - **Referencia:** el modelo de negocio del equipo tal cual, con el Pase Ruta16 a 19,99 €, el Pack tranquilidad, las reservas por enlace y, más adelante, acuerdos con albergues. El pitch y el prompt de ChatGPT lo cuentan en positivo.
 - **Escenario objetivo:** se piden 12.000 €; el punto muerto llega en diciembre de 2027 y la inversión se recupera en diciembre de 2028 (24 meses).
+
+## D-37. Pitch para inversores (25/11/2026)
+
+- **Las 12 diapositivas se rehacen con la estructura de inversión:**
+  1. portada con lo que pedimos;
+  2. problema;
+  3. solución;
+  4. ventaja (la base verificada);
+  5. mercado (total, alcanzable y objetivo);
+  6. competencia (mapa de posicionamiento);
+  7. tracción;
+  8. modelo;
+  9. captación de clientes, con coste por cliente frente a margen;
+  10. previsión financiera;
+  11. equipo;
+  12. inversión, uso de los fondos e hitos.
+- **Datos:** encuesta actualizada del compañero (61 respuestas, 48 de jóvenes).
+- **Números por cliente:**
+  - captación de unos 10 € por Pase el primer año (2.700 € de campaña + 1.200 € de contenido, entre unos 400 Pases);
+  - margen de unos 17,70 € por Pase (Pase sin IVA menos pago y avisos, más Pack tranquilidad).
+  
+  Las dos son estimaciones.
+- **Pendiente del equipo:** los nombres de los compañeros en la diapositiva de equipo (ahora pone [Nombre]) y el correo de contacto.

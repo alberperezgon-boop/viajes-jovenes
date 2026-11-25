@@ -12,17 +12,19 @@ Actúa como asesor de negocio y de producto de nuestra startup. Te doy todo el c
 
 # 2. El problema (datos)
 
-Datos de la encuesta propia de Ruta16 del 23/11/2026: 40 respuestas, 30 de ellas de jóvenes de 15-17 años. Es un piloto, no representativo.
+Datos de la encuesta propia de Ruta16 del 23/11/2026: **61 respuestas**, 48 de ellas de jóvenes de 15-17 años. Es un piloto.
 
 | Dato | Valor |
 |---|---|
-| Viaja o lo ha planeado sin adultos | 78 % |
-| Lo usaría | 88 % (50 % seguro, 38 % quizá) |
-| Descubrió una norma de edad después de reservar o pagar | 1 de cada 4 |
-| Le frena el dinero | 65 % |
-| Le frena el permiso de los padres (obligatorio para salir de España; vale 90 días) | 40 % |
-| Se informa en Google / en webs oficiales | 72 % / 42 % |
-| Pagaría algo, o querría que pague la familia | 48 % (pocos más de 5 €) |
+| Viaja o lo ha planeado sin adultos | 79 % |
+| La usaría | 87 % (59 % seguro, 28 % quizá) |
+| Descubrió una norma de edad después de reservar o pagar | 19 de 42 (de los que ya habían reservado) |
+| Le frena el dinero | 69 % |
+| Le frena el permiso de los padres (obligatorio para salir de España; vale 90 días) | 39 % |
+| No sabe qué papeles necesita | 25 % |
+| Se informa en Google / amigos y familia / webs oficiales / TikTok e Instagram | 70 % / 56 % / 44 % / 38 % |
+| Pagaría algo, o querría que pague la familia | 56 % |
+| Familias y adultos que dejarían viajar a los 16-17 (n = 32) | 59 % sí y 34 % depende |
 
 - **Familias:** el equipo tiene validación propia de que hay familias dispuestas a pagar **más de 20 €** por la tranquilidad de que su hijo viaja seguro, y tiene leads de familias. En la encuesta solo hay 2 respuestas de familias.
 - **Cada pieza del viaje pone su propia edad:**
