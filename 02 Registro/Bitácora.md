@@ -164,3 +164,5 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
   - Excel de financiación: 13.000 € y recuperación en 44 meses.
   - Pitch de 15 diapositivas en Slides, Figma y Netlify.
   - Planner rediseñado con la estética de Ruta16; recorrido sin errores en claro y en oscuro.
+
+- **25/11:** la web y el pitch de Netlify pasan a ser públicos (https://goliveit-ruta16.netlify.app y /pitch/), con permiso de Alberto. El Excel tiene una primera hoja, «Números del pitch», con todas las cifras de la presentación.

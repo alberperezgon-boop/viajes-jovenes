@@ -204,8 +204,53 @@ const FU = [["Fuentes y etiquetas"], [],
   ["Afiliación y APIs de proveedores (estudio propio)", "Bóveda: 50 Propuesta individual/Integración de proveedores y marketplace.md"],
 ];
 
+/* ---------- 7. Números del pitch ---------- */
+const NP = [
+  ["Números del pitch · GoLiveIt (equipo Ruta16)"],
+  ["Todas las cifras de la presentación en una página. Las de arriba se recalculan solas; las tablas de abajo se calcularon con el modelo el 25/11/2026."],
+  [],
+  ["LO QUE PEDIMOS", "Escenario:", "=Resumen!$B$4"],
+  ["Financiación que pedimos", "=Resumen!$B$9"],
+  ["…tramo 1 (meses 0-6: inversión inicial y primeros meses)", "=-'Proyección mensual'!$X$" + (p0 + 6)],
+  ["Inversión inicial (mes 0)", "=Resumen!$B$6"],
+  ["Peor momento de caja", "=-Resumen!$B$7"],
+  ["Primer mes con beneficio", "=Resumen!$B$11"],
+  ["Mes en que se recupera la inversión", "=Resumen!$B$12"],
+  ["…meses hasta recuperarla", "=Resumen!$B$13"],
+  [],
+  ["CUÁNTO DEJA CADA PASE"],
+  ["Precio del Pase (IVA incluido)", "=" + sup("precio")],
+  ["…sin IVA (lo que ingresamos)", "=" + sup("precio") + "/(1+" + sup("iva") + ")"],
+  ["…menos la pasarela de pago", "=-(" + sup("precio") + "*" + sup("pagoPct") + "+" + sup("pagoFijo") + ")"],
+  ["…menos avisos, asistencia y soporte", "=-" + sup("costeFamilia")],
+  ["Margen por Pase", "=B15+B16+B17"],
+  ["Pack tranquilidad por Pase (media)", "=" + sup("seguroPct") + "*" + sup("seguroPrima") + "*" + sup("seguroCom") + "+" + sup("esimPct") + "*" + sup("esimPrecio") + "*" + sup("esimCom")],
+  [],
+  ["AÑO A AÑO", "Año 1 (2027)", "Año 2 (2028)", "Año 3 (2029)", "Año 4 (2030)", "Año 5 (2031)"],
+  ["Viajeros", ...[1, 2, 3, 4, 5].map(y => `=SUMIF(${RNG("C")},${y},${RNG("H")})`)],
+  ["Viajeros con Pase", ...[1, 2, 3, 4, 5].map(y => `=SUMIF(${RNG("C")},${y},${RNG("I")})`)],
+  ["Ingresos", ...[1, 2, 3, 4, 5].map(y => `=SUMIF(${RNG("C")},${y},${RNG("N")})`)],
+  ["…Pase (sin IVA)", ...[1, 2, 3, 4, 5].map(y => `=SUMIF(${RNG("C")},${y},${RNG("J")})`)],
+  ["…pack tranquilidad y afiliación", ...[1, 2, 3, 4, 5].map(y => `=SUMIF(${RNG("C")},${y},${RNG("K")})`)],
+  ["…centros y ayuntamientos (opcional)", ...[1, 2, 3, 4, 5].map(y => `=SUMIF(${RNG("C")},${y},${RNG("M")})`)],
+  ["Costes", ...[1, 2, 3, 4, 5].map(y => `=SUMIF(${RNG("C")},${y},${RNG("V")})`)],
+  ["Resultado", ...[1, 2, 3, 4, 5].map(y => `=SUMIF(${RNG("C")},${y},${RNG("W")})`)],
+  ["Caja al final del año", ...[12, 24, 36, 48, 60].map(k => `='Proyección mensual'!$X$${p0 + k}`)],
+  [],
+  ["EN QUÉ SE USA LA INVERSIÓN INICIAL", "Importe (€)"],
+  ...INV.map((r, i) => [r[0], `='Inversión inicial'!$B$${invStart + i}`]),
+  ["Imprevistos", `='Inversión inicial'!$B$${invTot}-'Inversión inicial'!$B$${invSub}`],
+  ["Total", `='Inversión inicial'!$B$${invTot}`],
+  [],
+  ["DE DÓNDE PUEDE SALIR EL DINERO", "Importe (€)", "Estado"],
+  ...[0, 1, 2, 3, 4].map(i => [`=Financiación!$A$${fStart + i}`, `=Financiación!$B$${fStart + i}`, `=Financiación!$D$${fStart + i}`]),
+  ["Total previsto", `=Financiación!$B$${fTot}`],
+  ["Hueco que falta por cubrir", `=Financiación!$B$${fTot + 4}`],
+];
+const npEsc = NP.length + 2;
+
 /* ---------- Evaluar ---------- */
-const sheets = { "Resumen": Rz, "Supuestos": S, "Inversión inicial": I, "Proyección mensual": P, "Financiación": F, "Fuentes": FU };
+const sheets = { "Números del pitch": NP, "Resumen": Rz, "Supuestos": S, "Inversión inicial": I, "Proyección mensual": P, "Financiación": F, "Fuentes": FU };
 const norm = a => a.map(r => r.map(v => v === undefined ? null : v));
 const hf = HyperFormula.buildFromSheets(Object.fromEntries(Object.entries(sheets).map(([k, v]) => [k, norm(v)])), { licenseKey: "gpl-v3" });
 const val = (name, r, c) => hf.getCellValue({ sheet: hf.getSheetId(name), row: r - 1, col: c });
@@ -275,6 +320,19 @@ const head = (w, r, n) => { for (let c = 1; c <= n; c++) { const x = w.getCell(r
 { const w = ws("Fuentes"); head(w, 3, 2); head(w, 10, 2); w.getColumn(1).width = 70; w.getColumn(2).width = 110; }
 // Verde para enlaces a otras hojas
 for (const [name, rows] of Object.entries(sheets)) rows.forEach((row, ri) => row.forEach((v, ci) => { if (typeof v === "string" && /^=('[^']+'|[A-Za-zÁ-ú]+)!\$?[A-Z]+\$?\d+$/.test(v)) { const x = ws(name).getCell(ri + 1, ci + 1); x.font = { ...(x.font || {}), name: FONT, color: { argb: "FF008000" } }; } }));
+{ const w = ws("Números del pitch");
+  // tablas calculadas (se rellenan más abajo, tras evaluar escenarios); aquí solo formato
+  w.getColumn(1).width = 58; for (const c of [2, 3, 4, 5, 6]) w.getColumn(c).width = 16;
+  for (const r of [4, 13, 21, 32, 32 + INV.length + 4]) { const c = w.getCell(r, 1); c.font = { name: FONT, size: 10, bold: true, color: { argb: "FF5B3DF5" } }; }
+  head(w, 21, 6); head(w, 32, 2); head(w, 32 + INV.length + 4, 3);
+  for (const r of [5, 6, 7, 8]) w.getCell(r, 2).numFmt = EUR;
+  w.getCell("B5").font = { name: FONT, size: 12, bold: true }; w.getCell("A5").font = { name: FONT, size: 12, bold: true }; w.getCell("B5").fill = YELLOW;
+  for (const r of [9, 10, 11]) w.getCell(r, 2).font = { name: FONT, size: 10, bold: true };
+  for (let r = 14; r <= 19; r++) w.getCell(r, 2).numFmt = EUR2; w.getCell("B18").font = { name: FONT, size: 10, bold: true };
+  for (let r = 22; r <= 30; r++) for (let c = 2; c <= 6; c++) w.getCell(r, c).numFmt = r <= 23 ? NUM : EUR;
+  for (let r = 33; r <= 33 + INV.length + 1; r++) w.getCell(r, 2).numFmt = EUR;
+  for (let r = 33 + INV.length + 5; r <= 33 + INV.length + 11; r++) w.getCell(r, 2).numFmt = EUR;
+  w.getColumn(1).alignment = { wrapText: true, vertical: "top" }; }
 await wb.xlsx.writeFile(OUT);
 
 /* ---------- Informe ---------- */
@@ -296,6 +354,19 @@ console.log(JSON.stringify({ errors, ...out }, null, 1));
     fila[p] = [val("Resumen", 13, 1), val("Resumen", 9, 1)]; } sens.push(fila); }
   hf.setCellContents({ sheet: sid, row: pr - 1, col: 2 }, [[orig[0]]]); hf.setCellContents({ sheet: sid, row: cv - 1, col: 2 }, [[orig[1]]]);
   (await import("node:fs")).writeFileSync(OUT.replace(/\.xlsx$/, "-sens.json"), JSON.stringify(sens)); }
+{ const wb2 = new ExcelJS.Workbook(); await wb2.xlsx.readFile(OUT); const w = wb2.getWorksheet("Números del pitch"); let r = npEsc + 1 + 0;
+  r = w.rowCount + 2;
+  const put = (row, vals, bold) => vals.forEach((v, i) => { const c = w.getCell(row, i + 1); c.value = v; c.font = { name: FONT, size: 10, bold: !!bold }; });
+  put(r, ["ESCENARIOS (calculados con el modelo el 25/11/2026)"], true); w.getCell(r, 1).font = { name: FONT, size: 10, bold: true, color: { argb: "FF5B3DF5" } }; r++;
+  put(r, ["Escenario", "Financiación", "Recuperación", "Meses", "Caja año 5"]); head(w, r, 5); r++;
+  for (const k of ["prudente", "base", "optimista"]) { const x = out[k]; put(r, [k[0].toUpperCase() + k.slice(1), x.pedir, x.recupera, x.meses, x.caja[4]]); w.getCell(r, 2).numFmt = EUR; w.getCell(r, 5).numFmt = EUR; r++; }
+  r++;
+  const sens = JSON.parse((await import("node:fs")).readFileSync(OUT.replace(/\.xlsx$/, "-sens.json"), "utf8"));
+  put(r, ["SENSIBILIDAD: meses hasta recuperar / financiación (escenario base, solo B2C)"], true); w.getCell(r, 1).font = { name: FONT, size: 10, bold: true, color: { argb: "FF5B3DF5" } }; r++;
+  put(r, ["Viajeros que compran el Pase", "14,99 €", "19,99 €", "24,99 €", "29,99 €"]); head(w, r, 5); r++;
+  for (const f of sens) { put(r, [Math.round(f.conv * 100) + " %", ...[14.99, 19.99, 24.99, 29.99].map(p => (typeof f[p][0] === "number" ? f[p][0] + " meses" : f[p][0]) + " / " + String(f[p][1]).replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €")]); r++; }
+  r++; put(r, ["Para recalcular estas dos tablas con otros supuestos, cambia la hoja Supuestos y vuelve a generar el archivo (80 Negocio/modelo-financiero.mjs)."]); w.getCell(r, 1).font = { name: FONT, size: 9, italic: true, color: { argb: "FF555C7B" } };
+  await wb2.xlsx.writeFile(OUT); }
 // curva de caja (base) para la presentación
 hf.setCellContents({ sheet: hf.getSheetId("Supuestos"), row: 2, col: 1 }, [[2]]);
 const curva = []; for (let r = p0; r <= pEnd; r++) curva.push(Math.round(val("Proyección mensual", r, 23)));
