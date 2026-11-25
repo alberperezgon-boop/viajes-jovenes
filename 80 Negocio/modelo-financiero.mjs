@@ -7,37 +7,38 @@ const OUT = process.argv[2];
 // [clave, concepto, prudente, base, optimista, unidad, etiqueta, fuente/nota, formato]
 const SUP = [
   ["h", "DEMANDA (empezamos por Andalucía)"],
-  ["grupos0", "Grupos que planifican un viaje en el mes 1", 25, 40, 60, "grupos/mes", "HIPÓTESIS", "Arranque con institutos y redes de la provincia. Validar con la lista de espera.", "n"],
-  ["crec", "Crecimiento mensual de grupos", 0.04, 0.07, 0.10, "%/mes", "HIPÓTESIS", "Sin datos propios aún; se revisa con las primeras métricas.", "p"],
+  ["grupos0", "Grupos que planifican un viaje en el mes 1", 25, 40, 40, "grupos/mes", "HIPÓTESIS", "Arranque con institutos y redes de la provincia. Validar con la lista de espera. Objetivo: arranque con 3 institutos piloto y la lista de espera.", "n"],
+  ["crec", "Crecimiento mensual de grupos", 0.04, 0.07, 0.07, "%/mes", "HIPÓTESIS", "Sin datos propios aún; se revisa con las primeras métricas. Objetivo: boca a boca por grupos (cada viaje trae otro grupo).", "p"],
   ["frenado", "Cada año el crecimiento mensual se multiplica por", 0.5, 0.6, 0.6, "factor", "HIPÓTESIS", "El crecimiento se frena al madurar (año 2 = 60 % del año 1, año 3 = 36 %...).", "n1"],
-  ["convViaje", "Planes que acaban en viaje", 0.30, 0.35, 0.40, "%", "HIPÓTESIS", "Encuesta piloto: el 78 % viaja o lo ha planeado sin adultos (n=40). No mide conversión.", "p"],
+  ["convViaje", "Planes que acaban en viaje", 0.30, 0.35, 0.35, "%", "HIPÓTESIS", "Encuesta piloto: el 78 % viaja o lo ha planeado sin adultos (n=40). No mide conversión.", "p"],
   ["porGrupo", "Viajeros por grupo", 4, 4, 4, "personas", "EQUIPO", "Grupo tipo de la demo y de las encuestas.", "n1"],
   ["h", "INGRESOS"],
-  ["convPago", "Viajeros que compran el Pase", 0.20, 0.30, 0.40, "% de viajeros", "HIPÓTESIS", "Lo paga la familia, por SU hijo. Dato del equipo: familias dispuestas a pagar más de 20 € y leads (sin compartir aún). Jóvenes: el 48 % pagaría algo o querría que pague la familia (encuesta piloto, n=40).", "p"],
-  ["precio", "Precio del Pase por viajero (IVA incluido)", 19.99, 19.99, 19.99, "€/viajero", "EQUIPO (validado)", "Modelo de negocio del equipo: Pase de 19,99 € por viajero. Desbloquea lo personal: autorización y formulario del albergue a su nombre, papeles por edad y nacionalidad, aprobación de los padres y avisos de emergencia.", "e2"],
+  ["convPago", "Viajeros que compran el Pase", 0.20, 0.30, 0.40, "% de viajeros", "HIPÓTESIS", "Lo paga la familia, por SU hijo. Dato del equipo: familias dispuestas a pagar más de 20 € y leads (sin compartir aún). Jóvenes: el 48 % pagaría algo o querría que pague la familia (encuesta piloto, n=40). Objetivo: el plan del grupo solo sale «aprobado» cuando cada viajero tiene su Pase (cada familia firma lo suyo).", "p"],
+  ["precio", "Precio del Pase por viajero (IVA incluido)", 19.99, 19.99, 24.99, "€/viajero", "EQUIPO (validado)", "Modelo de negocio del equipo: Pase de 19,99 € por viajero. Desbloquea lo personal: autorización y formulario del albergue a su nombre, papeles por edad y nacionalidad, aprobación de los padres y avisos de emergencia. Objetivo: las familias del equipo aceptan más de 20 €.", "e2"],
   ["iva", "IVA incluido en el precio", 0.21, 0.21, 0.21, "%", "OFICIAL", "IVA general en España (servicios digitales a consumidores). Lo que ingresamos es el precio sin IVA.", "p"],
-  ["descGrupo", "Descuento medio de grupo (opcional)", 0, 0, 0, "%", "HIPÓTESIS", "El modelo del equipo no lo incluye. Si se ofrece -30 % desde el 2.º viajero, poner en torno a 0,15.", "p"],
-  ["seguroPct", "Viajeros con Pase que contratan el seguro de viaje", 0.20, 0.30, 0.40, "%", "HIPÓTESIS", "Pack tranquilidad: se ofrece a la familia al aprobar el viaje.", "p"],
-  ["seguroPrima", "Precio medio del seguro de viaje", 20, 25, 30, "€/viajero", "HIPÓTESIS", "Viaje corto por Europa; comprobar con la aseguradora socia.", "e"],
+  ["descGrupo", "Descuento medio de grupo (opcional)", 0, 0, 0.1, "%", "HIPÓTESIS", "El modelo del equipo no lo incluye. Si se ofrece -30 % desde el 2.º viajero, poner en torno a 0,15. Objetivo: pack de grupo de 4 Pases por 89,96 € (22,49 € cada uno).", "p"],
+  ["seguroPct", "Viajeros con Pase que contratan el seguro de viaje", 0.20, 0.30, 0.5, "%", "HIPÓTESIS", "Pack tranquilidad: se ofrece a la familia al aprobar el viaje. Objetivo: el seguro se ofrece marcado por defecto al aprobar (la familia puede quitarlo).", "p"],
+  ["seguroPrima", "Precio medio del seguro de viaje", 20, 25, 25, "€/viajero", "HIPÓTESIS", "Viaje corto por Europa; comprobar con la aseguradora socia.", "e"],
   ["seguroCom", "Comisión del seguro", 0.20, 0.20, 0.20, "%", "EQUIPO", "Modelo del equipo: unos 20 %. Ojo: la distribución de seguros está regulada; revisar con un abogado.", "p"],
-  ["esimPct", "Viajeros con Pase que compran la eSIM", 0.20, 0.30, 0.40, "%", "HIPÓTESIS", "Datos móviles para el viaje.", "p"],
-  ["esimPrecio", "Precio medio de la eSIM", 8, 10, 12, "€/viajero", "HIPÓTESIS", "Paquete de datos de unos días en Europa.", "e"],
+  ["esimPct", "Viajeros con Pase que compran la eSIM", 0.20, 0.30, 0.4, "%", "HIPÓTESIS", "Datos móviles para el viaje.", "p"],
+  ["esimPrecio", "Precio medio de la eSIM", 8, 10, 10, "€/viajero", "HIPÓTESIS", "Paquete de datos de unos días en Europa.", "e"],
   ["esimCom", "Comisión de la eSIM", 0.10, 0.10, 0.10, "%", "EQUIPO", "Modelo del equipo: unos 10 %.", "p"],
-  ["costeFamilia", "Coste por Pase (avisos, asistencia, soporte)", 2.00, 1.50, 1.20, "€/familia", "HIPÓTESIS", "Mensajes y notificaciones, horas de asistencia en temporada y soporte.", "e2"],
-  ["pctEnlaces", "Viajeros que reservan por nuestros enlaces", 0.25, 0.35, 0.45, "%", "HIPÓTESIS", "Reserva el adulto (Booking y Hostelworld exigen 18 años).", "p"],
-  ["eurReserva", "Comisión de afiliación por viajero que reserva", 3.00, 5.00, 6.00, "€/viajero", "INFERENCIA", "Hostelworld 18-22 % de su depósito; Booking, 25-40 % de su comisión (pocos % del precio); GetYourGuide/Civitatis 7-8 %. Canvas: 5-6 €.", "e2"],
+  ["costeFamilia", "Coste por Pase (avisos, asistencia, soporte)", 2.00, 1.50, 1.2, "€/familia", "HIPÓTESIS", "Mensajes y notificaciones, horas de asistencia en temporada y soporte.", "e2"],
+  ["pctEnlaces", "Viajeros que reservan por nuestros enlaces", 0.25, 0.35, 0.4, "%", "HIPÓTESIS", "Reserva el adulto (Booking y Hostelworld exigen 18 años).", "p"],
+  ["eurReserva", "Comisión de afiliación por viajero que reserva", 3.00, 5.00, 5, "€/viajero", "INFERENCIA", "Hostelworld 18-22 % de su depósito; Booking, 25-40 % de su comisión (pocos % del precio); GetYourGuide/Civitatis 7-8 %. Canvas: 5-6 €.", "e2"],
   ["b2bInicio", "Mes en que empiezan los centros educativos", 12, 9, 9, "mes nº", "HIPÓTESIS", "Mes 9 = septiembre de 2027 (inicio de curso).", "n"],
   ["b2bRitmo", "Centros nuevos al mes (capa opcional)", 0, 0, 1, "centros/mes", "HIPÓTESIS", "Institutos y AMPAs: taller de viaje seguro + acceso del grupo.", "n1"],
   ["b2bCuota", "Cuota anual por centro", 150, 250, 350, "€/año", "HIPÓTESIS", "Sin validar con ningún centro.", "e"],
   ["ayInicio", "Mes en que empieza el primer ayuntamiento", 18, 13, 10, "mes nº", "HIPÓTESIS", "Áreas de Juventud que lo ofrecen gratis a sus jóvenes (licencia anual).", "n"],
   ["ayRitmo", "Ayuntamientos nuevos al mes (capa opcional)", 0, 0, 0.5, "ayunt./mes", "HIPÓTESIS", "Empezar por la provincia; sin validar con ninguno.", "n1"],
-  ["ayCuota", "Licencia anual por ayuntamiento", 600, 900, 1200, "€/año", "HIPÓTESIS", "Precio de un taller o una actividad juvenil municipal; comprobar con 3-5 técnicos de Juventud.", "e"],
+  ["ayCuota", "Licencia anual por ayuntamiento", 600, 900, 900, "€/año", "HIPÓTESIS", "Precio de un taller o una actividad juvenil municipal; comprobar con 3-5 técnicos de Juventud.", "e"],
   ["pagoPct", "Comisión de la pasarela de pago (%)", 0.015, 0.015, 0.015, "%", "SECUNDARIA", "Tarifa estándar de Stripe para tarjetas del EEE; comprobar antes de contratar.", "p1"],
   ["pagoFijo", "Comisión de la pasarela de pago (fija)", 0.25, 0.25, 0.25, "€/pago", "SECUNDARIA", "Ídem.", "e2"],
   ["h", "COSTES MENSUALES"],
-  ["horasVerif", "Horas de verificación de datos al mes", 30, 40, 50, "h/mes", "EQUIPO", "Coste principal del canvas: revisar normas, albergues y caducidades.", "n"],
+  ["horasVerif", "Horas de verificación de datos al mes", 30, 40, 30, "h/mes", "EQUIPO", "Coste principal del canvas: revisar normas, albergues y caducidades.", "n"],
   ["eurHora", "Coste por hora de verificación", 12, 12, 12, "€/h", "HIPÓTESIS", "Beca o colaboración de estudiantes. Si lo hace el equipo sin cobrar, poner 0.", "e"],
-  ["marketing", "Marketing (contenido en redes, institutos)", 100, 150, 250, "€/mes", "HIPÓTESIS", "Sin anuncios pagados el primer año; contenido propio en TikTok e Instagram.", "e"],
+  ["verifDesde", "Mes desde el que se pagan esas horas", 1, 1, 13, "mes nº", "HIPÓTESIS", "Objetivo: el primer año verifica el propio equipo (sin coste en caja).", "n"],
+  ["marketing", "Marketing (contenido en redes, institutos)", 100, 150, 100, "€/mes", "HIPÓTESIS", "Sin anuncios pagados el primer año; contenido propio en TikTok e Instagram. Objetivo: solo contenido propio e institutos.", "e"],
   ["hosting", "Web, dominio y herramientas", 35, 35, 35, "€/mes", "HIPÓTESIS", "Alojamiento estático, dominio, correo y formularios.", "e"],
   ["seguro", "Seguro de responsabilidad civil", 300, 300, 300, "€/año", "SECUNDARIA", "BBVA cita ~120 € de media para autónomos (ICEA); paquetes para startups de 199-295 € (Qonto). Pedir presupuesto.", "e"],
   ["gestoria", "Gestoría", 60, 60, 60, "€/mes", "HIPÓTESIS", "Precio típico de gestoría en línea para autónomos.", "e"],
@@ -47,7 +48,7 @@ const SUP = [
   ["mesesTP", "Meses con tarifa plana", 24, 24, 24, "meses", "SECUNDARIA", "12 + 12 de prórroga si los ingresos no superan el SMI (17.094 € en 2026).", "n"],
   ["cuotaNormal", "Cuota de autónomo después", 200, 200, 200, "€/mes", "HIPÓTESIS", "Tramo bajo de rendimientos; comprobar en la Seguridad Social.", "e"],
   ["sueldoDesde", "Mes desde el que cobran los fundadores", 25, 25, 25, "mes nº", "HIPÓTESIS", "Años 1 y 2 sin sueldo (estudiantes).", "n"],
-  ["sueldo", "Retribución total de los fundadores", 0, 300, 600, "€/mes", "HIPÓTESIS", "A repartir; simbólica.", "e"],
+  ["sueldo", "Retribución total de los fundadores", 0, 300, 300, "€/mes", "HIPÓTESIS", "A repartir; simbólica.", "e"],
   ["h", "FINANCIACIÓN"],
   ["margen", "Margen de seguridad sobre la necesidad de caja", 0.25, 0.20, 0.15, "%", "HIPÓTESIS", "Colchón para retrasos en cobros y ayudas.", "p"],
   ["h", "MERCADO (para comprobar que las cifras son realistas)"],
@@ -60,10 +61,10 @@ const ESTAC = [["ene", 0.5], ["feb", 0.6], ["mar", 1.3], ["abr", 0.9], ["may", 0
 const S = [];             // hoja Supuestos
 const ROW = {};           // clave → fila (1-based)
 S.push(["Supuestos del modelo"]);
-S.push(["Cambia solo las celdas azules. El escenario se elige en B3 (1 = prudente, 2 = base, 3 = optimista)."]);
-S.push(["Escenario elegido", 2, "=CHOOSE(B3,\"Prudente\",\"Base\",\"Optimista\")"]);
+S.push(["Cambia solo las celdas azules. El escenario se elige en B3 (1 = prudente, 2 = base, 3 = objetivo)."]);
+S.push(["Escenario elegido", 3, "=CHOOSE(B3,\"Prudente\",\"Base\",\"Objetivo (modelo mejorado)\")"]);
 S.push([]);
-S.push(["Concepto", "Prudente", "Base", "Optimista", "Elegido", "Unidad", "Etiqueta", "Fuente o nota"]);
+S.push(["Concepto", "Prudente", "Base", "Objetivo", "Elegido", "Unidad", "Etiqueta", "Fuente o nota"]);
 for (const r of SUP) {
   if (r[0] === "h") { S.push([r[1]]); continue; }
   const n = S.length + 1; ROW[r[0]] = n;
@@ -77,13 +78,13 @@ const sup = k => `Supuestos!$E$${ROW[k]}`;
 
 /* ---------- 2. Inversión inicial ---------- */
 const INV = [
-  ["Revisión legal del modelo (condiciones, privacidad de menores, art. 5 bis, no ser agencia)", 900, "HIPÓTESIS", "Pedir presupuesto; puede salir gratis o más barato vía Andalucía Emprende (CADE) o la asesoría de la incubadora."],
+  ["Revisión legal del modelo (condiciones, privacidad de menores, art. 5 bis, no ser agencia)", 400, "HIPÓTESIS", "Primera revisión gratuita con Andalucía Emprende (CADE) o la asesoría de la incubadora; 400 € para una revisión final de un abogado."],
   ["Registro de la marca en la OEPM (1 clase, en línea)", 130, "SECUNDARIA", "Tasa aproximada; comprobar la tarifa vigente de la OEPM."],
-  ["Alta de autónomo y trámites con gestoría", 100, "HIPÓTESIS", "El alta en sí es gratuita."],
-  ["Identidad visual y dominio", 250, "HIPÓTESIS", "Logo, plantillas y dominio del primer año."],
-  ["App de dos partes: pasajero y familia (cuentas, pago, avisos de llegada)", 2400, "HIPÓTESIS", "160 h externas a 15 €/h (web instalable). Si lo programa el equipo, baja mucho."],
-  ["Ampliar la base verificada (de 10 a 20 países, 50 albergues)", 1440, "EQUIPO", "120 h a 12 €/h."],
-  ["Pruebas con jóvenes y familias (incentivos, materiales)", 200, "HIPÓTESIS", "Tarjetas regalo pequeñas y material para institutos."],
+  ["Alta de autónomo y trámites", 0, "OFICIAL", "El alta es gratuita; la gestoría ya está en los costes mensuales."],
+  ["Identidad visual y dominio", 150, "HIPÓTESIS", "Lo diseña el equipo; dominio y plantillas."],
+  ["App de dos partes: pasajero y familia (cuentas, pago, avisos de llegada)", 300, "EQUIPO", "La programa el equipo a partir de la demo que ya funciona; 300 € de servicios (pagos, avisos, pruebas)."],
+  ["Ampliar la base verificada (de 10 a 20 países, 50 albergues)", 0, "EQUIPO", "La hace el equipo antes del lanzamiento (unas 120 h, sin coste en caja)."],
+  ["Pruebas con jóvenes y familias (incentivos, materiales)", 150, "HIPÓTESIS", "Material para institutos y pequeñas recompensas."],
 ];
 const I = [["Inversión inicial (mes 0)"], ["Celdas azules editables."], [], ["Concepto", "Importe (€)", "Etiqueta", "Fuente o nota"]];
 const invStart = I.length + 1;
@@ -119,7 +120,7 @@ for (let m = 1; m <= 60; m++) {
     `=L${r}*${sup("b2bCuota")}/12+IF(A${r}>=${sup("ayInicio")},(A${r}-${sup("ayInicio")}+1)*${sup("ayRitmo")},0)*${sup("ayCuota")}/12`,
     `=J${r}+K${r}+M${r}`,
     `=I${r}*${sup("precio")}*(1-${sup("descGrupo")})*${sup("pagoPct")}+I${r}*(${sup("pagoFijo")}+${sup("costeFamilia")})`,
-    `=${sup("horasVerif")}*${sup("eurHora")}`,
+    `=IF(A${r}>=${sup("verifDesde")},${sup("horasVerif")}*${sup("eurHora")},0)`,
     `=${sup("marketing")}`,
     `=${sup("hosting")}`,
     `=${sup("seguro")}/12+${sup("gestoria")}+IF(A${r}>12,${sup("legalAnual")}/12,0)`,
@@ -323,7 +324,7 @@ const head = (w, r, n) => { for (let c = 1; c <= n; c++) { const x = w.getCell(r
 // Supuestos
 { const w = ws("Supuestos"); head(w, 5, 8); w.getCell("B3").font = { name: FONT, size: 11, bold: true, ...BLUE }; w.getCell("B3").fill = YELLOW; w.getCell("C3").font = { name: FONT, size: 11, bold: true };
   w.getCell("B3").dataValidation = { type: "whole", operator: "between", formulae: [1, 3], showErrorMessage: true, errorTitle: "Escenario", error: "Escribe 1, 2 o 3" };
-  w.getCell("B3").note = "1 = prudente · 2 = base · 3 = optimista";
+  w.getCell("B3").note = "1 = prudente · 2 = base · 3 = objetivo (modelo mejorado)";
   SUP.forEach(r => { if (r[0] === "h") return; const n = ROW[r[0]]; for (const c of ["B", "C", "D"]) { w.getCell(c + n).font = { name: FONT, size: 10, ...BLUE }; w.getCell(c + n).numFmt = FMT[r[8]]; } w.getCell("E" + n).numFmt = FMT[r[8]]; w.getCell("E" + n).font = { name: FONT, size: 10, bold: true }; });
   for (const k of ["convPago", "precio", "grupos0", "crec", "eurReserva"]) for (const c of ["B", "C", "D"]) w.getCell(c + ROW[k]).fill = YELLOW;
   w.eachRow((row, i) => { const a = row.getCell(1).value; if (typeof a === "string" && a === a.toUpperCase() && a.length > 4 && !row.getCell(2).value && i > 5) row.getCell(1).font = { name: FONT, size: 10, bold: true, color: { argb: "FF1730D6" } }; });
@@ -391,7 +392,7 @@ await wb.xlsx.writeFile(OUT);
 const out = {};
 for (const sc of [1, 2, 3]) {
   hf.setCellContents({ sheet: hf.getSheetId("Supuestos"), row: 2, col: 1 }, [[sc]]);
-  out[["", "prudente", "base", "optimista"][sc]] = {
+  out[["", "prudente", "base", "objetivo"][sc]] = {
     inversion: Math.round(val("Resumen", 6, 1)), necesidad: Math.round(val("Resumen", 7, 1)), pedir: val("Resumen", 9, 1), beneficio: val("Resumen", 11, 1), recupera: val("Resumen", 12, 1), meses: val("Resumen", 13, 1),
     viajeros: [1, 2, 3, 4, 5].map(c => Math.round(val("Resumen", 16, c))), ingresos: [1, 2, 3, 4, 5].map(c => Math.round(val("Resumen", 17, c))), resultado: [1, 2, 3, 4, 5].map(c => Math.round(val("Resumen", 22, c))), caja: [1, 2, 3, 4, 5].map(c => Math.round(val("Resumen", 23, c))), cuota: +(val("Resumen", 27, 1) * 100).toFixed(2),
     financ: Math.round(val("Financiación", fTot, 1)), cobertura: Math.round(val("Financiación", fTot + 3, 1) * 100),
@@ -411,7 +412,7 @@ console.log(JSON.stringify({ errors, ...out }, null, 1));
   const put = (row, vals, bold) => vals.forEach((v, i) => { const c = w.getCell(row, i + 1); c.value = v; c.font = { name: FONT, size: 10, bold: !!bold }; });
   put(r, ["ESCENARIOS (calculados con el modelo el 25/11/2026)"], true); w.getCell(r, 1).font = { name: FONT, size: 10, bold: true, color: { argb: "FF5B3DF5" } }; r++;
   put(r, ["Escenario", "Financiación", "Recuperación", "Meses", "Caja año 5"]); head(w, r, 5); r++;
-  for (const k of ["prudente", "base", "optimista"]) { const x = out[k]; put(r, [k[0].toUpperCase() + k.slice(1), x.pedir, x.recupera, x.meses, x.caja[4]]); w.getCell(r, 2).numFmt = EUR; w.getCell(r, 5).numFmt = EUR; r++; }
+  for (const k of ["prudente", "base", "objetivo"]) { const x = out[k]; put(r, [k[0].toUpperCase() + k.slice(1), x.pedir, x.recupera, x.meses, x.caja[4]]); w.getCell(r, 2).numFmt = EUR; w.getCell(r, 5).numFmt = EUR; r++; }
   r++;
   const sens = JSON.parse((await import("node:fs")).readFileSync(OUT.replace(/\.xlsx$/, "-sens.json"), "utf8"));
   put(r, ["SENSIBILIDAD: meses hasta recuperar / financiación (escenario base, solo B2C)"], true); w.getCell(r, 1).font = { name: FONT, size: 10, bold: true, color: { argb: "FF5B3DF5" } }; r++;
@@ -419,12 +420,12 @@ console.log(JSON.stringify({ errors, ...out }, null, 1));
   for (const f of sens) { put(r, [Math.round(f.conv * 100) + " %", ...[14.99, 19.99, 24.99, 29.99].map(p => (typeof f[p][0] === "number" ? f[p][0] + " meses" : f[p][0]) + " / " + String(f[p][1]).replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €")]); r++; }
   r++; put(r, ["Para recalcular estas dos tablas con otros supuestos, cambia la hoja Supuestos y vuelve a generar el archivo (80 Negocio/modelo-financiero.mjs)."]); w.getCell(r, 1).font = { name: FONT, size: 9, italic: true, color: { argb: "FF555C7B" } };
   await wb2.xlsx.writeFile(OUT); }
-{ hf.setCellContents({ sheet: hf.getSheetId("Supuestos"), row: 2, col: 1 }, [[2]]);
+{ hf.setCellContents({ sheet: hf.getSheetId("Supuestos"), row: 2, col: 1 }, [[3]]);
   const pm = { margen: val("Punto muerto", 11, 1), cf: [1, 2, 3].map(c => val("Punto muerto", 14, c)), viaj: [1, 2, 3].map(c => val("Punto muerto", 15, c)), pases: [1, 2, 3].map(c => val("Punto muerto", 16, c)), alcanzado: val("Punto muerto", 22, 1), viajeros: [], necesarios: [], r12: [] };
   for (let m = 1; m <= 60; m++) { const r = pmStart + m - 1; pm.viajeros.push(val("Punto muerto", r, 2)); pm.necesarios.push(val("Punto muerto", r, 3)); pm.r12.push(val("Punto muerto", r, 7)); }
   (await import("node:fs")).writeFileSync(OUT.replace(/\.xlsx$/, "-pm.json"), JSON.stringify(pm)); }
 // curva de caja (base) para la presentación
-hf.setCellContents({ sheet: hf.getSheetId("Supuestos"), row: 2, col: 1 }, [[2]]);
+hf.setCellContents({ sheet: hf.getSheetId("Supuestos"), row: 2, col: 1 }, [[3]]);
 const curva = []; for (let r = p0; r <= pEnd; r++) curva.push(Math.round(val("Proyección mensual", r, 23)));
 const ing = []; for (let r = p0 + 1; r <= pEnd; r++) ing.push(Math.round(val("Proyección mensual", r, 13)));
 const cos = []; for (let r = p0 + 1; r <= pEnd; r++) cos.push(Math.round(val("Proyección mensual", r, 21)));

@@ -13,7 +13,7 @@ const slides = deck.order.map(id => readFileSync(join(D, "project/slides", id + 
 const embed = (html, inline) => html.replace(/\/_blob\/([0-9a-f]{32})/g, (m, id) => inline ? "data:image/png;base64," + readFileSync(join(SHOTS, IMG[id])).toString("base64") : "img/" + IMG[id]);
 const BASE = `*{box-sizing:border-box} html,body{margin:0}
 section{position:relative;width:1920px;height:1080px;overflow:hidden;flex-shrink:0}
-h1,h2,h3,p,ul,ol{margin:0} table{border-collapse:collapse} th{text-align:left;font-weight:600;font-size:26px;color:#4E4A6E;border-bottom:2px solid #DAD6F2;padding:0 0 14px} td{padding:16px 0;border-bottom:1px solid #DAD6F2;vertical-align:top}
+h1,h2,h3,p,ul,ol{margin:0} table{border-collapse:collapse} th{text-align:left;font-weight:600;font-size:26px;color:#B5B2D6;border-bottom:2px solid #2C3258;padding:0 0 14px} td{padding:14px 0;border-bottom:1px solid #272C4D;vertical-align:top}
 .dark th{color:#B5B2D6;border-color:#2C3258} .dark td{border-color:#2C3258} td+td,th+th{padding-left:24px}
 aside{display:none}`;
 const noAnim = ".rise{animation:none!important}";
@@ -58,10 +58,10 @@ const fig = `<!doctype html><html lang="es"><head><meta charset="utf-8"><title>G
 ${css}
 ${BASE}
 ${noAnim}
-body{background:#2A2D3E;width:1920px} section::after{content:none}
+body{background:#2A2D3E;width:1920px} section::after{content:none} section{background:linear-gradient(160deg,#1D1650 0%,#0B0D17 55%)} section.alt{background:linear-gradient(200deg,#1A1F45 0%,#0B0D17 60%)} section.dark{background:linear-gradient(140deg,#2A1D7A 0%,#0B0D17 70%)}
 #col{display:flex;flex-direction:column;gap:80px;padding:0}
 </style></head><body><div id="col">
-${slides.map((s, k) => embed(s, true).replace(/<aside>[\s\S]*?<\/aside>/, "").replace(/<section /, `<section data-n="${k + 1}" `).replace(/(<\/section>)$/, `<p style="position:absolute;right:128px;bottom:64px;font-size:24px;font-weight:600;color:${/class="dark"/.test(s) ? "#B5B2D6" : "#4E4A6E"}">${k + 1}</p>$1`)).join("\n")}
+${slides.map((s, k) => embed(s, true).replace(/<aside>[\s\S]*?<\/aside>/, "").replace(/<section /, `<section data-n="${k + 1}" `).replace(/(<\/section>)$/, `<p style="position:absolute;right:128px;bottom:64px;font-size:24px;font-weight:600;color:#B5B2D6">${k + 1} / ${slides.length}</p>$1`)).join("\n")}
 </div></body></html>`;
 writeFileSync(join(OUT, "figma.html"), fig);
 console.log("web", (web.length / 1024).toFixed(0) + " KB", "· figma", (fig.length / 1048576).toFixed(1) + " MB", "· diapositivas", slides.length);

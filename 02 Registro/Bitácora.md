@@ -168,3 +168,5 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 - **25/11:** la web y el pitch de Netlify pasan a ser públicos (https://goliveit-ruta16.netlify.app y /pitch/), con permiso de Alberto. El Excel tiene una primera hoja, «Números del pitch», con todas las cifras de la presentación.
 
 - **25/11 — Punto muerto:** hoja nueva en el Excel con la previsión mes a mes. Hacen falta unos 130 viajeros al mes (margen de 6,63 € por viajero frente a unos 860 € de costes fijos) y se alcanza en agosto de 2028. Diapositiva nueva en el pitch (16 en total), actualizada en Slides, Figma y Netlify.
+
+- **25/11 — Pitch de 12 diapositivas (D-34):** se rehace con la estructura del pitch del compañero. El escenario objetivo (Pase a 24,99 €, grupo aprobado solo con el Pase de todos, ayuntamientos y arranque ligero) pide 2.000 € y recupera en 6 meses. Publicado en Slides, Figma y Netlify.

@@ -71,3 +71,25 @@ Una familia que no paga no tiene nada de su hijo, así que el incentivo para com
   - subir el Pase a 24,99 € (las familias aceptan más de 20 €): 32 meses;
   - sumar centros y ayuntamientos: 27 meses.
 - **Lo primero que hay que medir con los leads:** qué porcentaje compra el Pase a 19,99 € y a 24,99 €.
+
+## Escenario objetivo: modelo mejorado y arranque ligero (25/11/2026, por la tarde)
+
+Alberto pidió recuperar la inversión mucho antes y bajar la financiación, «aunque sea irreal». Para el pitch se usa un **escenario objetivo**: la demanda es la misma que en el escenario base y solo cambian el modelo y los costes. **Todo lo que cambia es HIPÓTESIS** y hay que validarlo; en el Excel es el escenario 3.
+
+| Mejora | Supuesto |
+|---|---|
+| Pase a **24,99 €** (las familias aceptan más de 20 €), pack de grupo de 4 por 89,96 € | −10 % de media |
+| **El plan del grupo solo sale aprobado cuando cada viajero tiene su Pase** | 40 % de viajeros con Pase (base: 30 %) |
+| Seguro marcado por defecto al aprobar (se puede quitar) | 50 % lo contrata |
+| Institutos y **ayuntamientos** desde el curso 2027-2028 | 1 centro y medio ayuntamiento nuevos al mes |
+| **Arranque ligero:** el equipo programa la app a partir de la demo y verifica los datos el primer año | Inversión inicial de **1.300 €**; las horas de verificación se pagan desde el mes 13 |
+
+| | **Objetivo** | Base (validado + arranque ligero) | Prudente |
+|---|---|---|---|
+| Financiación | **2.000 €** | 7.000 € | 42.500 € |
+| Recuperación | **junio de 2027 (6 meses)** | agosto de 2029 (32 meses) | no se recupera en 5 años |
+| Punto muerto (los últimos 12 meses en positivo) | **diciembre de 2027**; hacen falta unos 28 Pases al mes en 2028 | — | — |
+
+**Ojo:**
+- el objetivo depende de que el 40 % compre el Pase a 24,99 € y de que entren ayuntamientos; si no se cumple, valen las cifras base;
+- el arranque ligero no es gratis: lo pagan las horas del equipo, que no salen en la caja.
