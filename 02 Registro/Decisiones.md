@@ -197,3 +197,36 @@ Cada decisión dice quién la tomó, con qué evidencia y qué la haría cambiar
   - las pruebas pasan a `70 Prototipo/pruebas/` y buscan Chrome en Windows o Mac;
   - `CLAUDE.md` en la raíz con las reglas del proyecto, para que Claude Code las tenga en cualquier ordenador;
   - los temas de Obsidian se suben para que la bóveda se vea igual.
+
+## D-33. Modelo de negocio, financiación, pitch y rediseño (25/11/2026)
+
+- **Modelo de negocio:** se adopta el **modelo validado del equipo**. Está en [[Modelo de negocio v3 - Pase del viajero]]:
+  - **Pase del viajero** a 19,99 € (IVA incluido), que paga la familia;
+  - **Pack tranquilidad** (comisiones de seguro y eSIM);
+  - **reservas por enlace**;
+  - centros y ayuntamientos, como capa opcional sin validar.
+  
+  Lo que se paga es personal de cada viajero, para que no pague uno y lo usen los cuatro.
+- **Fallos detectados:**
+  - el IVA: nos quedan 16,52 € por Pase;
+  - la distribución de seguros está regulada;
+  - la afiliación es frágil;
+  - los acuerdos con albergues frente a la etiqueta «verificado»;
+  - los datos de menores;
+  - el texto del modelo llegó cortado.
+- **Financiación:** [[GoLiveIt - financiación y recuperación.xlsx]], con 3 escenarios, proyección a 60 meses y sensibilidad.
+  - **Base:** se piden 13.000 € y se recupera en agosto de 2030 (44 meses), si compra el Pase el 30 % de los viajeros.
+  - **Mejoras posibles:** con el Pase a 24,99 €, 32 meses; con centros y ayuntamientos, 27 meses.
+  - **Lo primero que hay que medir con los leads:** qué porcentaje compra el Pase.
+- **Pitch:** 15 diapositivas, con la línea visual de la web de Ruta16. Está en tres sitios:
+  - artefacto Slides: https://claude.ai/artifact/Po8zG9rVEzfSGxN6gp7e6K;
+  - Figma «GoLiveIt · Pitch»: https://www.figma.com/design/ijxJEYF3ii1EBqaMyWzMcw;
+  - web en Netlify: `/pitch/`.
+  
+  La fuente está en `80 Negocio/Pitch/`.
+- **Rediseño del Planner** con la estética de Ruta16:
+  - fondo lavanda, violeta y lima;
+  - Space Grotesk e Inter;
+  - cabecera oscura y mapa a juego.
+  
+  Publicado en Netlify (proyecto `goliveit-ruta16`; ahora mismo solo para el equipo). Las pantallas, en claro y en oscuro, están en el mismo archivo de Figma.

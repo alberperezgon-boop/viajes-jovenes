@@ -157,3 +157,10 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
   - recorrido completo sin errores.
 
   Las pruebas y un `CLAUDE.md` quedan en el repositorio para trabajar desde el Mac.
+
+- **25/11 — Negocio, pitch y rediseño (D-33):**
+  - Revisado el canvas v0 con la encuesta piloto (40 respuestas, solo 2 de familias) y la hoja de albergues: 37 aceptan, 13 piden adulto y 8 sin respuesta.
+  - Adoptado el modelo validado del equipo (Pase de 19,99 €) y corregido el IVA.
+  - Excel de financiación: 13.000 € y recuperación en 44 meses.
+  - Pitch de 15 diapositivas en Slides, Figma y Netlify.
+  - Planner rediseñado con la estética de Ruta16; recorrido sin errores en claro y en oscuro.
