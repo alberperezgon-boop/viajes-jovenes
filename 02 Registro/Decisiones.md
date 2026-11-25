@@ -237,3 +237,12 @@ Cada decisión dice quién la tomó, con qué evidencia y qué la haría cambiar
 - **Escenario objetivo** (modelo mejorado y arranque ligero; todo hipótesis): se piden **2.000 €**, se recupera en **junio de 2027** y el punto muerto llega en **diciembre de 2027**.
 - Las cifras validadas (base: 7.000 € y 32 meses) siguen en el Excel y se citan en la diapositiva de números.
 - Detalle en [[Modelo de negocio v3 - Pase del viajero]].
+
+## D-35. Mercado nacional, solo particulares y 12.000 € (25/11/2026)
+
+- **Mercado:** toda España (≈ 630.000 jóvenes de 15-17 que viajan al extranjero al año); el objetivo es el 0,6 % en 5 años.
+- **Clientes:** solo particulares. Institutos y ayuntamientos quedan fuera por ahora (en el Excel, a 0).
+- **Financiación:** 12.000 € para un lanzamiento nacional financiado (campaña, app, base verificada, legal y caja).
+  - Escenario objetivo: punto muerto en diciembre de 2027 y recuperación en septiembre de 2028 (21 meses).
+- **Pitch** (12 diapositivas) actualizado en Slides, Figma, HTML y PowerPoint.
+- **Detalle:** [[Modelo de negocio v3 - Pase del viajero]].

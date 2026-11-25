@@ -2,10 +2,10 @@ Actúa como asesor de negocio y de producto de nuestra startup. Te doy todo el c
 
 # 1. Quiénes somos
 
-- Equipo: **Ruta16**, estudiantes en un programa de emprendimiento (Andalucía, España). Nuestro producto se llama **GoLiveIt**.
+- Equipo: **Ruta16**, estudiantes en un programa de emprendimiento (con sede en Andalucía). Nuestro producto se llama **GoLiveIt** y el mercado es **nacional (toda España)**.
 - Qué es: una web para que **jóvenes de 16 y 17 años organicen viajes con amigos sin adultos** (sin padres, profesores ni monitores), sabiendo lo que de verdad pueden hacer a su edad, y para que **su familia revise el plan, lo apruebe y lo pague**.
 - Línea central: viajes de 16-17 años sin adultos, filtrados por edad. Nada de tangentes. El alcohol se trata como ley del país, nunca como «plan».
-- Modelo B2C, con dos partes:
+- Modelo B2C, **solo clientes particulares** (de momento sin institutos ni ayuntamientos), con dos partes:
   - el **usuario** es el joven;
   - quien **paga y autoriza** es la familia.
 - Nunca vendemos el viaje: la familia reserva en la web oficial de cada proveedor. Así no somos agencia de viajes ni organizador de viajes combinados.
@@ -69,8 +69,8 @@ Web publicada: https://goliveit-ruta16.netlify.app (pitch en /pitch/).
 |---|---|---|
 | Jóvenes de 15-17 años en España | 1,6 M | INE, 2025 |
 | Residentes de 15-24 que viajó al extranjero en 2025 | 39,4 % | INE, Encuesta de Turismo de Residentes |
-| Jóvenes andaluces de 15-17 que viajan al extranjero al año (empezamos por Andalucía) | ≈ 113.000 | Estimación propia |
-| Objetivo a 5 años | 3,5 % de ese grupo | Objetivo propio |
+| Jóvenes de 15-17 en España que viajan al extranjero al año (mercado nacional) | ≈ 630.000 | Estimación propia (1,6 M × 39,4 %) |
+| Objetivo a 5 años | 0,6 % de ese grupo (unos 3.900 viajeros al año) | Objetivo propio |
 
 # 5. Competencia
 
@@ -93,7 +93,7 @@ Software de dos partes: **planificar es gratis** para el grupo; lo personal de c
    - los avisos y contactos de emergencia durante el viaje.
 2. **Pack tranquilidad:** al aprobar, se ofrece a la familia un seguro de viaje (~20 % de comisión) y una eSIM de datos (~10 %) de empresas socias.
 3. **Reservas por enlace:** tren, bus, albergues y actividades con enlace de afiliado, unos 5 € por viajero que reserva. Los enlaces van dirigidos al adulto.
-4. **Ayuntamientos e institutos:** licencia anual (unos 900 €/año por ayuntamiento y 250 €/año por centro) para ofrecerlo a sus jóvenes. Sin validar.
+4. *Ayuntamientos e institutos:* **de momento no**. Solo particulares; quizá en el futuro.
 
 **Que no pague uno y lo usen los cuatro:**
 - el itinerario se comparte gratis;
@@ -110,32 +110,30 @@ Software de dos partes: **planificar es gratis** para el grupo; lo personal de c
 
 # 7. Números (Excel con 3 escenarios, proyección a 60 meses desde enero de 2027)
 
-Ingresos siempre sin IVA. Arranque ligero: el equipo programa la app y verifica los datos el primer año; inversión inicial de 1.300 €.
+Solo particulares, mercado nacional e ingresos siempre sin IVA. Pedimos **12.000 €** para un lanzamiento nacional financiado: app externa, verificación pagada desde el primer mes, revisión legal completa y campaña para familias. La inversión inicial es de 9.568 €.
 
-| Escenario | Supuestos | Financiación | Recuperación |
+| Escenario | Supuestos | Financiación que haría falta | Recuperación |
 |---|---|---|---|
-| **Objetivo (el del pitch; hipótesis)** | 40 % con Pase a 24,99 €, seguro por defecto, ayuntamientos | **2.000 €** | **junio de 2027 (6 meses)** |
-| Base (modelo validado) | 30 % con Pase a 19,99 € | 7.000 € | agosto de 2029 (32 meses) |
-| Prudente | 20 % con Pase | 42.500 € | no se recupera en 5 años |
+| **Objetivo (el del pitch; hipótesis)** | 40 % de viajeros con Pase a 24,99 €, pack de grupo y seguro por defecto | **12.000 €** | **septiembre de 2028 (21 meses)** |
+| Base (modelo validado) | 30 % con Pase a 19,99 € | 17.000 € | marzo de 2031 (51 meses) |
+| Prudente | 20 % con Pase | 52.500 € | no se recupera en 5 años |
 
 **Escenario objetivo, en detalle:**
-- punto muerto (los últimos 12 meses en positivo): diciembre de 2027; hacen falta unos 28 Pases al mes en 2028;
-- resultado: 6.656 € en 2027, 17.974 € en 2028 y 31.146 € en 2029;
-- viajeros: 996, 1.857 y 2.718.
+- primer mes con beneficio: marzo de 2027;
+- **punto muerto** (los últimos 12 meses en positivo): **diciembre de 2027**; hacen falta unos 70 viajeros al mes (28 con Pase), con un margen medio de 9,88 € por viajero frente a unos 690 € de costes fijos al mes;
+- viajeros: 996 en 2027, 1.857 en 2028 y 2.718 en 2029;
+- ingresos: 10.555 €, 19.676 € y 28.799 €;
+- resultado: 1.820 €, 10.024 € y 13.596 €.
 
-**Escenario base, punto muerto:**
-- margen medio por viajero: 6,63 €;
-- costes fijos: unos 860 €/mes;
-- hacen falta unos 130 viajeros al mes.
-
-**Uso de los 2.000 €:**
+**Uso de los 12.000 €:**
 
 | Concepto | Importe |
 |---|---|
-| Revisión legal | 400 € |
-| Servicios de la app y pruebas con institutos | 450 € |
-| Marca, identidad y dominio | 280 € |
-| Imprevistos y margen | 870 € |
+| Campaña de lanzamiento para familias | 3.000 € |
+| App de dos partes (pasajero y familia) | 2.400 € |
+| Ampliar la base verificada a toda España | 1.440 € |
+| Revisión legal, marca, identidad y pruebas | 1.480 € |
+| Imprevistos y caja para los primeros meses | 3.680 € |
 
 **Financiación posible:**
 - aportación de los socios;
@@ -149,9 +147,9 @@ Ingresos siempre sin IVA. Arranque ligero: el equipo programa la app y verifica 
 | Cuándo | Qué |
 |---|---|
 | Diciembre de 2026 | Validar el precio con los leads |
-| Enero de 2027 | Lanzar en Andalucía |
-| Septiembre de 2027 | Institutos y ayuntamientos |
-| 2028 | Más destinos, siempre con fuente |
+| Enero de 2027 | Lanzar en toda España con campaña para familias |
+| Diciembre de 2027 | Punto muerto |
+| Septiembre de 2028 | Inversión recuperada; más destinos, siempre con fuente |
 
 # 8. Estética (para cualquier diseño, web o presentación)
 

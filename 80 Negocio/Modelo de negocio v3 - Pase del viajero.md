@@ -93,3 +93,34 @@ Alberto pidió recuperar la inversión mucho antes y bajar la financiación, «a
 **Ojo:**
 - el objetivo depende de que el 40 % compre el Pase a 24,99 € y de que entren ayuntamientos; si no se cumple, valen las cifras base;
 - el arranque ligero no es gratis: lo pagan las horas del equipo, que no salen en la caja.
+
+## Versión final para el pitch (25/11/2026, noche)
+
+Decisiones de Alberto:
+- **mercado nacional** (toda España), no solo Andalucía;
+- **solo particulares**: fuera, de momento, institutos y ayuntamientos;
+- **pedir unos 12.000 €**.
+
+**Cómo se llega a 12.000 €:** lanzamiento nacional financiado. La inversión inicial es de 9.568 €:
+
+| Concepto | Importe |
+|---|---|
+| Campaña para familias | 3.000 € |
+| App de dos partes, con desarrollo externo | 2.400 € |
+| Base verificada de toda España | 1.440 € |
+| Revisión legal completa | 900 € |
+| Marca e identidad | 380 € |
+| Pruebas | 200 € |
+| Imprevistos | 1.248 € |
+
+Además, la verificación se paga desde el primer mes.
+
+| Escenario | Financiación | Recuperación | Punto muerto |
+|---|---|---|---|
+| **Objetivo (pitch)** | **12.000 €** | **septiembre de 2028 (21 meses)** | **diciembre de 2027**: ~70 viajeros al mes (28 con Pase); margen de 9,88 € por viajero frente a ~690 € de costes fijos |
+| Base (validado) | 17.000 € | marzo de 2031 (51 meses) | — |
+| Prudente | 52.500 € | no se recupera en 5 años | — |
+
+**Mercado:** unos 630.000 jóvenes de 15-17 de toda España viajan al extranjero cada año; el objetivo a 5 años (3.940 viajeros) es el 0,6 %.
+
+**Ojo:** la campaña no se ha modelado como aumento de demanda (la demanda es la misma en base y objetivo), así que por ese lado el escenario es conservador. Por el otro, el 40 % de compra del Pase está sin validar.

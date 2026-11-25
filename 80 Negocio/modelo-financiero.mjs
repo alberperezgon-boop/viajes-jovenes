@@ -6,8 +6,8 @@ const OUT = process.argv[2];
 /* ---------- 1. Supuestos ---------- */
 // [clave, concepto, prudente, base, optimista, unidad, etiqueta, fuente/nota, formato]
 const SUP = [
-  ["h", "DEMANDA (empezamos por Andalucía)"],
-  ["grupos0", "Grupos que planifican un viaje en el mes 1", 25, 40, 40, "grupos/mes", "HIPÓTESIS", "Arranque con institutos y redes de la provincia. Validar con la lista de espera. Objetivo: arranque con 3 institutos piloto y la lista de espera.", "n"],
+  ["h", "DEMANDA (mercado nacional: toda España)"],
+  ["grupos0", "Grupos que planifican un viaje en el mes 1", 25, 40, 40, "grupos/mes", "HIPÓTESIS", "Arranque nacional con institutos, redes sociales y la lista de espera; sin publicidad pagada. Validar con la lista de espera. Objetivo: arranque con 3 institutos piloto y la lista de espera.", "n"],
   ["crec", "Crecimiento mensual de grupos", 0.04, 0.07, 0.07, "%/mes", "HIPÓTESIS", "Sin datos propios aún; se revisa con las primeras métricas. Objetivo: boca a boca por grupos (cada viaje trae otro grupo).", "p"],
   ["frenado", "Cada año el crecimiento mensual se multiplica por", 0.5, 0.6, 0.6, "factor", "HIPÓTESIS", "El crecimiento se frena al madurar (año 2 = 60 % del año 1, año 3 = 36 %...).", "n1"],
   ["convViaje", "Planes que acaban en viaje", 0.30, 0.35, 0.35, "%", "HIPÓTESIS", "Encuesta piloto: el 78 % viaja o lo ha planeado sin adultos (n=40). No mide conversión.", "p"],
@@ -27,17 +27,17 @@ const SUP = [
   ["pctEnlaces", "Viajeros que reservan por nuestros enlaces", 0.25, 0.35, 0.4, "%", "HIPÓTESIS", "Reserva el adulto (Booking y Hostelworld exigen 18 años).", "p"],
   ["eurReserva", "Comisión de afiliación por viajero que reserva", 3.00, 5.00, 5, "€/viajero", "INFERENCIA", "Hostelworld 18-22 % de su depósito; Booking, 25-40 % de su comisión (pocos % del precio); GetYourGuide/Civitatis 7-8 %. Canvas: 5-6 €.", "e2"],
   ["b2bInicio", "Mes en que empiezan los centros educativos", 12, 9, 9, "mes nº", "HIPÓTESIS", "Mes 9 = septiembre de 2027 (inicio de curso).", "n"],
-  ["b2bRitmo", "Centros nuevos al mes (capa opcional)", 0, 0, 1, "centros/mes", "HIPÓTESIS", "Institutos y AMPAs: taller de viaje seguro + acceso del grupo.", "n1"],
+  ["b2bRitmo", "Centros nuevos al mes (capa futura, ahora 0)", 0, 0, 0, "centros/mes", "HIPÓTESIS", "Institutos y AMPAs: taller de viaje seguro + acceso del grupo.", "n1"],
   ["b2bCuota", "Cuota anual por centro", 150, 250, 350, "€/año", "HIPÓTESIS", "Sin validar con ningún centro.", "e"],
   ["ayInicio", "Mes en que empieza el primer ayuntamiento", 18, 13, 10, "mes nº", "HIPÓTESIS", "Áreas de Juventud que lo ofrecen gratis a sus jóvenes (licencia anual).", "n"],
-  ["ayRitmo", "Ayuntamientos nuevos al mes (capa opcional)", 0, 0, 0.5, "ayunt./mes", "HIPÓTESIS", "Empezar por la provincia; sin validar con ninguno.", "n1"],
+  ["ayRitmo", "Ayuntamientos nuevos al mes (capa futura, ahora 0)", 0, 0, 0, "ayunt./mes", "HIPÓTESIS", "Ayuntamientos de cualquier comunidad; sin validar con ninguno.", "n1"],
   ["ayCuota", "Licencia anual por ayuntamiento", 600, 900, 900, "€/año", "HIPÓTESIS", "Precio de un taller o una actividad juvenil municipal; comprobar con 3-5 técnicos de Juventud.", "e"],
   ["pagoPct", "Comisión de la pasarela de pago (%)", 0.015, 0.015, 0.015, "%", "SECUNDARIA", "Tarifa estándar de Stripe para tarjetas del EEE; comprobar antes de contratar.", "p1"],
   ["pagoFijo", "Comisión de la pasarela de pago (fija)", 0.25, 0.25, 0.25, "€/pago", "SECUNDARIA", "Ídem.", "e2"],
   ["h", "COSTES MENSUALES"],
   ["horasVerif", "Horas de verificación de datos al mes", 30, 40, 30, "h/mes", "EQUIPO", "Coste principal del canvas: revisar normas, albergues y caducidades.", "n"],
   ["eurHora", "Coste por hora de verificación", 12, 12, 12, "€/h", "HIPÓTESIS", "Beca o colaboración de estudiantes. Si lo hace el equipo sin cobrar, poner 0.", "e"],
-  ["verifDesde", "Mes desde el que se pagan esas horas", 1, 1, 13, "mes nº", "HIPÓTESIS", "Objetivo: el primer año verifica el propio equipo (sin coste en caja).", "n"],
+  ["verifDesde", "Mes desde el que se pagan esas horas", 1, 1, 1, "mes nº", "HIPÓTESIS", "Con la financiación, las horas se pagan desde el primer mes en todos los escenarios.", "n"],
   ["marketing", "Marketing (contenido en redes, institutos)", 100, 150, 100, "€/mes", "HIPÓTESIS", "Sin anuncios pagados el primer año; contenido propio en TikTok e Instagram. Objetivo: solo contenido propio e institutos.", "e"],
   ["hosting", "Web, dominio y herramientas", 35, 35, 35, "€/mes", "HIPÓTESIS", "Alojamiento estático, dominio, correo y formularios.", "e"],
   ["seguro", "Seguro de responsabilidad civil", 300, 300, 300, "€/año", "SECUNDARIA", "BBVA cita ~120 € de media para autónomos (ICEA); paquetes para startups de 199-295 € (Qonto). Pedir presupuesto.", "e"],
@@ -53,7 +53,7 @@ const SUP = [
   ["margen", "Margen de seguridad sobre la necesidad de caja", 0.25, 0.20, 0.15, "%", "HIPÓTESIS", "Colchón para retrasos en cobros y ayudas.", "p"],
   ["h", "MERCADO (para comprobar que las cifras son realistas)"],
   ["jovEsp", "Jóvenes de 15 a 17 años en España", 1600000, 1600000, 1600000, "personas", "OFICIAL", "INE, población a 1/1/2025 (tabla 56934), citado en el pitch de Ruta16.", "n"],
-  ["pctAnd", "Peso de Andalucía en la población", 0.18, 0.18, 0.18, "%", "INFERENCIA", "Proporción aproximada de la población; comprobar en el INE por edad.", "p"],
+  ["pctAnd", "Parte de España a la que llegamos", 1, 1, 1, "%", "EQUIPO", "Mercado nacional desde el lanzamiento (100 % = toda España). La empresa tiene su sede en Andalucía (ayudas de la Junta).", "p"],
   ["pctViajan", "Jóvenes que viajan al extranjero al año", 0.394, 0.394, 0.394, "%", "OFICIAL", "INE, Encuesta de Turismo de Residentes 2025: 15-24 años (aplicado a 15-17: inferencia).", "p1"],
 ];
 const ESTAC = [["ene", 0.5], ["feb", 0.6], ["mar", 1.3], ["abr", 0.9], ["may", 0.8], ["jun", 1.4], ["jul", 1.8], ["ago", 1.6], ["sep", 0.7], ["oct", 0.7], ["nov", 0.6], ["dic", 1.0]];
@@ -78,13 +78,13 @@ const sup = k => `Supuestos!$E$${ROW[k]}`;
 
 /* ---------- 2. Inversión inicial ---------- */
 const INV = [
-  ["Revisión legal del modelo (condiciones, privacidad de menores, art. 5 bis, no ser agencia)", 400, "HIPÓTESIS", "Primera revisión gratuita con Andalucía Emprende (CADE) o la asesoría de la incubadora; 400 € para una revisión final de un abogado."],
+  ["Revisión legal completa (no ser agencia, datos de menores, seguros, condiciones)", 900, "HIPÓTESIS", "Primera orientación gratuita con Andalucía Emprende (CADE); revisión completa con abogado. Pedir presupuesto."],
   ["Registro de la marca en la OEPM (1 clase, en línea)", 130, "SECUNDARIA", "Tasa aproximada; comprobar la tarifa vigente de la OEPM."],
-  ["Alta de autónomo y trámites", 0, "OFICIAL", "El alta es gratuita; la gestoría ya está en los costes mensuales."],
-  ["Identidad visual y dominio", 150, "HIPÓTESIS", "Lo diseña el equipo; dominio y plantillas."],
-  ["App de dos partes: pasajero y familia (cuentas, pago, avisos de llegada)", 300, "EQUIPO", "La programa el equipo a partir de la demo que ya funciona; 300 € de servicios (pagos, avisos, pruebas)."],
-  ["Ampliar la base verificada (de 10 a 20 países, 50 albergues)", 0, "EQUIPO", "La hace el equipo antes del lanzamiento (unas 120 h, sin coste en caja)."],
-  ["Pruebas con jóvenes y familias (incentivos, materiales)", 150, "HIPÓTESIS", "Material para institutos y pequeñas recompensas."],
+  ["Identidad visual y dominio", 250, "HIPÓTESIS", "Logo, plantillas y dominio del primer año."],
+  ["App de dos partes: pasajero y familia (cuentas, pago, avisos de emergencia)", 2400, "HIPÓTESIS", "160 h de desarrollo externo a 15 €/h, partiendo de la demo que ya funciona."],
+  ["Ampliar la base verificada a toda España y más destinos (20 países, 60 albergues)", 1440, "EQUIPO", "120 h a 12 €/h."],
+  ["Campaña de lanzamiento nacional para familias (redes sociales y contenidos)", 3000, "HIPÓTESIS", "Anuncios dirigidos a madres y padres + contenido con jóvenes, en los meses previos a Semana Santa y verano."],
+  ["Pruebas con jóvenes y familias (incentivos, materiales)", 200, "HIPÓTESIS", "Pequeñas recompensas y materiales para las pruebas."],
 ];
 const I = [["Inversión inicial (mes 0)"], ["Celdas azules editables."], [], ["Concepto", "Importe (€)", "Etiqueta", "Fuente o nota"]];
 const invStart = I.length + 1;
@@ -178,7 +178,7 @@ const Rz = [
   ["Caja al final del año", ...[12, 24, 36, 48, 60].map(k => `='Proyección mensual'!$X$${p0 + k}`)],
   [],
   ["Comprobación de realismo"],
-  ["Jóvenes de 15-17 en Andalucía que viajan al extranjero al año", `=${sup("jovEsp")}*${sup("pctAnd")}*${sup("pctViajan")}`],
+  ["Jóvenes de 15-17 en España que viajan al extranjero al año", `=${sup("jovEsp")}*${sup("pctAnd")}*${sup("pctViajan")}`],
   ["Viajeros del año 5 sobre ese mercado", "=IF(B26=0,0,F16/B26)"],
 ];
 

@@ -172,3 +172,5 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 - **25/11 — Pitch de 12 diapositivas (D-34):** se rehace con la estructura del pitch del compañero. El escenario objetivo (Pase a 24,99 €, grupo aprobado solo con el Pase de todos, ayuntamientos y arranque ligero) pide 2.000 € y recupera en 6 meses. Publicado en Slides, Figma y Netlify.
 
 - **25/11:** la web de Netlify solo lleva la **demo** (goliveit-ruta16.netlify.app); el pitch se quita de ahí, a petición de Alberto. El pitch queda en un solo archivo: `80 Negocio/Pitch/GoLiveIt-Pitch.html`.
+
+- **25/11 — D-35:** mercado nacional, solo particulares y financiación de 12.000 € (recuperación en 21 meses en el escenario objetivo). Excel, pitch (Slides, Figma, HTML y PowerPoint) y prompt de ChatGPT actualizados.
