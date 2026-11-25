@@ -14,9 +14,9 @@ const SUP = [
   ["porGrupo", "Viajeros por grupo", 4, 4, 4, "personas", "EQUIPO", "Grupo tipo de la demo y de las encuestas.", "n1"],
   ["h", "INGRESOS"],
   ["convPago", "Viajeros que compran el Pase", 0.20, 0.30, 0.40, "% de viajeros", "HIPÓTESIS", "Lo paga la familia, por SU hijo. Dato del equipo: familias dispuestas a pagar más de 20 € y leads (sin compartir aún). Jóvenes: el 48 % pagaría algo o querría que pague la familia (encuesta piloto, n=40). Objetivo: el plan del grupo solo sale «aprobado» cuando cada viajero tiene su Pase (cada familia firma lo suyo).", "p"],
-  ["precio", "Precio del Pase por viajero (IVA incluido)", 19.99, 19.99, 24.99, "€/viajero", "EQUIPO (validado)", "Modelo de negocio del equipo: Pase de 19,99 € por viajero. Desbloquea lo personal: autorización y formulario del albergue a su nombre, papeles por edad y nacionalidad, aprobación de los padres y avisos de emergencia. Objetivo: las familias del equipo aceptan más de 20 €.", "e2"],
+  ["precio", "Precio del Pase por viajero (IVA incluido)", 19.99, 19.99, 19.99, "€/viajero", "EQUIPO (validado)", "Modelo de negocio del equipo: Pase de 19,99 € por viajero. Desbloquea lo personal: autorización y formulario del albergue a su nombre, papeles por edad y nacionalidad, aprobación de los padres y avisos de emergencia. Objetivo: las familias del equipo aceptan más de 20 €.", "e2"],
   ["iva", "IVA incluido en el precio", 0.21, 0.21, 0.21, "%", "OFICIAL", "IVA general en España (servicios digitales a consumidores). Lo que ingresamos es el precio sin IVA.", "p"],
-  ["descGrupo", "Descuento medio de grupo (opcional)", 0, 0, 0.1, "%", "HIPÓTESIS", "El modelo del equipo no lo incluye. Si se ofrece -30 % desde el 2.º viajero, poner en torno a 0,15. Objetivo: pack de grupo de 4 Pases por 89,96 € (22,49 € cada uno).", "p"],
+  ["descGrupo", "Descuento medio de grupo (opcional)", 0, 0, 0, "%", "HIPÓTESIS", "El modelo del equipo no lo incluye. Si se ofrece -30 % desde el 2.º viajero, poner en torno a 0,15. Objetivo: pack de grupo de 4 Pases por 89,96 € (22,49 € cada uno).", "p"],
   ["seguroPct", "Viajeros con Pase que contratan el seguro de viaje", 0.20, 0.30, 0.5, "%", "HIPÓTESIS", "Pack tranquilidad: se ofrece a la familia al aprobar el viaje. Objetivo: el seguro se ofrece marcado por defecto al aprobar (la familia puede quitarlo).", "p"],
   ["seguroPrima", "Precio medio del seguro de viaje", 20, 25, 25, "€/viajero", "HIPÓTESIS", "Viaje corto por Europa; comprobar con la aseguradora socia.", "e"],
   ["seguroCom", "Comisión del seguro", 0.20, 0.20, 0.20, "%", "EQUIPO", "Modelo del equipo: unos 20 %. Ojo: la distribución de seguros está regulada; revisar con un abogado.", "p"],
@@ -83,7 +83,7 @@ const INV = [
   ["Identidad visual y dominio", 250, "HIPÓTESIS", "Logo, plantillas y dominio del primer año."],
   ["App de dos partes: pasajero y familia (cuentas, pago, avisos de emergencia)", 2400, "HIPÓTESIS", "160 h de desarrollo externo a 15 €/h, partiendo de la demo que ya funciona."],
   ["Ampliar la base verificada a toda España y más destinos (20 países, 60 albergues)", 1440, "EQUIPO", "120 h a 12 €/h."],
-  ["Campaña de lanzamiento nacional para familias (redes sociales y contenidos)", 3000, "HIPÓTESIS", "Anuncios dirigidos a madres y padres + contenido con jóvenes, en los meses previos a Semana Santa y verano."],
+  ["Campaña de lanzamiento nacional para familias (redes sociales y contenidos)", 2700, "HIPÓTESIS", "Anuncios dirigidos a madres y padres + contenido con jóvenes, en los meses previos a Semana Santa y verano."],
   ["Pruebas con jóvenes y familias (incentivos, materiales)", 200, "HIPÓTESIS", "Pequeñas recompensas y materiales para las pruebas."],
 ];
 const I = [["Inversión inicial (mes 0)"], ["Celdas azules editables."], [], ["Concepto", "Importe (€)", "Etiqueta", "Fuente o nota"]];

@@ -82,74 +82,81 @@ Web publicada: https://goliveit-ruta16.netlify.app (pitch en /pitch/).
 | Booking, Airbnb, Hostelworld | Exigen 18 y no filtran por edad |
 | Wanderlog, TripIt | Sin normas de edad |
 
-# 6. Modelo de negocio
+# 6. Modelo de negocio (el del equipo, validado con familias)
 
-Software de dos partes: **planificar es gratis** para el grupo; lo personal de cada viajero va en su **Pase**, que paga la familia.
+Planificar el viaje es **gratis**. Quien paga y autoriza es la familia. Ganamos dinero en **3 capas**:
 
-1. **Pase del viajero** (ingreso principal). Precio validado por el equipo: 19,99 € IVA incluido. En el escenario objetivo, **24,99 €**, con pack de grupo de 4 por 89,96 €. Desbloquea:
-   - la autorización de viaje y el formulario del albergue a nombre del viajero;
+1. **Pase Ruta16** (ingreso principal): **19,99 € por viajero, IVA incluido**. Desbloquea lo personal de cada viajero:
+   - la autorización de viaje y el formulario del albergue a su nombre;
    - los papeles según su edad y nacionalidad;
-   - el enlace para que sus padres aprueben;
+   - el enlace para que sus padres aprueben el plan;
    - los avisos y contactos de emergencia durante el viaje.
-2. **Pack tranquilidad:** al aprobar, se ofrece a la familia un seguro de viaje (~20 % de comisión) y una eSIM de datos (~10 %) de empresas socias.
-3. **Reservas por enlace:** tren, bus, albergues y actividades con enlace de afiliado, unos 5 € por viajero que reserva. Los enlaces van dirigidos al adulto.
-4. *Ayuntamientos e institutos:* **de momento no**. Solo particulares; quizá en el futuro.
+2. **Pack tranquilidad** (comisiones): al aprobar el viaje ofrecemos a la familia un seguro de viaje (unos 20 % de comisión) y datos móviles eSIM (unos 10 %) de empresas socias.
+3. **Reservas por enlace:** tren, bus, albergues y actividades se reservan en la web del proveedor con nuestro enlace de afiliado (unos 5-6 € por viajero). Más adelante, **acuerdos directos con albergues** que nos paguen por cada grupo que les llevemos con los papeles listos.
 
-**Que no pague uno y lo usen los cuatro:**
-- el itinerario se comparte gratis;
-- lo que se paga es personal: documentos a nombre de cada viajero y avisos que solo llegan a sus padres;
-- el plan del grupo solo sale «aprobado» cuando cada viajero tiene su Pase.
+**Lo que se paga es personal, así que cada familia compra el Pase de su hijo:**
+- el itinerario se puede compartir;
+- los documentos van a nombre de cada viajero y los avisos llegan solo a sus padres;
+- el grupo sale aprobado cuando todos tienen su Pase.
 
-**Riesgos ya detectados:**
-- el precio lleva IVA: de 19,99 € quedan 16,52 €;
-- vender seguros está regulado (revisar con un abogado);
-- la afiliación es frágil: Booking dio de baja a afiliados pequeños y algunas plataformas cancelan webs dirigidas a menores;
-- los acuerdos con albergues que paguen chocan con la neutralidad del dato «verificado»;
-- los avisos y la ubicación son datos de menores (consentimiento y protección de datos);
-- quedan pendientes la revisión legal y la Directiva (UE) 2026/1024 (art. 5 bis).
+**Solo clientes particulares** (familias). Las reservas se hacen en la web oficial de cada proveedor.
+
+**Lo que ya tenemos en cuenta:**
+- precios con IVA incluido, y en las cuentas, ingresos sin IVA;
+- revisión legal de la venta de seguros y de los datos de menores;
+- enlaces de afiliado pensados para que reserve el adulto;
+- acuerdos con albergues transparentes, sin que cambien el filtro por edad.
 
 # 7. Números (Excel con 3 escenarios, proyección a 60 meses desde enero de 2027)
 
-Solo particulares, mercado nacional e ingresos siempre sin IVA. Pedimos **12.000 €** para un lanzamiento nacional financiado: app externa, verificación pagada desde el primer mes, revisión legal completa y campaña para familias. La inversión inicial es de 9.568 €.
+Mercado nacional, clientes particulares e ingresos sin IVA. Pedimos **12.000 €** para el lanzamiento en toda España. La inversión inicial es de 9.223 €:
 
-| Escenario | Supuestos | Financiación que haría falta | Recuperación |
-|---|---|---|---|
-| **Objetivo (el del pitch; hipótesis)** | 40 % de viajeros con Pase a 24,99 €, pack de grupo y seguro por defecto | **12.000 €** | **septiembre de 2028 (21 meses)** |
-| Base (modelo validado) | 30 % con Pase a 19,99 € | 17.000 € | marzo de 2031 (51 meses) |
-| Prudente | 20 % con Pase | 52.500 € | no se recupera en 5 años |
+| Concepto | Importe |
+|---|---|
+| Campaña para familias | 2.700 € |
+| App de dos partes (pasajero y familia) | 2.400 € |
+| Base verificada de toda España | 1.440 € |
+| Revisión legal | 900 € |
+| Marca e identidad | 380 € |
+| Pruebas | 200 € |
+| Imprevistos | 1.203 € |
 
-**Escenario objetivo, en detalle:**
-- primer mes con beneficio: marzo de 2027;
-- **punto muerto** (los últimos 12 meses en positivo): **diciembre de 2027**; hacen falta unos 70 viajeros al mes (28 con Pase), con un margen medio de 9,88 € por viajero frente a unos 690 € de costes fijos al mes;
-- viajeros: 996 en 2027, 1.857 en 2028 y 2.718 en 2029;
-- ingresos: 10.555 €, 19.676 € y 28.799 €;
-- resultado: 1.820 €, 10.024 € y 13.596 €.
+**Escenario objetivo (el del pitch):** Pase a 19,99 €, el 40 % de los viajeros con Pase, la mitad de las familias con seguro.
+- **financiación:** 12.000 €;
+- **primer mes con beneficio:** marzo de 2027;
+- **punto muerto:** diciembre de 2027, con unos 76 viajeros al mes (31 con Pase) y un margen medio de 9,07 € por viajero;
+- **inversión recuperada:** **diciembre de 2028 (24 meses)**;
+- **viajeros:** 996 en 2027, 1.857 en 2028 y 2.718 en 2029;
+- **ingresos:** 9.732 €, 18.140 € y 26.552 €;
+- **resultado:** 1.011 €, 8.517 € y 11.389 €.
 
 **Uso de los 12.000 €:**
 
 | Concepto | Importe |
 |---|---|
-| Campaña de lanzamiento para familias | 3.000 € |
-| App de dos partes (pasajero y familia) | 2.400 € |
-| Ampliar la base verificada a toda España | 1.440 € |
-| Revisión legal, marca, identidad y pruebas | 1.480 € |
-| Imprevistos y caja para los primeros meses | 3.680 € |
+| Campaña de lanzamiento para familias | 2.700 € |
+| App de dos partes | 2.400 € |
+| Base verificada de toda España | 1.440 € |
+| Legal, marca, identidad y pruebas | 1.480 € |
+| Imprevistos y caja para los primeros meses | 3.980 € |
 
 **Financiación posible:**
 - aportación de los socios;
-- premio o capital semilla de la incubadora;
-- «cuota cero» de la Junta de Andalucía (devuelve las cuotas del primer año de autónomo, unos 1.064 €);
-- ayuda de la Junta al inicio de actividad (3.800-5.500 €, si hay convocatoria en 2027);
-- ENISA Jóvenes Emprendedores (25.000-75.000 €), más adelante: exige sociedad limitada.
+- premio de la incubadora;
+- «cuota cero» de la Junta de Andalucía (unos 1.064 €);
+- ayuda de la Junta al inicio de actividad (3.800-5.500 €, si hay convocatoria);
+- ENISA Jóvenes Emprendedores (25.000-75.000 €), más adelante.
 
 **Hoja de ruta:**
 
 | Cuándo | Qué |
 |---|---|
-| Diciembre de 2026 | Validar el precio con los leads |
-| Enero de 2027 | Lanzar en toda España con campaña para familias |
+| Diciembre de 2026 | Primeros Pases con los leads de familias |
+| Enero de 2027 | Lanzamiento en toda España |
 | Diciembre de 2027 | Punto muerto |
-| Septiembre de 2028 | Inversión recuperada; más destinos, siempre con fuente |
+| Diciembre de 2028 | Inversión recuperada y acuerdos directos con albergues |
+
+En el Excel también hay un escenario base (30 % con Pase) y uno prudente (20 %), para comparar.
 
 # 8. Estética (para cualquier diseño, web o presentación)
 

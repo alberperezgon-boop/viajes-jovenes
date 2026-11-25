@@ -124,3 +124,24 @@ Además, la verificación se paga desde el primer mes.
 **Mercado:** unos 630.000 jóvenes de 15-17 de toda España viajan al extranjero cada año; el objetivo a 5 años (3.940 viajeros) es el 0,6 %.
 
 **Ojo:** la campaña no se ha modelado como aumento de demanda (la demanda es la misma en base y objetivo), así que por ese lado el escenario es conservador. Por el otro, el 40 % de compra del Pase está sin validar.
+
+## Versión definitiva (25/11/2026): el modelo del compañero, en positivo
+
+Por indicación de Alberto, la referencia es **el modelo del equipo tal cual**, contado en positivo:
+- **Pase Ruta16 a 19,99 €** (IVA incluido), sin descuento de grupo;
+- **Pack tranquilidad** (seguro ~20 %, eSIM ~10 %);
+- **reservas por enlace** (5-6 € por viajero) y, más adelante, acuerdos directos con albergues;
+- lo que se paga es personal, y el grupo sale aprobado cuando todos tienen su Pase.
+
+**Escenario objetivo del pitch:** el 40 % de los viajeros con Pase, la mitad de las familias con seguro, solo particulares y mercado nacional.
+
+| | Valor |
+|---|---|
+| **Financiación** | **12.000 €** |
+| Inversión inicial | 9.223 € (campaña de 2.700 €) |
+| Primer mes con beneficio | marzo de 2027 |
+| **Punto muerto** | **diciembre de 2027**: unos 76 viajeros al mes (31 con Pase); margen de 9,07 € por viajero |
+| **Inversión recuperada** | **diciembre de 2028 (24 meses)** |
+| Resultado | 1.011 € en 2027, 8.517 € en 2028 y 11.389 € en 2029 |
+
+El Excel sigue teniendo el escenario base (30 %) y el prudente (20 %) para comparar.

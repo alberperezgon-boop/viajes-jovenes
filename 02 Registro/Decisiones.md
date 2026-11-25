@@ -246,3 +246,8 @@ Cada decisión dice quién la tomó, con qué evidencia y qué la haría cambiar
   - Escenario objetivo: punto muerto en diciembre de 2027 y recuperación en septiembre de 2028 (21 meses).
 - **Pitch** (12 diapositivas) actualizado en Slides, Figma, HTML y PowerPoint.
 - **Detalle:** [[Modelo de negocio v3 - Pase del viajero]].
+
+## D-36. El modelo del compañero, como base, en positivo (25/11/2026)
+
+- **Referencia:** el modelo de negocio del equipo tal cual, con el Pase Ruta16 a 19,99 €, el Pack tranquilidad, las reservas por enlace y, más adelante, acuerdos con albergues. El pitch y el prompt de ChatGPT lo cuentan en positivo.
+- **Escenario objetivo:** se piden 12.000 €; el punto muerto llega en diciembre de 2027 y la inversión se recupera en diciembre de 2028 (24 meses).

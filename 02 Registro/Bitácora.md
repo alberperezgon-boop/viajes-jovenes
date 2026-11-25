@@ -174,3 +174,5 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 - **25/11:** la web de Netlify solo lleva la **demo** (goliveit-ruta16.netlify.app); el pitch se quita de ahí, a petición de Alberto. El pitch queda en un solo archivo: `80 Negocio/Pitch/GoLiveIt-Pitch.html`.
 
 - **25/11 — D-35:** mercado nacional, solo particulares y financiación de 12.000 € (recuperación en 21 meses en el escenario objetivo). Excel, pitch (Slides, Figma, HTML y PowerPoint) y prompt de ChatGPT actualizados.
+
+- **25/11 — D-36:** el pitch, el Excel y el prompt pasan al modelo del compañero (Pase a 19,99 €) en tono positivo: 12.000 €, punto muerto en diciembre de 2027 y recuperación en diciembre de 2028.
