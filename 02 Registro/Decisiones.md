@@ -233,7 +233,7 @@ Cada decisión dice quién la tomó, con qué evidencia y qué la haría cambiar
 
 ## D-34. Pitch de 12 diapositivas y escenario objetivo (25/11/2026)
 
-- **Pitch:** máximo 12 diapositivas, con la estructura y la estética del pitch del compañero (oscuro, violeta y lima) y los datos actualizados. Está en Slides, Figma (página más reciente) y Netlify (`/pitch/`).
+- **Pitch:** máximo 12 diapositivas, con la estructura y la estética del pitch del compañero (oscuro, violeta y lima) y los datos actualizados. Está en Slides, en Figma (página más reciente) y en el archivo `80 Negocio/Pitch/GoLiveIt-Pitch.html`. La web de Netlify solo lleva la demo.
 - **Escenario objetivo** (modelo mejorado y arranque ligero; todo hipótesis): se piden **2.000 €**, se recupera en **junio de 2027** y el punto muerto llega en **diciembre de 2027**.
 - Las cifras validadas (base: 7.000 € y 32 meses) siguen en el Excel y se citan en la diapositiva de números.
 - Detalle en [[Modelo de negocio v3 - Pase del viajero]].
