@@ -274,3 +274,26 @@ Cada decisión dice quién la tomó, con qué evidencia y qué la haría cambiar
   
   Las dos son estimaciones.
 - **Pendiente del equipo:** los nombres de los compañeros en la diapositiva de equipo (ahora pone [Nombre]) y el correo de contacto.
+
+## D-38. Modelo escalable a Europa y pitch con logos (25/11/2026)
+
+- **Alberto:** 38.000 € al año no sostienen a un equipo de 4; el mercado es mucho mayor porque una web escala a toda Europa.
+- **Escenario objetivo:**
+  - expansión a Portugal, Italia y Francia en 2029 (demanda × 2);
+  - más crecimiento;
+  - complementos que se contratan con el Pase: eSIM (60 %), seguro (50 %) y otros servicios (30 %, ~5 €);
+  - sueldos de los 4 desde 2029 (4.800 €/mes en total);
+  - IVA, IRPF, temporadas y mantenimiento de la web.
+- **Resultado:**
+  - financiación de 12.000 €;
+  - punto muerto en diciembre de 2027;
+  - recuperación en junio de 2028 (18 meses);
+  - 44.737 viajeros y 467.419 € de ingresos en 2031 (el 1,9 % del mercado alcanzable de 2,4 M).
+- **Excel:**
+  - hoja nueva «Previsión hasta recuperar», en horizontal, con todo desglosado: ventas con IVA, IVA trimestral, ingresos por línea, gastos variables y fijos, beneficio antes de impuestos, IRPF, neto y caja;
+  - se retira la hoja vertical «PM + 6».
+- **Pitch:**
+  - fuera el equipo;
+  - diapositiva de complementos;
+  - logos de la competencia (EF, Finnair, KLM y Airbnb, sacados del pitch del compañero);
+  - mercado total, alcanzable y objetivo europeo.

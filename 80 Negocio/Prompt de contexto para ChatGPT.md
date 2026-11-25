@@ -65,14 +65,15 @@ Base verificada: 113 fuentes oficiales (web de Ruta16) y 37 albergues confirmado
 
 Web publicada: https://goliveit-ruta16.netlify.app (pitch en /pitch/).
 
-# 4. Mercado
+# 4. Mercado (escalable: es una web)
 
-| Dato | Valor | Origen |
+| Nivel | Dato | Origen |
 |---|---|---|
-| Jóvenes de 15-17 años en España | 1,6 M | INE, 2025 |
-| Residentes de 15-24 que viajó al extranjero en 2025 | 39,4 % | INE, Encuesta de Turismo de Residentes |
-| Jóvenes de 15-17 en España que viajan al extranjero al año (mercado nacional) | ≈ 630.000 | Estimación propia (1,6 M × 39,4 %) |
-| Objetivo a 5 años | 0,6 % de ese grupo (unos 3.900 viajeros al año) | Objetivo propio |
+| Total: jóvenes de 15-17 en la UE | ≈ 14 M | Estimación propia (3/15 de los 73 M de 15-29; Eurostat 2023) |
+| Alcanzable: jóvenes de 15-17 en España + Portugal, Italia y Francia que viajan al extranjero cada año | ≈ 2,4 M (6,1 M × 39,4 %) | España: INE 2025 (1,6 M; el 39,4 % viaja). Resto: estimación |
+| Objetivo en 2031 | 44.700 viajeros al año (1,9 %) y 467.000 € de ingresos | Objetivo propio |
+
+Calendario: España desde 2027; Portugal, Italia y Francia desde 2029.
 
 # 5. Competencia
 
@@ -109,56 +110,62 @@ Planificar el viaje es **gratis**. Quien paga y autoriza es la familia. Ganamos 
 - enlaces de afiliado pensados para que reserve el adulto;
 - acuerdos con albergues transparentes, sin que cambien el filtro por edad.
 
-# 7. Números (Excel con 3 escenarios, proyección a 60 meses desde enero de 2027)
+# 7. Números (Excel con escenarios y previsión mes a mes en horizontal hasta recuperar la inversión)
 
-Mercado nacional, clientes particulares e ingresos sin IVA. Pedimos **12.000 €** para el lanzamiento en toda España. La inversión inicial es de 9.223 €:
+**Escenario objetivo (el del pitch).** Incluye IVA, IRPF (pagos trimestrales del 20 %), temporadas alta, media y baja, mantenimiento de la web, sueldos de los 4 desde 2029 (4.800 €/mes en total) y la salida a Portugal, Italia y Francia en 2029.
 
-| Concepto | Importe |
-|---|---|
-| Campaña para familias | 2.700 € |
-| App de dos partes (pasajero y familia) | 2.400 € |
-| Base verificada de toda España | 1.440 € |
-| Revisión legal | 900 € |
-| Marca e identidad | 380 € |
-| Pruebas | 200 € |
-| Imprevistos | 1.203 € |
+- **Financiación:** 12.000 €. La inversión inicial es de 9.223 €:
 
-**Escenario objetivo (el del pitch):** Pase a 19,99 €, el 40 % de los viajeros con Pase, la mitad de las familias con seguro.
-- **financiación:** 12.000 €;
-- **primer mes con beneficio:** marzo de 2027;
-- **punto muerto:** diciembre de 2027, con unos 76 viajeros al mes (31 con Pase) y un margen medio de 9,07 € por viajero;
-- **inversión recuperada:** **diciembre de 2028 (24 meses)**;
-- **viajeros:** 996 en 2027, 1.857 en 2028 y 2.718 en 2029;
-- **ingresos:** 9.732 €, 18.140 € y 26.552 €;
-- **resultado:** 1.011 €, 8.517 € y 11.389 €.
+  | Concepto | Importe |
+  |---|---|
+  | Campaña | 2.700 € |
+  | App de dos partes | 2.400 € |
+  | Base verificada | 1.440 € |
+  | Legal | 900 € |
+  | Marca e identidad | 380 € |
+  | Pruebas | 200 € |
+  | Imprevistos | 1.203 € |
+
+  El resto, hasta 12.000 €, es caja.
+- **Primer mes con beneficio:** marzo de 2027.
+- **Punto muerto:** diciembre de 2027.
+- **Inversión recuperada:** junio de 2028 (18 meses).
+
+| | 2027 | 2028 | 2029 | 2031 |
+|---|---|---|---|---|
+| Viajeros | 1.783 | 4.624 | 18.586 | 44.737 |
+| Ingresos (sin IVA) | 18.627 € | 48.318 € | 194.190 € | 467.419 € |
+| Beneficio neto | 3.588 € | 25.509 € | 84.033 € | 287.973 € |
+
+**Por cliente:**
+- **margen por Pase:** ≈ 19,40 € (14,77 € del Pase sin IVA, menos pago y avisos, más 4,60 € de complementos);
+- **captación:** ≈ 7 € por Pase el primer año.
+
+**Complementos que se contratan con el Pase:**
+- eSIM con la tarifa (la añade el 60 %);
+- seguro (50 %);
+- otros servicios, como traslados, tarjeta prepago, carné de alberguista y actividades (30 %, ~5 € de comisión);
+- reservas por enlace.
 
 **Uso de los 12.000 €:**
 
 | Concepto | Importe |
 |---|---|
-| Campaña de lanzamiento para familias | 2.700 € |
-| App de dos partes | 2.400 € |
-| Base verificada de toda España | 1.440 € |
+| Campaña | 2.700 € |
+| App | 2.400 € |
+| Base verificada | 1.440 € |
 | Legal, marca, identidad y pruebas | 1.480 € |
-| Imprevistos y caja para los primeros meses | 3.980 € |
+| Caja para los primeros meses | 3.980 € |
 
-**Financiación posible:**
-- aportación de los socios;
-- premio de la incubadora;
-- «cuota cero» de la Junta de Andalucía (unos 1.064 €);
-- ayuda de la Junta al inicio de actividad (3.800-5.500 €, si hay convocatoria);
-- ENISA Jóvenes Emprendedores (25.000-75.000 €), más adelante.
-
-**Hoja de ruta:**
+**Hitos:**
 
 | Cuándo | Qué |
 |---|---|
-| Diciembre de 2026 | Primeros Pases con los leads de familias |
-| Enero de 2027 | Lanzamiento en toda España |
+| Diciembre de 2026 | Primeros Pases con los leads |
+| Enero de 2027 | Lanzamiento en España |
 | Diciembre de 2027 | Punto muerto |
-| Diciembre de 2028 | Inversión recuperada y acuerdos directos con albergues |
-
-En el Excel también hay un escenario base (30 % con Pase) y uno prudente (20 %), para comparar.
+| Junio de 2028 | Inversión recuperada |
+| Enero de 2029 | Portugal, Italia y Francia |
 
 # 8. Estética (para cualquier diseño, web o presentación)
 

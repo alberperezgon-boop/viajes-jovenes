@@ -4,13 +4,13 @@ import { join } from "node:path";
 const D = process.argv[2], OUT = process.argv[3], SHOTS = process.argv[4], TEAMPITCH = process.argv[5];
 const deck = JSON.parse(readFileSync(join(D, "project/deck.json"), "utf8"));
 const css = readFileSync(join(D, "project/deck.css"), "utf8");
-const IMG = { "b8fa91cdf1265dbdf24687820e684a69": "light-lista.png", "eeacfda501df91a4940ecc561bf7b0aa": "light-dormir.png", "0eeede1bcb56dcf8ee8e8a7193249f8c": "light-padres.png" };
+const IMG = { "b8fa91cdf1265dbdf24687820e684a69": "light-lista.png", "eeacfda501df91a4940ecc561bf7b0aa": "light-dormir.png", "0eeede1bcb56dcf8ee8e8a7193249f8c": "light-padres.png", "ad65b2ee3cd8400b78080a62d5fe0401": "ef.svg", "608f3cfd9ae35732d60a93337fed30f9": "finnair.svg", "ce4260a85988d279b7def2bbeeb4d55d": "klm.svg", "228a2e2ee2af8a9ff82015de15acb9c5": "airbnb.svg" };
 // Fuentes Inter y Space Grotesk (OFL) incrustadas en el pitch del compañero: se reutilizan
 const team = readFileSync(TEAMPITCH, "utf8");
 const faces = (team.match(/@font-face\{[^}]*\}/g) || []).join("\n");
 if (!faces.includes("Space Grotesk")) throw new Error("sin fuentes");
 const slides = deck.order.map(id => readFileSync(join(D, "project/slides", id + ".html"), "utf8").trim());
-const embed = (html, inline) => html.replace(/\/_blob\/([0-9a-f]{32})/g, (m, id) => inline ? "data:image/png;base64," + readFileSync(join(SHOTS, IMG[id])).toString("base64") : "img/" + IMG[id]);
+const embed = (html, inline) => html.replace(/\/_blob\/([0-9a-f]{32})/g, (m, id) => inline ? "data:" + (IMG[id].endsWith(".svg") ? "image/svg+xml" : "image/png") + ";base64," + readFileSync(join(SHOTS, IMG[id])).toString("base64") : "img/" + IMG[id]);
 const BASE = `*{box-sizing:border-box} html,body{margin:0}
 section{position:relative;width:1920px;height:1080px;overflow:hidden;flex-shrink:0}
 h1,h2,h3,p,ul,ol{margin:0} table{border-collapse:collapse} th{text-align:left;font-weight:600;font-size:26px;color:#B5B2D6;border-bottom:2px solid #2C3258;padding:0 0 14px} td{padding:14px 0;border-bottom:1px solid #272C4D;vertical-align:top}

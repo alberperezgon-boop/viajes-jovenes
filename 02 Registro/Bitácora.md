@@ -180,3 +180,5 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 - **25/11:** el Excel tiene una hoja nueva, «Previsión hasta PM + 6», con los ingresos y beneficios mes a mes desde enero de 2027 hasta 6 meses después del punto muerto (junio de 2028). Copia en Descargas.
 
 - **25/11 — D-37:** pitch rehecho para inversores (12 diapositivas: equipo, captación con coste por cliente, mercado total, alcanzable y objetivo, mapa de competencia, inversión) con la encuesta de 61 respuestas. Publicado en Slides, Figma, PowerPoint (también en Descargas) y HTML.
+
+- **25/11 — D-38:** modelo escalable (España y, desde 2029, Portugal, Italia y Francia), complementos y sueldos. 12.000 €, recuperación en 18 meses y 467.000 € de ingresos en 2031. Excel con previsión horizontal hasta recuperar la inversión. Pitch con logos, sin equipo, publicado en Slides, Figma, PowerPoint y HTML.
