@@ -182,3 +182,5 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 - **25/11 — D-37:** pitch rehecho para inversores (12 diapositivas: equipo, captación con coste por cliente, mercado total, alcanzable y objetivo, mapa de competencia, inversión) con la encuesta de 61 respuestas. Publicado en Slides, Figma, PowerPoint (también en Descargas) y HTML.
 
 - **25/11 — D-38:** modelo escalable (España y, desde 2029, Portugal, Italia y Francia), complementos y sueldos. 12.000 €, recuperación en 18 meses y 467.000 € de ingresos en 2031. Excel con previsión horizontal hasta recuperar la inversión. Pitch con logos, sin equipo, publicado en Slides, Figma, PowerPoint y HTML.
+
+- **26/11 — D-39:** auditoría del modelo con un recálculo independiente (cuadra al céntimo) y corrección de planteamiento: gastos que crecen con el negocio (publicidad, salida a Europa, sueldos por año y SL con Impuesto de Sociedades). Siguen los 12.000 € y la recuperación en 18 meses; beneficio neto de 2031: 157.690 €. Excel con hojas nuevas «Ventas de un mes» y «Presupuesto de una venta». Pitch actualizado.

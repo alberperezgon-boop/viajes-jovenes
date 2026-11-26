@@ -297,3 +297,28 @@ Cada decisión dice quién la tomó, con qué evidencia y qué la haría cambiar
   - diapositiva de complementos;
   - logos de la competencia (EF, Finnair, KLM y Airbnb, sacados del pitch del compañero);
   - mercado total, alcanzable y objetivo europeo.
+
+## D-39. Cálculos corregidos, ventas de un mes y presupuesto de una venta (26/11/2026)
+
+- **Alberto:** los cálculos no estaban bien; quiere una hoja con el desglose de todos los ingresos por ventas de un mes y un presupuesto de ingresos y gastos de una venta.
+- **Revisión:** un recálculo independiente (fuera del Excel) daba lo mismo que el Excel, mes a mes y al céntimo. El fallo era de planteamiento: el beneficio de 2031 salía demasiado alto porque los gastos no crecían con el negocio.
+  - El marketing seguía en 200 € al mes con 45.000 viajeros.
+  - La salida a Europa doblaba la demanda sin costar nada.
+  - Los sueldos se quedaban en 1.200 € por socio con 360.000 € de beneficio.
+  - Se aplicaba un impuesto plano del 20 %.
+- **Correcciones (escenario objetivo):**
+  - publicidad que crece con las ventas: 8 % de los ingresos desde 2028 (el año 1 lo cubre la campaña de lanzamiento);
+  - salida a Portugal, Italia y Francia: 6.000 € de lanzamiento (con la constitución de la SL) y 1.500 € al mes;
+  - sueldos por año: 1.200, 2.000 y 3.000 € al mes por socio en 2029, 2030 y 2031;
+  - SL desde 2029: Impuesto de Sociedades del 25 % y gestoría de 120 € al mes;
+  - cuota de autónomo después de la tarifa plana: 350 € por socio.
+  - Todo va como HIPÓTESIS en Supuestos, salvo los tipos de impuesto (OFICIAL).
+- **Resultado:**
+  - siguen igual: 12.000 €, punto muerto en diciembre de 2027 y recuperación en junio de 2028 (18 meses), con los mismos ingresos;
+  - el beneficio neto pasa a 3.588 / 22.417 / 43.189 / 101.283 / 157.690 € (2027-2031) y la caja de 2031 a 318.943 €;
+  - punto muerto de ~123 viajeros al mes;
+  - el escenario base ya no recupera en 5 años, porque ahora paga publicidad.
+- **Excel:**
+  - hoja nueva **«Ventas de un mes»**: se elige el mes. Cada línea de ingreso trae nº de ventas, precio, lo que paga el cliente, IVA y lo que nos queda; después, gastos variables y fijos, resultado, impuesto, neto, IVA del mes y caja. Comprobaciones ✓ contra la proyección.
+  - hoja nueva **«Presupuesto de una venta»**: solo el Pase, venta media y venta completa, con ingresos, gastos variables, costes fijos repartidos entre las ventas del año elegido, impuesto y neto. Comprobación ✓ con el beneficio del año.
+- **Pitch:** diapositiva de números actualizada en Slides, PowerPoint (también en Descargas) y HTML.

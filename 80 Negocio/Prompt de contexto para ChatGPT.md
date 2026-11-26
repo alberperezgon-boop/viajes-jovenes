@@ -112,7 +112,7 @@ Planificar el viaje es **gratis**. Quien paga y autoriza es la familia. Ganamos 
 
 # 7. Números (Excel con escenarios y previsión mes a mes en horizontal hasta recuperar la inversión)
 
-**Escenario objetivo (el del pitch).** Incluye IVA, IRPF (pagos trimestrales del 20 %), temporadas alta, media y baja, mantenimiento de la web, sueldos de los 4 desde 2029 (4.800 €/mes en total) y la salida a Portugal, Italia y Francia en 2029.
+**Escenario objetivo (el del pitch).** Incluye IVA, impuestos (IRPF del 20 % como autónomos y, desde 2029, Impuesto de Sociedades del 25 % al pasar a SL), temporadas alta, media y baja, mantenimiento de la web, publicidad que crece con las ventas (8 % de los ingresos desde 2028), sueldos de los 4 desde 2029 (1.200, 2.000 y 3.000 € al mes por socio en 2029, 2030 y 2031) y la salida a Portugal, Italia y Francia en 2029 con su coste (6.000 € de lanzamiento y 1.500 € al mes).
 
 - **Financiación:** 12.000 €. La inversión inicial es de 9.223 €:
 
@@ -128,14 +128,14 @@ Planificar el viaje es **gratis**. Quien paga y autoriza es la familia. Ganamos 
 
   El resto, hasta 12.000 €, es caja.
 - **Primer mes con beneficio:** marzo de 2027.
-- **Punto muerto:** diciembre de 2027.
+- **Punto muerto:** diciembre de 2027 (~123 viajeros al mes).
 - **Inversión recuperada:** junio de 2028 (18 meses).
 
 | | 2027 | 2028 | 2029 | 2031 |
 |---|---|---|---|---|
 | Viajeros | 1.783 | 4.624 | 18.586 | 44.737 |
 | Ingresos (sin IVA) | 18.627 € | 48.318 € | 194.190 € | 467.419 € |
-| Beneficio neto | 3.588 € | 25.509 € | 84.033 € | 287.973 € |
+| Beneficio neto | 3.588 € | 22.417 € | 43.189 € | 157.690 € |
 
 **Por cliente:**
 - **margen por Pase:** ≈ 19,40 € (14,77 € del Pase sin IVA, menos pago y avisos, más 4,60 € de complementos);

@@ -45,16 +45,25 @@ const SUP = [
   ["marketing", "Marketing (contenido en redes, institutos)", 100, 150, 200, "€/mes", "HIPÓTESIS", "Sin anuncios pagados el primer año; contenido propio en TikTok e Instagram. Objetivo: solo contenido propio e institutos.", "e"],
   ["hosting", "Alojamiento web, dominio, correo y herramientas", 35, 35, 35, "€/mes", "HIPÓTESIS", "Alojamiento, dominio (~15 €/año), correo y formularios.", "e"],
   ["mantWeb", "Mantenimiento y mejoras de la web", 40, 40, 40, "€/mes", "HIPÓTESIS", "Horas de desarrollo, actualizaciones de seguridad y copias de seguridad.", "e"],
-  ["tipoImp", "Impuesto sobre el beneficio (IRPF, pagos trimestrales)", 0.20, 0.20, 0.20, "%", "OFICIAL", "Pago fraccionado de autónomos: 20 % del rendimiento neto acumulado del año (modelo 130). El definitivo depende de la renta.", "p"],
+  ["mktPct", "Publicidad que crece con las ventas (% de los ingresos)", 0.10, 0.08, 0.08, "%", "HIPÓTESIS", "Anuncios a familias y colaboraciones con creadores para seguir creciendo; se suma al marketing fijo. Revisar con el coste real de captar cada familia.", "p"],
+  ["mktDesde", "Mes desde el que se paga esa publicidad", 13, 13, 13, "mes nº", "HIPÓTESIS", "El año 1 lo cubre la campaña de lanzamiento de la inversión inicial (sin más anuncios pagados el primer año).", "n"],
+  ["expLanz", "Salida a Portugal, Italia y Francia: lanzamiento (una vez)", 6000, 6000, 6000, "€", "HIPÓTESIS", "Campaña de salida en los 3 países, traducción de la web y constitución de la SL. Se paga en el mes de salida.", "e"],
+  ["expMensual", "Operar en esos 3 países (cada mes desde la salida)", 1500, 1500, 1500, "€/mes", "HIPÓTESIS", "Verificar normas y albergues de 3 países más, atención en portugués, italiano y francés, y asesoría local.", "e"],
+  ["tipoImp", "Impuesto sobre el beneficio como autónomos (IRPF)", 0.20, 0.20, 0.20, "%", "OFICIAL", "Pago fraccionado de autónomos: 20 % del rendimiento neto acumulado del año (modelo 130). El definitivo depende de la renta.", "p"],
+  ["slDesde", "Mes en que se pasa a sociedad limitada (SL)", 61, 61, 25, "mes nº", "HIPÓTESIS", "Al salir a Europa y para poder pedir ENISA (exige SL). Poner un mes de enero (1, 13, 25, 37 o 49). 61 = no se pasa en 5 años.", "n"],
+  ["tipoIS", "Impuesto de Sociedades (desde la SL)", 0.25, 0.25, 0.25, "%", "OFICIAL", "Tipo general del 25 % (Ley 27/2014, art. 29). Las empresas de nueva creación pagan el 15 % los dos primeros años con beneficio; aquí se usa el 25 % por prudencia.", "p"],
+  ["gestoriaSL", "Gestoría con SL", 120, 120, 120, "€/mes", "HIPÓTESIS", "Contabilidad, impuestos y cuentas anuales de una SL.", "e"],
   ["seguro", "Seguro de responsabilidad civil", 300, 300, 300, "€/año", "SECUNDARIA", "BBVA cita ~120 € de media para autónomos (ICEA); paquetes para startups de 199-295 € (Qonto). Pedir presupuesto.", "e"],
   ["gestoria", "Gestoría", 60, 60, 60, "€/mes", "HIPÓTESIS", "Precio típico de gestoría en línea para autónomos.", "e"],
   ["legalAnual", "Revisión legal anual (desde el año 2)", 300, 300, 300, "€/año", "HIPÓTESIS", "Actualizar condiciones, privacidad de menores (RGPD) y art. 5 bis de la Directiva (UE) 2026/1024.", "e"],
   ["autonomos", "Socios dados de alta como autónomos", 1, 1, 4, "personas", "EQUIPO", "Uno de alta al principio; el resto colabora.", "n"],
   ["tarifaPlana", "Cuota de autónomo con tarifa plana", 88.64, 88.64, 88.64, "€/mes", "SECUNDARIA", "80 € + MEI 2026 (VidaCaixa, Infoautónomos). 12 meses, prorrogables otros 12 si se ingresa menos del SMI.", "e2"],
   ["mesesTP", "Meses con tarifa plana", 24, 24, 24, "meses", "SECUNDARIA", "12 + 12 de prórroga si los ingresos no superan el SMI (17.094 € en 2026).", "n"],
-  ["cuotaNormal", "Cuota de autónomo después", 200, 200, 200, "€/mes", "HIPÓTESIS", "Tramo bajo de rendimientos; comprobar en la Seguridad Social.", "e"],
+  ["cuotaNormal", "Cuota de autónomo después (por socio)", 200, 200, 350, "€/mes", "HIPÓTESIS", "Depende de los rendimientos de cada socio (cuotas por tramos); con sueldos de 1.200-3.000 € al mes sube a unos 300-450 €. Comprobar en la Seguridad Social.", "e"],
   ["sueldoDesde", "Mes desde el que cobran los fundadores", 25, 25, 25, "mes nº", "HIPÓTESIS", "Años 1 y 2 sin sueldo (estudiantes).", "n"],
-  ["sueldo", "Retribución total de los fundadores (los 4)", 0, 300, 4800, "€/mes", "HIPÓTESIS", "A repartir; simbólica.", "e"],
+  ["sueldo", "Retribución total de los fundadores (los 4), año 3", 0, 300, 4800, "€/mes", "HIPÓTESIS", "1.200 € al mes por socio en el objetivo (años 1 y 2 sin sueldo).", "e"],
+  ["sueldo4", "Retribución total de los fundadores (los 4), año 4", 0, 300, 8000, "€/mes", "HIPÓTESIS", "2.000 € al mes por socio en el objetivo.", "e"],
+  ["sueldo5", "Retribución total de los fundadores (los 4), año 5", 0, 300, 12000, "€/mes", "HIPÓTESIS", "3.000 € al mes por socio en el objetivo: los 4 viven del proyecto.", "e"],
   ["h", "FINANCIACIÓN"],
   ["margen", "Margen de seguridad sobre la necesidad de caja", 0.25, 0.20, 0.15, "%", "HIPÓTESIS", "Colchón para retrasos en cobros y ayudas.", "p"],
   ["h", "MERCADO (para comprobar que las cifras son realistas)"],
@@ -108,7 +117,7 @@ const INVTOT = `'Inversión inicial'!$B$${invTot}`;
 /* ---------- 3. Proyección mensual ---------- */
 const MES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
 const P = [["Cálculo interno (no tocar): proyección de 60 meses"], ["Hoja oculta que alimenta las vistas en horizontal. Cambia los supuestos, no esta hoja. Importes en euros."], []];
-const HEAD = ["Mes nº", "Mes", "Año", "Mes del año", "Estacionalidad", "Grupos que planifican", "Viajes realizados", "Viajeros", "Viajeros con Pase", "Ingreso Pase (sin IVA)", "Ingreso pack y afiliación", "Centros activos", "Ingreso centros y ayuntamientos", "Ingresos totales", "Pago y coste por familia", "Verificación de datos", "Marketing", "Web y herramientas", "Seguro, gestoría y legal", "Cuota de autónomos", "Retribución fundadores", "Costes totales", "Resultado del mes", "Caja acumulada", "Aux: recuperado", "Aux: mes con beneficio", "Aux: tendencia de crecimiento", "Mantenimiento web", "Aux: beneficio del año", "Aux: impuesto del año", "Impuesto (IRPF)", "Beneficio neto"];
+const HEAD = ["Mes nº", "Mes", "Año", "Mes del año", "Estacionalidad", "Grupos que planifican", "Viajes realizados", "Viajeros", "Viajeros con Pase", "Ingreso Pase (sin IVA)", "Ingreso pack y afiliación", "Centros activos", "Ingreso centros y ayuntamientos", "Ingresos totales", "Costes variables (pago, soporte y publicidad)", "Verificación de datos", "Marketing", "Web y herramientas", "Seguro, gestoría y legal", "Cuota de autónomos", "Retribución fundadores", "Costes totales", "Resultado del mes", "Caja acumulada", "Aux: recuperado", "Aux: mes con beneficio", "Aux: tendencia de crecimiento", "Mantenimiento web", "Aux: beneficio del año", "Aux: impuesto del año", "Impuesto (IRPF o Sociedades)", "Beneficio neto", "Salida a Europa"];
 P.push(HEAD);
 const p0 = P.length + 1; // fila del mes 0
 P.push([0, "inicio", 0, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, `=${INVTOT}`, `=-V${p0}`, `=W${p0}`, null, null]);
@@ -126,14 +135,14 @@ for (let m = 1; m <= 60; m++) {
     `=IF(A${r}>=${sup("b2bInicio")},(A${r}-${sup("b2bInicio")}+1)*${sup("b2bRitmo")},0)`,
     `=L${r}*${sup("b2bCuota")}/12+IF(A${r}>=${sup("ayInicio")},(A${r}-${sup("ayInicio")}+1)*${sup("ayRitmo")},0)*${sup("ayCuota")}/12`,
     `=J${r}+K${r}+M${r}`,
-    `=I${r}*${sup("precio")}*(1-${sup("descGrupo")})*${sup("pagoPct")}+I${r}*(${sup("pagoFijo")}+${sup("costeFamilia")})`,
+    `=I${r}*${sup("precio")}*(1-${sup("descGrupo")})*${sup("pagoPct")}+I${r}*(${sup("pagoFijo")}+${sup("costeFamilia")})+IF(A${r}>=${sup("mktDesde")},N${r}*${sup("mktPct")},0)`,
     `=IF(A${r}>=${sup("verifDesde")},${sup("horasVerif")}*${sup("eurHora")},0)`,
     `=${sup("marketing")}`,
     `=${sup("hosting")}`,
-    `=${sup("seguro")}/12+${sup("gestoria")}+IF(A${r}>12,${sup("legalAnual")}/12,0)`,
+    `=${sup("seguro")}/12+IF(A${r}>=${sup("slDesde")},${sup("gestoriaSL")},${sup("gestoria")})+IF(A${r}>12,${sup("legalAnual")}/12,0)`,
     `=IF(A${r}<=${sup("mesesTP")},${sup("tarifaPlana")},${sup("cuotaNormal")})*${sup("autonomos")}`,
-    `=IF(A${r}>=${sup("sueldoDesde")},${sup("sueldo")},0)`,
-    `=SUM(O${r}:U${r})+AB${r}`,
+    `=IF(A${r}>=${sup("sueldoDesde")},CHOOSE(C${r},${sup("sueldo")},${sup("sueldo")},${sup("sueldo")},${sup("sueldo4")},${sup("sueldo5")}),0)`,
+    `=SUM(O${r}:U${r})+AB${r}+AG${r}`,
     `=N${r}-V${r}`,
     `=X${prev}+AF${r}`,
     `=IF(X${r}>=0,A${r},999)`,
@@ -141,9 +150,10 @@ for (let m = 1; m <= 60; m++) {
     m === 1 ? 1 : `=AA${prev}*(1+${sup("crec")}*${sup("frenado")}^(C${r}-1))`,
     `=${sup("mantWeb")}`,
     `=SUMIF($C$${p0 + 1}:C${r},C${r},$W$${p0 + 1}:W${r})`,
-    `=MAX(0,AC${r}*${sup("tipoImp")})`,
+    `=MAX(0,AC${r}*IF(A${r}>=${sup("slDesde")},${sup("tipoIS")},${sup("tipoImp")}))`,
     `=AD${r}-IF(C${r}=C${prev},AD${prev},0)`,
     `=W${r}-AE${r}`,
+    `=IF(A${r}=${sup("expMes")},${sup("expLanz")},0)+IF(A${r}>=${sup("expMes")},${sup("expMensual")},0)`,
   ]);
 }
 const pEnd = p0 + 60;
@@ -271,9 +281,9 @@ const PM = [
   ["Pase sin IVA, por viajero con Pase", "=" + sup("precio") + "*(1-" + sup("descGrupo") + ")/(1+" + sup("iva") + ")"],
   ["…menos pasarela, avisos y soporte", "=-(" + sup("precio") + "*(1-" + sup("descGrupo") + ")*" + sup("pagoPct") + "+" + sup("pagoFijo") + "+" + sup("costeFamilia") + ")"],
   ["…más Pack tranquilidad y otros servicios (media)", "=" + sup("seguroPct") + "*" + sup("seguroPrima") + "*" + sup("seguroCom") + "+" + sup("esimPct") + "*" + sup("esimPrecio") + "*" + sup("esimCom") + "+" + sup("otrosPct") + "*" + sup("otrosCom")],
-  ["Margen por viajero con Pase", "=B5+B6+B7"],
+  ["Margen por viajero con Pase (tras la publicidad que crece con las ventas)", "=B5+B6+B7-" + sup("mktPct") + "*(B5+B7)"],
   ["Viajeros que compran el Pase", "=" + sup("convPago")],
-  ["Afiliación por viajero (media de todos)", "=" + sup("pctEnlaces") + "*" + sup("eurReserva")],
+  ["Afiliación por viajero (media de todos, tras la publicidad)", "=" + sup("pctEnlaces") + "*" + sup("eurReserva") + "*(1-" + sup("mktPct") + ")"],
   ["MARGEN DE CONTRIBUCIÓN POR VIAJERO (media)", "=B8*B9+B10"],
   [],
   ["COSTES FIJOS AL MES", "Año 1", "Año 2", "Año 3 en adelante"],
@@ -339,27 +349,29 @@ function buildHZ({ title, intro, HN, cut, yearTotals }) {
   addSec("GASTOS VARIABLES (dependen de las ventas)");
   addRow("Pasarela de pago", m => `${ventas(m)}*${sup("pagoPct")}+${PJ("I", m)}*${sup("pagoFijo")}`);
   addRow("Avisos, asistencia y soporte a familias", m => `${PJ("I", m)}*${sup("costeFamilia")}`);
+  addRow("Publicidad que crece con las ventas (% de los ingresos)", m => `IF(${m}>=${sup("mktDesde")},${PJ("N", m)}*${sup("mktPct")},0)`);
   addSec("GASTOS FIJOS");
   addRow("Verificación de datos (normas, albergues, caducidades)", m => PJ("P", m));
-  addRow("Marketing y contenido en redes", m => PJ("Q", m));
+  addRow("Marketing fijo (contenido en redes)", m => PJ("Q", m));
   addRow("Alojamiento web, dominio, correo y herramientas", m => PJ("R", m));
   addRow("Mantenimiento y mejoras de la web", m => PJ("AB", m));
+  addRow("Salida a Europa (lanzamiento y operación en Portugal, Italia y Francia)", m => PJ("AG", m));
   addRow("Seguro de responsabilidad civil", m => `${sup("seguro")}/12`);
-  addRow("Gestoría", m => sup("gestoria"));
+  addRow("Gestoría (más cara desde que se pasa a SL)", m => `IF(${m}>=${sup("slDesde")},${sup("gestoriaSL")},${sup("gestoria")})`);
   addRow("Revisión legal anual", m => `IF(${m}>12,${sup("legalAnual")}/12,0)`);
   addRow("Cuota de autónomo", m => PJ("T", m));
   addRow("Retribución de los fundadores", m => PJ("U", m));
   addRow("TOTAL GASTOS", m => PJ("V", m), "tot");
   addSec("RESULTADO");
   addRow("Beneficio antes de impuestos", m => PJ("W", m), "tot");
-  addRow("Impuesto sobre el beneficio (IRPF, pago trimestral)", m => PJ("AE", m));
+  addRow("Impuesto sobre el beneficio (IRPF como autónomos; Impuesto de Sociedades desde la SL)", m => PJ("AE", m));
   const rNeto = addRow("BENEFICIO NETO", m => PJ("AF", m), "tot");
   const rAcum = T.length + 1;
   T.push(["Beneficio neto acumulado", "", ...Array.from({ length: HN }, (_, i) => wrap(i + 1, i === 0 ? `${mc(1)}${rNeto}` : `${mc(i)}${rAcum}+${mc(i + 1)}${rNeto}`))]);
   ROWS.push([rAcum, "eur"]);
   const rCaja = addRow("CAJA ACUMULADA (con la inversión inicial)", m => PJ("X", m), "caja", false);
   T.push([]);
-  T.push(["Notas: el IVA de las ventas se cobra y se ingresa a Hacienda cada trimestre; los gastos se muestran sin IVA (el IVA soportado se descuenta en el mismo modelo 303). El impuesto es una estimación del 20 % del beneficio acumulado del año (pagos fraccionados de autónomo); el definitivo sale en la renta."]);
+  T.push(["Notas: el IVA de las ventas se cobra y se ingresa a Hacienda cada trimestre; los gastos se muestran sin IVA (el IVA soportado se descuenta en el mismo modelo 303). El impuesto se estima sobre el beneficio acumulado del año: 20 % como autónomos (pagos fraccionados) y 25 % de Impuesto de Sociedades desde que se pasa a SL. Desde la salida a Europa, las ventas a Portugal, Italia y Francia llevan el IVA de cada país (ventanilla única OSS); el modelo usa el 21 % para todo."]);
   return { T, ROWS, head, yearRow, rCaja, note: T.length, HN, lastC, yearTotals };
 }
 const HZB = buildHZ({ title: "Previsión mensual hasta recuperar la inversión (en horizontal)", intro: "Cada columna es un mes desde el lanzamiento; la tabla se corta en el mes en que la caja acumulada vuelve a positivo. Importes en euros sin IVA, salvo donde se indica.", HN: 36, cut: true, yearTotals: false });
@@ -386,8 +398,95 @@ const pmAux = PM.length + 1;
 PM.push(["Aux: punto muerto", "", ...Array.from({ length: 60 }, (_, i) => i >= 11 ? `=IF(${mc(i + 1)}${pmR12}>=0,${i + 1},999)` : 999)]);
 PM[21][1] = `=IF(MIN($C$${pmAux}:$${pmLast}$${pmAux})=999,"No en 5 años",INDEX($C$${pmMes}:$${pmLast}$${pmMes},1,MIN($C$${pmAux}:$${pmLast}$${pmAux})))`;
 
+/* ---------- 11. Ventas de un mes (todo desglosado, eligiendo el mes) ---------- */
+const IX = c => `INDEX(${RNG(c)},$B$4)`;
+const VM = [["Ventas de un mes: de dónde sale cada euro"],
+  ["Elige el mes en la celda amarilla (1 = enero de 2027 … 60 = diciembre de 2031). Cada línea dice cuántas ventas hay, a qué precio, cuánto paga el cliente, cuánto es IVA y cuánto nos queda."], []];
+const VMR = {};
+VM.push(["Mes nº (escribe de 1 a 60)", 7, "", "", "", "", "7 = julio de 2027, el mes más fuerte del primer año."]); VMR.sel = VM.length;
+VM.push(["Mes", `=${IX("B")}`]);
+VM.push(["Temporada", `=IF(B7>=1.3,"Alta",IF(B7<=0.7,"Baja","Media"))`]);
+VM.push(["Factor de temporada (1 = mes medio)", `=${IX("E")}`]);
+VM.push(["Grupos que planifican un viaje", `=${IX("F")}`]);
+VM.push(["Viajeros", `=${IX("H")}`]);
+VM.push(["Viajeros con Pase (ventas del Pase)", `=${IX("I")}`]);
+VM.push(["Escenario", "=Supuestos!$C$3"]);
+VM.push([]);
+VM.push(["INGRESOS POR VENTAS", "Nº de ventas", "Precio unitario", "Paga el cliente (IVA incl.)", "IVA (va a Hacienda)", "Nos queda (sin IVA)", "Cómo se calcula"]); VMR.h1 = VM.length;
+const vr = () => VM.length + 1;
+let r = vr(); VMR.i0 = r;
+VM.push(["Pase del viajero", "=B10", `=${sup("precio")}*(1-${sup("descGrupo")})`, `=B${r}*C${r}`, `=D${r}*${sup("iva")}/(1+${sup("iva")})`, `=D${r}-E${r}`, "Cada viajero con Pase paga el precio con IVA; quitamos el IVA, que es de Hacienda."]);
+r = vr(); VM.push(["Seguro de viaje (pack tranquilidad)", `=B10*${sup("seguroPct")}`, `=${sup("seguroPrima")}`, `=B${r}*C${r}`, 0, `=D${r}*${sup("seguroCom")}`, "La prima la cobra la aseguradora; nos quedamos su comisión (Supuestos). Los seguros no llevan IVA."]);
+r = vr(); VM.push(["eSIM de datos (se contrata con el Pase)", `=B10*${sup("esimPct")}`, `=${sup("esimPrecio")}`, `=B${r}*C${r}`, 0, `=D${r}*${sup("esimCom")}`, "La eSIM la vende el operador (con su IVA); nos paga una comisión (Supuestos)."]);
+r = vr(); VM.push(["Otros servicios (traslados, tarjeta prepago, carné, actividades)", `=B10*${sup("otrosPct")}`, null, null, 0, `=B${r}*${sup("otrosCom")}`, "Comisión media por servicio (Supuestos); el precio lo pone cada proveedor."]);
+r = vr(); VM.push(["Reservas de alojamiento y transporte por nuestros enlaces", `=B9*${sup("pctEnlaces")}`, null, null, 0, `=B${r}*${sup("eurReserva")}`, "Reserva un adulto en Booking, Hostelworld, etc.; nos pagan una comisión por viajero. Cuentan todos los viajeros, tengan Pase o no."]);
+r = vr(); VM.push(["Centros y ayuntamientos (desactivado: solo particulares)", `=${IX("L")}`, null, null, 0, `=${IX("M")}`, "Capa futura; ahora 0 en todos los escenarios."]); VMR.i1 = r;
+r = vr(); VMR.iT = r;
+VM.push(["TOTAL DEL MES", `=B${VMR.i0}`, null, `=SUM(D${VMR.i0}:D${VMR.i1})`, `=SUM(E${VMR.i0}:E${VMR.i1})`, `=SUM(F${VMR.i0}:F${VMR.i1})`, "Paga el cliente = todo lo que pagan las familias por lo que pasa por la web (incluye primas y eSIM que no son nuestras)."]);
+r = vr(); VM.push(["Comprobación: ingresos del mes en la proyección", null, null, null, null, `=${IX("N")}`, `=IF(ABS(F${VMR.iT}-F${r})<0.01,"✓ Cuadra con la proyección","REVISAR: no cuadra")`]); VMR.iC = r;
+VM.push([]);
+VM.push(["GASTOS DEL MES", "Nº", "Coste unitario", "", "", "Importe", "Cómo se calcula"]); VMR.h2 = VM.length;
+r = vr(); VMR.g0 = r;
+VM.push(["Pasarela de pago", `=B${VMR.i0}`, `=C${VMR.i0}*${sup("pagoPct")}+${sup("pagoFijo")}`, null, null, `=B${r}*C${r}`, "Stripe: porcentaje del cobro + fijo por pago."]);
+r = vr(); VM.push(["Avisos, asistencia y soporte a familias", `=B${VMR.i0}`, `=${sup("costeFamilia")}`, null, null, `=B${r}*C${r}`, "Mensajes, notificaciones y horas de atención por cada Pase."]);
+r = vr(); VM.push(["Publicidad que crece con las ventas", null, null, null, null, `=IF($B$4>=${sup("mktDesde")},F${VMR.iT}*${sup("mktPct")},0)`, "Porcentaje de los ingresos del mes (Supuestos); desde el año 2."]);
+r = vr(); VMR.gV = r; VM.push(["Total gastos variables", null, null, null, null, `=SUM(F${VMR.g0}:F${r - 1})`]);
+r = vr(); VMR.f0 = r;
+[["Verificación de datos (normas, albergues, caducidades)", "P", "Horas de verificación × coste por hora."], ["Marketing fijo (contenido en redes)", "Q", ""], ["Alojamiento web, dominio, correo y herramientas", "R", ""], ["Mantenimiento y mejoras de la web", "AB", ""],
+ ["Seguro, gestoría y revisión legal", "S", "Seguro anual / 12 + gestoría (más cara con SL) + revisión legal / 12 desde el año 2."], ["Cuotas de autónomo (los socios de alta)", "T", "Tarifa plana los primeros meses; después, cuota normal."], ["Retribución de los fundadores", "U", "Sin sueldo los años 1 y 2; sube cada año desde el 3."], ["Salida a Europa (Portugal, Italia y Francia)", "AG", "Lanzamiento en el mes de salida y coste de operar allí cada mes."]]
+  .forEach(([l, c, n]) => VM.push([l, null, null, null, null, `=${IX(c)}`, n]));
+r = vr(); VMR.gF = r; VM.push(["Total gastos fijos", null, null, null, null, `=SUM(F${VMR.f0}:F${r - 1})`]);
+r = vr(); VMR.gT = r; VM.push(["TOTAL GASTOS DEL MES", null, null, null, null, `=F${VMR.gV}+F${VMR.gF}`, `=IF(ABS(F${r}-${IX("V")})<0.01,"✓ Cuadra con la proyección","REVISAR: no cuadra")`]);
+VM.push([]);
+VM.push(["RESULTADO DEL MES", "", "", "", "", "Importe", ""]); VMR.h3 = VM.length;
+r = vr(); VMR.bai = r; VM.push(["Beneficio antes de impuestos", null, null, null, null, `=F${VMR.iT}-F${VMR.gT}`]);
+r = vr(); VM.push(["Impuesto sobre el beneficio del mes (estimación)", null, null, null, null, `=${IX("AE")}`, "IRPF como autónomos (20 %) o Impuesto de Sociedades desde la SL (25 %), sobre lo acumulado en el año."]);
+r = vr(); VMR.neto = r; VM.push(["BENEFICIO NETO DEL MES", null, null, null, null, `=F${VMR.bai}-F${r - 1}`, `=IF(ABS(F${r}-${IX("AF")})<0.01,"✓ Cuadra con la proyección","REVISAR: no cuadra")`]);
+VM.push([]);
+r = vr(); VMR.iva = r; VM.push(["IVA cobrado este mes (se ingresa a Hacienda en el trimestre)", null, null, null, null, `=E${VMR.iT}`, "No es un gasto ni un ingreso: lo cobramos a las familias y lo pasamos a Hacienda (modelo 303)."]);
+r = vr(); VMR.caja = r; VM.push(["Caja acumulada al acabar el mes (con la inversión inicial)", null, null, null, null, `=${IX("X")}`]);
+
+/* ---------- 12. Presupuesto de una venta ---------- */
+const PV = [["Presupuesto de una venta: lo que entra y lo que sale por cada Pase"],
+  ["Tres casos: solo el Pase, la venta media (lo que de verdad pasa de media) y la venta completa (con seguro, eSIM, otro servicio y reserva por enlace). Los costes fijos se reparten entre los Pases del año elegido."], []];
+const PVR = {};
+PV.push(["Año para repartir los costes fijos (escribe de 1 a 5)", 1, "", "", "1 = 2027 … 5 = 2031."]); PVR.sel = PV.length;
+PV.push(["Año", `="Año "&B4&" ("&(2026+B4)&")"`]);
+PV.push(["Pases vendidos ese año", `=SUMIF(${RNG("C")},$B$4,${RNG("I")})`]); PVR.pases = PV.length;
+PV.push(["Escenario", "=Supuestos!$C$3"]);
+PV.push([]);
+PV.push(["POR CADA PASE VENDIDO", "Solo el Pase", "Venta media", "Venta completa", "Cómo se calcula"]); PVR.head = PV.length;
+const pr = () => PV.length + 1; const all = f => [f("B"), f("C"), f("D")];
+PV.push(["INGRESOS"]); PVR.s1 = PV.length;
+let q = pr(); PVR.precio = q; PV.push(["Precio que paga la familia (IVA incluido)", ...all(() => `=${sup("precio")}*(1-${sup("descGrupo")})`), "Precio del Pase del viajero."]);
+q = pr(); PV.push(["…IVA incluido (va a Hacienda)", ...all(c => `=-${c}${PVR.precio}*${sup("iva")}/(1+${sup("iva")})`), "IVA incluido en el precio."]);
+q = pr(); PVR.i0 = q; PV.push(["Pase sin IVA", ...all(c => `=${c}${q - 2}+${c}${q - 1}`), "Lo que nos queda del Pase."]);
+q = pr(); PV.push(["Comisión del seguro de viaje", 0, `=${sup("seguroPct")}*${sup("seguroPrima")}*${sup("seguroCom")}`, `=${sup("seguroPrima")}*${sup("seguroCom")}`, "Media: no todos lo contratan. Completa: prima × comisión."]);
+q = pr(); PV.push(["Comisión de la eSIM", 0, `=${sup("esimPct")}*${sup("esimPrecio")}*${sup("esimCom")}`, `=${sup("esimPrecio")}*${sup("esimCom")}`, "Ídem con la eSIM."]);
+q = pr(); PV.push(["Otros servicios (traslado, tarjeta, carné, actividad)", 0, `=${sup("otrosPct")}*${sup("otrosCom")}`, `=${sup("otrosCom")}`, "Completa: un servicio."]);
+q = pr(); PVR.i1 = q; PV.push(["Reserva por nuestros enlaces (afiliación)", 0, `=${sup("pctEnlaces")}*${sup("eurReserva")}/${sup("convPago")}`, `=${sup("eurReserva")}`, "Media: lo que dejan las reservas de todos los viajeros, repartido entre los que tienen Pase."]);
+q = pr(); PVR.iT = q; PV.push(["TOTAL INGRESOS POR VENTA (sin IVA)", ...all(c => `=SUM(${c}${PVR.i0}:${c}${PVR.i1})`)]);
+PV.push(["GASTOS QUE DEPENDEN DE LA VENTA"]); PVR.s2 = PV.length;
+q = pr(); PVR.g0 = q; PV.push(["Pasarela de pago", ...all(c => `=-(${c}${PVR.precio}*${sup("pagoPct")}+${sup("pagoFijo")})`), "Porcentaje del cobro + fijo por pago."]);
+q = pr(); PV.push(["Avisos, asistencia y soporte", ...all(() => `=-${sup("costeFamilia")}`), "Por cada Pase."]);
+q = pr(); PV.push(["Publicidad que crece con las ventas", ...all(c => `=-IF(($B$4-1)*12+1>=${sup("mktDesde")},${sup("mktPct")},0)*${c}${PVR.iT}`), "Porcentaje de los ingresos (Supuestos); desde el año 2."]);
+q = pr(); PVR.mc = q; PV.push(["MARGEN DE CONTRIBUCIÓN POR VENTA", ...all(c => `=${c}${PVR.iT}+SUM(${c}${PVR.g0}:${c}${q - 1})`), "Lo que deja cada venta para pagar los costes fijos."]);
+PV.push(["COSTES FIJOS REPARTIDOS ENTRE LAS VENTAS DEL AÑO"]); PVR.s3 = PV.length;
+q = pr(); PVR.cf = q; PV.push(["Costes fijos del año (verificación, web, gestoría, autónomos, sueldos, Europa…)", `=SUMIF(${RNG("C")},$B$4,${RNG("V")})-SUMIF(${RNG("C")},$B$4,${RNG("O")})`, null, null, "Total del año, sin los gastos de arriba."]);
+q = pr(); PVR.cfv = q; PV.push(["…parte que le toca a cada venta", ...all(() => `=-$B$${PVR.cf}/$B$${PVR.pases}`), "Costes fijos del año ÷ Pases vendidos ese año."]);
+q = pr(); PVR.bai = q; PV.push(["BENEFICIO POR VENTA (antes de impuestos)", ...all(c => `=${c}${PVR.mc}+${c}${PVR.cfv}`)]);
+q = pr(); PV.push(["Impuesto sobre el beneficio", ...all(c => `=-MAX(0,${c}${PVR.bai})*IF(($B$4-1)*12+1>=${sup("slDesde")},${sup("tipoIS")},${sup("tipoImp")})`), "20 % como autónomos; 25 % de Sociedades desde la SL."]);
+q = pr(); PVR.neto = q; PV.push(["BENEFICIO NETO POR VENTA", ...all(c => `=${c}${PVR.bai}+${c}${q - 1}`)]);
+PV.push([]);
+PV.push(["COMPROBACIÓN Y LECTURA"]); PVR.s4 = PV.length;
+q = pr(); PVR.chk = q; PV.push(["Beneficio del año en la proyección ÷ Pases del año", null, `=SUMIF(${RNG("C")},$B$4,${RNG("W")})/$B$${PVR.pases}`, null, `=IF(ABS(C${q}-C${PVR.bai})<0.01,"✓ Cuadra con la venta media","REVISAR: no cuadra")`]);
+q = pr(); PVR.nec = q; PV.push(["Ventas necesarias en el año para cubrir los costes fijos", null, `=B${PVR.cf}/C${PVR.mc}`, null, "Punto muerto del año, en Pases (con la venta media)."]);
+q = pr(); PVR.pct = q; PV.push(["Parte de los ingresos de cada venta que es beneficio antes de impuestos", ...all(c => `=IF(${c}${PVR.iT}=0,0,${c}${PVR.bai}/${c}${PVR.iT})`)]);
+PV.push([]);
+PV.push(["Los ingresos van sin IVA. Las primas del seguro y el precio de la eSIM no son nuestros: solo cuenta la comisión. El primer año los costes fijos pesan más porque hay menos ventas; prueba con el año 3 o el 5."]); PVR.note = PV.length;
+
 /* ---------- Evaluar ---------- */
-const sheets = { "Números del pitch": NP, "Previsión hasta recuperar": HZ, "Previsión 5 años": H5, "Punto muerto": PM, "Resumen": Rz, "Supuestos": S, "Inversión inicial": I, "Proyección mensual": P, "Financiación": F, "Fuentes": FU };
+const sheets = { "Números del pitch": NP, "Ventas de un mes": VM, "Presupuesto de una venta": PV, "Previsión hasta recuperar": HZ, "Previsión 5 años": H5, "Punto muerto": PM, "Resumen": Rz, "Supuestos": S, "Inversión inicial": I, "Proyección mensual": P, "Financiación": F, "Fuentes": FU };
 const norm = a => a.map(r => r.map(v => v === undefined ? null : v));
 const hf = HyperFormula.buildFromSheets(Object.fromEntries(Object.entries(sheets).map(([k, v]) => [k, norm(v)])), { licenseKey: "gpl-v3" });
 const val = (name, r, c) => hf.getCellValue({ sheet: hf.getSheetId(name), row: r - 1, col: c });
@@ -433,7 +532,7 @@ const head = (w, r, n) => { for (let c = 1; c <= n; c++) { const x = w.getCell(r
   w.columns.forEach((c, i) => c.width = [70, 14, 13, 80][i]); w.getColumn(4).alignment = { wrapText: true, vertical: "top" }; w.getColumn(1).alignment = { wrapText: true, vertical: "top" }; }
 // Proyección
 { const w = ws("Proyección mensual"); head(w, 4, HEAD.length); w.getRow(4).height = 42;
-  for (let r = p0; r <= pEnd; r++) { for (let c = 5; c <= 32; c++) { const x = w.getCell(r, c); x.numFmt = c === 5 ? "0.0" : c <= 9 || c === 12 ? NUM1 : EUR; } }
+  for (let r = p0; r <= pEnd; r++) { for (let c = 5; c <= 33; c++) { const x = w.getCell(r, c); x.numFmt = c === 5 ? "0.0" : c <= 9 || c === 12 ? NUM1 : EUR; } }
   for (let r = p0; r <= pEnd; r++) for (const c of [23, 24]) { const x = w.getCell(r, c); x.font = { name: FONT, size: 10, bold: true }; }
   for (const c of [25, 26, 27, 29, 30]) w.getColumn(c).hidden = true;
   w.columns.forEach((c, i) => { if (!c.hidden) c.width = i === 1 ? 10 : 12; }); }
@@ -515,6 +614,38 @@ fmtHZ("Previsión hasta recuperar", HZB); fmtHZ("Previsión 5 años", H5B);
   w.getRow(pmAux).hidden = true;
   w.addConditionalFormatting({ ref: `C${pmR12}:${pmLast}${pmR12}`, rules: [{ type: "cellIs", operator: "greaterThanOrEqual", formulae: ["0"], style: { fill: { type: "pattern", pattern: "solid", bgColor: { argb: "FFC6F432" } } } }] });
   w.views = [{ state: "frozen", xSplit: 2 }]; }
+// formato: Ventas de un mes
+{ const w = ws("Ventas de un mes"); const GREY = { name: FONT, size: 9, italic: true, color: { argb: "FF555C7B" } };
+  w.getColumn(1).width = 60; for (const c of [2, 3, 4, 5, 6]) w.getColumn(c).width = 16; w.getColumn(7).width = 80;
+  const sel = w.getCell("B" + VMR.sel); sel.fill = YELLOW; sel.font = { name: FONT, size: 12, bold: true, ...BLUE };
+  sel.dataValidation = { type: "whole", operator: "between", formulae: [1, 60], showErrorMessage: true, errorTitle: "Mes", error: "Escribe un número de 1 a 60" };
+  w.getCell("A" + VMR.sel).font = { name: FONT, size: 11, bold: true };
+  for (let r = 5; r <= 11; r++) { const x = w.getCell("B" + r); x.font = { name: FONT, size: 11, bold: true }; x.numFmt = r === 7 ? "0.0" : NUM; x.alignment = { horizontal: "right" }; }
+  for (const r of [VMR.h1, VMR.h2, VMR.h3]) { head(w, r, 7); w.getRow(r).height = 30; }
+  for (let r = VMR.i0; r <= VMR.caja; r++) { w.getCell("B" + r).numFmt = NUM; w.getCell("C" + r).numFmt = EUR2; for (const c of ["D", "E", "F"]) w.getCell(c + r).numFmt = EUR2; w.getCell("G" + r).font = GREY; w.getCell("G" + r).alignment = { wrapText: true, vertical: "top" }; }
+  for (const r of [VMR.iT, VMR.gV, VMR.gF, VMR.gT, VMR.bai, VMR.neto]) for (let c = 1; c <= 6; c++) { const x = w.getCell(r, c); x.font = { name: FONT, size: 10, bold: true }; x.border = { top: { style: "thin", color: { argb: "FFB9C2DE" } } }; }
+  for (const r of [VMR.iT, VMR.neto]) { w.getCell("F" + r).fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFECE9FC" } }; w.getCell("F" + r).font = { name: FONT, size: 11, bold: true }; }
+  for (const r of [VMR.iC, VMR.gT, VMR.neto]) w.getCell("G" + r).font = { name: FONT, size: 10, bold: true, color: { argb: "FF008000" } };
+  w.getCell("F" + VMR.caja).font = { name: FONT, size: 10, bold: true };
+  w.views = [{ state: "frozen", ySplit: VMR.sel }]; }
+// formato: Presupuesto de una venta
+{ const w = ws("Presupuesto de una venta"); const GREY = { name: FONT, size: 9, italic: true, color: { argb: "FF555C7B" } };
+  w.getColumn(1).width = 66; for (const c of [2, 3, 4]) w.getColumn(c).width = 17; w.getColumn(5).width = 80;
+  const sel = w.getCell("B" + PVR.sel); sel.fill = YELLOW; sel.font = { name: FONT, size: 12, bold: true, ...BLUE };
+  sel.dataValidation = { type: "whole", operator: "between", formulae: [1, 5], showErrorMessage: true, errorTitle: "Año", error: "Escribe un número de 1 a 5" };
+  w.getCell("A" + PVR.sel).font = { name: FONT, size: 11, bold: true };
+  for (let r = 5; r <= 7; r++) { const x = w.getCell("B" + r); x.font = { name: FONT, size: 11, bold: true }; x.alignment = { horizontal: "right" }; } w.getCell("B" + PVR.pases).numFmt = NUM;
+  head(w, PVR.head, 5); w.getRow(PVR.head).height = 30;
+  for (const r of [PVR.s1, PVR.s2, PVR.s3, PVR.s4]) w.getCell(r, 1).font = { name: FONT, size: 10, bold: true, color: { argb: "FF5B3DF5" } };
+  for (let r = PVR.precio; r <= PVR.pct; r++) { for (const c of ["B", "C", "D"]) w.getCell(c + r).numFmt = EUR2; w.getCell("E" + r).font = GREY; w.getCell("E" + r).alignment = { wrapText: true, vertical: "top" }; }
+  w.getCell("B" + PVR.cf).numFmt = EUR; w.getCell("C" + PVR.nec).numFmt = NUM; for (const c of ["B", "C", "D"]) w.getCell(c + PVR.pct).numFmt = PCT;
+  for (const r of [PVR.i0, PVR.iT, PVR.mc, PVR.bai, PVR.neto]) for (let c = 1; c <= 4; c++) { const x = w.getCell(r, c); x.font = { name: FONT, size: 10, bold: true }; if (r !== PVR.i0) x.border = { top: { style: "thin", color: { argb: "FFB9C2DE" } } }; }
+  for (const c of ["B", "C", "D"]) { w.getCell(c + PVR.neto).fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFECE9FC" } }; w.getCell(c + PVR.neto).font = { name: FONT, size: 11, bold: true }; }
+  w.getCell("C" + PVR.head).fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FF5B3DF5" } };
+  w.getCell("E" + PVR.chk).font = { name: FONT, size: 10, bold: true, color: { argb: "FF008000" } };
+  w.getCell("A" + PVR.note).font = GREY; w.getCell("A" + PVR.note).alignment = { wrapText: true }; w.mergeCells(`A${PVR.note}:E${PVR.note}`); w.getRow(PVR.note).height = 28;
+  w.views = [{ state: "frozen", ySplit: PVR.head }]; }
+
 // la proyección vertical es el cálculo interno: oculta
 ws("Proyección mensual").state = "hidden";
 await wb.xlsx.writeFile(OUT);
