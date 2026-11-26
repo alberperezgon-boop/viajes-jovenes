@@ -381,4 +381,4 @@ Cada decisión dice quién la tomó, con qué evidencia y qué la haría cambiar
 - **Reglas que no cambian:** la nota es «cuánto os pega» (gustos y pasta), no una reseña; no hay valoraciones inventadas y las opiniones siguen siendo solo las que escribe el usuario. Precios orientativos marcados «ejemplo». Estados siempre con icono y texto. Lógica de edad, fuentes y datos sin tocar.
 - **Estética:** fondo blanco, violeta del logo, amarillo y coral en detalles; portada con postales, subrayado amarillo que se dibuja, sello «Hecho para 16 y 17 años», ♥ que late al guardar e iconos que se mueven al pasar el ratón. Respeta «reducir movimiento».
 - **Comprobado:** pruebas sin errores (solo el aviso del conector de vuelos apagado), capturas reales en escritorio (1440 px) y móvil (390 px) sin desbordes.
-- Rama `rediseno-v3` (sale de `rediseno-ruta16`). Vista previa en Netlify sin tocar la versión publicada.
+- Rama `rediseno-v3` (sale de `rediseno-ruta16`). Publicado en goliveit-ruta16.netlify.app (Netlify guarda la versión anterior por si hay que volver).
