@@ -341,3 +341,28 @@ Cada decisión dice quién la tomó, con qué evidencia y qué la haría cambiar
 - **Comprobado:** `check.mjs` y `cdp-check.mjs` sin errores (solo el aviso esperado del conector de vuelos apagado), auditoría de 15 pantallas y capturas reales en escritorio y móvil (390 px, sin scroll horizontal).
 - **Publicado** en https://goliveit-ruta16.netlify.app (sustituye a la versión anterior de la demo).
 - **Pendiente:** fusionar la rama con `main` y republicar el artefacto del Planner, si Alberto lo aprueba.
+
+## D-41. Rediseño completo de la web: logo oficial, mapa tranquilo y secciones (26/11/2026)
+
+- **Alberto:** el mapa se veía saturado; quería otro formato manteniendo el mapa, el logo de Ruta16 y un rediseño completo (no solo de color), con animaciones, aspecto profesional y toda la información trabajada.
+- **Logo:** el oficial del MVP del equipo (`Ruta16-MVP.zip` → `img/logo-horizontal.svg` y `favicon.svg`, el mismo del pitch del compañero), sin cambiar formas ni colores; copia en `70 Prototipo/marca/`. Como el logo es violeta (#5B3DF5), el color de acción pasa a ser ese violeta: el guion permite conservar los colores de marca. Se mantienen el blanco cálido, y el amarillo y el bermellón solo en detalles.
+- **Maqueta nueva** (mismos id y data-* que usan el código y las pruebas):
+  - cabecera fija con logo y navegación por secciones;
+  - entrada editorial compacta en vez de la portada a pantalla completa;
+  - banda horizontal «Vuestro plan»;
+  - explorador con tarjetas horizontales y el mapa como panel enmarcado.
+- **Mapa tranquilo:**
+  - sin la maraña de rutas: etiquetas «Ciudad · precio» con icono de estado solo para los 6 mejores destinos y el resto como puntos grises pequeños;
+  - la ruta aparece al pasar el ratón por una tarjeta o un destino, con un avión que la recorre;
+  - leyenda plegable (oculta en el móvil), reencuadre con margen y ajuste al cambiar de tamaño;
+  - las etiquetas que chocan se quedan en un punto.
+- **Secciones con lo trabajado:**
+  - Cómo funciona (4 pasos);
+  - El Pase (19,99 € por viajero, IVA incluido; lo que desbloquea; Pack tranquilidad; reservas en la web de cada proveedor; «en esta demo no se cobra nada»);
+  - Para familias (proveedores, documentación y autorización por separado, con botón al ejemplo del modo padres);
+  - Cómo lo comprobamos (etiquetas de fiabilidad; 58 albergues consultados y 37 que aceptan menores sin adulto, EQUIPO 23/11/2026; 41 normas de la guía legal).
+- **Animaciones** (desactivadas si el sistema pide reducir el movimiento o se pulsa pausa):
+  - palabras del titular, fotos y sello que entran, y un avión de papel en bucle por la ruta de la entrada;
+  - secciones que aparecen al hacer scroll, cifras que cuentan hasta su valor y diálogos que entran suaves.
+- **Comprobado:** `check.mjs` y `cdp-check.mjs` sin errores (solo el aviso esperado del conector apagado), capturas en escritorio y móvil (390 px, sin scroll horizontal) y el botón del modo padres abre el ejemplo de Lisboa. Publicado en https://goliveit-ruta16.netlify.app.
+- **Pendiente:** fusionar `rediseno-ruta16` con `main` y republicar el artefacto del Planner, si Alberto lo aprueba.
