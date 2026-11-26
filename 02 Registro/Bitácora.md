@@ -188,3 +188,5 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 - **26/11 — D-40:** nombre oficial Ruta16. Rediseño «Independent Travel Editorial» (dirección A) en la rama `rediseno-ruta16`, con fotos a 960 px y créditos, detalles a tinta y guiños discretos. Pruebas sin errores y publicado en goliveit-ruta16.netlify.app. Falta fusionar con `main` y republicar el artefacto.
 
 - **26/11 — D-41:** rediseño completo de la web con el logo oficial de Ruta16 (MVP del equipo), maqueta nueva, mapa tranquilo con rutas al pasar el ratón, secciones (Cómo funciona, El Pase, Familias, Cómo lo comprobamos) y animaciones. Pruebas sin errores y publicado en Netlify. Sigue en la rama `rediseno-ruta16`.
+
+- **26/11 — D-42:** rediseño v3 con el funcionamiento de un buscador de viajes (píldora de búsqueda, categorías con icono, tarjetas con ♥ y nota, mapa con precios, ficha con datos clave y botón «Mapa» en el móvil), con la identidad de Ruta16 y las funciones de Corner. Pruebas sin errores. Rama `rediseno-v3`.

@@ -366,3 +366,19 @@ Cada decisión dice quién la tomó, con qué evidencia y qué la haría cambiar
   - secciones que aparecen al hacer scroll, cifras que cuentan hasta su valor y diálogos que entran suaves.
 - **Comprobado:** `check.mjs` y `cdp-check.mjs` sin errores (solo el aviso esperado del conector apagado), capturas en escritorio y móvil (390 px, sin scroll horizontal) y el botón del modo padres abre el ejemplo de Lisboa. Publicado en https://goliveit-ruta16.netlify.app.
 - **Pendiente:** fusionar `rediseno-ruta16` con `main` y republicar el artefacto del Planner, si Alberto lo aprueba.
+
+## D-42. Rediseño v3: funcionamiento de buscador de viajes con identidad Ruta16 (26/11/2026)
+
+- **Alberto:** cambio radical fijándose en cómo funcionan Booking, Tripadvisor y Airbnb, sin perder la identidad ni las funciones adaptadas de Corner; estética limpia pero divertida.
+- **Qué se toma de esas webs (patrones de uso, no su aspecto):**
+  - buscador en una sola píldora: quiénes vais, salida, fecha, días y pasta, con lupa; debajo, «o contadlo a vuestra manera» (texto libre e IA, como antes);
+  - categorías con icono que filtran la lista: Playa, Ambiente joven, Museos y arte, Historia, Comer bien, Compras, Sin avión y Novedades, con cuántos destinos hay en cada una (no hay categoría de fiesta: sigue fuera del eje del proyecto);
+  - lista en cuadrícula de tarjetas con foto grande, ♥ para guardar y nota en recuadro («87 · Os pega mucho»), precio por persona y si entra en la pasta;
+  - lista y mapa uno al lado del otro; en el móvil, botón flotante «Mapa / Lista»;
+  - mapa con etiquetas de precio blancas que se oscurecen al pasar el ratón;
+  - ficha de destino con título, foto con la nota, cuatro datos clave que llevan a su pestaña (transporte, dormir, planes y presupuesto), pestañas fijas y barra de reserva fija abajo.
+- **Lo de Corner que se mantiene:** guardar (el ♥ guarda para comparar, hasta tres), mapa con estados por edad, mundo cerrado verificado, plan compartible y vista de padres.
+- **Reglas que no cambian:** la nota es «cuánto os pega» (gustos y pasta), no una reseña; no hay valoraciones inventadas y las opiniones siguen siendo solo las que escribe el usuario. Precios orientativos marcados «ejemplo». Estados siempre con icono y texto. Lógica de edad, fuentes y datos sin tocar.
+- **Estética:** fondo blanco, violeta del logo, amarillo y coral en detalles; portada con postales, subrayado amarillo que se dibuja, sello «Hecho para 16 y 17 años», ♥ que late al guardar e iconos que se mueven al pasar el ratón. Respeta «reducir movimiento».
+- **Comprobado:** pruebas sin errores (solo el aviso del conector de vuelos apagado), capturas reales en escritorio (1440 px) y móvil (390 px) sin desbordes.
+- Rama `rediseno-v3` (sale de `rediseno-ruta16`). Vista previa en Netlify sin tocar la versión publicada.
