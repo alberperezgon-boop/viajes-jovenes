@@ -322,3 +322,22 @@ Cada decisión dice quién la tomó, con qué evidencia y qué la haría cambiar
   - hoja nueva **«Ventas de un mes»**: se elige el mes. Cada línea de ingreso trae nº de ventas, precio, lo que paga el cliente, IVA y lo que nos queda; después, gastos variables y fijos, resultado, impuesto, neto, IVA del mes y caja. Comprobaciones ✓ contra la proyección.
   - hoja nueva **«Presupuesto de una venta»**: solo el Pase, venta media y venta completa, con ingresos, gastos variables, costes fijos repartidos entre las ventas del año elegido, impuesto y neto. Comprobación ✓ con el beneficio del año.
 - **Pitch:** diapositiva de números actualizada en Slides, PowerPoint (también en Descargas) y HTML.
+
+## D-40. Rediseño «Independent Travel Editorial» y nombre oficial Ruta16 (26/11/2026)
+
+- **Alberto:** el nombre oficial es **Ruta16**. Pidió rediseñar la demo con su guion de dirección artística y publicarla en Netlify, buscando él mismo las imágenes y añadiendo detalles sutiles con humor.
+- **Proceso:** auditoría de la demo publicada y de la web pública de Corner (sin descompilar ni APIs). Pinterest, Mobbin y Dribbble piden cuenta: no se consultaron. Propuesta con tres variaciones en el lienzo https://claude.ai/artifact/DRW2EzAABrmBBYGfwuxgWe; Alberto aprobó la **A · Cuaderno de ruta**.
+- **Implementado en la rama `rediseno-ruta16`** (sin tocar `main`):
+  - capa de estilos nueva al final de `planner.src.html` (Warm White, Sky Blue, Ink Blue, Signal Yellow y Vermilion; Space Grotesk, Inter e IBM Plex Mono). Los colores de edad siguen siendo semánticos, con icono y texto;
+  - tema claro por defecto, mapa de calles con tierra cálida, agua azul suave y verde discreto, y marcadores con borde de tinta;
+  - portada «Vuestro primer gran viaje», sin emojis, con sello «Hecho para 16 y 17 años» y avioncito a tinta;
+  - marca Ruta16 en todo lo visible (las claves de guardado no cambian; los nombres de archivo `GoLiveIt-Planner*.html` se mantienen);
+  - barra del presupuesto: vuelo azul, dormir amarillo y gastos azul cielo (el verde queda solo para «Sí podéis»).
+- **Fotos:** las 22 del prototipo pasan de 330 a 960 px con el **mismo archivo de Commons** (mismo crédito); se añaden Granada (Jebulon, CC0) y Cracovia (Igor123121, CC BY 4.0) en `data/creditos-fotos.json`. Se descartó una foto con caras de desconocidos en primer plano.
+- **Guiños** (uno por pantalla; nunca en estados de edad, avisos legales ni condiciones):
+  - «500 km ≈ 1 h de vuelo ≈ un disco entero» en la leyenda del mapa;
+  - «os sobran 27 € (¿pastéis de nata?)», con un dulce o plato típico por ciudad;
+  - «Aquí la letra pequeña va en grande» en el modo padres.
+- **Comprobado:** `check.mjs` y `cdp-check.mjs` sin errores (solo el aviso esperado del conector de vuelos apagado), auditoría de 15 pantallas y capturas reales en escritorio y móvil (390 px, sin scroll horizontal).
+- **Publicado** en https://goliveit-ruta16.netlify.app (sustituye a la versión anterior de la demo).
+- **Pendiente:** fusionar la rama con `main` y republicar el artefacto del Planner, si Alberto lo aprueba.

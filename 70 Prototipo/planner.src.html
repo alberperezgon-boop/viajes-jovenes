@@ -1,11 +1,11 @@
 <meta charset="utf-8">
-<title>GoLiveIt Planner</title>
+<title>Ruta16 · Planner</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-/* GoLiveIt Planner. Escritorio primero: panel de viaje | mapa central | viajes posibles. Cobalto + mandarina, mapa como lienzo. */
+/* Ruta16 Planner. Escritorio primero: panel de viaje | mapa central | viajes posibles. Cobalto + mandarina, mapa como lienzo. */
 :root {
   --bg: #EEF0F8; --surface: #FFFFFF; --surface-2: #ECEEF8; --ink: #0E1330; --muted: #555C7B; --line: #D9DDEE;
   --brand: #1730D6; --brand-2: #3049E4; --brand-fg: #FFFFFF; --brand-dim: #C9D0FF; --pop: #FF7A2F; --pop-ink: #1E0B00;
@@ -512,12 +512,165 @@ h1, h2, h3, .wm, .cover-wm { font-stretch: 100%; letter-spacing: -0.02em; }
 .btn { border-radius: 12px; }
 @media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) .btn.sm:not(.pop):not(.ghost) { background: #ECE9FC; color: #2A1A9C; box-shadow: inset 0 0 0 1.5px #DAD6F2; } :root:not([data-theme="dark"]) .searchbar { background: #ECE9FC; color: #14122B; } }
 :root[data-theme="light"] .btn.sm:not(.pop):not(.ghost) { background: #ECE9FC; color: #2A1A9C; box-shadow: inset 0 0 0 1.5px #DAD6F2; }
+
+/* ===== Rediseño 26/11/2026: Independent Travel Editorial (Ruta16) =====
+   Blanco cálido predominante, Ink Blue para acciones, amarillo y bermellón con moderación.
+   Los colores de edad (ok/req/no/unk) son semánticos y van siempre con icono y texto. */
+:root, :root[data-theme="light"] {
+  --bg: #FAF9F5; --surface: #FFFFFF; --surface-2: #F1F0EA; --ink: #17221E; --muted: #656A68; --line: #E3E5E0;
+  --brand: #294CC6; --brand-2: #1F3DA8; --brand-fg: #FFFFFF; --brand-dim: #B3C9F5;
+  --pop: #F4DE60; --pop-ink: #17221E; --pop-line: #294CC6;
+  --link: #294CC6; --sea: #DCE5F4; --land: #F4F2EB; --border-c: #CFD3CA; --arc: #294CC6; --park: #E3ECD9;
+  --sky: #B3C9F5; --yel: #F4DE60; --ver: #D94735;
+  --ok: #17633F; --ok-soft: #E2F1E7; --req: #8A5A00; --req-soft: #FBEFC8; --no: #A3261B; --no-soft: #FBE3DF; --unk: #5E6461; --unk-soft: #ECEDEA;
+  --f-display: "Space Grotesk", "Inter", system-ui, sans-serif; --f-body: "Inter", "Segoe UI", system-ui, sans-serif; --f-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  --r: 4px; --r-btn: 6px;
+  color-scheme: light;
+}
+body { background: var(--bg); font-size: 14.5px; }
+h1, h2, h3, .wm, .cover-wm { font-family: var(--f-display); letter-spacing: -0.025em; }
+h2 { font-weight: 650; } h3 { font-weight: 600; }
+:focus-visible, .chip:focus-visible, .tbtn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.eyebrow, .tipo, .stamp, .demo-b, .bk-badge, .newtag, .pill { font-family: var(--f-mono); letter-spacing: 0.06em; }
+.eyebrow { text-transform: uppercase; font-size: 0.68rem; font-weight: 500; }
+
+/* Cabecera: papel, no barra de color */
+.top { background: var(--bg); color: var(--ink); border-bottom: 1px solid var(--line); box-shadow: none; padding: 10px 20px; flex-wrap: wrap; row-gap: 8px; }
+.wm { font-weight: 700; font-size: 1.3rem; color: var(--ink); display: inline-flex; align-items: center; gap: 0; }
+.wm span { color: var(--brand); }
+.top .tag { color: var(--muted); font-weight: 500; }
+.demo-b { background: transparent; color: var(--ver); border: 1px solid var(--ver); border-radius: 3px; font-weight: 500; }
+.tbtn { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: var(--r-btn); font-weight: 600; padding: 8px 12px; }
+.tbtn.solid { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.tbadge { background: var(--brand); color: #fff; }
+.seg { background: var(--surface); border: 1px solid var(--ink); border-radius: var(--r-btn); padding: 0; gap: 0; overflow: hidden; }
+.seg button { color: var(--ink); border-radius: 0; font-weight: 600; padding: 7px 12px; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+
+/* Paneles y controles */
+.panel.left, .panel.right { background: var(--bg); }
+.btn { border-radius: var(--r-btn); font-weight: 600; background: var(--ink); color: var(--bg); box-shadow: none; }
+.btn.pop, #wz-go, .cover-cta .btn.pop { background: var(--brand); color: #fff; box-shadow: none; }
+.btn.ghost { background: var(--surface-2); color: var(--ink); }
+:root[data-theme="light"] .btn.sm:not(.pop):not(.ghost) { background: var(--surface); color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+@media (hover: hover) { .btn:hover, .tbtn:hover { filter: none; } .btn.pop:hover { background: var(--brand-2); } .tbtn:hover { border-color: var(--ink); } }
+.input { border: 1px solid var(--line); background: var(--surface); border-radius: var(--r-btn); }
+.input:focus { border-color: var(--ink); outline: none; }
+.field label, .label { font-weight: 600; }
+.chip, #welcome .chip { border: 1px solid var(--line); border-radius: 999px; font-weight: 500; background: var(--surface); color: var(--ink); }
+.chip[aria-pressed="true"], #welcome .chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+input[type="range"], .co-check input { accent-color: var(--brand); }
+.box, .money, .cal, .fcard, .offer, .summary, .legal-item, .lv, .ticket, .done, .wz-step, .rev-form, .extras, .share-txt, .mailbody { border-radius: var(--r); box-shadow: none; }
+.box, .money, .cal, .fcard, .offer, .legal-item { border: 1px solid var(--line); }
+.summary { border: 1px solid var(--line); }
+.summary b { color: var(--ink); font-family: var(--f-display); }
+.searchbar, :root[data-theme="light"] .searchbar { background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: var(--r); box-shadow: none; }
+.gsum { background: var(--sky); color: var(--ink); box-shadow: none; border-radius: var(--r); }
+.gsum .muted { color: rgb(23 34 30 / 0.78); }
+.gsum-n { background: var(--ink); color: var(--bg); border-radius: 50%; font-family: var(--f-display); }
+.gsum .btn { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.sorttab { border: 1px solid var(--line); border-radius: var(--r); }
+.sorttab[aria-pressed="true"] { border-color: var(--ink); box-shadow: inset 0 -2px 0 var(--ink); }
+.fcard.chosen, .ci.on, .lv.on, .cal-d.on { border-color: var(--brand); }
+.lv.on { background: color-mix(in srgb, var(--sky) 30%, transparent); }
+.cal-d.on { box-shadow: inset 0 -2px 0 var(--brand); }
+
+/* Tarjetas de destino: foto limpia, sin velos ni sombras */
+.card { border: 1px solid var(--line); border-radius: var(--r); box-shadow: none; }
+@media (hover: hover) { .card:hover { transform: none; box-shadow: none; border-color: var(--ink); } }
+.card.sel { border-color: var(--brand); box-shadow: inset 0 0 0 1px var(--brand); }
+.card-ph, .detail-head, .fhero { background-image: none; background-color: var(--sky); }
+.card-ph::after, .detail-head::after { content: none; }
+.card-ph .mono { left: 10px; bottom: 10px; font-family: var(--f-mono); font-size: 0.7rem; letter-spacing: 0.08em; color: var(--ink); background: var(--bg); padding: 2px 6px; border-radius: 2px; text-shadow: none; opacity: 1; }
+.card-ph .score { background: var(--ink); color: var(--bg); border: 2px solid var(--bg); border-radius: var(--r); font-family: var(--f-mono); font-weight: 500; }
+.card-ph .credit, .detail-head .credit { background: rgb(250 249 245 / 0.92); color: var(--muted); font-family: var(--f-mono); border-radius: 2px; }
+.newtag { background: var(--ver); color: #fff; border-radius: 2px; font-weight: 500; }
+.card-title strong { font-family: var(--f-display); font-weight: 650; font-size: 1.28rem; letter-spacing: -0.02em; }
+.bar { border-radius: 0; border: 1px solid var(--ink); background: var(--surface); }
+.bar .cap { background: var(--ver); }
+.legend-b i { border: 1px solid var(--ink); }
+
+/* Ficha */
+.detail-head { height: 220px; border-radius: var(--r); }
+.detail-head h2 { background: var(--bg); color: var(--ink); border-radius: 0; font-size: 2.1rem; font-weight: 700; padding: 4px 12px 2px; letter-spacing: -0.035em; }
+.tabs, .tabs button { border-radius: 0; }
+.tabs { background: transparent; padding: 0; gap: 0; border-bottom: 1px solid var(--ink); }
+.tabs button { color: var(--ink); font-weight: 500; padding: 9px 4px; }
+.tabs button[aria-selected="true"] { background: var(--ink); color: var(--bg); box-shadow: none; }
+.cat-h { color: var(--ink); }
+.cat-fly .cat-h { background: var(--brand); color: #fff; }
+.cat-stay .cat-h { background: var(--sky); color: var(--ink); }
+.cat-fun .cat-h { background: var(--yel); color: var(--ink); }
+.cat-h .btn, .cat-stay .cat-h .btn { background: transparent; color: inherit; box-shadow: inset 0 0 0 1px currentColor; }
+.mini-ic, .mdot { border-radius: 50%; }
+.mdot[style*="--pop"], .mdot[style*="--sky"], .mdot[style*="--yel"] { color: var(--ink); }
+.money-tot { font-weight: 700; letter-spacing: -0.03em; }
+.bk-box { background: color-mix(in srgb, var(--sky) 28%, var(--surface)); border: 1px solid var(--sky); border-radius: var(--r); }
+.bk-badge { background: transparent; color: var(--ver); border: 1px solid var(--ver); border-radius: 2px; font-weight: 500; }
+.cta-bk { background: var(--brand); border-radius: var(--r-btn); box-shadow: none; font-weight: 600; }
+.pass { background: var(--brand); border-radius: var(--r); }
+.fhero { border-radius: var(--r); }
+.fhero::after { background: rgb(23 34 30 / 0.5); }
+.piggy { background: color-mix(in srgb, var(--yel) 30%, var(--surface)); border: 1px solid var(--yel); border-radius: var(--r); }
+.pbar { border-radius: 0; border: 1px solid var(--ink); background: var(--surface); }
+.pbar i { background: var(--brand); border-radius: 0; }
+.status { border-radius: 4px; font-weight: 600; }
+.ticket { border-radius: var(--r); }
+
+/* Mapa: marcadores con carácter, controles de línea fina */
+.mapwrap { background: var(--sea); }
+.mk .dot { border: 2px solid var(--ink); box-shadow: none; font-family: var(--f-mono); font-weight: 500; }
+.mk .lbl, .mk-tip { background: var(--bg); color: var(--ink); border: 1px solid var(--ink); border-radius: 2px; box-shadow: none; font-weight: 600; }
+.mk.sel .dot { outline: 3px solid var(--brand); outline-offset: 2px; }
+.mk.origin .dot { background: var(--ink); }
+.mk.stopmk .dot { background: var(--brand); }
+.maptools button { border: 1px solid var(--ink); border-radius: var(--r-btn); background: var(--surface); color: var(--ink); }
+.mapseg { box-shadow: none; }
+.maplegend { background: var(--bg); border: 1px solid var(--line); border-radius: var(--r); }
+.map-guino { display: block; font-family: var(--f-mono); font-size: 0.66rem; color: var(--muted); border-top: 1px dashed var(--line); padding-top: 4px; }
+.attrib { background: rgb(250 249 245 / 0.88); }
+.toast { background: var(--ink); color: var(--bg); border-radius: var(--r); }
+
+/* Diálogos */
+dialog.sheet { border-radius: 8px; }
+dialog.sheet::backdrop { background: rgb(23 34 30 / 0.45); }
+#welcome .sheet-head { background: var(--sky); color: var(--ink); }
+#welcome .sheet-head .eyebrow, #welcome .sheet-head .muted { color: rgb(23 34 30 / 0.78); }
+.wz-step { background: var(--surface-2); }
+.wz-num, .stop .n { background: var(--ink); font-family: var(--f-mono); font-weight: 500; }
+.demo-banner { border-radius: var(--r); }
+.letra { font-size: 0.86rem; color: var(--muted); margin: 0; }
+.money-msg .muted { color: var(--muted); font-weight: 500; }
+.fam-glance > div, .fam-sum > div, .pipeline div, .done, .ck-h { border-radius: var(--r); }
+
+/* Portada editorial: papel, foto real y tinta */
+.cover { background: var(--bg); color: var(--ink); }
+.cover-wm { font-weight: 700; font-size: 1.6rem; display: inline-flex; align-items: center; gap: 0; }
+.cover-plane { margin-left: 14px; }
+.cover-wm span { color: var(--brand); }
+.cover h1 { color: var(--ink); font-weight: 700; letter-spacing: -0.04em; font-size: clamp(2.4rem, 5vw, 4.6rem); }
+.cover h1 em { color: var(--ink); font-style: normal; padding-bottom: 0.12em;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 18'%3E%3Cpath d='M4 9 C 19 3, 34 3, 49 9 S 79 15, 94 9 S 124 3, 139 9 S 169 15, 184 9 S 207 5, 216 9' fill='none' stroke='%23D94735' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E") left bottom / 100% 0.32em no-repeat; }
+.cover .lead { color: var(--muted); }
+.cover-kicker { font-family: var(--f-mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ver); margin-top: 22px; }
+.cover-feats span { background: var(--surface); border: 1px solid var(--line); color: var(--ink); backdrop-filter: none; font-weight: 500; }
+.cover-cta .btn { border-radius: var(--r-btn); font-weight: 600; }
+.cover-cta .ghost2 { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
+.cover-note { color: var(--muted); font-family: var(--f-mono); font-size: 0.7rem; }
+.tile { border-radius: var(--r); box-shadow: none; animation: fadein 0.9s ease both; background-color: var(--sky); }
+.tile-in { animation: none; }
+.tile::after { content: none; }
+.tile b { left: 12px; bottom: 12px; font-family: var(--f-display); font-weight: 650; font-size: 1.05rem; color: var(--ink); background: var(--bg); padding: 2px 8px; text-shadow: none; }
+.cover-badge { width: 128px; height: 128px; border-radius: 50%; display: grid; place-items: center; padding: 12px; background: var(--yel); color: var(--ink); border: 2px solid var(--ink); box-shadow: none; font-family: var(--f-display); font-weight: 650; font-size: 0.98rem; transform: translate(-50%, -50%) rotate(-9deg); }
+.cover-plane { width: 120px; height: auto; vertical-align: middle; margin-left: 6px; }
+.cover-cta .btn.pop { box-shadow: none; }
+@media (max-width: 900px) { .cover-plane { width: 84px; } .cover-badge { width: 104px; height: 104px; font-size: 0.84rem; } }
 </style>
 
 <div class="app">
 <svg id="ic-sprite" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><symbol id="i-plane" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></symbol><symbol id="i-train" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M9 7h6M9 21l-2-4M15 21l2-4"/><circle cx="9" cy="14" r=".6"/><circle cx="15" cy="14" r=".6"/></symbol><symbol id="i-bus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M3 10h18M8 4v6M16 4v6"/><circle cx="7.5" cy="19" r="1.5"/><circle cx="16.5" cy="19" r="1.5"/></symbol><symbol id="i-bed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4v16M2 8h18a2 2 0 0 1 2 2v10M2 17h20M6 8v9"/></symbol><symbol id="i-ticket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2M13 11v2M13 17v2"/></symbol><symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol><symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol><symbol id="i-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-1.8 5.41a2 2 0 0 1-1.27 1.27L7.76 16.24l1.8-5.41a2 2 0 0 1 1.27-1.27z"/></symbol><symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol><symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol><symbol id="i-family" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M12 17.5s-3.2-1.9-3.2-3.9a1.7 1.7 0 0 1 3.2-.8 1.7 1.7 0 0 1 3.2.8c0 2-3.2 3.9-3.2 3.9z"/></symbol><symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4M16 13H8M16 17H8M10 9H8"/></symbol><symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol><symbol id="i-luggage" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="7" width="14" height="13" rx="2"/><path d="M9 7V4h6v3M9 11v5M15 11v5M8 20v1.5M16 20v1.5"/></symbol><symbol id="i-wallet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h14a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></symbol><symbol id="i-food" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></symbol><symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></symbol><symbol id="i-message" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol><symbol id="i-printer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol><symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></symbol><symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol><symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol><symbol id="i-trolley" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h2l2.4 12h11.2L21 7H6.2"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></symbol></defs></svg>
   <header class="top">
-    <span class="wm">Go<span>Live</span>It</span>
+    <span class="wm">Ruta<span>16</span></span>
     <span class="tag">Busca, compara y reserva viajes para vuestra edad <b class="demo-b">Demo</b></span>
     <span class="spacer"></span>
     <button type="button" class="tbtn" data-open="how">¿Cómo va esto?</button>
@@ -560,12 +713,13 @@ h1, h2, h3, .wm, .cover-wm { font-stretch: 100%; letter-spacing: -0.02em; }
   </aside>
 </div>
 
-<section class="cover" id="cover" aria-label="Portada de GoLiveIt">
+<section class="cover" id="cover" aria-label="Portada de Ruta16">
   <div class="cover-txt">
-    <div class="cover-wm">Go<span>Live</span>It</div>
-    <h1>Tu primer viaje con amigos, <em>sin líos.</em></h1>
+    <div class="cover-wm">Ruta<span>16</span><img class="cover-plane" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20140%2070%22%3E%3Cpath%20d%3D%22M6.3%2060.1%20L8.0%2058.7%20L9.7%2057.4%20L11.2%2056.1%20L12.8%2054.7%20L14.4%2053.3%20L16.1%2051.9%20L17.8%2050.7%20L19.5%2049.5%20L21.2%2048.4%20L22.8%2047.3%20L24.4%2046.3%20L26.1%2045.5%20L27.8%2044.8%20L29.5%2044.3%20L31.1%2043.9%20L32.7%2043.6%20L34.3%2043.2%20L35.9%2043.0%20L37.5%2042.8%20L39.2%2042.7%20L41.0%2042.7%20L42.7%2042.8%20L44.4%2042.8%20L46.1%2042.8%20L47.9%2042.8%20L49.6%2042.9%20L51.4%2042.9%20L53.2%2043.1%20L54.9%2043.2%20L56.6%2043.2%20L58.2%2043.2%20L59.8%2043.1%20L61.5%2042.8%20L63.2%2042.6%20L64.9%2042.2%20L66.6%2041.8%20L68.3%2041.2%20L70.0%2040.5%20L71.7%2039.6%20L73.4%2038.6%20L75.1%2037.6%20L76.9%2036.6%20L78.6%2035.5%20L80.2%2034.3%20L81.8%2032.9%20L83.3%2031.6%20L84.9%2030.2%20L86.6%2028.9%20L88.2%2027.5%20L89.8%2026.0%22%20fill%3D%22none%22%20stroke%3D%22%23294CC6%22%20stroke-width%3D%221.6%22%20stroke-dasharray%3D%221%205%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M96%2022%20L134%208%20L114%2040%20L108%2028%20Z%22%20fill%3D%22%23F4DE60%22%20stroke%3D%22none%22%20transform%3D%22translate(2%202)%22%2F%3E%3Cpath%20d%3D%22M96.3%2022.0%20L99.2%2020.8%20L102.0%2019.7%20L105.0%2018.6%20L108.1%2017.7%20L111.0%2016.4%20L113.7%2015.0%20L116.4%2013.9%20L119.2%2012.9%20L121.9%2011.9%20L124.6%2010.9%20L127.6%2010.1%20L130.7%209.4%20L133.8%208.4%20L132.2%2010.7%20L130.8%2013.2%20L129.4%2015.7%20L127.8%2018.1%20L126.1%2020.5%20L124.6%2023.0%20L123.3%2025.7%20L122.0%2028.2%20L120.6%2030.5%20L119.1%2032.8%20L117.7%2035.1%20L116.2%2037.4%20L114.4%2039.6%20L112.5%2036.4%20L111.0%2033.6%20L109.5%2030.7%20L107.8%2027.7%20L104.8%2026.3%20L102.0%2024.9%20L98.9%2023.3%20L95.5%2021.7%22%20fill%3D%22none%22%20stroke%3D%22%2317221E%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cpath%20d%3D%22M107.7%2028.2%20L109.9%2026.2%20L112.2%2024.4%20L114.5%2022.7%20L116.8%2020.9%20L119.4%2018.9%20L122.1%2017.0%20L124.6%2015.2%20L126.9%2013.1%20L129.3%2011.0%20L131.8%209.1%20L134.1%207.5%22%20fill%3D%22none%22%20stroke%3D%22%2317221E%22%20stroke-width%3D%221.2%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E" alt=""></div>
+    <p class="cover-kicker">El mundo está ahí fuera · todo empieza con un plan</p>
+    <h1>Vuestro primer <em>gran viaje.</em></h1>
     <p class="lead">Destinos, vuelos, sitios para dormir y planes que de verdad valen para vuestra edad, con el papeleo claro para que vuestras familias digan que sí.</p>
-    <div class="cover-feats"><span>✈ Viajes según vuestra edad</span><span>🛏 Dónde os dejan dormir</span><span>🎟 Planes para 16-17</span><span>📄 Papeleo claro</span><span>🏡 La familia aprueba</span></div>
+    <div class="cover-feats"><span>Viajes según vuestra edad</span><span>Dónde os dejan dormir</span><span>Planes para 16 y 17</span><span>Papeleo claro</span><span>La familia lo aprueba</span></div>
     <div class="cover-cta"><button type="button" class="btn pop" id="cover-go">Empezar</button><button type="button" class="btn ghost2" id="cover-demo">Ver un ejemplo</button><button type="button" class="btn ghost2" id="cover-resume" hidden>Seguir con mi plan</button></div>
     <p class="cover-note">Prototipo de un proyecto de emprendimiento. Es una demo: no reserva ni cobra nada de verdad.</p>
   </div>
@@ -586,6 +740,7 @@ h1, h2, h3, .wm, .cover-wm { font-stretch: 100%; letter-spacing: -0.02em; }
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datamaps/0.5.10/datamaps.world.min.js" crossorigin="anonymous"></script>
 <script>
 (() => {
+  if (!document.documentElement.dataset.theme) document.documentElement.dataset.theme = "light"; // rediseño: el blanco cálido manda
   /* =========================================================
      DATOS INYECTADOS AL CONSTRUIR (build.mjs)
      ========================================================= */
@@ -1128,9 +1283,10 @@ Reglas de extracción:
     const dk = isDark(), css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
     try {
       (map.getStyle().layers || []).forEach(l => {
-        if (dk && l.type === "background") map.setPaintProperty(l.id, "background-color", css("--land"));
+        if (l.type === "background") map.setPaintProperty(l.id, "background-color", css("--land"));
+        if (!dk && l.type === "fill" && /park|wood|grass|landcover/.test(l.id)) map.setPaintProperty(l.id, "fill-color", css("--park"));
         if (dk && l.type === "line" && /highway|road|bridge|tunnel|railway|transportation/.test(l.id)) map.setPaintProperty(l.id, "line-color", css("--border-c"));
-        if (dk && l.type === "fill" && /^water/.test(l.id)) map.setPaintProperty(l.id, "fill-color", css("--sea"));
+        if (l.type === "fill" && /^water/.test(l.id)) map.setPaintProperty(l.id, "fill-color", css("--sea"));
         if (l.type !== "symbol") return;
         if (l.layout && l.layout["text-field"]) map.setLayoutProperty(l.id, "text-field", ["coalesce", ["get", "name:es"], ["get", "name:latin"], ["get", "name"]]);
         if ((l["source-layer"] === "place" || /^place/.test(l.id)) && !/country|continent|state/.test(l.id)) map.setLayerZoomRange(l.id, 7, 24);
@@ -1243,18 +1399,19 @@ Reglas de extracción:
   }
   function moneyBar(m) {
     const max = Math.max(m.total, state.budget), w = x => (x / max * 100).toFixed(1) + "%";
-    return `<div class="bar" role="img" aria-label="${eur(m.total)} por persona frente a ${eur(state.budget)}"><i style="width:${w(m.v)};background:var(--brand)"></i><i style="width:${w(m.d)};background:var(--pop)"></i><i style="width:${w(m.g)};background:var(--ok)"></i><span class="cap" style="left:${w(state.budget)}"></span></div>`;
+    return `<div class="bar" role="img" aria-label="${eur(m.total)} por persona frente a ${eur(state.budget)}"><i style="width:${w(m.v)};background:var(--brand)"></i><i style="width:${w(m.d)};background:var(--pop)"></i><i style="width:${w(m.g)};background:var(--sky)"></i><span class="cap" style="left:${w(state.budget)}"></span></div>`;
   }
+  const SNACK = { oporto: "francesinhas", lisboa: "pastéis de nata", roma: "gelato", florencia: "gelato", napoles: "pizza de verdad", paris: "crêpes", berlin: "currywurst", londres: "fish and chips", amsterdam: "stroopwafels", praga: "trdelník", dublin: "scones", cracovia: "pierogi", munich: "pretzels", sevilla: "tapas", granada: "tapas", marbella: "espetos", niza: "socca", marsella: "navettes", valencia: "horchata" };
   function budgetBox(a) {
     const m = money(a), ok = m.left >= 0;
     const row = (ic, color, t, sub, val, tab) => `<div class="mrow"><span class="mdot" style="background:${color}" aria-hidden="true">${ic}</span><span><strong>${t}</strong><br><span class="small muted">${sub}</span></span><span class="mval">${val}${tab ? `<button type="button" class="linkbtn" data-tab="${tab}">Cambiar</button>` : ""}</span></div>`;
     return `<div class="money">
       <div class="money-top"><span class="eyebrow">Presupuesto orientativo por persona</span><b class="money-tot">${eur(m.total)}</b>
-        <span class="money-msg ${ok ? "ok" : "bad"}">${ok ? `Entra en vuestros ${eur(state.budget)} · os sobran ${eur(m.left)}` : `Os pasáis ${eur(-m.left)} de vuestros ${eur(state.budget)}`}</span></div>
+        <span class="money-msg ${ok ? "ok" : "bad"}">${ok ? `Entra en vuestros ${eur(state.budget)} · os sobran ${eur(m.left)}${SNACK[a.k] && m.left >= 10 ? ` <span class="muted">(¿${SNACK[a.k]}?)</span>` : ""}` : `Os pasáis ${eur(-m.left)} de vuestros ${eur(state.budget)}`}</span></div>
       ${moneyBar(m)}
       ${row(m.fl.mode === "bus" ? "🚌" : m.fl.mode === "train" ? "🚆" : "✈", "var(--brand)", m.fl.mode === "train" ? "Tren de ida y vuelta" : m.fl.mode === "bus" ? "Bus de ida y vuelta" : "Vuelo de ida y vuelta", `${esc(ITEMS[m.fl.a].name)} · ${m.flPicked ? "el que habéis elegido" : "el más barato que os deja ir"}`, eur(m.v), "vuelos")}
       ${row("🛏", "var(--pop)", `Dormir ${pl(m.nights, "noche", "noches")}`, `${esc(ITEMS[m.st.s].name)} · ${eur(m.st.p)} la noche · ${m.stPicked ? "el que habéis elegido" : "el más barato que os acepta"}`, eur(m.d), "dormir")}
-      ${row("🍕", "var(--ok)", `Gastos de ${pl(state.days, "día", "días")}`, `Comer, moverse y planes · unos ${eur(a.d.daily)} al día`, eur(m.g))}
+      ${row("🍕", "var(--sky)", `Gastos de ${pl(state.days, "día", "días")}`, `Comer, moverse y planes · unos ${eur(a.d.daily)} al día`, eur(m.g))}
       ${m.x.air ? `<div class="extras"><strong class="small">Lo que suele subir al pagar</strong>
         <label class="small row" style="gap:6px"><input type="checkbox" data-extra="bag"${state.extras.bag ? " checked" : ""}> Maleta de cabina grande ${m.x.low ? `<span class="muted">· unos ${eur(EXTRA.bag)} por trayecto (ejemplo)</span>` : '<span class="muted">· incluida en esta aerolínea (ejemplo)</span>'}</label>
         ${m.n > 1 ? `<label class="small row" style="gap:6px"><input type="checkbox" data-extra="seats"${state.extras.seats ? " checked" : ""}> Sentaros juntos <span class="muted">· unos ${eur(EXTRA.seats)} por trayecto (ejemplo). Con la asignación gratis os pueden separar.</span></label>` : ""}
@@ -1266,8 +1423,8 @@ Reglas de extracción:
     const tot = Math.max(a.total, state.budget); const w = v => (v / tot * 100).toFixed(1) + "%";
     const left = state.budget - a.total;
     return `<div class="budget"><div class="row between small"><span><b>Unos ${eur(a.total)} por persona</b> <span class="muted">· viaje, dormir y gastos</span></span><span class="${left >= 0 ? "okt" : "badt"}">${left >= 0 ? "Entra en la pasta ✓" : "Os pasáis " + eur(-left)}</span></div>
-      <div class="bar" role="img" aria-label="Coste estimado ${eur(a.total)} frente a presupuesto ${eur(state.budget)}"><i style="width:${w(a.cost.vuelo)};background:var(--brand)"></i><i style="width:${w(a.cost.aloj)};background:var(--pop)"></i><i style="width:${w(a.cost.dia)};background:var(--ok)"></i><span class="cap" style="left:${w(state.budget)}"></span></div>
-      <div class="legend-b"><span><i style="background:var(--brand)"></i>Ida y vuelta ${eur(a.cost.vuelo)}</span><span><i style="background:var(--pop)"></i>Dormir ${eur(a.cost.aloj)}</span><span><i style="background:var(--ok)"></i>Gastos ${eur(a.cost.dia)}</span><span>Vuestra pasta ${eur(state.budget)}</span></div></div>`;
+      <div class="bar" role="img" aria-label="Coste estimado ${eur(a.total)} frente a presupuesto ${eur(state.budget)}"><i style="width:${w(a.cost.vuelo)};background:var(--brand)"></i><i style="width:${w(a.cost.aloj)};background:var(--pop)"></i><i style="width:${w(a.cost.dia)};background:var(--sky)"></i><span class="cap" style="left:${w(state.budget)}"></span></div>
+      <div class="legend-b"><span><i style="background:var(--brand)"></i>Ida y vuelta ${eur(a.cost.vuelo)}</span><span><i style="background:var(--pop)"></i>Dormir ${eur(a.cost.aloj)}</span><span><i style="background:var(--sky)"></i>Gastos ${eur(a.cost.dia)}</span><span>Vuestra pasta ${eur(state.budget)}</span></div></div>`;
   }
   const phStyle = k => PHOTOS[k] ? `class="card-ph ph-${k}" style="background-position:${PHOTO[k].pos}"` : `class="card-ph"`;
   function memberChips(a) {
@@ -1304,7 +1461,7 @@ Reglas de extracción:
     const head = `<div class="detail-head${PHOTOS[k] ? " ph-" + k : ""}" style="${PHOTOS[k] ? `background-position:${PHOTO[k].pos}` : ""}">${PHOTO[k] ? `<a class="credit" href="${PHOTO[k].page}" target="_blank" rel="noopener">Foto: ${esc(PHOTO[k].by)} · ${esc(PHOTO[k].lic)}</a>` : ""}<div class="cap"><h2>${esc(a.d.city)}</h2>${a.score != null ? `<span class="status s-ok" style="background:var(--surface);color:var(--ink)">Os pega ${a.score}/100</span>` : pill(a.status)}</div></div>`;
     let body = "";
     if (a.score == null) {
-      body = `<div class="box"><p class="${a.status === "no" ? "bad" : "warn"}">${esc(a.reason)}</p>${a.d.verified ? "" : `<p class="small muted">En GoLiveIt, lo que no hemos podido comprobar sale como «sin confirmar», nunca como permitido. Para confirmarlo nos falta saber qué piden en ${esc(a.d.cname)} a menores sin adultos y qué alojamientos os aceptan.</p>`}</div>`
+      body = `<div class="box"><p class="${a.status === "no" ? "bad" : "warn"}">${esc(a.reason)}</p>${a.d.verified ? "" : `<p class="small muted">En Ruta16, lo que no hemos podido comprobar sale como «sin confirmar», nunca como permitido. Para confirmarlo nos falta saber qué piden en ${esc(a.d.cname)} a menores sin adultos y qué alojamientos os aceptan.</p>`}</div>`
         + (a.stays ? eligTable(a) : "") + `<details class="hid"><summary>Papeleo general para ${esc(a.d.cname)} (por si os sirve)</summary>${legalList(a.d.country)}</details>`;
     } else if (state.tab === "todo") {
       body = allTab(a);
@@ -1510,7 +1667,7 @@ Reglas de extracción:
       <p class="small">${realAir()} → ${destAir(a.d)} · ${dmy(state.date)} – ${dmy(addDays(state.date, Math.max(1, state.days - 1)))} · ${pl(state.group.length, "viajero", "viajeros")} · de más barato a más caro</p>
       <div class="bk-links">${airs.map(k => `<a class="cta-bk" href="${kayakUrl(a, k)}" target="_blank" rel="noopener">${AIR_CODE[k]} · ${esc(ITEMS[k].name)} ↗</a>`).join("")}</div>
       <p class="small"><strong>Para pagar, directo con la aerolínea</strong> (sin intermediarios ni comisiones de agencia): ${airs.filter(k => AIR_SITE[k]).map(k => `<a href="${AIR_SITE[k]}" target="_blank" rel="noopener">${esc(ITEMS[k].name)} ↗</a>`).join(" · ")}<span class="direct">Reserva directa</span></p>
-      <p class="small muted">El buscador cuenta a todos como adultos; al reservar, poned las edades reales. Mirad si el vuelo es directo: con escala, algunas aerolíneas ponen condiciones a menores. <strong>Consejo GoLiveIt:</strong> evitad los «transbordos por cuenta propia» (billetes separados): si perdéis la conexión, nadie os recoloca.</p></div>`;
+      <p class="small muted">El buscador cuenta a todos como adultos; al reservar, poned las edades reales. Mirad si el vuelo es directo: con escala, algunas aerolíneas ponen condiciones a menores. <strong>Consejo Ruta16:</strong> evitad los «transbordos por cuenta propia» (billetes separados): si perdéis la conexión, nadie os recoloca.</p></div>`;
   }
   function dateStrip(a) {
     const base = a.fl ? a.fl.p : null; if (!base) return "";
@@ -1652,7 +1809,7 @@ Reglas de extracción:
       <p class="small">Antes de pagar, que os lo confirmen <b>por escrito</b> y llevad esa respuesta impresa o en el móvil. Así no os pueden rechazar en la entrada por la edad. Va en <b>${LANG_NAME[t.lang]}</b>${t.lang === "en" && c.a.d.country !== "UK" && c.a.d.country !== "IE" ? " (en este país suelen contestar en inglés)" : ""}.</p>
       <div class="box"><p class="small"><b>Para:</b> ${c.it.email ? esc(c.it.email) : '<span class="muted">no tenemos su correo: buscadlo en su web</span>'}</p><p class="small"><b>Asunto:</b> ${esc(t.subject)}</p><pre class="mailbody" id="ask-body">${esc(t.body)}</pre></div>
       <div class="row" style="gap:8px"><a class="btn pop" href="${mail}">✉ Abrir en mi correo</a><button type="button" class="btn" id="ask-copy">Copiar el texto</button>${c.it.link ? `<a class="btn" href="${esc(c.it.link)}" target="_blank" rel="noopener">Su web ↗</a>` : ""}</div>
-      <p class="small muted" id="ask-msg">Nada se envía desde GoLiveIt: se abre tu correo con el texto listo y lo mandas tú.</p>`;
+      <p class="small muted" id="ask-msg">Nada se envía desde Ruta16: se abre tu correo con el texto listo y lo mandas tú.</p>`;
     $("#sheet-in").dataset.ask = id;
     const dlg = $("#sheet"); if (!dlg.open) dlg.showModal();
   }
@@ -1687,12 +1844,12 @@ Reglas de extracción:
   function familyText(a) {
     const m = money(a), back = addDays(state.date, m.nights), link = familyLink(a);
     const fam = checklist(a).filter(i => i.who === "familia").map(i => "• " + i.t);
-    return [`👪 Viaje a ${a.d.city} para que lo reviséis (GoLiveIt · demo)`,
+    return [`👪 Viaje a ${a.d.city} para que lo reviséis (Ruta16 · demo)`,
       `📅 ${dmy(state.date)} – ${dmy(back)} · ${pl(state.group.length, "persona", "personas")} de ${[...new Set(state.group.map(x => x.age))].join(" y ")} años`,
       `${m.fl.mode === "train" ? "🚆" : m.fl.mode === "bus" ? "🚌" : "🛫"} ${ITEMS[m.fl.a].name} · 🛏 ${ITEMS[m.st.s].name}`,
       `💶 Unos ${eur(m.total)} por persona (orientativo)`,
       fam.length ? "📄 Lo que tenéis que hacer vosotros:\n" + fam.join("\n") : "",
-      link ? "Vedlo aquí, con las normas y sus fuentes (solo lectura): " + link : "Os lo enseño en GoLiveIt: normas de cada sitio con su fuente."].filter(Boolean).join("\n");
+      link ? "Vedlo aquí, con las normas y sus fuentes (solo lectura): " + link : "Os lo enseño en Ruta16: normas de cada sitio con su fuente."].filter(Boolean).join("\n");
   }
   const FAM_LBL = { ok: "Pueden", req: "Pueden, con condiciones", unk: "Sin confirmar", no: "No pueden" };
   function famRow(e, title, extra) {
@@ -1714,6 +1871,7 @@ Reglas de extracción:
     const kidSide = !state.family;
     $("#sheet-in").innerHTML = `<div class="sheet-head"><div><p class="eyebrow">Modo padres · solo lectura</p><h2 id="sheet-title">${esc(a.d.city)}, del ${dmy(state.date)} al ${dmy(back)}</h2></div><button type="button" class="icon-btn" data-close aria-label="Cerrar">×</button></div>
       <p class="demo-banner">${state.family ? "Estáis viendo el viaje que os han enviado. " : "Esto es lo que verá tu familia. "}Es una demo: no se reserva ni se paga nada.</p>
+      <p class="letra">Aquí la letra pequeña va en grande: fuentes, condiciones y lo que todavía no sabemos.</p>
       ${state.famOk ? `<div class="done ok"><span class="done-ic">✅</span><div><h3>Viaje aprobado por la familia (simulado)</h3><p class="small">Lo siguiente es pagar con la cuenta de un adulto.</p></div></div>` : ""}
       <div id="fam-print" style="display:grid;gap:12px">
       <div class="fam-sum"><div><span class="eyebrow">Quién va</span><b>${pl(n, "persona", "personas")}</b><span class="small">${minors.length ? minors.length + " de " + [...new Set(minors.map(x => x.age))].join(" y ") + " años" : ""}${adults.length ? (minors.length ? " y " : "") + adults.length + " de 18 o más" : ""}</span></div>
@@ -1722,8 +1880,8 @@ Reglas de extracción:
       ${famGlance([fl.e.s, st.e.s, ...docs.map(d => d.s)])}
       ${famLiveBox(a)}
       <div class="box"><h3>Lo que hemos comprobado para su edad</h3>
-        ${famRow(fl.e, `${fl.mode === "train" ? "🚆" : fl.mode === "bus" ? "🚌" : "✈"} ${esc(ITEMS[fl.a].name)} · ${fl.dir ? "directo" : "con escala"}`, fl.mode === "air" && minors.length ? '<p class="small muted">GoLiveIt nunca propone transbordos por cuenta propia con menores.</p>' : "")}
-        ${famRow(st.e, `🛏 ${esc(ITEMS[st.s].name)}`, (asked ? `<p class="small"><b>El equipo de GoLiveIt lo consultó por correo</b> (mirad la fuente debajo). Aun así, que os lo confirmen por escrito para vuestras fechas.</p>` : "") + (ITEMS[st.s].link ? `<p class="small"><a href="${esc(ITEMS[st.s].link)}" target="_blank" rel="noopener">Web del alojamiento ↗</a>${ITEMS[st.s].email ? " · " + esc(ITEMS[st.s].email) : ""}</p>` : ""))}
+        ${famRow(fl.e, `${fl.mode === "train" ? "🚆" : fl.mode === "bus" ? "🚌" : "✈"} ${esc(ITEMS[fl.a].name)} · ${fl.dir ? "directo" : "con escala"}`, fl.mode === "air" && minors.length ? '<p class="small muted">Ruta16 nunca propone transbordos por cuenta propia con menores.</p>' : "")}
+        ${famRow(st.e, `🛏 ${esc(ITEMS[st.s].name)}`, (asked ? `<p class="small"><b>El equipo de Ruta16 lo consultó por correo</b> (mirad la fuente debajo). Aun así, que os lo confirmen por escrito para vuestras fechas.</p>` : "") + (ITEMS[st.s].link ? `<p class="small"><a href="${esc(ITEMS[st.s].link)}" target="_blank" rel="noopener">Web del alojamiento ↗</a>${ITEMS[st.s].email ? " · " + esc(ITEMS[st.s].email) : ""}</p>` : ""))}
         ${docs.map(d => `<div class="fam-row">${pill(d.s, FAM_LBL[d.s])}<div><strong>📄 ${esc(d.t)}</strong><p class="small">${esc(d.d)}</p>${SRC[d.src] ? srcLine(d.src) : ""}</div></div>`).join("")}</div>
       <div class="box"><h3>Lo que tenéis que hacer vosotros</h3>
         ${fam.length ? `<ul class="why">${fam.map(i => `<li>${esc(i.t)}${i.extra ? ` <span class="small muted">· ${esc(i.extra)}</span>` : ""}</li>`).join("")}</ul>` : '<p class="small">Nada especial para su edad en este viaje.</p>'}
@@ -1736,7 +1894,7 @@ Reglas de extracción:
         ${unkPlans ? `<li>${pl(unkPlans, "plan", "planes")} sin confirmar si dejan entrar a menores sin un adulto (salen marcados en la app).</li>` : ""}
         ${unkDocs.map(d => `<li>${esc(d.t)}: <b>pendiente</b>.</li>`).join("")}
         <li>Los precios son de ejemplo hasta que se reserve.</li></ul>
-        <p class="small muted">Regla de GoLiveIt: lo que no está verificado sale como pendiente, nunca como permitido.</p></div>
+        <p class="small muted">Regla de Ruta16: lo que no está verificado sale como pendiente, nunca como permitido.</p></div>
       <div class="box"><h3>Si algo falla</h3><ul class="why">
         <li><b>Emergencias: ${sosNum}</b>. ${legLink("eme-112-999", "Fuente")}</li>
         <li>Consulado de España: ${extUrl(a.d.country) ? `<a href="${extUrl(a.d.country)}" target="_blank" rel="noopener">teléfono de emergencia y recomendaciones de Exteriores para ${esc(a.d.cname)} ↗</a>` : "dentro de España no hace falta."}</li>
@@ -1745,11 +1903,11 @@ Reglas de extracción:
         ${leg("eme-rechazo-embarque") ? `<li>Si no les dejan embarcar: ${legLink("eme-rechazo-embarque", "qué derechos tienen")}</li>` : ""}
         <li>Si en el alojamiento no les dejan entrar: ${alt.length ? `otros que aceptan su edad en ${esc(a.d.city)}: ${alt.map(x => `<b>${esc(ITEMS[x.s].name)}</b> (${STATUS[x.e.s][2].toLowerCase()})`).join(", ")}.` : "no tenemos otro verificado en esta ciudad; que llamen a casa y busquen juntos."}</li></ul></div>
       ${famFaq(a, minors)}
-      <div class="box"><span class="tipo">Consejo GoLiveIt · no es una norma</span><h3>Acuerdos que suelen funcionar</h3><ul class="why">
+      <div class="box"><span class="tipo">Consejo Ruta16 · no es una norma</span><h3>Acuerdos que suelen funcionar</h3><ul class="why">
         <li>Un mensaje al llegar al alojamiento y otro cada noche.</li><li>Hora de vuelta pactada entre vosotros antes de salir.</li>
         <li>Ubicación compartida solo si lo pactáis: no viene activada.</li><li>La respuesta del alojamiento y las cartas, impresas y en el móvil.</li></ul></div>
       </div>
-      ${state.famOk ? `<button type="button" class="btn pop block" id="fam-pay">Ir a pagar (simulado)</button>` : `<div class="row" style="gap:8px"><button type="button" class="btn pop" id="fam-ok">✅ Aprobamos el viaje (demo)</button><a class="btn" href="https://wa.me/?text=${encodeURIComponent("Hemos visto el viaje a " + a.d.city + " en GoLiveIt y tenemos dudas sobre: ")}" target="_blank" rel="noopener">💬 Tenemos dudas</a><button type="button" class="btn ghost" id="fam-print-btn">🖨 Imprimir</button></div>`}
+      ${state.famOk ? `<button type="button" class="btn pop block" id="fam-pay">Ir a pagar (simulado)</button>` : `<div class="row" style="gap:8px"><button type="button" class="btn pop" id="fam-ok">✅ Aprobamos el viaje (demo)</button><a class="btn" href="https://wa.me/?text=${encodeURIComponent("Hemos visto el viaje a " + a.d.city + " en Ruta16 y tenemos dudas sobre: ")}" target="_blank" rel="noopener">💬 Tenemos dudas</a><button type="button" class="btn ghost" id="fam-print-btn">🖨 Imprimir</button></div>`}
       ${kidSide ? `<div class="box"><h3>Enviar a tu familia</h3><p class="small muted">Se abre WhatsApp o tu correo con el resumen${familyLink(a) ? " y un enlace a esta vista. El enlace solo lleva edades y lo elegido, nunca nombres" : ". En este archivo no hay enlace: mándales el resumen o enséñales esta pantalla"}.</p><pre class="share-txt">${esc(familyText(a))}</pre>
         <div class="row"><a class="btn pop sm" href="https://wa.me/?text=${encodeURIComponent(familyText(a))}" target="_blank" rel="noopener">WhatsApp ↗</a><a class="btn sm" href="mailto:?subject=${encodeURIComponent("Viaje a " + a.d.city + " para que lo reviséis")}&body=${encodeURIComponent(familyText(a))}">Correo</a><button type="button" class="btn ghost sm" id="fam-copy">Copiar</button><span class="small muted" id="fam-msg" aria-live="polite"></span></div></div>` : ""}`;
     $("#sheet-in").dataset.fam = a.k;
@@ -1812,7 +1970,7 @@ Reglas de extracción:
     const list = ocioEval(a.k).map(x => ({ e: x.e, title: esc(x.name), sub: x.when === "noche" ? "🌙 De noche" : "☀ De día", night: x.when === "noche", price: "" }));
     const okL = list.filter(x => visible(x.e.s)), pend = list.filter(x => x.e.s === "unk"), noL = list.filter(x => x.e.s === "no");
     return `<p class="small"><strong>${okL.length}</strong> planes que podéis hacer, <strong>${pend.length}</strong> por confirmar y <strong>${noL.length}</strong> que no son para vuestra edad.</p>
-      ${okL.some(x => x.night) ? `<div class="box"><span class="tipo">Consejo GoLiveIt · no es una norma</span><p class="small">De noche: id y volved juntos, con el móvil cargado y la ubicación compartida con casa. Llevad el DNI, que os lo pueden pedir.</p></div>` : ""}
+      ${okL.some(x => x.night) ? `<div class="box"><span class="tipo">Consejo Ruta16 · no es una norma</span><p class="small">De noche: id y volved juntos, con el móvil cargado y la ubicación compartida con casa. Llevad el DNI, que os lo pueden pedir.</p></div>` : ""}
       ${okL.map(offer).join("")}
       ${pend.length ? `<h3>Ojo, por confirmar</h3><p class="small muted">Todavía no sabemos si dejan entrar a menores sin un adulto. Preguntad antes de ir.</p>${pend.map(offer).join("")}` : ""}
       ${!okL.length && !pend.length ? '<div class="box"><p class="small muted">No tenemos planes con información de acceso para este destino.</p></div>' : ""}
@@ -1898,7 +2056,7 @@ Reglas de extracción:
   function renderModes() {
     $("#mapmode").innerHTML = MODES.filter(([k]) => k !== "mapbox" || getToken() || state.mapMode === "mapbox").map(([k, l]) => `<button type="button" data-mode="${k}" aria-pressed="${state.mapMode === k}">${l}</button>`).join("");
     $("#attrib").innerHTML = ATTRIB[state.mapMode];
-    $("#maplegend").innerHTML = `<strong class="small">Qué os sale</strong><div class="row" style="gap:4px">${pill("ok")}${pill("req")}${pill("no")}${pill("unk")}</div><span class="small muted">El número es cuánto os pega (0-100). Puntos pequeños: pasad el ratón para ver cuál es. Líneas: vuelos posibles desde ${esc(originName())}.</span>`;
+    $("#maplegend").innerHTML = `<strong class="small">Qué os sale</strong><div class="row" style="gap:4px">${pill("ok")}${pill("req")}${pill("no")}${pill("unk")}</div><span class="small muted">El número es cuánto os pega (0-100). Puntos pequeños: pasad el ratón para ver cuál es. Líneas: vuelos posibles desde ${esc(originName())}.</span><span class="map-guino">500 km ≈ 1 h de vuelo ≈ un disco entero</span>`;
   }
 
   /* =========================================================
@@ -1958,9 +2116,9 @@ Reglas de extracción:
   function shareText(a) {
     const { fl, st } = cartSel(a), m = money(a), back = addDays(state.date, Math.max(1, state.days - 1));
     const docs = checklist(a).filter(i => i.grp === "papeles" && i.who === "familia").map(i => "• " + i.t);
-    return [`✈️ Nuestro viaje a ${a.d.city} (GoLiveIt · demo)`, `📅 ${dmy(state.date)} – ${dmy(back)} · ${pl(state.group.length, "persona", "personas")} de ${[...new Set(state.group.map(x => x.age))].join(" y ")} años`,
+    return [`✈️ Nuestro viaje a ${a.d.city} (Ruta16 · demo)`, `📅 ${dmy(state.date)} – ${dmy(back)} · ${pl(state.group.length, "persona", "personas")} de ${[...new Set(state.group.map(x => x.age))].join(" y ")} años`,
       `🛫 ${fl ? ITEMS[fl.a].name + (fl.dir ? " (directo)" : " (con escala)") : "Vuelo por elegir"} · 🛏 ${st ? ITEMS[st.s].name : "Alojamiento por elegir"}`,
-      `💶 Unos ${eur(m.total)} por persona (orientativo: vuelo, dormir y gastos)`, docs.length ? "📄 Lo que tiene que hacer la familia:\n" + docs.join("\n") : "", "Todo con fuentes oficiales en GoLiveIt."].filter(Boolean).join("\n");
+      `💶 Unos ${eur(m.total)} por persona (orientativo: vuelo, dormir y gastos)`, docs.length ? "📄 Lo que tiene que hacer la familia:\n" + docs.join("\n") : "", "Todo con fuentes oficiales en Ruta16."].filter(Boolean).join("\n");
   }
 
   /* ===== Panel «Mi viaje» ===== */
@@ -2060,7 +2218,7 @@ Reglas de extracción:
     else if (t.id === "mb-clear") { try { localStorage.removeItem("goliveit-mapbox-token"); } catch (e) { /* nada */ } if (state.mapMode === "mapbox") { state.mapMode = "offline"; renderModes(); if (map) map.setStyle(styleFor("offline")); } openHow(); }
     else if (t.id === "copy-check") {
       const country = state.legalFilter.dest === "auto" ? (state.sel ? DEST[state.sel].country : null) : (state.legalFilter.dest === "todos" ? null : state.legalFilter.dest);
-      const txt = "GoLiveIt · Papeles del viaje\n" + legalItems(country).map(i => `- [${ESTADO[i.estado] || i.estado}] ${i.titulo} (${i.quien}): ${i.url}`).join("\n");
+      const txt = "Ruta16 · Papeles del viaje\n" + legalItems(country).map(i => `- [${ESTADO[i.estado] || i.estado}] ${i.titulo} (${i.quien}): ${i.url}`).join("\n");
       const msg = m => { const el = $("#copy-msg"); if (el) el.textContent = m; };
       try { navigator.clipboard.writeText(txt).then(() => msg("Lista copiada."), () => msg("No se pudo copiar.")); } catch (e) { msg("No se pudo copiar."); }
     }
@@ -2155,7 +2313,7 @@ Reglas de extracción:
   })();
   /* ===== Datos de la demo avanzada del compañero (ProyectoMinor, 07-10/11/2026) =====
      Albergues consultados por correo (etiqueta EQUIPO), planes con su web y fotos de Wikimedia con crédito.
-     Criterio GoLiveIt: si dice «16 por confirmar», con 16 sale pendiente; España va en bus; Luxemburgo queda pendiente (entrada sin verificar). */
+     Criterio Ruta16: si dice «16 por confirmar», con 16 sale pendiente; España va en bus; Luxemburgo queda pendiente (entrada sin verificar). */
   (function addTeamData() {
     const nd = t => norm(String(t || ""));
     const KNOWN = ["ES", "PT", "FR", "IT", "DE", "UK", "NL", "IE"];
@@ -2363,7 +2521,7 @@ Reglas de extracción:
     if (abroad && minors.length) { const it = legItem("tra-permiso-plazo-90"); rows.push({ when: `del ${dmy(addDays(dep, -90))} al ${dmy(addDays(dep, -7))}`, end: addDays(dep, -7), t: "Permiso de viaje en Policía, Guardia Civil, notario o alcaldía (vale 90 días)", src: legSrc(it || legItem("doc-permiso-salida-espana")) }); }
     { const it = legItem("sal-tse-pedir"); rows.push({ when: `antes del ${dmy(addDays(dep, -10))}`, end: addDays(dep, -10), t: "Tarjeta Sanitaria Europea de cada uno (llega en 5 días como máximo; dejamos margen)", src: legSrc(it) }); }
     { const it = legItem("sal-seguro-viaje"); rows.push({ when: "antes de pagar los vuelos", end: null, t: "Seguro de viaje con repatriación que admita menores sin adultos", src: legSrc(it) }); }
-    rows.push({ when: "antes de pagar el alojamiento", end: null, t: "Confirmación por escrito del alojamiento de que acepta su edad", src: '<span class="tipo">Consejo GoLiveIt</span>' });
+    rows.push({ when: "antes de pagar el alojamiento", end: null, t: "Confirmación por escrito del alojamiento de que acepta su edad", src: '<span class="tipo">Consejo Ruta16</span>' });
     if (minors.length) rows.push({ when: `firmadas antes del ${dmy(addDays(dep, -2))}`, end: addDays(dep, -2), t: "Cartas de autorización para el alojamiento (y copia de vuestro DNI si la piden)", src: '<span class="tipo">Lo pide el alojamiento</span>' });
     if (abroad) { const it = legItem("eme-registro-viajeros", a.d.country) || legItem("eme-registro-viajeros"); rows.push({ when: "antes de salir", end: dep, t: "Registro de Viajeros de Exteriores", src: legSrc(it) }); }
     return `<div class="box"><h3>Calendario de papeles</h3><p class="small muted">Fechas calculadas para un viaje que sale el ${dmy(dep)}.</p><ol class="fam-tl">${rows.map(r => `<li class="${r.end && r.end < today ? "late" : ""}"><span class="tl-when">${esc(r.when)}${r.end && r.end < today ? " · ya pasó" : ""}</span><span>${esc(r.t)} ${r.src}</span></li>`).join("")}</ol></div>`;
@@ -2376,8 +2534,8 @@ Reglas de extracción:
     q.push(["¿Y si se ponen enfermos?", [t && esc(t.texto) + " " + legSrc(t), s && esc(s.texto) + " " + legSrc(s)].filter(Boolean).join("<br>")]);
     const rid = NIGHT.rule[norm(String(a.d.city || ""))], law = OCIO_LAW[a.d.country] || [];
     const nightTxt = [rid ? `<b>${esc(ITEMS[rid].name)}:</b> ${groupWhy(evalItem(rid))}` : "", ...law.slice(0, 3).map(id => `<b>${esc(ITEMS[id].name)}:</b> ${STATUS[evalItem(id).s][2]}`)].filter(Boolean).join("<br>");
-    q.push(["¿Pueden salir de noche o beber alcohol?", nightTxt || "Para este destino no tenemos todavía las normas de noche: pendiente. Alcohol, nunca a menores de 18 en GoLiveIt."]);
-    q.push(["¿Quién reserva y paga?", "Vosotros. Los menores no pueden contratar, y aerolíneas y alojamientos piden que reserve y pague un adulto. En GoLiveIt la familia revisa, aprueba y paga."]);
+    q.push(["¿Pueden salir de noche o beber alcohol?", nightTxt || "Para este destino no tenemos todavía las normas de noche: pendiente. Alcohol, nunca a menores de 18 en Ruta16."]);
+    q.push(["¿Quién reserva y paga?", "Vosotros. Los menores no pueden contratar, y aerolíneas y alojamientos piden que reserve y pague un adulto. En Ruta16 la familia revisa, aprueba y paga."]);
     q.push(["¿Qué hacemos si nos llaman con un problema?", "Mirad «Si algo falla» más abajo: emergencias, consulado y alojamientos alternativos que aceptan su edad."]);
     return `<div class="box"><h3>Lo que suelen preguntar los padres</h3>${q.map(([h, b]) => `<details class="fam-faq"><summary>${h}</summary><p class="small">${b}</p></details>`).join("")}</div>`;
   }
@@ -2488,9 +2646,9 @@ Reglas de extracción:
   }
   function groupText(a, level) {
     const m = money(a), back = addDays(state.date, m.nights), link = groupLink(a, level);
-    return [`👥 Nuestro viaje a ${a.d.city} (GoLiveIt · demo)`, `📅 ${dmy(state.date)} – ${dmy(back)} · ${pl(state.group.length, "persona", "personas")}`,
+    return [`👥 Nuestro viaje a ${a.d.city} (Ruta16 · demo)`, `📅 ${dmy(state.date)} – ${dmy(back)} · ${pl(state.group.length, "persona", "personas")}`,
       `${m.fl.mode === "train" ? "🚆" : m.fl.mode === "bus" ? "🚌" : "🛫"} ${ITEMS[m.fl.a].name} · 🛏 ${ITEMS[m.st.s].name}`, `💶 Unos ${eur(m.total)} cada uno (orientativo)`,
-      link ? (level === "gf" ? "Plan del grupo (y lo que verán las familias): " : "Plan del grupo: ") + link : "Os lo enseño en GoLiveIt."].join("\n");
+      link ? (level === "gf" ? "Plan del grupo (y lo que verán las familias): " : "Plan del grupo: ") + link : "Os lo enseño en Ruta16."].join("\n");
   }
   function openShare() {
     const a = state.sel && DEST[state.sel].verified && analyse(state.sel).score != null ? analyse(state.sel) : tripDest();
@@ -2547,7 +2705,7 @@ Reglas de extracción:
     const last = w.h[w.h.length - 1], first = w.h[0];
     return [`🔔 Precio del viaje a ${a.d.city} (${dmy(state.date)}, ${pl(state.group.length, "persona", "personas")})`,
       Math.round(last.p) < Math.round(first.p) ? `Ha bajado: ahora unos ${eur(Math.round(last.p))} por persona con ${last.airline} (antes ${eur(Math.round(first.p))}).` : `Sigue en unos ${eur(Math.round(last.p))} por persona con ${last.airline}.`,
-      w.modo !== "live" ? "Ojo: es el modo test de Duffel, precios simulados." : "", "Lo hablamos con calma antes de reservar (GoLiveIt · demo)."].filter(Boolean).join("\n");
+      w.modo !== "live" ? "Ojo: es el modo test de Duffel, precios simulados." : "", "Lo hablamos con calma antes de reservar (Ruta16 · demo)."].filter(Boolean).join("\n");
   }
   const simNotice = () => `<div class="done ok" style="margin-top:8px"><span class="done-ic">🔔</span><div><span class="bk-badge" style="background:var(--no);color:#fff">Simulación</span><h3>Así se ve un aviso: «Ha bajado 9 € por persona»</h3><p class="small">Desde el aviso lo mandáis al grupo o a la familia por WhatsApp o correo. Este ejemplo no es un precio real.</p></div></div>`;
   function priceWatchBox(a) {

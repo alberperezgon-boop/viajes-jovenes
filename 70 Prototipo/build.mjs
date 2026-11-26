@@ -1,4 +1,4 @@
-// Construye el prototipo GoLiveIt Planner incrustando las fotos (Wikimedia Commons) y la guía legal.
+// Construye el prototipo Ruta16 Planner (antes GoLiveIt) incrustando las fotos (Wikimedia Commons) y la guía legal.
 // Uso: node "70 Prototipo/build.mjs"
 // Salidas:
 //   GoLiveIt-Planner.html                 -> página que se publica como artefacto (sin <html>/<head>)
@@ -55,7 +55,7 @@ const standalone = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GoLiveIt Planner · prototipo</title>
+<title>Ruta16 · Planner (prototipo)</title>
 </head>
 <body>
 ${body}

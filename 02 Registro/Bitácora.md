@@ -184,3 +184,5 @@ Una entrada por sesión de trabajo: qué se hizo, qué se aprendió y qué queda
 - **25/11 — D-38:** modelo escalable (España y, desde 2029, Portugal, Italia y Francia), complementos y sueldos. 12.000 €, recuperación en 18 meses y 467.000 € de ingresos en 2031. Excel con previsión horizontal hasta recuperar la inversión. Pitch con logos, sin equipo, publicado en Slides, Figma, PowerPoint y HTML.
 
 - **26/11 — D-39:** auditoría del modelo con un recálculo independiente (cuadra al céntimo) y corrección de planteamiento: gastos que crecen con el negocio (publicidad, salida a Europa, sueldos por año y SL con Impuesto de Sociedades). Siguen los 12.000 € y la recuperación en 18 meses; beneficio neto de 2031: 157.690 €. Excel con hojas nuevas «Ventas de un mes» y «Presupuesto de una venta». Pitch actualizado.
+
+- **26/11 — D-40:** nombre oficial Ruta16. Rediseño «Independent Travel Editorial» (dirección A) en la rama `rediseno-ruta16`, con fotos a 960 px y créditos, detalles a tinta y guiños discretos. Pruebas sin errores y publicado en goliveit-ruta16.netlify.app. Falta fusionar con `main` y republicar el artefacto.
